@@ -1,0 +1,210 @@
+.payment {
+    &__info {
+        &-customer {
+            border-radius: 8px;
+            padding: 28px 40px;
+            background-color: #fff;
+
+            @include responsive_mobile {
+                padding: 22px 16px 16px;
+            }
+
+            .infoAcc-person__cover {
+                margin-bottom: 20px;
+            }
+        }
+
+        &-header {
+            @include flexBox(bothSides);
+            margin-bottom: 18px;
+
+            & > h3 {
+                font-weight: bold;
+            }
+        }
+
+        &-order {
+            overflow: hidden;
+            border-radius: 8px;
+            padding: 20px 24px;
+            background-color: #fff;
+
+            @include responsive_mobile {
+                padding: 20px 16px;
+            }
+        }
+
+        &-link {
+            color: $color-main;
+            text-decoration: underline;
+        }
+
+        &-group {
+            textarea,
+            input {
+                border-radius: 6px;
+                padding: 8px 12px;
+                font-size: 1.6rem;
+
+                &:focus {
+                    box-shadow: none;
+                    color: $color-main;
+                }
+            }
+
+            label {
+                & > sup {
+                    color: red;
+                }
+            }
+        }
+
+        &-number {
+            margin-bottom: 20px;
+        }
+
+        &-item {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            margin-top: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1.4px solid #ddd;
+
+            &:last-child {
+                border: 0;
+            }
+        }
+
+        &-detail {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        &-quantity,
+        &-price,
+        &-name {
+            line-height: 20px;
+        }
+
+        &-name {
+            margin-left: 12px;
+            line-height: 20px;
+            width: 83%;
+
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+
+            @include responsive_HD {
+                width: 60%;
+            }
+        }
+
+        &-price {
+            font-weight: bold;
+        }
+
+        &-total {
+            position: relative;
+            padding-top: 20px;
+            @include flexBox(bothSides);
+
+            &::before {
+                position: absolute;
+                content: "";
+                top: 0;
+                left: 0px;
+                width: 100%;
+                border-top: 1.4px solid #ddd;
+            }
+
+            & > p {
+                font-weight: bold;
+            }
+        }
+
+        &-discount {
+            padding: 14px 0;
+            border-top: 1.4px solid #ddd;
+            @include flexBox(bothSides);
+
+            &-label {
+                @include flexBox(hor);
+            }
+
+            &-money {
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+        }
+
+        &-money {
+            font-size: 2rem;
+            font-weight: bold;
+            color: $color-main;
+        }
+
+        &-note {
+            margin-top: 2px;
+            text-align: right;
+        }
+
+        &-btn {
+            display: block;
+            width: 54%;
+            font-size: 1.8rem;
+            padding: 12px 0;
+            margin: 30px auto 0;
+
+            text-align: center;
+            color: #fff;
+            border-radius: 10px;
+            background-color: $color-main;
+
+            @include responsive_mobile {
+                width: 100%;
+                font-size: 1.8rem;
+                padding: 10px 0;
+            }
+
+            &:hover {
+                opacity: 0.9;
+                color: #fff;
+            }
+
+            & > .btn-title {
+                color: #fff;
+                font-size: 1.8rem;
+                text-transform: uppercase;
+                font-weight: bold;
+                line-height: 24px;
+                margin-bottom: 6px;
+            }
+
+            & > p {
+                line-height: 18px;
+                font-size: 1.3rem;
+            }
+        }
+    }
+
+    &-wrapper {
+        & > .row {
+            @include responsive_bothTM {
+                flex-direction: column-reverse;
+            }
+        }
+    }
+
+    &__form {
+        background-color: transparent;
+
+        @include responsive_bothTM {
+            margin-top: 20px;
+        }
+    }
+}

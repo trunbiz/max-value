@@ -1,0 +1,67 @@
+.catalog {
+    margin-bottom: 24px;
+
+    &.special {
+        .catalog-wrapper {
+            background-color: #ff7518;
+        }
+    }
+
+    &-wrapper {
+        background-color: $color-main;
+    }
+
+    &-header {
+        color: #fff;
+        @include flexBox(bothSides);
+        padding: 20px 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+
+        @include responsive_mobile {
+            padding: 14px 10px;
+        }
+
+        &__title {
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+
+            @include responsive_mobile {
+                font-size: 1.7rem;
+            }
+        }
+
+        &__link {
+            font-size: 1.5rem;
+            color: #fff;
+            @include flexBox(both);
+
+            &:hover {
+                opacity: 0.8;
+                color: #fff;
+            }
+
+            & > i {
+                margin-left: 4px;
+            }
+        }
+    }
+
+    &-list {
+        position: relative;
+        padding: 14px;
+
+        @include responsive_mobile {
+            padding: 14px 6px;
+        }
+
+        .swiper-button-prev,
+        .swiper-rtl .swiper-button-next,
+        .swiper-button-next,
+        .swiper-rtl .swiper-button-prev {
+            &::after {
+                color: $color-main;
+            }
+        }
+    }
+}

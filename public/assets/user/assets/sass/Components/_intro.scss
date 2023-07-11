@@ -1,0 +1,41 @@
+.intro {
+    position: relative;
+    padding: 24px 0;
+    display: block;
+    background: rgb(255, 255, 255);
+
+    &-wrapper {
+        flex: 1 1 0%;
+        display: flex;
+    }
+
+    &-list {
+        display: flex;
+        align-items: center;
+        column-gap: 24px;
+        row-gap: 16px;
+        flex: 1;
+
+        &__item {
+            font-size: 18px;
+            font-weight: 500;
+        }
+    }
+
+    &-btn {
+        position: relative;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 16px;
+        @include flexBox(both);
+
+        border: none;
+        padding: 8px 30px;
+        border-radius: 999px;
+        background: rgba(255, 117, 24, 1);
+
+        &__text {
+            color: rgba(255, 255, 255, 1);
+        }
+    }
+}

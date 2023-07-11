@@ -1,0 +1,45 @@
+.category {
+    &-wrapper {
+        margin: 48px 0 24px;
+        padding: 20px 20px;
+        border-radius: 10px;
+        background-color: #fff;
+
+        @include responsive_mobile {
+            padding: 16px 14px;
+        }
+    }
+
+    &-title {
+        font-size: 2rem;
+        font-weight: bold;
+
+        @include responsive_mobile {
+            font-size: 1.8rem;
+        }
+    }
+
+    &-list {
+        margin-top: 24px;
+        @include gridBox(5, 10px, 10px);
+
+        @include responsive_mobile {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    &-item {
+        color: $color-title;
+        @include flexBox(both);
+        flex-direction: column;
+
+        &__img {
+            width: 56px;
+            height: 56px;
+        }
+
+        &__text {
+            margin-top: 10px;
+        }
+    }
+}

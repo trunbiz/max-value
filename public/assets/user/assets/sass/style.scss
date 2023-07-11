@@ -1,0 +1,27 @@
+// ================= SCSS SetUp =================
+@import "./SetUpBase/variables";
+@import "./SetUpBase/reset";
+@import "./SetUpBase/mixin";
+@import "./SetUpBase/mixinResponsive";
+@import "./SetUpBase/base";
+
+// ================= SCSS General =================
+@import "./Layout/header";
+@import "./Layout/footer";
+
+// ================= SCSS Content =================
+@import "./Components/breadcrumbs";
+@import "./Components/filter";
+@import "./Components/rangePrice";
+@import "./Components/details";
+@import "./Components/category";
+@import "./Components/catalog";
+@import "./Components/product";
+@import "./Components/news";
+@import "./Components/cart";
+@import "./Components/payment";
+@import "./Components/account";
+@import "./Components/intro";
+@import "./Components/infoAcc";
+@import "./Components/ads";
+@import "./Components/info";

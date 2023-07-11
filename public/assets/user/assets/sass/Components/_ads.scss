@@ -1,0 +1,31 @@
+.ads {
+    &-wrapper {
+        max-width: 80%;
+        margin: 40px auto;
+        @include gridBox(3, 20px, 20px);
+
+        @include responsive_bothTM {
+            max-width: 100%;
+            margin: 24px auto;
+            @include gridBox(2, 16px, 16px);
+        }
+    }
+
+    &-item {
+        &:nth-child(4n + 1) {
+            @include responsive_bothTM {
+                display: none;
+            }
+        }
+
+        &__img {
+            border-radius: 8px;
+            @include imgPT(75%);
+            transition: all 0.2s linear;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+}

@@ -1,0 +1,41 @@
+.product {
+    &-wrapper {
+        margin-bottom: 60px;
+        background-color: transparent;
+    }
+
+    &-header {
+        color: rgb(27, 29, 41);
+        border-bottom: 3px solid rgb(246, 246, 246);
+        background-color: #fff;
+
+        .catalog-header {
+            &-title {
+                text-transform: lowercase;
+            }
+            &__link {
+                color: rgb(130, 134, 158);
+            }
+        }
+    }
+
+    &-list {
+        gap: 3px 3px;
+
+        @include responsive_fit {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        @include responsive_fitLow {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @include responsive_table {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @include responsive_bothTM {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}

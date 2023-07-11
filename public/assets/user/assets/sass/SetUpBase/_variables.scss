@@ -1,0 +1,60 @@
+$font-main: "Roboto", sans-serif;
+
+// ======================== Color Main ========================
+$color-main: #37b549;
+$color-title: #333333;
+$color-desc: rgb(130, 134, 158);
+$color-desc-light: rgba($color-desc, 0.75);
+
+$color-yellow: #faaf3a;
+$color-special: #1795a8;
+
+// ======================== Back color ========================
+// $back-footer: #4e6579;
+
+// ======================== Color mix ========================
+$back-mix: linear-gradient(67deg, rgba(36, 173, 193, 1) 0%, rgba(23, 149, 168, 1) 84%);
+$back-btn: linear-gradient(0deg, rgba(36, 173, 193, 1) 0%, rgba(23, 149, 168, 1) 47%);
+$back-bg: linear-gradient(
+    83deg,
+    rgba(18, 144, 205, 1) 0%,
+    rgba(67, 180, 210, 1) 65%,
+    rgba(20, 173, 211, 1) 68%,
+    rgba(22, 184, 214, 1) 98%
+);
+
+// background-image: repeating-linear-gradient(
+//     -21deg,
+//     #ff8137,
+//     #ff8137 6px,
+//     transparent 6px,
+//     transparent 10px,
+//     #ff8137 10px
+// ),
+// repeating-linear-gradient(
+//     69deg,
+//     #ff8137,
+//     #ff8137 6px,
+//     transparent 6px,
+//     transparent 10px,
+//     #ff8137 10px
+// ),
+// repeating-linear-gradient(
+//     159deg,
+//     #ff8137,
+//     #ff8137 6px,
+//     transparent 6px,
+//     transparent 10px,
+//     #ff8137 10px
+// ),
+// repeating-linear-gradient(
+//     249deg,
+//     #ff8137,
+//     #ff8137 6px,
+//     transparent 6px,
+//     transparent 10px,
+//     #ff8137 10px
+// );
+// background-size: 1.6px 100%, 100% 1.6px, 1.6px 100%, 100% 1.6px;
+// background-position: 0 0, 0 0, 100% 0, 0 100%;
+// background-repeat: no-repeat;
