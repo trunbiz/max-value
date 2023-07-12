@@ -70,7 +70,7 @@
                             </g>
                         </g>
                     </svg>
-                    <span class="total__money" style="color: #ff0e1f; font-weight: 700"> $ {{auth()->user()->money}}</span>
+                    <span class="total__money" style="color: #ff0e1f; font-weight: 700"> $ {{Round(auth()->user()->money, 2)}}</span>
                 </div>
             </div>
             <div class="notice__info">

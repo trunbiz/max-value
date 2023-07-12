@@ -18,6 +18,8 @@ class CreateWalletRevenueTable extends Migration
             $table->integer('user_id')->nullable();
             $table->date('date')->nullable();
             $table->string('revenue')->nullable();
+            $table->index('user_id');
+            $table->index('date');
             $table->timestamps();
         });
     }
