@@ -161,7 +161,7 @@ class Formatter extends Model
     public static function formatMoney($input)
     {
         if (empty($input)) return 0;
-        return number_format($input);
+        return number_format($input, 2, ".", ",");
     }
 
     public static function formatNumber($input)

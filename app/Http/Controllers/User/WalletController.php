@@ -42,11 +42,11 @@ class WalletController extends Controller
 
         $amountAvailable = Formatter::formatMoney(auth()->user()->money);
         $amountPending = Formatter::formatMoney(WithdrawUser::where('user_id', auth()->id())->where('withdraw_status_id', 1)->sum('amount'));
-        $amountTotalWithdraw = Formatter::formatMoney(WithdrawUser::where('user_id', auth()->id())->sum('amount'));
+        $amountTotalWithdraw = Formatter::formatMoney(WithdrawUser::where('user_id', auth()->id())->where('withdraw_status_id', 2)->sum('amount'));
 
         $transactions = WithdrawUser::where('user_id', \auth()->id())->latest()->get();
 
-        return view('user.' . $this->prefixView . '.index', compact('items', 'banks','title', 'current_user','amountAvailable','amountPending','amountTotalWithdraw','transactions'));
+        return view('user.' . $this->prefixView . '.index', compact('items      ', 'banks','title', 'current_user','amountAvailable','amountPending','amountTotalWithdraw','transactions'));
     }
 
     public function get(Request $request, $id)
