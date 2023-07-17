@@ -150,7 +150,7 @@
                                 </div>
                                 <div class="category__site">
                                     <i class="fa-regular fa-folder"></i>
-                                    <span>{{$itemWebsite['category']['iab']}}: {{$itemWebsite['category']['name']}}</span>
+                                    <span>{{$itemWebsite['category']['iab'] ?? null}}: {{$itemWebsite['category']['name'] ?? null}}</span>
                                 </div>
                             </div>
                             @if($itemWebsite['status']['name'] == 'Approved')

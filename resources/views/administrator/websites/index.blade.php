@@ -56,8 +56,8 @@
                                                 @endif
                                             @endforeach
                                         </td>
-                                        <td>{{ $item['publisher']['email'] }}</td>
-                                        <td>{{ $item['category']['name'] }}</td>
+                                        <td>{{ $item['publisher']['email'] ?? '' }}</td>
+                                        <td>{{ $item['category']['name'] ?? '' }}</td>
                                         <td>
                                             <div onclick="oneditStatusModal('{{$item['id']}}','{{$item['status']['id']}}')"
                                                  style="cursor: pointer;display: flex;" data-bs-toggle="modal"
@@ -92,7 +92,7 @@
 
                                         <td>
 
-                                            <a style="cursor: pointer;" onclick="onEditWebsiteModal('{{$item['id']}}','{{$item['publisher']['id']}}','{{$item['name']}}','{{$item['url']}}','{{$item['category']['id']}}')"
+                                            <a style="cursor: pointer;" onclick="onEditWebsiteModal('{{$item['id']}}','{{$item['publisher']['id']}}','{{$item['name']}}','{{$item['url']}}','{{$item['category']['id'] ?? null}}')"
                                                title="Edit" data-bs-toggle="modal" data-bs-target="#editWebsiteModal">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
