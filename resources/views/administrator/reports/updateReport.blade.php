@@ -1,5 +1,6 @@
 @extends('administrator.layouts.master')
 
+
 @include('administrator.'.$prefixView.'.header')
 
 @section('css')
@@ -86,16 +87,18 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                {{number_format($item->request)}}
+                                                <span class="cRequest">{{number_format($item->request)}}</span>
                                             </td>
                                             <td>
-                                                {{number_format($item->impressions)}}
+                                                <span class="cImpression">{{number_format($item->impressions)}}</span>
+                                                <p class="number-old">{{($item->impressions != $item->ad_impressions ? number_format($item->ad_impressions) : '')}}</p>
                                             </td>
                                             <td class="rate">
                                                 {{ (int) (( $item->impressions  / $item->request )* 100) }}%
                                             </td>
-                                            <td class="cpm">
-                                                {{$item->cpm}}
+                                            <td>
+                                                <span class="cCpm">{{$item->cpm}}</span>
+                                                <p class="number-old">{{($item->cpm != $item->ad_cpm ? ($item->ad_cpm) : '')}}</p>
                                             </td>
                                             <td>
                                                 {{$item->revenue}}
@@ -138,6 +141,10 @@
                                             <td>
                                                 <button type="button" class="btn btn-primary btn-change-revenue">Save
                                                 </button>
+                                                @if($item->status != 1)
+                                                <button type="button" class="btn btn btn-info btn-edit" data-toggle="modal" data-target="#myModal">Edit
+                                                </button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -188,19 +195,48 @@
             </div>
 
         </div>
-    </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" class="form-control idChange" name="idChange">
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Change Impressions</label>
+                                <input type="number" class="form-control ChangeImpressions" name="ChangeImpressions" placeholder="Impressions">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleFormControlInput1">Change CPM</label>
+                                <input type="number" class="form-control changeCpm" name="changeCpm" placeholder="CPM">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-update" data-dismiss="modal">Update</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
 
-    <style>
-        .product-table span, .product-table p {
-            color: #fff;
-        }
-    </style>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
 @section('js')
 
 @endsection
+<style>
+    .number-old{
+        color: #a4a4a4 !important;
+        text-decoration-line: line-through;
+    }
+</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -223,6 +259,43 @@
             $row.find('.pCpm').text(pCpm.toFixed(3).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: true}));
             $row.find('.pRevenue').text(pRevenue.toFixed(2).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: true}));
             $row.find('.pProfit').text(profit.toFixed(2).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: true}));
+        });
+
+        $('button.btn-edit').on('click', function () {
+            var $row = $(this).closest('tr');
+            var itemId = $row.find('input[name="id"]').val();
+            var cImpression = parseInt($row.find('.cImpression').text().replace(/\D/g, ''));
+            var cCpm = parseFloat($row.find('.cCpm').text().replace(/\D/g, ''));
+            $('.idChange').val(itemId);
+            $('.ChangeImpressions').val(cImpression);
+            $('.changeCpm').val(cCpm);
+        });
+        $('button.btn-update').on('click', function () {
+            var itemId = $('.idChange').val();
+            var cImpressions = $('.ChangeImpressions').val();
+            var cCpm = $('.changeCpm').val();
+
+            $.ajax({
+                url: '/administrator/reports/update',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    id: itemId,
+                    c_impressions: cImpressions,
+                    c_cpm: cCpm,
+                    type: 'UPDATE'
+                },
+                success: function (response) {
+                    // Xử lý thành công
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi
+                    alert(error)
+                }
+            });
         });
 
         $('button.btn-change-revenue').on('click', function () {

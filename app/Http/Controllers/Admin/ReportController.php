@@ -171,11 +171,20 @@ class ReportController extends Controller
     public function updateItemReport(Request $request)
     {
         $request = $request->all();
+        $type = $request['type'] ?? null;
         $reportInfo = ReportModel::find($request['id']);
-        $reportInfo->change_impressions = $request['change_impressions'];
-        $reportInfo->change_revenue = $request['change_revenue'];
-        $reportInfo->change_cpm = $request['change_cpm'];
-        $reportInfo->status = 1;
+        if (!empty($type) && $type == 'UPDATE')
+        {
+            $reportInfo->impressions = $request['c_impressions'];
+            $reportInfo->cpm = $request['c_cpm'];
+            $reportInfo->revenue = round($request['c_impressions'] / 1000 * $request['c_cpm'], 3);
+        }
+        else{
+            $reportInfo->change_impressions = $request['change_impressions'];
+            $reportInfo->change_revenue = $request['change_revenue'];
+            $reportInfo->change_cpm = $request['change_cpm'];
+            $reportInfo->status = 1;
+        }
         $reportInfo->save();
         return true;
     }

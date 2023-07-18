@@ -26,7 +26,8 @@ class ReportService
             return false;
 
         $to = Carbon::now()->format('Y-m-d');
-        $from = Carbon::now()->subDays(2)->format('Y-m-d');;
+//        $from = Carbon::now()->subDays(2)->format('Y-m-d');
+        $from = '2023-01-01';
         foreach ($webIds['data'] as $web)
         {
             $datas = $this->getDataReportDailyByWebId($web->id, $from, $to);
@@ -44,8 +45,10 @@ class ReportService
                     'publisher_id' => $web->publisher->id,
                     'request' => $data->requests,
                     'impressions' => $data->impressions,
+                    'ad_impressions' => $data->impressions,
                     'cpm' => $data->cpm,
-                    'revenue' => number_format($data->impressions / 1000 * $data->cpm, 3),
+                    'ad_cpm' => $data->cpm,
+                    'revenue' => round($data->impressions / 1000 * $data->cpm, 3),
                 ]);
             }
         }
