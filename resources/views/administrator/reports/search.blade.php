@@ -12,7 +12,7 @@
         <div class="col-md-2">
             <div class="mt-1">
                 <select class="form-control" id="advertiser">
-                    <option value="">-Website-</option>
+                    <option value="">-Advertiser-</option>
                     @foreach($adversier as $itemAdv)
                         <option
                             value="{{ $itemAdv['id'] }}" {{ request('advertiser') == $itemAdv['id'] ? 'selected' : ''}}>{{ $itemAdv['email'] }}</option>
@@ -25,7 +25,7 @@
         <div class="col-md-2">
             <div class="mt-1">
                 <select class="form-control" id="user_id">
-                    <option value="">-Website-</option>
+                    <option value="">-User-</option>
                     @foreach($users as $itemUser)
                         <option
                             value="{{ $itemUser['id'] }}" {{ request('user_id') == $itemUser['id'] ? 'selected' : ''}}>{{ $itemUser['email'] }}</option>
@@ -38,7 +38,7 @@
         <div class="col-md-2">
             <div class="mt-1">
                 <select class="form-control" id="site">
-                    <option value="">-Website-</option>
+                    <option value="">-Site-</option>
                     @foreach($websites as $website)
                         <option
                             value="{{ $website['id'] }}" {{ request('website_id') == $website['id'] ? 'selected' : ''}}>{{ $website['name'] }}</option>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\JobEmail;
 use App\Models\WalletUser;
 use App\Models\WithdrawUser;
+use App\Services\WalletService;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -30,6 +31,12 @@ class WalletController extends Controller
         $items = $this->model->searchByQuery($request, $queries);
 
         return view('administrator.' . $this->prefixView . '.index', compact('items', 'title'));
+    }
+    public function depositWalletPublisher(Request $request)
+    {
+        $walletService = new WalletService();
+        $walletService->calculateRevenue();
+        return true;
     }
 
     public function get(Request $request, $id)

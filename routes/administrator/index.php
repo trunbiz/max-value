@@ -1536,6 +1536,11 @@ Route::prefix('administrator')->group(function () {
             'middleware' => 'can:withdraw_users-list',
         ]);
 
+        Route::get('/depositWalletPublisher', [
+            'as' => 'administrator.withdraw_users.depositWalletPublisher',
+            'uses' => 'App\Http\Controllers\Admin\WalletController@depositWalletPublisher',
+        ]);
+
         Route::get('/create', [
             'as' => 'administrator.withdraw_users.create',
             'uses' => 'App\Http\Controllers\Admin\WalletController@create',

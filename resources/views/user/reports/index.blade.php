@@ -93,23 +93,23 @@
                             @foreach($stats as $itemStat)
                                 <tr>
                                     <td scope="row" data-column="Date">{{$itemStat['date']}}</td>
-                                    <td class="column-primary" data-column="Website">
+                                    <td class="column-primary" data-column="Impressions">
                                         {{ \App\Models\Formatter::formatNumber($itemStat['impressions']) }}
                                     </td>
 {{--                                    <td data-column="Ad Unit">{{\App\Models\Formatter::formatNumber($itemStat['requests'])}}</td>--}}
-                                    <td class="text-start" data-column="Impression">{{($itemStat['cpm'])}}</td>
+                                    <td class="text-start" data-column="Cpm">{{($itemStat['cpm'])}}</td>
 {{--                                    <td class="text-start" data-column="CPM">{{$itemStat['cpc']}}</td>--}}
 {{--                                    <td class="text-start" data-column="Rev">{{$itemStat['cpa']}}</td>--}}
-                                    <td class="text-start text-center" data-column="Rev">${{$itemStat['amountPub']}}</td>
-                                    <td class="the_last_col text-center" data-column="Status">{{$itemStat['amountPub']}}</td>
+                                    <td class="text-start text-center" data-column="AmountPub">${{$itemStat['amountPub']}}</td>
+                                    <td class="the_last_col text-center" data-column="AmountPub">{{$itemStat['amountPub']}}</td>
                                 </tr>
                             @endforeach
                             <tr style="font-weight: bold">
                                 <td scope="row" data-column="Date">Total</td>
-                                <td class="column-primary" data-column="Website">{{number_format($sumNumber['impressions'])}}</td>
-                                <td class="text-start" data-column="Impression">{{$sumNumber['cpm']}}</td>
-                                <td class="text-start text-center" data-column="Rev">${{$sumNumber['amountPub']}}</td>
-                                <td class="the_last_col text-center" data-column="Status">{{$sumNumber['amountPub']}}</td>
+                                <td class="column-primary" data-column="Impressions">{{number_format($sumNumber['impressions'])}}</td>
+                                <td class="text-start" data-column="Cpm">{{$sumNumber['cpm']}}</td>
+                                <td class="text-start text-center" data-column="AmountPub">${{$sumNumber['amountPub']}}</td>
+                                <td class="the_last_col text-center" data-column="AmountPub">{{$sumNumber['amountPub']}}</td>
                             </tr>
 
                             </tbody>

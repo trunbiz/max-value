@@ -15,13 +15,41 @@ class WalletService
 
     }
 
+    public function calculateRevenue()
+    {
+        $users = User::all();
+        foreach ($users as $user)
+        {
+            $reports = ReportModel::where('publisher_id', $user->api_publisher_id)->where('status', 1)->orderBy('id', 'DESC')->get();
+            if ($reports->isEmpty())
+                continue;
+
+            foreach ($reports as $report)
+            {
+                $user->money += $report->change_revenue ?? 0;
+            }
+            $user->save();
+        }
+
+    }
+
+    public function depositWalletPublisher($publisherId, $revenue)
+    {
+        $user = User::where('api_publisher_id', $publisherId)->first();
+        if (empty($user))
+            return false;
+        $user->money += $revenue;
+        $user->save();
+        return true;
+    }
+
     public function revenuePublisherDaily()
     {
         // checkDay
         $checkDay = false;
 
         $users = User::all();
-        $yesterDay = Carbon::yesterday()->format('yY-m-d');
+        $yesterDay = Carbon::yesterday()->format('Y-m-d');
         foreach ($users as $user)
         {
             $query = ReportModel::where('publisher_id', $user->api_publisher_id)->where('status', 1);

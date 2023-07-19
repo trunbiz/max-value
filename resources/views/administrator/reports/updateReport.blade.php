@@ -139,9 +139,9 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                @if($item->status != 1)
                                                 <button type="button" class="btn btn-primary btn-change-revenue">Save
                                                 </button>
-                                                @if($item->status != 1)
                                                 <button type="button" class="btn btn btn-info btn-edit" data-toggle="modal" data-target="#myModal">Edit
                                                 </button>
                                                 @endif

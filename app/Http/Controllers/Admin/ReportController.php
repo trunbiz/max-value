@@ -10,6 +10,7 @@ use App\Models\ReportModel;
 use App\Models\User;
 use App\Models\Website;
 use App\Services\ReportService;
+use App\Services\WalletService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -23,6 +24,7 @@ class ReportController extends Controller
 {
     use BaseControllerTrait;
     protected $reportService;
+    protected $walletService;
 
     public function __construct(Advertise $model)
     {
@@ -32,6 +34,7 @@ class ReportController extends Controller
 
         $this->shareBaseModel($model);
         $this->reportService = new ReportService();
+        $this->walletService = new WalletService();
     }
 
     public function index(Request $request)
@@ -178,14 +181,22 @@ class ReportController extends Controller
             $reportInfo->impressions = $request['c_impressions'];
             $reportInfo->cpm = $request['c_cpm'];
             $reportInfo->revenue = round($request['c_impressions'] / 1000 * $request['c_cpm'], 3);
+            $reportInfo->save();
         }
         else{
+            // Chỉ cho cập nhật 1 lần
+            if ($reportInfo->status == ReportModel::STATUS_SUCCESS)
+                return false;
+
             $reportInfo->change_impressions = $request['change_impressions'];
             $reportInfo->change_revenue = $request['change_revenue'];
             $reportInfo->change_cpm = $request['change_cpm'];
             $reportInfo->status = 1;
+            $reportInfo->save();
+
+            // Sau khi cập nhật xong thì số tiền sẽ được cộng vào ví user
+            $this->walletService->depositWalletPublisher($reportInfo->publisher_id, $reportInfo->change_revenue);
         }
-        $reportInfo->save();
         return true;
     }
 
