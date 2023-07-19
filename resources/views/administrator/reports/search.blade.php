@@ -1,10 +1,9 @@
 <div>
     <div class="row">
-
-
+        <form action="" method="GET">
         <div class="col-md-3">
             <div class="mt-1">
-                <input id="input_search_datetime" type="date"
+                <input id="input_search_datetime" type="date" name="from"
                        class="bg-white form-control open-jquery-date-range" placeholder="--/--/--">
             </div>
         </div>
@@ -24,7 +23,7 @@
 
         <div class="col-md-2">
             <div class="mt-1">
-                <select class="form-control" id="user_id">
+                <select class="form-control" id="user_id" name="user_id">
                     <option value="">-User-</option>
                     @foreach($users as $itemUser)
                         <option
@@ -37,7 +36,7 @@
 
         <div class="col-md-2">
             <div class="mt-1">
-                <select class="form-control" id="site">
+                <select class="form-control" id="site" name="website_id">
                     <option value="">-Site-</option>
                     @foreach($websites as $website)
                         <option
@@ -50,7 +49,7 @@
 
         <div class="col-md-2">
             <div class="mt-1">
-                <select class="form-control" id="zone">
+                <select class="form-control" id="zone" name="zone_id">
                     <option value="">-Zone-</option>
                     @foreach($zones as $itemZone)
                         <option
@@ -63,12 +62,12 @@
 
         <div class="col-md-1">
             <div class="mt-1">
-                <button class="btn btn-outline-primary" type="button" onclick="onSearchQuery()"><i
+                <button class="btn btn-outline-primary"><i
                         class="fa-solid fa-magnifying-glass"></i></button>
             </div>
 
         </div>
-
+        </form>
 
     </div>
 </div>

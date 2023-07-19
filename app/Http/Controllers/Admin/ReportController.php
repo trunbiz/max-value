@@ -63,7 +63,7 @@ class ReportController extends Controller
             $dateBegin = $request->from . " 00:00";
         }
 
-        if (isset($request->to) && !empty($request->to)) {
+        if (isset($request->from) && !empty($request->from)) {
             $dateEnd = $request->to . " 23:59";
         }
 
