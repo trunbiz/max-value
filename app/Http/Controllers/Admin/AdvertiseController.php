@@ -58,7 +58,6 @@ class AdvertiseController extends Controller
         }
 
         $items = Formatter::paginator($request, $items);
-        dd($this->prefixView);
 
         return view('administrator.' . $this->prefixView . '.index', compact('items', 'websites', 'publishers'));
     }
@@ -273,7 +272,6 @@ class AdvertiseController extends Controller
     public function delete(Request $request, $id)
     {
 
-        dd(234);
         Helper::callDeleteHTTP("https://api.adsrv.net/v2/zone/" . $id);
 
         return response()->json([
