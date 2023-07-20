@@ -10,7 +10,7 @@
 
             <div class="col-md-2">
                 <div class="mt-1">
-                    <select class="form-control" id="advertiser">
+                    <select class="form-control" id="advertiser" name="advertiser">
                         <option value="">-Advertiser-</option>
                         @foreach($adversier as $itemAdv)
                             <option
