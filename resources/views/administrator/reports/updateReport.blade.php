@@ -142,7 +142,7 @@
                                                 @if($item->status != 1)
                                                 <button type="button" class="btn btn-primary btn-change-revenue">Save
                                                 </button>
-                                                <button type="button" class="btn btn btn-info btn-edit" data-toggle="modal" data-target="#myModal">Edit
+                                                <button type="button" class="btn btn btn-info btn-edit">Edit
                                                 </button>
                                                 @endif
                                             </td>
@@ -195,8 +195,7 @@
             </div>
 
         </div>
-        <!-- Modal -->
-        <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal fade" id="editReport" role="dialog" aria-labelledby="editReport" aria-hidden="true">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -218,7 +217,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary btn-update" data-dismiss="modal">Update</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-default btn-close" data-dismiss="modal"></button>
                     </div>
                 </div>
 
@@ -265,10 +264,16 @@
             var $row = $(this).closest('tr');
             var itemId = $row.find('input[name="id"]').val();
             var cImpression = parseInt($row.find('.cImpression').text().replace(/\D/g, ''));
-            var cCpm = parseFloat($row.find('.cCpm').text().replace(/\D/g, ''));
+            var cCpm = parseFloat($row.find('.cCpm').text());
             $('.idChange').val(itemId);
             $('.ChangeImpressions').val(cImpression);
             $('.changeCpm').val(cCpm);
+            var $this = $('#editReport');
+            $this.modal('show');
+        });
+        $('button.btn-close').on('click', function () {
+            var $this = $('#editReport');
+            $this.modal('hide');
         });
         $('button.btn-update').on('click', function () {
             var itemId = $('.idChange').val();
