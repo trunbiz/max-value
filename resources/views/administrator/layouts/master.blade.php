@@ -207,8 +207,6 @@
 <!-- Theme js-->
 <script src="{{asset('/assets/administrator/js/script.js')}}"></script>
 <script src="{{asset('/assets/administrator/js/theme-customizer/customizer.js')}}"></script>
-
-{{--link bootstrap--}}
 <script>
 
     function viewBirthOfDay() {
