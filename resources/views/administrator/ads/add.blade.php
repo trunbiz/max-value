@@ -24,12 +24,10 @@
 
                     <div class="card">
                         <div class="card-body">
-                            @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Name'])
-
                             <div class="form-group mt-3">
-                                <h3>Campaign Infor</h3>
+                                <h3>Campaign Info</h3>
                             </div>
-
+                            @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Name'])
                             <div class="form-group mt-3">
                                 <label>Advertiser @include('user.components.lable_require')</label>
                                 <select
@@ -43,10 +41,20 @@
                                 <div class="alert alert-danger">{{$message}}</div>
                                 @enderror
                             </div>
-
-                            @include('administrator.components.require_input_number' , ['name' => 'share' , 'label' => 'Share(%)'])
-
-                            @include('administrator.components.button_save')
+                            <div class="form-group mt-3">
+                                <label>Status</label>
+                                <select
+                                    class="form-control"
+                                    name="idstatus">
+                                    <option value="1510">Pending</option>
+                                    <option value="1520" selected>Approved</option>
+                                    <option value="1530">Blocked</option>
+                                </select>
+                                @error('advertiser_api_id')
+                                <div class="alert alert-danger">{{$message}}</div>
+                                @enderror
+                            </div>
+                            {{--                            @include('administrator.components.require_input_number' , ['name' => 'share' , 'label' => 'Share(%)'])--}}
                         </div>
 
                     </div>
@@ -59,16 +67,20 @@
                             <div class="form-group mt-3">
                                 <h3>Ad Infor</h3>
                             </div>
-
                             <div class="form-group mt-3">
-                                @include('administrator.components.input_text' , ['name' => 'ad_name' , 'label' => 'Ad Name'])
+                                <label>Ad Name</label>
+                                <input type="text" autocomplete="off" name="ads[ad_name]" class="form-control"
+                                       value="">
                             </div>
-
                             <div class="form-group mt-3">
-                                <label>Dimensions @include('user.components.lable_require')</label>
+                                <label>Landing page URL</label>
+                                <input class="form-control" name="ads[url]">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Dimensions (*)</label>
                                 <select
-                                    class="form-control choose_value select2_init @error("dimension_id") is-invalid @enderror"
-                                    required name="dimension_id">
+                                    class="form-control choose_value select2_init"
+                                    required name="ads[dimension_id]">
                                     <option value="46">120x600 / Skyscrape</option>
                                     <option value="29">120x240 / Vertical Banner</option>
                                     <option value="32">125x125 / Square Button</option>
@@ -98,35 +110,30 @@
                                     <option value="21">970x250 / Billboard</option>
                                     <option value="24">980x120 / Panorama</option>
                                 </select>
-                                @error('dimension_id')
-                                <div class="alert alert-danger">{{$message}}</div>
-                                @enderror
                             </div>
-
-
                             <div class="form-group mt-3">
-                                <label>Bids, JSON-array @include('user.components.lable_require')</label>
-                                <textarea name="bids"
-                                          class="form-control @error('bids') is-invalid @enderror"
+                                <label>Bids, JSON-array</label>
+                                <textarea name="AdBannerHtml[content_html]"
+                                          class="form-control"
                                           rows="5" required></textarea>
-                                @error('bids')
-                                <div class="alert alert-danger">{{$message}}</div>
-                                @enderror
                             </div>
-
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
                             <div class="form-group mt-3">
                                 <h3>Zone Infor</h3>
                             </div>
-
                             @include('user.components.input_text' , ['name' => 'zone_name' , 'label' => 'Name'])
-
                             <div class="form-group mt-3">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio1" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio1"
+                                           value="1" checked>
                                     <label class="form-check-label" for="inlineRadio1">Active</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio2" value="0">
+                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio2"
+                                           value="0">
                                     <label class="form-check-label" for="inlineRadio2">InActive</label>
                                 </div>
                             </div>
@@ -143,14 +150,15 @@
                                 <div class="alert alert-danger">{{$message}}</div>
                                 @enderror
                             </div>
-
                             @include('user.components.select_category' , ['label' => 'Format', 'name' => 'idzoneformat' ,'html_category' => \App\Models\Advertise::getTypeAd(isset($item) ? optional($item)->category_id : ''), 'isDefaultFirst' => true])
-
                             @include('user.components.select_category' , ['label' => 'Dimension', 'name' => 'iddimension' ,'html_category' => \App\Models\Advertise::getDimension(isset($item) ? optional($item)->category_id : ''), 'isDefaultFirst' => true])
-
                         </div>
-
                     </div>
+                </div>
+            </div>
+            <div class="row" style="text-align: center">
+                <div class="col-xl-12">
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
                 </div>
             </div>
         </form>
