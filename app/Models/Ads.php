@@ -42,13 +42,12 @@ class Ads extends Model implements Auditable
                 $results[] = $advertiser;
             }
         }
-
         return $results;
     }
 
     public function adsAdvertisers()
     {
-        return $this->hasMany(AdsAdvertiser::class)->orderBy('order', 'DESC');
+        return $this->hasMany(AdsAdvertiser::class, 'ad_api_id', 'ads_api_id')->orderBy('order', 'DESC');
     }
 
     // end

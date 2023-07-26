@@ -59,7 +59,6 @@ class AdsController extends Controller
 
         $items = Formatter::paginator($request, $filtItems);
 
-
         return view('administrator.' . $this->prefixView . '.index', compact('items'));
     }
 

@@ -128,6 +128,7 @@ class Advertise extends Model implements Auditable
             'idzoneformat' => 6,
             'iddimension' => $request->iddimension,
         ];
+        dd($request);
         $item = Helper::callPostHTTP("https://api.adsrv.net/v2/zone?idsite=". $request->idsite, $params);
 
         return $item;

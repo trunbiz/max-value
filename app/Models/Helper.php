@@ -21,6 +21,14 @@ class Helper extends Model
     use DeleteModelTrait;
     use StorageImageTrait;
 
+    protected $urlAdServer;
+    protected $accessTokenAdServer;
+    public function __construct()
+    {
+        $this->urlAdServer = config('api.adServer.url');
+        $this->accessTokenAdServer = config('api.adServer.accessToken');
+    }
+
     public static function getNextIdTable($table)
     {
 

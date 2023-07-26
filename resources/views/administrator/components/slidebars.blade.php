@@ -28,39 +28,47 @@
                 </li>
             @endcan
 
-{{--            @can('ads-list')--}}
-{{--                <li class="sidebar-list">--}}
-{{--                    <a--}}
-{{--                        class="sidebar-link sidebar-title link-nav" href="/administrator/ads">--}}
-{{--                        <i class="fa-solid fa-fire"></i>--}}
-{{--                        <span>Campaign</span>--}}
-{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            @endcan--}}
+            @can('ads-list')
+                <li class="sidebar-list">
+                    <a
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/ads">
+                        <i class="fa-solid fa-fire"></i>
+                        <span>Campaign</span>
+                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                    </a>
+                </li>
+            @endcan
 
             @can('websites-list')
+
                 <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav" href="/administrator/websites">
+                    <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
                         <i class="fa-solid fa-globe"></i>
-                        <span>Website</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                        <span class="">Websites</span>
+                        <div class="according-menu"><i class="fas fa fa-angle-right"></i></div>
                     </a>
+                    <ul class="sidebar-submenu" style="display: none;">
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav" href="/administrator/websites">
+                                <i class="fa-solid fa-globe"></i>
+                                <span>Website</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                        @can('advertises-list')
+                            <li class="sidebar-list">
+                                <a
+                                    class="sidebar-link sidebar-title link-nav" href="/administrator/zones">
+                                    <i class="fa-solid fa-rectangle-ad"></i>
+                                    <span>Zones</span>
+                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
             @endcan
-
-            @can('advertises-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav" href="/administrator/zones">
-                        <i class="fa-solid fa-rectangle-ad"></i>
-                        <span>Zones</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
-
             @can('reports-list')
                 <li class="sidebar-list">
                     <a
@@ -99,7 +107,8 @@
             @can('contacts-list')
                 <li class="sidebar-list">
                     @if(\App\Models\Contact::where('status', 1)->count() > 0)
-                        <label class="badge badge-light-danger" id="updateMes">{{\App\Models\Contact::where('status', 1)->count()}}</label>
+                        <label class="badge badge-light-danger"
+                               id="updateMes">{{\App\Models\Contact::where('status', 1)->count()}}</label>
                     @endif
                     <a
                         class="sidebar-link sidebar-title link-nav" href="/administrator/contacts">
@@ -223,12 +232,12 @@
                             </a>
                         </li>
 
-{{--                        <li class="sidebar-list">--}}
-{{--                            <a--}}
-{{--                                class="sidebar-link sidebar-title link-nav" href="/administrator/ads_txt">--}}
-{{--                                <span>Ads.txt</span>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
+                        {{--                        <li class="sidebar-list">--}}
+                        {{--                            <a--}}
+                        {{--                                class="sidebar-link sidebar-title link-nav" href="/administrator/ads_txt">--}}
+                        {{--                                <span>Ads.txt</span>--}}
+                        {{--                            </a>--}}
+                        {{--                        </li>--}}
 
                         <li class="sidebar-list">
                             <a

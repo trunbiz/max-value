@@ -195,42 +195,10 @@ Route::prefix('ajax/administrator')->group(function () {
         });
 
         Route::prefix('ad')->group(function () {
-            Route::post('/store', function (Request $request) {
-                $get_url = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'.$request->idsite);
-
-                if(empty($request->name)){
-                    $name = $get_url['name'].' '.$request->namedimision;
-                }else{
-                    $name = $request->name;
-                }
-
-                $check_name = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite='.$request->idsite.'&filter[name]='.$name);
-                if(count($check_name) > 0){
-                    $name = $name.' #'.(count($check_name) + 1);
-                }else{
-                    $name = $name;
-                }
-
-                $params = [
-                    'name' => $name,
-                    'idzoneformat' => $request->idzoneformat,
-                    'iddimension' => $request->iddimension,
-                    'revenue_rate' => optional(Setting::first())->percent ?? 75,
-                    'idrevenuemodel' => 2,
-                ];
-
-
-                $item = Helper::callPostHTTP("https://api.adsrv.net/v2/zone?idsite=". $request->idsite, $params);
-
-                if (Helper::isErrorAPIAdserver($item)){
-                    return response()->json($item, 400);
-                }
-
-                return response()->json([
-                    'html' => view('administrator.advertises.add_table', compact('item'))->render()
-                ]);
-
-            })->name('ajax.administrator.ad.store');
+            Route::post('/store', [
+                'as' => 'ajax.administrator.ad.store',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@store',
+            ]);
 
         });
 
