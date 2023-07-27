@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
+use App\Services\ZoneService;
 use Illuminate\Http\Request;
 use App\Models\Helper;
 
@@ -12,7 +13,14 @@ class ZoneController extends Controller
 
     public function __construct()
     {
+        $this->zoneService = new ZoneService();
+    }
 
+    public function list(Request $request)
+    {
+        $request = $request->all();
+        $idSite = $request['site_id'];
+        return $this->zoneService->listAllZone($idSite);
     }
 
     public function store(Request $request)

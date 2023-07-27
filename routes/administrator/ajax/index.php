@@ -43,7 +43,6 @@ Route::prefix('ajax/administrator')->group(function () {
 
         Route::prefix('website')->group(function () {
             Route::post('/store', function (Request $request) {
-
                 $params = [
                     "url" => $request->url,
                     "idcategory" => $request->id_category,
@@ -121,6 +120,11 @@ Route::prefix('ajax/administrator')->group(function () {
         });
 
         Route::prefix('zone')->group(function () {
+
+            Route::get('list', [
+                'as' => 'administrator.zone.list',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@list',
+            ]);
 
             Route::get('/get', function (Request $request) {
 
