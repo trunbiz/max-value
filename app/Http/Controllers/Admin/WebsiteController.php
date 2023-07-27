@@ -119,7 +119,7 @@ class WebsiteController extends Controller
         foreach($sites as $key => $site){
             $items = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]'.$site['id']);
             foreach($items as $item){
-                Helper::callDeleteHTTP('https://api.adsrv.net/v2/campaign/'.$item['id']);
+//                Helper::callDeleteHTTP('https://api.adsrv.net/v2/campaign/'.$item['id']);
                 $result = CampaignAd::where(['campaign_id' => $item['id']])->first();
                 if (!empty($result)){
                     $result->forceDelete();

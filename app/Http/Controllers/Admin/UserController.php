@@ -154,7 +154,7 @@ class UserController extends Controller
             foreach($zones as $key => $zone){
                 $items2 = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]'.$zone['id']);
                 foreach($items2 as $item2){
-                    Helper::callDeleteHTTP('https://api.adsrv.net/v2/campaign/'.$item2['id']);
+//                    Helper::callDeleteHTTP('https://api.adsrv.net/v2/campaign/'.$item2['id']);
                     $result = CampaignAd::where(['campaign_id' => $item2['id']])->first();
                     if (!empty($result)){
                         $result->forceDelete();
@@ -194,7 +194,7 @@ class UserController extends Controller
                 foreach($zones as $key => $zone){
                     $items2 = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]'.$zone['id']);
                     foreach($items2 as $item2){
-                        Helper::callDeleteHTTP('https://api.adsrv.net/v2/campaign/'.$item2['id']);
+//                        Helper::callDeleteHTTP('https://api.adsrv.net/v2/campaign/'.$item2['id']);
                         $result = CampaignAd::where(['campaign_id' => $item2['id']])->first();
                         if (!empty($result)){
                             $result->forceDelete();
