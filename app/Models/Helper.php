@@ -443,6 +443,7 @@ class Helper extends Model
 
             return $response;
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             if ($exception->getCode() == 429) return self::callPostHTTP($url, $params);
             Log::error($exception->getMessage());
             return null;

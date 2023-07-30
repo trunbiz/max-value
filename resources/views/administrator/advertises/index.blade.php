@@ -15,7 +15,33 @@
                 <div class="card">
 
                     <div class="card-header">
+                        <div>
+                            <div>
+                                <div class="float-start">
+                                    <select name="limit" class="form-control select2_init">
+                                        @foreach(config('_my_config.items_show_in_table') as $itemShowInTable)
+                                            <option
+                                                value="{{$itemShowInTable}}" {{request('limit') == $itemShowInTable ? 'selected' : ''}}>{{$itemShowInTable}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
+                                <div class="float-start ms-2">
+                                    <select class="form-control" id="website_id" name="website_id">
+                                        <option value="">-Website-</option>
+                                        @foreach($websites as $itemWebsites)
+                                            <option value="{{ $itemWebsites['id'] }}" {{ request('website_id') == $itemWebsites['id'] ? 'selected' : ''}}>{{ $itemWebsites['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <a href="{{route('administrator.zones.create', ['website_id'=> $website_id])}}" class="btn btn-outline-success float-end"><i
+                                        class="fa-solid fa-plus"></i></a>
+                            </div>
+
+                        </div>
                         @include('administrator.'.$prefixView.'.search')
 
                     </div>
@@ -75,7 +101,7 @@
                                             </a>
 
                                             @can('advertises-config')
-                                                <a href="{{route('administrator.'.$prefixView.'.detail.index' , ['id'=> $item['id'] ])}}"
+                                                <a href="{{route('administrator.zones.edit' , ['id'=> $item['id'] ])}}"
                                                    title="Edit">
                                                     <i class="fa-solid fa-pen"></i>
                                                 </a>
@@ -110,7 +136,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
-                <form action="{{route('administrator.'.$prefixView.'.store')}}" method="post"
+                <form action="{{route('administrator.zones.store')}}" method="post"
                       enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header">

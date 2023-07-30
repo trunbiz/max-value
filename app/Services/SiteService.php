@@ -14,4 +14,9 @@ class SiteService
     {
         return Helper::callGetHTTP("https://api.adsrv.net/v2/site");
     }
+
+    public function getSite($id)
+    {
+        return Helper::callGetHTTP("https://api.adsrv.net/v2/site/". $id);
+    }
 }

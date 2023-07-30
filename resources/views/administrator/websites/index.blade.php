@@ -10,19 +10,12 @@
     <div class="container-fluid list-products">
         <div class="row">
             <div class="col-12">
-
                 <div class="card">
-
                     <div class="card-header">
-
                         @include('administrator.'.$prefixView.'.search')
-
                     </div>
-
                     <div class="card-body">
-
                         {{--                        @include('administrator.components.checkbox_delete_table')--}}
-
                         <div class="table-responsive product-table">
                             <table class="table table-hover ">
                                 <thead>
@@ -30,12 +23,10 @@
                                     {{--                                    <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>--}}
                                     <th>#</th>
                                     <th>Url</th>
-                                    <th>Manager</th>
                                     <th>Publisher</th>
                                     <th>Category</th>
                                     <th>Status</th>
-                                    <th>Active?</th>
-                                    <th>Zones</th>
+                                    <th>Active</th>
                                     <th>Created at</th>
                                     <th>Action</th>
                                 </tr>
@@ -47,14 +38,6 @@
                                         <td>
                                             <a style="text-decoration: underline;" target="_blank"
                                                href="{{ $item['url'] }}">{{ $item['url'] }}</a>
-                                        </td>
-                                        <td>
-                                            @foreach($users as $itemUser)
-                                                @if($item['publisher']['id'] == $itemUser->api_publisher_id)
-                                                    {{optional($itemUser->manager)->name}}
-                                                    @break
-                                                @endif
-                                            @endforeach
                                         </td>
                                         <td>{{ $item['publisher']['email'] ?? '' }}</td>
                                         <td>{{ $item['category']['name'] ?? '' }}</td>
@@ -72,21 +55,6 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <div style="max-height: 100px;overflow: auto;">
-
-                                                @if(count($item['zones']) == 0)
-                                                    <a onclick="oneditStatusModal('{{$item['id']}}')" id="no_zone" style="cursor: pointer;"
-                                                       data-bs-toggle="modal" data-bs-target="#createZoneModal">Create
-                                                        Zone</a>
-                                                @else
-                                                    @foreach($item['zones'] as $itemZone)
-                                                        <a style="text-decoration: underline;"
-                                                           href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone['id'] ])}}">{{$itemZone['name']}}</a>
-                                                    @endforeach
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td>
                                             {{$item['created_at']}}
                                         </td>
 
@@ -98,7 +66,7 @@
                                             </a>
 
                                             <a
-                                               href="{{route('user.advertises.index' , ['website_id'=> $item['id'] ])}}"
+                                               href="{{route('administrator.zones.index' , ['website_id'=> $item['id'] ])}}"
                                                title="Zones">
                                                 <i class="fa-solid fa-cloud"></i>
                                             </a>
@@ -109,8 +77,7 @@
                                                 <i class="fa-solid fa-chart-simple"></i>
                                             </a>
 
-                                            <a onclick="oneditStatusModal('{{$item['id']}}')" style="cursor: pointer;"
-                                               title="Add zone" data-bs-toggle="modal" data-bs-target="#createZoneModal">
+                                            <a href="{{route('administrator.zones.index' , ['website_id'=> $item['id'] ])}}">
                                                 <i class="fa-solid fa-plus"></i>
                                             </a>
 

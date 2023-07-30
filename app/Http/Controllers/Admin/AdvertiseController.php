@@ -12,6 +12,9 @@ use App\Models\National;
 use App\Models\TypeAdv;
 use App\Models\User;
 use App\Models\Website;
+use App\Services\Common;
+use App\Services\SiteService;
+use App\Services\ZoneService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -31,6 +34,8 @@ class AdvertiseController extends Controller
         $this->initBaseModel($model);
         $this->title = "Zone";
         $this->shareBaseModel($model);
+        $this->zoneService = new ZoneService();
+        $this->siteService = new SiteService();
     }
 
     public function index(Request $request)
@@ -40,6 +45,8 @@ class AdvertiseController extends Controller
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4");
 
         $items = [];
+        $website_id = $request->website_id ?? null;
+
         if (isset($request->website_id) && !empty($request->website_id)) {
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/zone?idsite=" . $request->website_id);
         }else{
@@ -59,7 +66,7 @@ class AdvertiseController extends Controller
 
         $items = Formatter::paginator($request, $items);
 
-        return view('administrator.' . $this->prefixView . '.index', compact('items', 'websites', 'publishers'));
+        return view('administrator.' . $this->prefixView . '.index', compact('items', 'websites', 'publishers', 'website_id'));
     }
 
     public function get(Request $request, $id)
@@ -67,35 +74,51 @@ class AdvertiseController extends Controller
         return $this->model->findById($id);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('administrator.' . $this->prefixView . '.add');
+        $request = $request->all();
+        $website_id = $request['website_id'] ?? null;
+        if (empty($website_id))
+        {
+            abort(404);
+        }
+
+        $data['site'] = $this->siteService->getSite($website_id);
+        $data['list_format_zone'] = \App\Models\Advertise::getCategoryRecusive();
+        $data['dimensions'] = Common::DIMENSIONS;
+        $data['dimension_method'] = Common::DIMENSION_METHOD;
+        return view('administrator.' . $this->prefixView . '.add', $data);
     }
 
     public function store(Request $request)
     {
-        $item = $this->model->storeByQuery($request);
-        return back();
-//        return redirect()->route('administrator.' . $this->prefixView . '.edit', ["id" => $item->id]);
+        $request = $request->all();
+        $result = $this->zoneService->storeAdServer($request);
+        if (empty($result))
+        {
+            return abort(500, 'Có lỗi xảy ra');
+        }
+        return redirect()->route('administrator.zones.index', ['website_id' => $request['website_id']]);
     }
 
     public function edit($id)
     {
-        $title = "Detail Zone";
+        $data['title'] = "Detail Zone";
+//        $params = [
+//            'query' => [
+//                'dateBegin' => date("Y-m-d", Carbon::now()->startOfMonth()->timestamp),
+//                'dateEnd' => date("Y-m-d", Carbon::now()->endOfMonth()->timestamp),
+//                'idzone' => $id,
+//            ]
+//        ];
 
-        $params = [
-            'query' => [
-                'dateBegin' => date("Y-m-d", Carbon::now()->startOfMonth()->timestamp),
-                'dateEnd' => date("Y-m-d", Carbon::now()->endOfMonth()->timestamp),
-                'idzone' => $id,
-            ]
-        ];
+//        $stat = Helper::callGetHTTP('https://api.adsrv.net/v2/stats', $params);
+        $data['list_format_zone'] = \App\Models\Advertise::getCategoryRecusive();
+        $data['dimensions'] = Common::DIMENSIONS;
+        $data['dimension_method'] = Common::DIMENSION_METHOD;
+        $data['item'] = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
 
-        $stat = Helper::callGetHTTP('https://api.adsrv.net/v2/stats', $params);
-
-        $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
-
-        return view('administrator.' . $this->prefixView . '.edit', compact('item', 'stat', 'title'));
+        return view('administrator.' . $this->prefixView . '.show', $data);
     }
 
     public function indexDetail($id)
