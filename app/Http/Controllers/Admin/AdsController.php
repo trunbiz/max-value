@@ -13,6 +13,7 @@ use App\Models\Setting;
 use App\Models\TypeAdv;
 use App\Models\User;
 use App\Models\Website;
+use App\Services\CampaignService;
 use App\Services\SiteService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class AdsController extends Controller
         $this->title = "Campaign";
         $this->shareBaseModel($model);
         $this->siteService = new SiteService();
+        $this->campaignService = new CampaignService();
     }
 
     public function index(Request $request)
@@ -78,13 +80,14 @@ class AdsController extends Controller
 
     public function store(Request $request)
     {
-        $params = $request->all();
-        $item = $this->model->storeByQuery($request);
+        $request = $request->all();
+        $this->campaignService->storeCampaignAdServer($request);
+//        $item = $this->model->storeByQuery($request);
 
-        if (is_array($item) && isset($item['errors'])) {
-            Session::flash("error", json_encode($item));
-            return back();
-        }
+//        if (is_array($item) && isset($item['errors'])) {
+//            Session::flash("error", json_encode($item));
+//            return back();
+//        }
 
         return redirect()->route('administrator.' . $this->prefixView . '.edit', ["id" => $item->id]);
     }

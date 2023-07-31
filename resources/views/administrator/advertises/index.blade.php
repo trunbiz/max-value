@@ -30,14 +30,16 @@
                                     <select class="form-control" id="website_id" name="website_id">
                                         <option value="">-Website-</option>
                                         @foreach($websites as $itemWebsites)
-                                            <option value="{{ $itemWebsites['id'] }}" {{ request('website_id') == $itemWebsites['id'] ? 'selected' : ''}}>{{ $itemWebsites['name'] }}</option>
+                                            <option
+                                                value="{{ $itemWebsites['id'] }}" {{ request('website_id') == $itemWebsites['id'] ? 'selected' : ''}}>{{ $itemWebsites['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
 
                             <div>
-                                <a href="{{route('administrator.zones.create', ['website_id'=> $website_id])}}" class="btn btn-outline-success float-end"><i
+                                <a href="{{route('administrator.zones.create', ['website_id'=> $website_id])}}"
+                                   class="btn btn-outline-success float-end"><i
                                         class="fa-solid fa-plus"></i></a>
                             </div>
 
@@ -54,15 +56,11 @@
                             <table class="table table-hover ">
                                 <thead>
                                 <tr>
-                                    {{--                                    <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>--}}
                                     <th>#</th>
                                     <th>Zone Name</th>
                                     <th>Website</th>
-                                    <th>Share(%)</th>
-                                    <th>Number Config</th>
-                                    <th>Created time</th>
-                                    {{--                                    <th>Manager</th>--}}
                                     <th>Status</th>
+                                    <th>Created time</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -75,27 +73,19 @@
                                             <a>{{ $item['site']['name'] }}</a>
                                         </td>
                                         <td>
-                                            {{ $item['revenue_rate'] }}
-                                        </td>
-                                        <td id="container_adververs_{{$item['id']}}">
-                                            <a STYLE="cursor: pointer;" onclick="showConfig('{{$item['id']}}')"
-                                               title="Show">
-                                                <i class="fa-regular fa-eye"></i>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            {{ $item['created_at'] }}
-                                        </td>
-                                        <td>
                                             <div onclick="onEditZone('{{$item['id']}}','{{$item['status']['id']}}')"
                                                  style="cursor: pointer;display: flex;" data-bs-toggle="modal"
                                                  data-bs-target="#editZone">
                                                 {!! \App\Models\Helper::htmlStatus($item['status']['name']) !!}
                                             </div>
                                         </td>
+                                        <td>
+                                            {{ $item['created_at'] }}
+                                        </td>
 
                                         <td>
-                                            <a href="javascript:void(0)" {{ $item['status']['id'] == 7000 ? 'onclick=getCode('. $item["id"] . ')' : 'style=cursor:no-drop;opacity:0.5' }}
+                                            <a href="javascript:void(0)"
+                                               {{ $item['status']['id'] == 7000 ? 'onclick=getCode('. $item["id"] . ')' : 'style=cursor:no-drop;opacity:0.5' }}
                                                title="Get code">
                                                 <i class="fa-solid fa-eye"></i>
                                             </a>
@@ -157,7 +147,8 @@
                             <label class="bold">Website @include('administrator.components.lable_require')</label>
                             <select name="idsite" class="form-control select2_init" required>
                                 @foreach($websites as $itemWebsite)
-                                    <option value="{{$itemWebsite['id']}}" {{request('website_id') == $itemWebsite['id'] ? 'selected' : ''}}>{{$itemWebsite['name']}}</option>
+                                    <option
+                                        value="{{$itemWebsite['id']}}" {{request('website_id') == $itemWebsite['id'] ? 'selected' : ''}}>{{$itemWebsite['name']}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -204,11 +195,11 @@
                                    class="form-control" required>
                         </div>
 
-{{--                        <div class="mt-3">--}}
-{{--                            <label class="bold">Share(%) @include('administrator.components.lable_require')</label>--}}
-{{--                            <input type="text" autocomplete="off" name="share" value="{{\App\Models\Setting::first()->percent}}"--}}
-{{--                                   class="form-control @error('share') is-invalid @enderror" required>--}}
-{{--                        </div>--}}
+                        {{--                        <div class="mt-3">--}}
+                        {{--                            <label class="bold">Share(%) @include('administrator.components.lable_require')</label>--}}
+                        {{--                            <input type="text" autocomplete="off" name="share" value="{{\App\Models\Setting::first()->percent}}"--}}
+                        {{--                                   class="form-control @error('share') is-invalid @enderror" required>--}}
+                        {{--                        </div>--}}
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -242,7 +233,8 @@
 
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" onclick="onSubmitChangeStatusZone()" class="btn btn-success">Update now</button>
+                    <button type="button" onclick="onSubmitChangeStatusZone()" class="btn btn-success">Update now
+                    </button>
                 </div>
 
             </div>
@@ -292,7 +284,7 @@
                     console.log(response)
 
                     let html = '<ul>'
-                    for(let i = 0 ; i < response.assigned_ads.length;i++){
+                    for (let i = 0; i < response.assigned_ads.length; i++) {
                         html += `
                                 <li>
                                     - ${response.assigned_ads[i].campaign.advertiser.name}
@@ -376,7 +368,7 @@
                 success: function (response) {
                     hideLoading();
                     $('#editZone').modal('hide');
-                    $('.list__data').find('.item'+zone_id).after(response.html).remove();
+                    $('.list__data').find('.item' + zone_id).after(response.html).remove();
                 },
                 error: function (err) {
                     hideLoading()
@@ -397,14 +389,13 @@
             $this.find('form').attr('data-id', id);
             callAjax(
                 "GET",
-                "{{ route('user.ajax.getcode') }}" + "?id="+id,{},
+                "{{ route('user.ajax.getcode') }}" + "?id=" + id, {},
                 (response) => {
                     let html = '';
                     $this.find('.getcode__info--name input').val(response.name);
                     $this.html(response.html);
                     $this.modal('show');
                 }
-
             )
         }
 
