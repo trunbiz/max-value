@@ -36,6 +36,6 @@ php artisan db:seed --class=CreatePermissionSeeder
 -- End --
 * 
 admin
-admin / 9999
+admin / 0000
 client
 jay@maxvalue.media / 1111
