@@ -9,6 +9,7 @@ use App\Models\TypeCategory;
 use App\Models\User;
 use App\Models\Website;
 use App\Http\Controllers\Controller;
+use App\Models\ZoneModel;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
 use App\Exports\ModelExport;
@@ -68,12 +69,17 @@ class WebsiteController extends Controller
             $items = $itemsFilter;
         }
 
+        // List danh sách Dimensions
+        $listDimensions = ZoneModel::DIMENSIONS;
+
+        // list Dimensions Method
+        $listDimensionsMethod = ZoneModel::DIMENSIONS_METHOD;
 
         $items = Formatter::paginator($request,$items);
 
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4");
 
-        return view('administrator.' . $this->prefixView . '.index', compact('items', 'categories', 'users','publishers'));
+        return view('administrator.' . $this->prefixView . '.index', compact('items', 'categories', 'users','publishers', 'listDimensions', 'listDimensionsMethod'));
     }
 
     public function get(Request $request, $id)

@@ -39,3 +39,6 @@ admin
 admin / 0000
 client
 jay@maxvalue.media / 1111
+
+-- access token
+u2ayH9pQ2fLjLMd9bZOYF0bGF8VlL8bxkCzsPhNQ

@@ -98,7 +98,7 @@
                                             </a>
 
                                             <a
-                                               href="{{route('user.advertises.index' , ['website_id'=> $item['id'] ])}}"
+                                               href="{{route('administrator.advertises.index' , ['website_id'=> $item['id'] ])}}"
                                                title="Zones">
                                                 <i class="fa-solid fa-cloud"></i>
                                             </a>
@@ -293,47 +293,32 @@
                 </div>
                 <div class="modal-body">
                     <div class="mt-3">
-                        <label class="bold">Type</label>
+                        <label class="bold">Type <span class="text-danger">*</span></label>
                         <select
                             class="form-control choose_value select2_init @error("idzoneformat") is-invalid @enderror"
                             required name="idzoneformat">
                             <option value="6">Banner</option>
-                            <option value="18">VAST</option>
+{{--                            <option value="18">VAST</option>--}}
                         </select>
                     </div>
                     <div class="mt-3">
-                        <label class="bold">Size</label>
+                        <label class="bold">Dimensions matching method <span class="text-danger">*</span></label>
                         <select
                             class="form-control choose_value select2_init @error("iddimension") is-invalid @enderror"
-                            required name="iddimension">
-                            <option value="46">120x600 / Skyscrape</option>
-                            <option value="29">120x240 / Vertical Banner</option>
-                            <option value="32">125x125 / Square Button</option>
-                            <option value="11">160x600 / Wide Skyscraper</option>
-                            <option value="10">180x150 / Rectangle</option>
-                            <option value="36">200x200 / Small Square</option>
-                            <option value="19">234x60 / Half Banner</option>
-                            <option value="5">240x400 / Vertical Rectangle</option>
-                            <option value="37">250x250 / Square Pop-Up</option>
-                            <option value="40">300x100 / 3:1 Rectangle</option>
-                            <option value="9">300x250 / Medium Rectangle</option>
-                            <option value="47">300x600 / Half-page Ad</option>
-                            <option value="52">315x300</option>
-                            <option value="35">320x100 / Large Mobile Banner</option>
-                            <option value="34">320x50 / Mobile Banner</option>
-                            <option value="48">320x480 / Mobile Interstitial</option>
-                            <option value="38">336x280 / Large Rectangle</option>
-                            <option value="1">468x60 / Full Banner</option>
-                            <option value="49">480x320</option>
-                            <option value="42">580x400 / Netboard</option>
-                            <option value="50">600x400</option>
-                            <option value="41">720x300 / Pop-Under</option>
-                            <option value="6">728x90 / Leaderboard</option>
-                            <option value="33">88x31 / Micro Bar</option>
-                            <option value="51">930x180 / Top Banner</option>
-                            <option value="20">970x90 / Large Leaderboard</option>
-                            <option value="21">970x250 / Billboard</option>
-                            <option value="24">980x120 / Panorama</option>
+                            required name="idDimensionMethod">
+                            @foreach($listDimensionsMethod as $key => $value)
+                                <option value="{{$key}}">{{$value}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mt-3">
+                        <label class="bold">Dimensions <span class="text-danger">*</span></label>
+                        <select
+                            class="form-control choose_value select2_init @error("iddimension") is-invalid @enderror"
+                            required name="idDimension">
+                            @foreach($listDimensions as $key => $value)
+                                <option value="{{$key}}">{{$value['name']}}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -452,8 +437,9 @@
                 cache: false,
                 data: {
                     name: $('input[name="ad_unit_name"]').val(),
-                    namedimision: $('select[name="iddimension"] option:selected').text(),
-                    iddimension: $('select[name="iddimension"]').val(),
+                    namedimision: $('select[name="idDimension"] option:selected').text(),
+                    iddimension: $('select[name="idDimension"]').val(),
+                    idDimensionMethod: $('select[name="idDimensionMethod"]').val(),
                     idzoneformat: $('select[name="idzoneformat"]').val(),
                     idsite: id_site,
                 },
@@ -470,7 +456,6 @@
                             title: 'Add success',
                         }
                     );
-                    $('#tr_container_'+id_site).find('td:nth-child(8) div').append(response.html);
                 },
                 error: function (err) {
                     hideLoading()

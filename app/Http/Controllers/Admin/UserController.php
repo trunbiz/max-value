@@ -42,9 +42,9 @@ class UserController extends Controller
 //        if (!Gate::check('register-product-list')){
 //            return redirect()->route('administrator.dashboard.index');
 //        }
-        if (auth()->user()->is_admin == 2 || optional(auth()->user()->role)->name == "Admin"){
+        if (auth()->user()->is_admin == 2 || optional(auth()->user()->role)->name == "Admin") {
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
-        }else{
+        } else {
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
         }
 
@@ -53,7 +53,7 @@ class UserController extends Controller
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
         $items = Formatter::paginator($request, $items);
-        return view('administrator.' . $this->prefixView . '.index', compact('items','users', 'urls'));
+        return view('administrator.' . $this->prefixView . '.index', compact('items', 'users', 'urls'));
     }
 
     public function get(Request $request, $id)
@@ -77,24 +77,24 @@ class UserController extends Controller
             'manager_id.required' => 'Please choose a option',
             'user_status_id.required' => 'Please choose a option',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => $validator->errors()->first(),
             ]);
-        }else{
+        } else {
             $item = $this->model->storeByQuery($request);
 
-            if (Helper::isErrorAPIAdserver($item)){
+            if (Helper::isErrorAPIAdserver($item)) {
                 Session::flash("error", json_encode($item));
                 return response()->json([
                     'status' => false,
                     'message' => json_encode($item),
-                ],500);
+                ], 500);
             }
             $item['user_id'] = $item->id;
             return response()->json([
-                'html' => view('administrator.'.$this->prefixView.'.add_table', compact('item'))->render(),
+                'html' => view('administrator.' . $this->prefixView . '.add_table', compact('item'))->render(),
                 'status' => true,
                 'message' => 'Add successful',
             ]);
@@ -106,14 +106,22 @@ class UserController extends Controller
     {
         $item = $this->model->where('api_publisher_id', $request->id)->first();
 
-        if (empty($item)) return abort(404);
+        if (empty($item))
+            return response()->json([
+                'status' => false,
+                'message' => 'Không tìm thấy thông tin',
+            ]);
 
         $itemAdserver = Helper::callGetHTTP("https://api.adsrv.net/v2/user/" . $item->api_publisher_id);
-
-        if (Helper::isErrorAPIAdserver($itemAdserver))  return abort(404);
+        if (Helper::isErrorAPIAdserver($itemAdserver))
+            return response()->json([
+                'status' => false,
+                'message' => 'Không tìm thấy thông tin',
+            ]);
 
         return response()->json([
-           'html' => view('administrator.' . $this->prefixView . '.edit', compact('item','itemAdserver'))->render()
+            'status' => true,
+            'html' => view('administrator.' . $this->prefixView . '.edit', compact('item', 'itemAdserver'))->render()
         ]);
 
         //return view('administrator.' . $this->prefixView . '.edit', compact('item','itemAdserver'));
@@ -124,12 +132,12 @@ class UserController extends Controller
         $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
         $item = $this->model->updateByQuery($request, $request->id);
 
-        if (Helper::isErrorAPIAdserver($item)){
+        if (Helper::isErrorAPIAdserver($item)) {
             Session::flash("error", json_encode($item));
             return back();
         }
         return response()->json([
-            'html' => view('administrator.'.$this->prefixView.'.add_table', compact('item', 'users'))->render(),
+            'html' => view('administrator.' . $this->prefixView . '.add_table', compact('item', 'users'))->render(),
             'status' => true,
             'message' => 'Update successful',
         ]);
@@ -140,38 +148,38 @@ class UserController extends Controller
     {
         $item = $this->model->where(['api_publisher_id' => $id])->first();
 
-        $sites = Helper::callGetHTTP('https://api.adsrv.net/v2/site?filter[idpublisher]='. $id);
+        $sites = Helper::callGetHTTP('https://api.adsrv.net/v2/site?filter[idpublisher]=' . $id);
 
         Helper::callDeleteHTTP('https://api.adsrv.net/v2/user/' . $id);
-        if (!empty($item)){
+        if (!empty($item)) {
             $item->forceDelete();
         }
 
-        foreach($sites as $site){
+        foreach ($sites as $site) {
 
-            $zones = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite='.$site['id']);
+            $zones = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite=' . $site['id']);
 
-            foreach($zones as $key => $zone){
-                $items2 = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]'.$zone['id']);
-                foreach($items2 as $item2){
+            foreach ($zones as $key => $zone) {
+                $items2 = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]' . $zone['id']);
+                foreach ($items2 as $item2) {
 //                    Helper::callDeleteHTTP('https://api.adsrv.net/v2/campaign/'.$item2['id']);
                     $result = CampaignAd::where(['campaign_id' => $item2['id']])->first();
-                    if (!empty($result)){
+                    if (!empty($result)) {
                         $result->forceDelete();
                     }
                 }
             }
 
-            Helper::callDeleteHTTP('https://api.adsrv.net/v2/site/'.$site['id']);
+            Helper::callDeleteHTTP('https://api.adsrv.net/v2/site/' . $site['id']);
 
-            Helper::callDeleteHTTP('https://api.adsrv.net/v2/zone?idsite='.$site['id']);
+            Helper::callDeleteHTTP('https://api.adsrv.net/v2/zone?idsite=' . $site['id']);
 
         }
 
         return response()->json([
-            'code'=>200,
-            'message'=>'success',
-        ],200);
+            'code' => 200,
+            'message' => 'success',
+        ], 200);
 
     }
 
@@ -180,39 +188,39 @@ class UserController extends Controller
         foreach ($request->ids as $id) {
             $item = $this->model->where(['api_publisher_id' => $id])->first();
 
-            $sites = Helper::callGetHTTP('https://api.adsrv.net/v2/site?filter[idpublisher]='. $id);
+            $sites = Helper::callGetHTTP('https://api.adsrv.net/v2/site?filter[idpublisher]=' . $id);
 
             Helper::callDeleteHTTP('https://api.adsrv.net/v2/user/' . $id);
-            if (!empty($item)){
+            if (!empty($item)) {
                 $item->forceDelete();
             }
 
-            foreach($sites as $site){
+            foreach ($sites as $site) {
 
-                $zones = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite='.$site['id']);
+                $zones = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite=' . $site['id']);
 
-                foreach($zones as $key => $zone){
-                    $items2 = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]'.$zone['id']);
-                    foreach($items2 as $item2){
+                foreach ($zones as $key => $zone) {
+                    $items2 = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]' . $zone['id']);
+                    foreach ($items2 as $item2) {
 //                        Helper::callDeleteHTTP('https://api.adsrv.net/v2/campaign/'.$item2['id']);
                         $result = CampaignAd::where(['campaign_id' => $item2['id']])->first();
-                        if (!empty($result)){
+                        if (!empty($result)) {
                             $result->forceDelete();
                         }
                     }
                 }
 
-                Helper::callDeleteHTTP('https://api.adsrv.net/v2/site/'.$site['id']);
+                Helper::callDeleteHTTP('https://api.adsrv.net/v2/site/' . $site['id']);
 
-                Helper::callDeleteHTTP('https://api.adsrv.net/v2/zone?idsite='.$site['id']);
+                Helper::callDeleteHTTP('https://api.adsrv.net/v2/zone?idsite=' . $site['id']);
 
             }
         }
 
         return response()->json([
-            'code'=>200,
-            'message'=>'success',
-        ],200);
+            'code' => 200,
+            'message' => 'success',
+        ], 200);
 
     }
 
@@ -221,26 +229,27 @@ class UserController extends Controller
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
 
-    public function updateActive(Request $request){
+    public function updateActive(Request $request)
+    {
         $params = [];
 
-        if (isset($request->is_active)){
+        if (isset($request->is_active)) {
             $params['is_active'] = $request->is_active;
         }
 
-        if (isset($request->idstatus)){
+        if (isset($request->idstatus)) {
             $params['idstatus'] = $request->idstatus;
         }
 
         $item = Helper::callPutHTTP("https://api.adsrv.net/v2/user/" . $request->id, $params);
 
-        if($item['is_active'] == true){
-           $is_active = 'Yes';
-        }else{
+        if ($item['is_active'] == true) {
+            $is_active = 'Yes';
+        } else {
             $is_active = 'No';
         }
 
-        if (Helper::isErrorAPIAdserver($item)){
+        if (Helper::isErrorAPIAdserver($item)) {
             return response()->json($item, 400);
         }
 
@@ -258,7 +267,8 @@ class UserController extends Controller
     }
 
     //access to user account
-    public function imperrsonate(Request $request){
+    public function imperrsonate(Request $request)
+    {
 
         $user_id = $request->user_id;
         if (session()->get('hasClonedUser') == 1) {
@@ -276,14 +286,15 @@ class UserController extends Controller
     }
 
     //Partner
-    public function indexPartner(Request $request){
+    public function indexPartner(Request $request)
+    {
 
         $title = 'Partners';
         $prefixView = 'partner';
 
-        if (auth()->user()->is_admin != 2){
+        if (auth()->user()->is_admin != 2) {
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
-        }else{
+        } else {
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3") ?? [];
         }
 
@@ -303,16 +314,16 @@ class UserController extends Controller
             'password' => 'required',
             'url' => 'required|url',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => $validator->errors()->first(),
             ]);
-        }else{
+        } else {
             $item = $this->model->storeByQuery($request);
 
 
-            if (Helper::isErrorAPIAdserver($item)){
+            if (Helper::isErrorAPIAdserver($item)) {
                 Session::flash("error", json_encode($item));
                 return back();
             }
@@ -343,7 +354,7 @@ class UserController extends Controller
         $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
 
         $item = $this->model->updateByQuery($request, $request->id);
-        if (Helper::isErrorAPIAdserver($item)){
+        if (Helper::isErrorAPIAdserver($item)) {
             Session::flash("error", json_encode($item));
             return back();
         }
