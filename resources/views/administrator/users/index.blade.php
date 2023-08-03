@@ -247,8 +247,13 @@
                 '{{route('administrator.users.edit')}}'+ '?id='+id,
                 {},
                 (response) => {
-                    $this.html(response.html);
-                    $this.modal('show');
+                    if(!response.status)
+                    {
+                        alert(response.message)
+                    }else{
+                        $this.html(response.html);
+                        $this.modal('show');
+                    }
                 }
             )
         }

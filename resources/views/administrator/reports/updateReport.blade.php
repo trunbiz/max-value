@@ -41,6 +41,7 @@
                                 <tr>
                                     <th>Date</th>
                                     <th>Web</th>
+                                    <th>Zone</th>
                                     <th>Requests</th>
                                     <th>Impressions</th>
                                     <th>Fill Rate %</th>
@@ -85,6 +86,9 @@
                                                         {{$web['name']}}
                                                     @endif
                                                 @endforeach
+                                            </td>
+                                            <td>
+                                                {{$listZone[$item->zone_id] ?? null}}
                                             </td>
                                             <td>
                                                 <span class="cRequest">{{number_format($item->request)}}</span>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
-use App\Services\ZoneService;
+use App\Models\ZoneModel;
 use Illuminate\Http\Request;
 use App\Models\Helper;
 
@@ -13,18 +13,12 @@ class ZoneController extends Controller
 
     public function __construct()
     {
-        $this->zoneService = new ZoneService();
-    }
 
-    public function list(Request $request)
-    {
-        $request = $request->all();
-        $idSite = $request['site_id'];
-        return $this->zoneService->listAllZone($idSite);
     }
 
     public function store(Request $request)
     {
+        $params = $request->all();
         $get_url = Helper::callGetHTTP('https://api.adsrv.net/v2/site/' . $request->idsite);
 
         if (empty($request->name)) {
@@ -39,17 +33,20 @@ class ZoneController extends Controller
         } else {
             $name = $name;
         }
+        $dimensionInfo = ZoneModel::DIMENSIONS[$params['iddimension']] ?? [];
+
 
         $params = [
             'name' => $name,
             'idzoneformat' => $request->idzoneformat,
-            'iddimension' => $request->iddimension,
+            'iddimension' => 666,
             'revenue_rate' => optional(Setting::first())->percent ?? 75,
             'idrevenuemodel' => 2,
+            'match_algo' => 2,
+            'height' => (string)$dimensionInfo['size'][0],
+            'width' => (string)$dimensionInfo['size'][1],
         ];
-
-        dd($params);
-
+//        dd($params);
 
         $item = Helper::callPostHTTP("https://api.adsrv.net/v2/zone?idsite=" . $request->idsite, $params);
 
@@ -58,7 +55,8 @@ class ZoneController extends Controller
         }
 
         return response()->json([
-            'html' => view('administrator.advertises.add_table', compact('item'))->render()
+            'status' => true,
+//            'html' => view('administrator.advertises.add_table', compact('item'))->render()
         ]);
     }
 }

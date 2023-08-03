@@ -65,11 +65,31 @@ class ReportController extends Controller
             'cpm' => 0,
         ];
 
+        // Lấy danh sách website
+        $websites = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=1000");
+
+        // Lấy list danh sách zone
+        $listZone = [];
+        $listWebsite = [];
+        foreach ($websites as $website)
+        {
+            $listWebsite[$website['id']] = $website['name'];
+
+            if (empty($website['zones']))
+                continue;
+            foreach ($website['zones'] as $zone)
+            {
+                $listZone[$zone['id']] = $zone['name'] ?? '';
+            }
+        }
 
         foreach ($stats as $index => $itemStat){
+            $stats[$index]['impressions'] = $itemStat['change_impressions'];
             $stats[$index]['amountPub'] = round($itemStat['change_revenue'], 2);
             $stats[$index]['impressions'] = $itemStat['change_impressions'];
             $stats[$index]['cpm'] = round($itemStat['change_cpm'], 3);
+            $stats[$index]['website'] = $listWebsite[$itemStat->web_id] ?? '';
+            $stats[$index]['zone'] = $listZone[$itemStat->zone_id] ?? '';
 
             // Tổng hợp số
             $sumNumber['amountPub'] += round($itemStat['change_revenue'], 2);

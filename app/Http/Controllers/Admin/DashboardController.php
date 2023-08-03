@@ -99,7 +99,7 @@ class DashboardController extends Controller
                     'date' => $itemStarts['dimension']
                 ];
             }
-            $diff = array_diff($date_format, $itemDate);
+            $diff = array_diff($date_format, $itemDate ?? []);
             foreach($diff as $key => $item_diff){
                 $impressions2[$key] = [
                    'value' => 0,
@@ -109,7 +109,7 @@ class DashboardController extends Controller
                 ];
             }
 
-            $impressions_all = array_merge($impressions2, $impressions1);
+            $impressions_all = array_merge($impressions2 ?? [], $impressions1 ?? []);
 
             usort($impressions_all, function ($a, $b){
                 return strtotime($a['date']) - strtotime($b['date']);

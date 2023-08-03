@@ -39,3 +39,5 @@ admin
 admin / 9999
 client
 jay@maxvalue.media / 1111
+
+token adserver test: 4zUDuLxDKN7QMzTVCgZHsRndvyxout8AjjaU2IpV

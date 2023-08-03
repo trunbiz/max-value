@@ -142,39 +142,43 @@ Route::prefix('ajax/administrator')->group(function () {
 
             })->name('ajax.administrator.zone.get');
 
-            Route::post('/store', function (Request $request) {
-                $get_url = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'.$request->idsite);
-
-                if(empty($request->name)){
-                    $name = $get_url['name'].' '.$request->namedimision;
-                }else{
-                    $name = $request->name;
-                }
-
-                $check_name = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite='.$request->idsite.'&filter[name]='.$name);
-                if(count($check_name) > 0){
-                    $name = $name.' #'.(count($check_name) + 1);
-                }else{
-                    $name = $name;
-                }
-
-                $params = [
-                    "name" => $name,
-                    "iddimension" => $request->iddimension,
-                    "idzoneformat" => $request->idzoneformat,
-                ];
-
-                $item = Helper::callPostHTTP("https://api.adsrv.net/v2/zone?idsite=" . $request->idsite, $params);
-
-                if (Helper::isErrorAPIAdserver($item)){
-                    return response()->json($item, 400);
-                }
-
-                return response()->json([
-                    'html' => \view('administrator.websites.add_zone', compact('item'))->render()
-                ]);
-
-            })->name('ajax.administrator.zone.store');
+            Route::post('/store', [
+                'as' => 'ajax.administrator.zone.store',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@store',
+            ]);
+//            Route::post('/store', function (Request $request) {
+//                $get_url = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'.$request->idsite);
+//
+//                if(empty($request->name)){
+//                    $name = $get_url['name'].' '.$request->namedimision;
+//                }else{
+//                    $name = $request->name;
+//                }
+//
+//                $check_name = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite='.$request->idsite.'&filter[name]='.$name);
+//                if(count($check_name) > 0){
+//                    $name = $name.' #'.(count($check_name) + 1);
+//                }else{
+//                    $name = $name;
+//                }
+//
+//                $params = [
+//                    "name" => $name,
+//                    "iddimension" => $request->iddimension,
+//                    "idzoneformat" => $request->idzoneformat,
+//                ];
+//
+//                $item = Helper::callPostHTTP("https://api.adsrv.net/v2/zone?idsite=" . $request->idsite, $params);
+//
+//                if (Helper::isErrorAPIAdserver($item)){
+//                    return response()->json($item, 400);
+//                }
+//
+//                return response()->json([
+//                    'html' => \view('administrator.websites.add_zone', compact('item'))->render()
+//                ]);
+//
+//            })->name('ajax.administrator.zone.store');
 
             Route::put('/update', function (Request $request) {
 
