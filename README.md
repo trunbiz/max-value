@@ -36,9 +36,8 @@ php artisan db:seed --class=CreatePermissionSeeder
 -- End --
 * 
 admin
-admin / 0000
+admin / 9999
 client
 jay@maxvalue.media / 1111
 
--- access token
-u2ayH9pQ2fLjLMd9bZOYF0bGF8VlL8bxkCzsPhNQ
+token adserver test: 4zUDuLxDKN7QMzTVCgZHsRndvyxout8AjjaU2IpV

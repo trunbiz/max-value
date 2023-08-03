@@ -99,7 +99,7 @@ class DashboardController extends Controller
                     'date' => $itemStarts['dimension']
                 ];
             }
-            $diff = array_diff($date_format ?? [], $itemDate ?? []);
+            $diff = array_diff($date_format, $itemDate ?? []);
             foreach($diff as $key => $item_diff){
                 $impressions2[$key] = [
                    'value' => 0,
