@@ -29,9 +29,7 @@ class Kernel extends ConsoleKernel
 //            ->everyMinute();
 
         $schedule->command('get:reportDaily')
-            ->dailyAt('14:00');
-        $schedule->command('get:reportDaily')
-            ->dailyAt('02:00');
+            ->hourly();
 
 //        $schedule->command('revenue:publisher')
 //            ->everyMinute();
