@@ -33,17 +33,11 @@ class WebsiteController extends Controller
     public function index(Request $request)
     {
         $categories = TypeCategory::all();
-        $query = $this->model;
-
-        if(isset($_GET['user']) && !empty($_GET['user'])){
-            $query = $query->where('user_id', $_GET['user']);
-        }
-
-        $items = $query->orderBy('id', 'DESC')->paginate(10);
 
         if (isset($request->publisher_id) && !empty($request->publisher_id)){
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?filter[idpublisher]=".$request->publisher_id."&page=1&per-page=10000");
         }else{
+
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=10000");
         }
 
@@ -79,7 +73,18 @@ class WebsiteController extends Controller
 
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4");
 
-        return view('administrator.' . $this->prefixView . '.index', compact('items', 'categories', 'users','publishers', 'listDimensions', 'listDimensionsMethod'));
+        $dataResult = [
+            'items' => $items,
+            'categories' => $categories,
+            'users' => $users,
+            'listDimensions' => $listDimensions,
+            'listDimensionsMethod' => $listDimensionsMethod,
+            'publishers' => $publishers,
+        ];
+
+//        dd($dataResult);
+
+        return view('administrator.' . $this->prefixView . '.index2', $dataResult);
     }
 
     public function get(Request $request, $id)

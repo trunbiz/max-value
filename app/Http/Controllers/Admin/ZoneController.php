@@ -59,4 +59,16 @@ class ZoneController extends Controller
 //            'html' => view('administrator.advertises.add_table', compact('item'))->render()
         ]);
     }
+
+
+    public function detailZone(Request $request)
+    {
+        $request = $request->all();
+        $id = $request['id'] ?? null;
+        $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
+        return response()->json([
+            'status' => true,
+            'data' => $item
+        ]);
+    }
 }

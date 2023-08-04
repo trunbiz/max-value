@@ -142,6 +142,11 @@ Route::prefix('ajax/administrator')->group(function () {
                 'as' => 'ajax.administrator.zone.store',
                 'uses' => 'App\Http\Controllers\Admin\ZoneController@store',
             ]);
+
+            Route::get('/detail', [
+                'as' => 'ajax.administrator.zone.detail',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@detailZone',
+            ]);
 //            Route::post('/store', function (Request $request) {
 //                $get_url = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'.$request->idsite);
 //

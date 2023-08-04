@@ -19,9 +19,95 @@
 
                     </div>
 
-                    <div class="card-body">
-                        <div>
-                            @include('administrator.components.footer_table')
+                    <div class="card-body" style="padding-top: 0">
+                        <div class="accordion" id="accordionExample">
+                            @foreach($items as $itemWebsite)
+                                <div class="accordion-item" id="item{{ $itemWebsite['id'] }}">
+                                    <h2 class="accordion-header" id="heading{{ $itemWebsite['id'] }}">
+                                        @if($itemWebsite['status']['name'] == 'Approved')
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapse{{ $itemWebsite['id'] }}"
+                                                    aria-expanded="true"
+                                                    aria-controls="collapse{{ $itemWebsite['id'] }}">
+                                                @else
+                                                    <button class="accordion-button" type="button"
+                                                            style="cursor:auto;">@endif
+                                                        <div class="info__site">
+                                                            <div class="name__site">
+                                                                <a style="cursor: pointer;" onclick="onEditWebsiteModal('{{$itemWebsite['id']}}','{{$itemWebsite['publisher']['id']}}','{{$itemWebsite['name']}}','{{$itemWebsite['url']}}','{{$itemWebsite['category']['id'] ?? null}}')"
+                                                                   title="Edit" data-bs-toggle="modal" data-bs-target="#editWebsiteModal">
+                                                                    {{$itemWebsite['url']}}
+                                                                </a>
+                                                            </div>
+                                                            <div
+                                                                class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
+                                                                {{ $itemWebsite['status']['name'] }}
+                                                            </div>
+                                                            <div class="category__site">
+                                                                <i class="fa-regular fa-folder"></i>
+                                                                <span>{{$itemWebsite['category']['iab'] ?? null}}: {{$itemWebsite['category']['name'] ?? null}}</span>
+                                                            </div>
+                                                            <div class="category__site">
+                                                                <a onclick="oneditStatusModal('{{$itemWebsite['id']}}')"
+                                                                   style="cursor: pointer;"
+                                                                   title="Add zone" data-bs-toggle="modal"
+                                                                   data-bs-target="#createZoneModal">
+                                                                    Add zone
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </button>
+
+                                    </h2>
+                                    <div id="collapse{{ $itemWebsite['id'] }}" data-id="{{ $itemWebsite['id'] }}"
+                                         class="accordion-collapse collapse"
+                                         aria-labelledby="heading{{ $itemWebsite['id'] }}"
+                                         data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <div class="list__advs">
+                                                @foreach($itemWebsite['zones'] as $itemZone)
+                                                    <div class="list__advs--item">
+                                                        <div class="title__advs">
+                                                            <div class="title__advs--title">
+                                                                <span>{{$itemZone['name']}}</span>
+                                                                <p>{{$itemZone['format']['name']}}</p>
+                                                            </div>
+                                                            <div
+                                                                class="title__advs--status {{ strtolower($itemZone['status']['name']) }}">
+                                                                {{ $itemZone['status']['name'] }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="width: 100%">
+                                                            <div class="col-sm-6">
+                                                                <div class="info__advs">
+                                                                    <div
+                                                                        style="{{ strtolower($itemZone['status']['name']) == "approved" ? "" : "cursor: no-drop;opacity: 0.5;"}}"
+                                                                        class="info__advs--get" {{ strtolower($itemZone['status']['name']) == "approved" ? 'onclick=getCode('. $itemZone["id"] . ')' : "cursor: no-drop;opacity: 0.5;"}}>
+                                                                        <i class="fa-regular fa-clipboard"></i>
+                                                                        GET CODE
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="info__advs">
+{{--                                                                    <a href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone['id'] ])}}"--}}
+{{--                                                                       title="Edit">--}}
+{{--                                                                        <i class="fa-solid fa-circle-info"></i> DETAIL--}}
+{{--                                                                    </a>--}}
+                                                                    <div title="Edit" class="info__advs--get" onclick="DetailZone({{$itemZone["id"]}})">
+                                                                        <i class="fa-solid fa-circle-info"></i> DETAIL
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
                         </div>
                     </div>
                 </div>
@@ -184,53 +270,39 @@
                 </div>
                 <div class="modal-body">
                     <div class="mt-3">
-                        <label class="bold">Type</label>
+                        <input hidden name="zoneId" id="zoneId">
+                        <label class="bold">Type <span class="text-danger">*</span></label>
                         <select
                             class="form-control choose_value select2_init @error("idzoneformat") is-invalid @enderror"
-                            required name="idzoneformat">
+                            required name="idzoneformat" id="idzoneformat">
                             <option value="6">Banner</option>
-                            <option value="18">VAST</option>
+                            {{--                            <option value="18">VAST</option>--}}
                         </select>
                     </div>
                     <div class="mt-3">
-                        <label class="bold">Size</label>
+                        <label class="bold">Dimensions matching method <span class="text-danger">*</span></label>
                         <select
                             class="form-control choose_value select2_init @error("iddimension") is-invalid @enderror"
-                            required name="iddimension">
-                            <option value="46">120x600 / Skyscrape</option>
-                            <option value="29">120x240 / Vertical Banner</option>
-                            <option value="32">125x125 / Square Button</option>
-                            <option value="11">160x600 / Wide Skyscraper</option>
-                            <option value="10">180x150 / Rectangle</option>
-                            <option value="36">200x200 / Small Square</option>
-                            <option value="19">234x60 / Half Banner</option>
-                            <option value="5">240x400 / Vertical Rectangle</option>
-                            <option value="37">250x250 / Square Pop-Up</option>
-                            <option value="40">300x100 / 3:1 Rectangle</option>
-                            <option value="9">300x250 / Medium Rectangle</option>
-                            <option value="47">300x600 / Half-page Ad</option>
-                            <option value="52">315x300</option>
-                            <option value="35">320x100 / Large Mobile Banner</option>
-                            <option value="34">320x50 / Mobile Banner</option>
-                            <option value="48">320x480 / Mobile Interstitial</option>
-                            <option value="38">336x280 / Large Rectangle</option>
-                            <option value="1">468x60 / Full Banner</option>
-                            <option value="49">480x320</option>
-                            <option value="42">580x400 / Netboard</option>
-                            <option value="50">600x400</option>
-                            <option value="41">720x300 / Pop-Under</option>
-                            <option value="6">728x90 / Leaderboard</option>
-                            <option value="33">88x31 / Micro Bar</option>
-                            <option value="51">930x180 / Top Banner</option>
-                            <option value="20">970x90 / Large Leaderboard</option>
-                            <option value="21">970x250 / Billboard</option>
-                            <option value="24">980x120 / Panorama</option>
+                            required name="idDimensionMethod" id="idDimensionMethod">
+                            @foreach($listDimensionsMethod as $key => $value)
+                                <option value="{{$key}}">{{$value}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mt-3">
+                        <label class="bold">Dimensions <span class="text-danger">*</span></label>
+                        <select
+                            class="form-control choose_value select2_init @error("iddimension") is-invalid @enderror"
+                            required name="idDimension" id="idDimension">
+                            @foreach($listDimensions as $key => $value)
+                                <option value="{{$key}}">{{$value['name']}}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="mt-3">
                         <label class="bold">Name</label>
-                        <input type="text" autocomplete="off" name="ad_unit_name"
+                        <input type="text" autocomplete="off" name="ad_unit_name" id="ad_unit_name"
                                class="form-control @error('ad_unit_name') is-invalid @enderror">
                     </div>
 
@@ -303,9 +375,17 @@
             </div>
         </div>
     </div>
+    <!-- Modal get code -->
+    <div class="modal" id="getCode" tabindex="-1" role="dialog" aria-labelledby="getCode"></div>
 
 @endsection
-
+<link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/daterangepicker.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/date-picker.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/sweetalert2.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/swiper-bundle.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/select2.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/style.css')}}">
 @section('js')
     <script>
 
@@ -317,6 +397,25 @@
             id_status = idstatus;
 
             $('select[name="status_id"]').val(id_status).change()
+        }
+
+        function DetailZone(id)
+        {
+            var $this = $('#createZoneModal');
+            callAjax(
+                "GET",
+                "{{ route('ajax.administrator.zone.detail') }}" + "?id="+id,{},
+                (response) => {
+                    let data = response.data;
+                    $('#ad_unit_name').val(data.name)
+                    $('#zoneId').val(id)
+                    $("#createZoneModalLabel").empty();
+                    $("#createZoneModalLabel").append("Chi tiết Zone")
+                    $this.modal('show');
+                }
+
+            )
+            $this.modal('show');
         }
 
         function onEditWebsiteModal(idsite, idpublisher, name, url, idcategory) {
@@ -343,8 +442,9 @@
                 cache: false,
                 data: {
                     name: $('input[name="ad_unit_name"]').val(),
-                    namedimision: $('select[name="iddimension"] option:selected').text(),
-                    iddimension: $('select[name="iddimension"]').val(),
+                    namedimision: $('select[name="idDimension"] option:selected').text(),
+                    iddimension: $('select[name="idDimension"]').val(),
+                    idDimensionMethod: $('select[name="idDimensionMethod"]').val(),
                     idzoneformat: $('select[name="idzoneformat"]').val(),
                     idsite: id_site,
                 },
@@ -355,13 +455,13 @@
                 success: function (response) {
                     $('#createZoneModal').modal('hide');
                     $('#no_zone').remove();
+                    window.location.reload();
                     Swal.fire(
                         {
                             icon: 'success',
                             title: 'Add success',
                         }
                     );
-                    $('#tr_container_'+id_site).find('td:nth-child(8) div').append(response.html);
                 },
                 error: function (err) {
                     hideLoading()
@@ -460,7 +560,7 @@
                     showLoading()
                 },
                 success: function (response) {
-                    if(response.status == true){
+                    if (response.status == true) {
                         $('#createWebsiteModal').modal('hide');
                         Swal.fire(
                             {
@@ -469,7 +569,7 @@
                             }
                         );
                         $('#container_tr').prepend(response.html);
-                    }else{
+                    } else {
                         Swal.fire(
                             {
                                 icon: 'error',
@@ -526,6 +626,22 @@
                     console.log(err)
                 },
             });
+        }
+
+        function getCode(id) {
+            var $this = $('#getCode');
+            $this.find('form').attr('data-id', id);
+            callAjax(
+                "GET",
+                "{{ route('user.ajax.getcode') }}" + "?id="+id,{},
+                (response) => {
+                    let html = '';
+                    $this.find('.getcode__info--name input').val(response.name);
+                    $this.html(response.html);
+                    $this.modal('show');
+                }
+
+            )
         }
 
     </script>
