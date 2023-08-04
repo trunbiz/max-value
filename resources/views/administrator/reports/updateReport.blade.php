@@ -52,6 +52,7 @@
                                     <th>P.Imp</th>
                                     <th>P.CPM</th>
                                     <th>P.Revenue</th>
+                                    <th>Revenue đối soát</th>
                                     <th>Profit</th>
                                     <th>Status</th>
                                     <th>Options</th>
@@ -137,6 +138,7 @@
                                             <td class="pImp">{{number_format($pImp)}}</td>
                                             <td class="pCpm">{{$pCpm}}</td>
                                             <td class="pRevenue">{{$pRevenue}}</td>
+                                            <td class="">{{$item->change_revenue}}</td>
                                             <td class="pProfit">{{$pProfit}}</td>
                                             <td>@if($item->status == 1)
                                                     <span class="badge bg-success">accept</span>
@@ -249,14 +251,15 @@
             var change_share = parseFloat($row.find('input[name="change_share"]').val()) || 0;
             var request = parseInt($row.find('td:nth-child(3)').text().replace(",", "")) || 0;
             var impressions = parseInt($row.find('td:nth-child(4)').text().replace(",", "")) || 0;
-            var cpm = parseFloat($row.find('td:nth-child(6)').text()) || 0;
-            var revenue = parseFloat($row.find('td:nth-child(7)').text()) || 0;
+            var cpm = parseFloat($row.find('td:nth-child(7)').text()) || 0;
+            var revenue = parseFloat($row.find('td:nth-child(8)').text()) || 0;
             var rate = (impressions / request) * 100;
 
             var pImp = parseInt((impressions * (change_count / 100)));
-            var pRevenue = (pImp / 1000 * cpm * (change_share / 100));
-            var pCpm = (pRevenue / pImp * 1000);
+            var pCpm = (cpm * (change_share / 100));
+            var pRevenue = (pImp / 1000 * pCpm);
             var profit = revenue - pRevenue;
+            console.log(123, pCpm, change_share, cpm)
 
             $row.find('.pImp').text(pImp.toLocaleString("en-US", {useGrouping: true}));
             $row.find('.pCpm').text(pCpm.toFixed(3).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: true}));
