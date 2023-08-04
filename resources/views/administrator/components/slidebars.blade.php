@@ -40,34 +40,41 @@
             @endcan
 
             @can('websites-list')
-
                 <li class="sidebar-list">
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
+                    <a
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/websites">
                         <i class="fa-solid fa-globe"></i>
-                        <span class="">Websites</span>
-                        <div class="according-menu"><i class="fas fa fa-angle-right"></i></div>
+                        <span>Website</span>
+                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
-                    <ul class="sidebar-submenu" style="display: none;">
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav" href="/administrator/websites">
-                                <i class="fa-solid fa-globe"></i>
-                                <span>Website</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                        @can('advertises-list')
-                            <li class="sidebar-list">
-                                <a
-                                    class="sidebar-link sidebar-title link-nav" href="/administrator/zones">
-                                    <i class="fa-solid fa-rectangle-ad"></i>
-                                    <span>Zones</span>
-                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
                 </li>
+{{--                <li class="sidebar-list">--}}
+{{--                    <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">--}}
+{{--                        <i class="fa-solid fa-globe"></i>--}}
+{{--                        <span class="">Websites</span>--}}
+{{--                        <div class="according-menu"><i class="fas fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                    <ul class="sidebar-submenu" style="display: none;">--}}
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav" href="/administrator/websites">--}}
+{{--                                <i class="fa-solid fa-globe"></i>--}}
+{{--                                <span>Website</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        @can('advertises-list')--}}
+{{--                            <li class="sidebar-list">--}}
+{{--                                <a--}}
+{{--                                    class="sidebar-link sidebar-title link-nav" href="/administrator/zones">--}}
+{{--                                    <i class="fa-solid fa-rectangle-ad"></i>--}}
+{{--                                    <span>Zones</span>--}}
+{{--                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        @endcan--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
             @endcan
             @can('reports-list')
                 <li class="sidebar-list">
