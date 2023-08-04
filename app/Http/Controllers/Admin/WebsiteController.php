@@ -73,7 +73,7 @@ class WebsiteController extends Controller
 
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4");
 
-        return view('administrator.' . $this->prefixView . '.index', compact('items', 'categories', 'users','publishers'));
+        return view('administrator.' . $this->prefixView . '.index2', compact('items', 'categories', 'users','publishers'));
     }
 
     public function get(Request $request, $id)
