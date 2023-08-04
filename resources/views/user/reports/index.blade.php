@@ -80,6 +80,8 @@
                             <thead>
                             <tr>
                                 <th scope="col">Date</th>
+                                <th scope="col">Website</th>
+                                <th scope="col">Zone</th>
                                 <th scope="col">IMPRESSIONS</th>
 {{--                                <th scope="col">REQUESTS</th>--}}
                                 <th scope="col">CPM</th>
@@ -93,6 +95,8 @@
                             @foreach($stats as $itemStat)
                                 <tr>
                                     <td scope="row" data-column="Date">{{$itemStat['date']}}</td>
+                                    <td>{{$itemStat['website']}}</td>
+                                    <td>{{$itemStat['zone']}}</td>
                                     <td class="column-primary" data-column="Impressions">
                                         {{ \App\Models\Formatter::formatNumber($itemStat['impressions']) }}
                                     </td>
@@ -106,6 +110,8 @@
                             @endforeach
                             <tr style="font-weight: bold">
                                 <td scope="row" data-column="Date">Total</td>
+                                <td></td>
+                                <td></td>
                                 <td class="column-primary" data-column="Impressions">{{number_format($sumNumber['impressions'])}}</td>
                                 <td class="text-start" data-column="Cpm">{{$sumNumber['cpm']}}</td>
                                 <td class="text-start text-center" data-column="AmountPub">${{$sumNumber['amountPub']}}</td>

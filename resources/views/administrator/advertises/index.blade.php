@@ -32,8 +32,6 @@
                                     <th>#</th>
                                     <th>Zone Name</th>
                                     <th>Website</th>
-                                    <th>Share(%)</th>
-                                    <th>Number Config</th>
                                     <th>Created time</th>
                                     {{--                                    <th>Manager</th>--}}
                                     <th>Status</th>
@@ -48,15 +46,15 @@
                                         <td>
                                             <a>{{ $item['site']['name'] }}</a>
                                         </td>
-                                        <td>
-                                            {{ $item['revenue_rate'] }}
-                                        </td>
-                                        <td id="container_adververs_{{$item['id']}}">
-                                            <a STYLE="cursor: pointer;" onclick="showConfig('{{$item['id']}}')"
-                                               title="Show">
-                                                <i class="fa-regular fa-eye"></i>
-                                            </a>
-                                        </td>
+{{--                                        <td>--}}
+{{--                                            {{ $item['revenue_rate'] }}--}}
+{{--                                        </td>--}}
+{{--                                        <td id="container_adververs_{{$item['id']}}">--}}
+{{--                                            <a STYLE="cursor: pointer;" onclick="showConfig('{{$item['id']}}')"--}}
+{{--                                               title="Show">--}}
+{{--                                                <i class="fa-regular fa-eye"></i>--}}
+{{--                                            </a>--}}
+{{--                                        </td>--}}
                                         <td>
                                             {{ $item['created_at'] }}
                                         </td>
@@ -119,7 +117,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mt-3">
-                            <label class="bold">Type</label>
+                            <label class="bold">Type <span class="text-danger">*</span></label>
                             <select
                                 class="form-control choose_value select2_init @error("idzoneformat") is-invalid @enderror"
                                 required name="idzoneformat">

@@ -162,8 +162,21 @@ class ReportController extends Controller
             }
             $item->revenue = round($item->revenue, 2);
         }
+
+        $listZone = [];
+        foreach ($websites as $website)
+        {
+            if (empty($website['zones']))
+                continue;
+
+            foreach ($website['zones'] as $zone)
+            {
+                $listZone[$zone['id']] = $zone['name'] ?? '';
+            }
+        }
         $data['title'] = "Report";
         $data['websites'] = $websites;
+        $data['listZone'] = $listZone;
         $data['zones'] = $zones;
         $data['users'] = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
         $data['adversier'] = Helper::callGetHTTP('https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3');
