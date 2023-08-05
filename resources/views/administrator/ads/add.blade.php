@@ -24,29 +24,127 @@
 
                     <div class="card">
                         <div class="card-body">
-                            @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Name'])
-
                             <div class="form-group mt-3">
                                 <h3>Campaign Infor</h3>
                             </div>
-
                             <div class="form-group mt-3">
-                                <label>Advertiser @include('user.components.lable_require')</label>
+                                <label>Name</label>
+                                <input type="text" autocomplete="off" name="campaign[name]" class="form-control"
+                                       value="" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Advertiser <span class="text-danger">*</span></label>
                                 <select
-                                    class="form-control choose_value select2_init @error("advertiser_api_id") is-invalid @enderror"
-                                    required name="advertiser_api_id">
+                                    class="form-control choose_value select2_init"
+                                    required name="campaign[advertiser_api_id]">
                                     @foreach($advertisers as $advertiser)
                                         <option value="{{$advertiser['id']}}">{{$advertiser['name']}}</option>
                                     @endforeach
                                 </select>
-                                @error('advertiser_api_id')
-                                <div class="alert alert-danger">{{$message}}</div>
-                                @enderror
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Status</label>
+                                <select
+                                    class="form-control choose_value select2_init"
+                                    required name="campaign[status]">
+                                    @foreach($status as $key => $value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mt-3 campaign-option-button">
+                                Options
+                                <span class="badge badge-primary"> <i
+                                        class="fa-solid fa-plus"></i></span>
+                            </div>
+                            <div class="campaign-option" style="display: none">
+                                <div class="form-group mt-3">
+                                    <label>Geo</label>
+                                    <select
+                                        class="form-control choose_value select2_init"
+                                        required name="campaign[geo]">
+                                        @foreach($status as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label>Device targeting</label>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <label for="Device" class="col-sm-2 col-form-label">Device</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[device_mode]">
+                                                @foreach($target_mode as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select
+                                                class="form-control choose_value select2_init"
+                                                multiple data-live-search="true"
+                                                required name="campaign[device][]">
+                                                @foreach($device as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <label for="Device" class="col-sm-2 col-form-label">Browser</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[browser_mode]">
+                                                @foreach($target_mode as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select
+                                                multiple data-live-search="true"
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[browser][]">
+                                                @foreach($brows as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <label for="Device" class="col-sm-2 col-form-label">Language</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[language_mode]">
+                                                @foreach($target_mode as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select
+                                                multiple data-live-search="true"
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[language][]">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            @include('administrator.components.require_input_number' , ['name' => 'share' , 'label' => 'Share(%)'])
-
-                            @include('administrator.components.button_save')
+                            <div class="form-group mt-3" style="text-align: center">
+                                <button type="submit" class="btn btn-primary mt-3">Save</button>
+                            </div>
                         </div>
 
                     </div>
@@ -57,7 +155,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group mt-3">
-                                <h3>Ad Infor</h3>
+                                <h3>Ads Infor</h3>
                             </div>
 
                             <div class="form-group mt-3">
@@ -122,11 +220,13 @@
 
                             <div class="form-group mt-3">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio1" value="1" checked>
+                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio1"
+                                           value="1" checked>
                                     <label class="form-check-label" for="inlineRadio1">Active</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio2" value="0">
+                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio2"
+                                           value="0">
                                     <label class="form-check-label" for="inlineRadio2">InActive</label>
                                 </div>
                             </div>
@@ -156,11 +256,15 @@
         </form>
 
     </div>
+    <script>
+        $(document).ready(function () {
+            $(".campaign-option-button").click(function () {
+                $(".campaign-option").toggle(1000);
+            });
+        });
+    </script>
 
 @endsection
-
 @section('js')
-
-
 @endsection
 
