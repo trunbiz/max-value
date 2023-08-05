@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Website;
 use App\Http\Controllers\Controller;
 use App\Models\ZoneModel;
+use App\Services\SiteService;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
 use App\Exports\ModelExport;
@@ -28,6 +29,7 @@ class WebsiteController extends Controller
         $this->initBaseModel($model);
         $this->title = "Websites";
         $this->shareBaseModel($model);
+        $this->siteService = new SiteService();
     }
 
     public function index(Request $request)
@@ -156,5 +158,22 @@ class WebsiteController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function listByPublisher(Request $request)
+    {
+        $request = $request->all();
+        $id = $request['id'] ?? null;
+        $dataSite = $this->siteService->listSiteByPublisher($id);
+        $dataResult = [];
+        foreach ($dataSite as $item)
+        {
+            $dataResult[$item['id']] = $item['name'];
+
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $dataResult,
+        ], 200);
     }
 }

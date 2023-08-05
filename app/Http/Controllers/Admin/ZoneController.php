@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\ZoneModel;
+use App\Services\ZoneService;
 use Illuminate\Http\Request;
 use App\Models\Helper;
 
@@ -13,7 +14,7 @@ class ZoneController extends Controller
 
     public function __construct()
     {
-
+        $this->zoneService = new ZoneService();
     }
 
     public function store(Request $request)
@@ -69,6 +70,23 @@ class ZoneController extends Controller
         return response()->json([
             'status' => true,
             'data' => $item
+        ]);
+    }
+
+    public function listBySite(Request $request)
+    {
+        $request = $request->all();
+        $id = $request['id'] ?? null;
+        $datas = $this->zoneService->listAllZone($id);
+
+        $dataResult = [];
+        foreach ($datas as $item)
+        {
+            $dataResult[$item['id']] = $item['name'];
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $dataResult
         ]);
     }
 }

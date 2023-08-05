@@ -19,4 +19,9 @@ class SiteService
     {
         return Helper::callGetHTTP("https://api.adsrv.net/v2/site/". $id);
     }
+
+    public function listSiteByPublisher($id)
+    {
+        return Helper::callGetHTTP("https://api.adsrv.net/v2/site?" . "filter[idpublisher]=" . $id . "&page=1&per-page=1000");
+    }
 }

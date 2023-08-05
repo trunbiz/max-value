@@ -25,21 +25,29 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group mt-3">
-                                <h3>Campaign Infor</h3>
+                                <h3>Campaign Info</h3>
                             </div>
                             <div class="form-group mt-3">
                                 <label>Name</label>
                                 <input type="text" autocomplete="off" name="campaign[name]" class="form-control"
-                                       value="" required>
+                                       value="">
                             </div>
                             <div class="form-group mt-3">
                                 <label>Advertiser <span class="text-danger">*</span></label>
                                 <select
-                                    class="form-control choose_value select2_init"
+                                    class="form-control choose_value select2_init advertiser_api_id"
                                     required name="campaign[advertiser_api_id]">
+                                    <option value="null"> -- Chọn --</option>
                                     @foreach($advertisers as $advertiser)
                                         <option value="{{$advertiser['id']}}">{{$advertiser['name']}}</option>
                                     @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Website <span class="text-danger">*</span></label>
+                                <select
+                                    class="form-control choose_value select2_init list-site"
+                                    required name="campaign[site_id]">
                                 </select>
                             </div>
                             <div class="form-group mt-3">
@@ -87,7 +95,7 @@
                                             <select
                                                 class="form-control choose_value select2_init"
                                                 multiple data-live-search="true"
-                                                required name="campaign[device][]">
+                                                name="campaign[device][]">
                                                 @foreach($device as $key => $value)
                                                     <option value="{{$key}}">{{$value}}</option>
                                                 @endforeach
@@ -143,7 +151,7 @@
                             </div>
 
                             <div class="form-group mt-3" style="text-align: center">
-                                <button type="submit" class="btn btn-primary mt-3">Save</button>
+                                <button class="btn btn-primary mt-3">Save</button>
                             </div>
                         </div>
 
@@ -155,99 +163,51 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="form-group mt-3">
-                                <h3>Ads Infor</h3>
+                                <h3>Ads Info</h3>
                             </div>
 
                             <div class="form-group mt-3">
-                                @include('administrator.components.input_text' , ['name' => 'ad_name' , 'label' => 'Ad Name'])
+                                <div class="form-group mt-3">
+                                    <label>Ads Name</label>
+                                    <input type="text" autocomplete="off" name="ads['name']" class="form-control"
+                                           value="">
+                                </div>
                             </div>
 
                             <div class="form-group mt-3">
                                 <label>Dimensions @include('user.components.lable_require')</label>
                                 <select
                                     class="form-control choose_value select2_init @error("dimension_id") is-invalid @enderror"
-                                    required name="dimension_id">
-                                    <option value="46">120x600 / Skyscrape</option>
-                                    <option value="29">120x240 / Vertical Banner</option>
-                                    <option value="32">125x125 / Square Button</option>
-                                    <option value="11">160x600 / Wide Skyscraper</option>
-                                    <option value="10">180x150 / Rectangle</option>
-                                    <option value="36">200x200 / Small Square</option>
-                                    <option value="19">234x60 / Half Banner</option>
-                                    <option value="5">240x400 / Vertical Rectangle</option>
-                                    <option value="37">250x250 / Square Pop-Up</option>
-                                    <option value="40">300x100 / 3:1 Rectangle</option>
-                                    <option value="9">300x250 / Medium Rectangle</option>
-                                    <option value="47">300x600 / Half-page Ad</option>
-                                    <option value="52">315x300</option>
-                                    <option value="35">320x100 / Large Mobile Banner</option>
-                                    <option value="34">320x50 / Mobile Banner</option>
-                                    <option value="48">320x480 / Mobile Interstitial</option>
-                                    <option value="38">336x280 / Large Rectangle</option>
-                                    <option value="1">468x60 / Full Banner</option>
-                                    <option value="49">480x320</option>
-                                    <option value="42">580x400 / Netboard</option>
-                                    <option value="50">600x400</option>
-                                    <option value="41">720x300 / Pop-Under</option>
-                                    <option value="6">728x90 / Leaderboard</option>
-                                    <option value="33">88x31 / Micro Bar</option>
-                                    <option value="51">930x180 / Top Banner</option>
-                                    <option value="20">970x90 / Large Leaderboard</option>
-                                    <option value="21">970x250 / Billboard</option>
-                                    <option value="24">980x120 / Panorama</option>
-                                </select>
-                                @error('dimension_id')
-                                <div class="alert alert-danger">{{$message}}</div>
-                                @enderror
-                            </div>
-
-
-                            <div class="form-group mt-3">
-                                <label>Bids, JSON-array @include('user.components.lable_require')</label>
-                                <textarea name="bids"
-                                          class="form-control @error('bids') is-invalid @enderror"
-                                          rows="5" required></textarea>
-                                @error('bids')
-                                <div class="alert alert-danger">{{$message}}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mt-3">
-                                <h3>Zone Infor</h3>
-                            </div>
-
-                            @include('user.components.input_text' , ['name' => 'zone_name' , 'label' => 'Name'])
-
-                            <div class="form-group mt-3">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio1"
-                                           value="1" checked>
-                                    <label class="form-check-label" for="inlineRadio1">Active</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="active" id="inlineRadio2"
-                                           value="0">
-                                    <label class="form-check-label" for="inlineRadio2">InActive</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group mt-3">
-                                <label>Site @include('user.components.lable_require')</label>
-                                <select class="form-control select2_init @error("idsite") is-invalid @enderror" required
-                                        name="idsite">
-                                    @foreach($sites as $site)
-                                        <option value="{{$site['id']}}">{{$site['name']}} / {{$site['url']}}</option>
+                                    required name="ads[iddimension]">
+                                    @foreach($dimensions as $key => $value)
+                                        <option value="{{$key}}">{{$value['name']}}</option>
                                     @endforeach
                                 </select>
-                                @error('idsite')
-                                <div class="alert alert-danger">{{$message}}</div>
-                                @enderror
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Injection type @include('user.components.lable_require')</label>
+                                <select
+                                    class="form-control choose_value select2_init"
+                                    required name="ads[idinjectiontype]">
+                                    @foreach($injectionType as $key => $value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
-                            @include('user.components.select_category' , ['label' => 'Format', 'name' => 'idzoneformat' ,'html_category' => \App\Models\Advertise::getTypeAd(isset($item) ? optional($item)->category_id : ''), 'isDefaultFirst' => true])
-
-                            @include('user.components.select_category' , ['label' => 'Dimension', 'name' => 'iddimension' ,'html_category' => \App\Models\Advertise::getDimension(isset($item) ? optional($item)->category_id : ''), 'isDefaultFirst' => true])
-
+                            <div class="form-group mt-3">
+                                <label>Zone @include('user.components.lable_require')</label>
+                                <select
+                                    class="form-control choose_value select2_init list_zone"
+                                    required name="zone[id]">
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Html/Javascript code @include('user.components.lable_require')</label>
+                                <textarea name="ads[content_html]"
+                                          class="form-control"
+                                          rows="5" required></textarea>
+                            </div>
                         </div>
 
                     </div>
@@ -260,6 +220,39 @@
         $(document).ready(function () {
             $(".campaign-option-button").click(function () {
                 $(".campaign-option").toggle(1000);
+            });
+            $(".advertiser_api_id").change(function(){
+                var id = $('select[name="campaign[advertiser_api_id]"]').val();
+                callAjax(
+                    "GET",
+                    "{{ route('ajax.administrator.website.listByPublisher') }}" + "?id="+id,{},
+                    (response) => {
+                        $(".list-site").empty();
+                        let html = ' <option value="null"> -- Chọn --</option>';
+                        $.each(response.data,function(key, value)
+                        {
+                            $(".list-site").append(html + '<option value=' + key + '>' + value + '</option>');
+                        });
+                    }
+
+                )
+            });
+
+            // lấy danh sách zone theo site
+            $(".list-site").change(function(){
+                var id = $('select[name="campaign[site_id]"]').val();
+                callAjax(
+                    "GET",
+                    "{{ route('ajax.administrator.zone.listBySite') }}" + "?id="+id,{},
+                    (response) => {
+                        $(".list_zone").empty();
+                        $.each(response.data,function(key, value)
+                        {
+                            $(".list_zone").append('<option value=' + key + '>' + value + '</option>');
+                        });
+                    }
+
+                )
             });
         });
     </script>

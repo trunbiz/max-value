@@ -118,6 +118,11 @@ Route::prefix('ajax/administrator')->group(function () {
                 return response()->json($item);
 
             })->name('ajax.administrator.website.update');
+
+            Route::get('/list-by-publisher', [
+                'as' => 'ajax.administrator.website.listByPublisher',
+                'uses' => 'App\Http\Controllers\Admin\WebsiteController@listByPublisher',
+            ]);
         });
 
         Route::prefix('zone')->group(function () {
@@ -146,6 +151,11 @@ Route::prefix('ajax/administrator')->group(function () {
             Route::get('/detail', [
                 'as' => 'ajax.administrator.zone.detail',
                 'uses' => 'App\Http\Controllers\Admin\ZoneController@detailZone',
+            ]);
+
+            Route::get('/list-by-site', [
+                'as' => 'ajax.administrator.zone.listBySite',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@listBySite',
             ]);
 //            Route::post('/store', function (Request $request) {
 //                $get_url = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'.$request->idsite);

@@ -240,4 +240,11 @@ class Common
         '15' => 'Yandex Browser',
         '0' => 'Other'
     ];
+
+    const INJECTION_TYPE = [
+        32 => 'IFrame container',
+        35 => 'IFrame container (strict)',
+        33 => 'Direct injection',
+        36 => 'Direct injection (in-place)',
+    ];
 }

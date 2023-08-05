@@ -81,7 +81,9 @@ class AdsController extends Controller
             'status' => $statusOption,
             'target_mode' => Common::TARGET_MODE,
             'device' => Common::DEVICE,
-            'brows' => Common::BROWSER
+            'brows' => Common::BROWSER,
+            'dimensions' => Common::DIMENSIONS,
+            'injectionType' => Common::INJECTION_TYPE
         ];
 
 //        dd($data);
@@ -90,6 +92,7 @@ class AdsController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         $item = $this->model->storeByQuery($request);
 
         if (is_array($item) && isset($item['errors'])) {
