@@ -249,8 +249,8 @@
             var $row = $(this).closest('tr'); // Tìm hàng gần nhất chứa các phần tử input
             var change_count = parseFloat($row.find('input[name="change_count"]').val()) || 0;
             var change_share = parseFloat($row.find('input[name="change_share"]').val()) || 0;
-            var request = parseInt($row.find('td:nth-child(3)').text().replace(",", "")) || 0;
-            var impressions = parseInt($row.find('td:nth-child(4)').text().replace(",", "")) || 0;
+            var request = parseInt($row.find('td:nth-child(4)').text().replace(",", "")) || 0;
+            var impressions = parseInt($row.find('td:nth-child(5)').text().replace(",", "")) || 0;
             var cpm = parseFloat($row.find('td:nth-child(7)').text()) || 0;
             var revenue = parseFloat($row.find('td:nth-child(8)').text()) || 0;
             var rate = (impressions / request) * 100;
