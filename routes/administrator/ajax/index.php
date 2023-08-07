@@ -126,6 +126,10 @@ Route::prefix('ajax/administrator')->group(function () {
         });
 
         Route::prefix('zone')->group(function () {
+            Route::delete('/', [
+                'as' => 'ajax.administrator.zone.delete',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@delete',
+            ]);
 
             Route::get('/get', function (Request $request) {
 
@@ -201,9 +205,9 @@ Route::prefix('ajax/administrator')->group(function () {
                 $item = Helper::callPutHTTP("https://api.adsrv.net/v2/zone/" . $request->zone_id, $params);
 
                 $site_id  = Helper::callGetHTTP('https://api.adsrv.net/v2/zone/'. $request->zone_id)['site']['id'];
-                $send_to = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'. $site_id)['publisher']['email'];
-
-                Mail::to($send_to)->send(new \App\Mail\ZoneMail($item));
+//                $send_to = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'. $site_id)['publisher']['email'];
+//
+//                Mail::to($send_to)->send(new \App\Mail\ZoneMail($item));
 
                 return response()->json([
                     'html' => \view('administrator.advertises.add_table')->with(compact('item'))->render(),

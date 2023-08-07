@@ -83,7 +83,6 @@ class WebsiteController extends Controller
             'listDimensionsMethod' => $listDimensionsMethod,
             'publishers' => $publishers,
         ];
-
 //        dd($dataResult);
 
         return view('administrator.' . $this->prefixView . '.index2', $dataResult);

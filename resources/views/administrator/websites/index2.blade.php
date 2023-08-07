@@ -73,9 +73,13 @@
                                                                 <p>{{$itemZone['format']['name']}}</p>
                                                             </div>
                                                             <div
+                                                                onclick="onEditZone({{$itemZone['id']}}, {{$itemZone['status']['id']}})"
+                                                                style="cursor: pointer;display: flex;" data-bs-toggle="modal"
+                                                                data-bs-target="#editZone"
                                                                 class="title__advs--status {{ strtolower($itemZone['status']['name']) }}">
-                                                                {{ $itemZone['status']['name'] }}
+                                                                {{ $itemZone['status']['name'] }} <i class="fa-solid fa-rotate"></i>
                                                             </div>
+                                                            <span class="badge badge-danger" onclick="removeZone({{$itemZone['id']}})"><i class="fa-solid fa-xmark"></i></span>
                                                         </div>
                                                         <div class="row" style="width: 100%">
                                                             <div class="col-sm-6">
@@ -95,7 +99,7 @@
 {{--                                                                        <i class="fa-solid fa-circle-info"></i> DETAIL--}}
 {{--                                                                    </a>--}}
                                                                     <div title="Edit" class="info__advs--get" onclick="DetailZone({{$itemZone["id"]}})">
-                                                                        <i class="fa-solid fa-circle-info"></i> DETAIL
+                                                                        <i class="fa-solid fa-circle-info"></i> CONFIG
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -378,6 +382,33 @@
     <!-- Modal get code -->
     <div class="modal" id="getCode" tabindex="-1" role="dialog" aria-labelledby="getCode"></div>
 
+{{--    update status zone--}}
+    <div class="modal fade" id="editZone" aria-labelledby="editZoneLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editZoneLabel">Change status zone</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input hidden name="zone_id" value="">
+                    <div class="mt-3">
+                        <label class="bold">Status @include('administrator.components.lable_require')</label>
+                        <select name="zone_status_id" class="form-control select2_init" required>
+                            <option value="7010">Pending</option>
+                            <option value="7000">Approved</option>
+                            <option value="7020">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" onclick="onSubmitChangeStatusZone()" class="btn btn-success">Update now</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
 <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/bootstrap.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/daterangepicker.css')}}">
@@ -397,6 +428,90 @@
             id_status = idstatus;
 
             $('select[name="status_id"]').val(id_status).change()
+        }
+
+        function onEditZone(zoneId, statusId) {
+            $('input[name="zone_id"]').val(zoneId).change()
+            $('select[name="zone_status_id"]').val(statusId).change()
+        }
+
+        function removeZone(zoneId)
+        {
+            var checkDelete = confirm("Want to delete?");
+            if (!checkDelete) {
+                return;
+            }
+            $.ajax({
+                type: "DELETE",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                cache: false,
+                data: {
+                    id: zoneId,
+                },
+                url: "{{route('ajax.administrator.zone.delete')}}",
+                beforeSend: function () {
+                    showLoading()
+                },
+                success: function (response) {
+                    window.location.reload();
+                    Swal.fire(
+                        {
+                            icon: 'success',
+                            title: 'remove success',
+                        }
+                    );
+                },
+                error: function (err) {
+                    hideLoading()
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                    console.log(err)
+                },
+            });
+        }
+
+        function onSubmitChangeStatusZone()
+        {
+            $.ajax({
+                type: "PUT",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                cache: false,
+                data: {
+                    zone_id: $('input[name="zone_id"]').val(),
+                    zone_status_id: $('select[name="zone_status_id"]').val(),
+                },
+                url: "{{route('ajax.administrator.zone.update')}}",
+                beforeSend: function () {
+                    showLoading()
+                },
+                success: function (response) {
+                    window.location.reload();
+                    Swal.fire(
+                        {
+                            icon: 'success',
+                            title: 'update success',
+                        }
+                    );
+                },
+                error: function (err) {
+                    hideLoading()
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                    console.log(err)
+                },
+            });
         }
 
         function DetailZone(id)

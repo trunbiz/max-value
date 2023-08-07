@@ -89,4 +89,16 @@ class ZoneController extends Controller
             'data' => $dataResult
         ]);
     }
+
+    public function delete(Request $request)
+    {
+        $request = $request->all();
+        $id = $request['id'] ?? null;
+        $this->zoneService->deleteZoneAdServer($id);
+        return response()->json([
+            'status' => true,
+            'message' => 'remove zone success',
+            'data' => []
+        ]);
+    }
 }
