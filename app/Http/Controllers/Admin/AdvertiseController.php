@@ -6,12 +6,14 @@ use App\Models\AdsAdvertiser;
 use App\Models\Advertise;
 use App\Http\Controllers\Controller;
 use App\Models\CampaignAd;
+use App\Models\CampaignModel;
 use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\National;
 use App\Models\TypeAdv;
 use App\Models\User;
 use App\Models\Website;
+use App\Services\Common;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -107,7 +109,8 @@ class AdvertiseController extends Controller
         $countries = National::orderby('name', 'ASC')->get();
         $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
 
-        $site = Helper::callGetHTTP("https://api.adsrv.net/v2/site/" . $item['site']['id']);
+//        dd($id, $item);
+        $sites = Helper::callGetHTTP("https://api.adsrv.net/v2/site/" . $item['site']['id']);
         $campaigns = [];
 
         foreach ($item['assigned_ads'] as $itemAd){
@@ -176,7 +179,23 @@ class AdvertiseController extends Controller
 
         $advertisers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3");
 
-        return view('administrator.' . $this->prefixView . '.detail', compact('item', 'site', 'advertisers','campaigns', 'countries'));
+        $dataResult = [
+            'item' => $item,
+            'campaigns' => $campaigns,
+            'countries' => $countries,
+            'advertisers' => $advertisers,
+            'site' => $sites,
+            'status' => CampaignModel::STATUS,
+            'target_mode' => Common::TARGET_MODE,
+            'device' => Common::DEVICE,
+            'brows' => Common::BROWSER,
+            'dimensions' => Common::DIMENSIONS,
+            'injectionType' => Common::INJECTION_TYPE
+        ];
+
+//        dd($dataResult);
+
+        return view('administrator.' . $this->prefixView . '.detail', $dataResult);
     }
 
     public function storeDetailConfig(Request $request, $id)

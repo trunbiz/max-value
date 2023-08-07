@@ -38,4 +38,9 @@ class ZoneService
         return Helper::callDeleteHTTP("https://api.adsrv.net/v2/zone/" . $id);
     }
 
+    public function getInfoZoneAdServer($id)
+    {
+        return Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
+    }
+
 }

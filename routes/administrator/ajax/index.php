@@ -204,7 +204,7 @@ Route::prefix('ajax/administrator')->group(function () {
 
                 $item = Helper::callPutHTTP("https://api.adsrv.net/v2/zone/" . $request->zone_id, $params);
 
-                $site_id  = Helper::callGetHTTP('https://api.adsrv.net/v2/zone/'. $request->zone_id)['site']['id'];
+//                $site_id  = Helper::callGetHTTP('https://api.adsrv.net/v2/zone/'. $request->zone_id)['site']['id'];
 //                $send_to = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'. $site_id)['publisher']['email'];
 //
 //                Mail::to($send_to)->send(new \App\Mail\ZoneMail($item));
@@ -231,6 +231,11 @@ Route::prefix('ajax/administrator')->group(function () {
                 return response()->json($item);
 
             })->name('ajax.administrator.campaign.delete');
+
+            Route::post('/store', [
+                'as' => 'ajax.administrator.campaign.store',
+                'uses' => 'App\Http\Controllers\Admin\CampaignController@storeAjaxCampaign',
+            ]);
 
         });
 

@@ -421,6 +421,7 @@ class Helper extends Model
 
             return json_decode($response->getBody(), true);
         } catch (\Exception $exception) {
+            dd($exception);
             if ($exception->getCode() == 429) return self::callGetHTTP($url, $params);
             Log::error($exception->getMessage());
             return null;
