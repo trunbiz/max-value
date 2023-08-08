@@ -54,6 +54,7 @@ class ZoneController extends Controller
         ZoneModel::create([
            'ad_site_id' =>$request->idsite,
            'ad_zone_id' => $item['id'],
+           'name' => $name,
            'id_zone_format' => $request->idzoneformat,
            'id_dimension_method' => $request->idDimensionMethod,
            'dimensions' => json_encode([

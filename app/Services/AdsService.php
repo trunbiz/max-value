@@ -16,8 +16,8 @@ class AdsService
             'idcampaign' => $idCampaign,
             'is_active' => 1,
             'details' => [
-                'width' => !empty($params['width'])?:'auto',
-                'height' => !empty($params['width'])?:'auto',
+                'width' => !empty($params['width']) ? $params['width'] : 'auto',
+                'height' => !empty($params['height']) ? $params['height'] : 'auto',
                 'iddimension' => $params['iddimension'],
                 'idinjectiontype' => $params['idinjectiontype'],
                 'is_responsive' => $params['is_responsive'] ?? 0,

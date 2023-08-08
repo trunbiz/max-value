@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Helper;
+use App\Models\ZoneModel;
 
 class CampaignService
 {
@@ -13,18 +14,28 @@ class CampaignService
 
     }
 
-    public function storeCampaignByAjax($params)
+    public function storeCampaignByAjax($params, &$message = '')
     {
         $zoneInfo = $this->zoneService->getInfoZoneAdServer($params['zone']['id']);
         if (empty($zoneInfo))
+        {
+            $message = 'Zone 404';
             return false;
+        }
 
         if (empty($params['campaign']['name']))
             $params['campaign']['name'] = $zoneInfo['site']['name'] . ' - ' . $zoneInfo['dimension']['height'] . 'x' . $zoneInfo['dimension']['width'] . ' - ' . time();
 
-        $params['ads']['iddimension'] = $zoneInfo['dimension']['id'];
-        $params['ads']['width'] = $zoneInfo['dimension']['width'];
-        $params['ads']['height'] = $zoneInfo['dimension']['height'];
+        $zoneDBInfo = ZoneModel::where('ad_zone_id', $params['zone']['id'])->first();
+        if (empty($zoneDBInfo))
+        {
+            $message = 'Empty data zone DB';
+            return false;
+        }
+        $dimensionZoneDB = json_decode($zoneDBInfo->dimensions, true);
+        $params['ads']['iddimension'] = $dimensionZoneDB['iddimension'] ?? 666;
+        $params['ads']['width'] = (string)$dimensionZoneDB['width'] ?? 'auto';
+        $params['ads']['height'] = (string)$dimensionZoneDB['height'] ?? 'auto';
 
         // Tạo campaign
         $campaignInfo = $this->storeCampaignAdServer($params['campaign']);
@@ -38,7 +49,7 @@ class CampaignService
                 (integer)$params['zone']['id']
             ]
         ];
-        $this->adsService->assignZoneAdServer($adsServiceInfo['id'], $paramsZone);
+        $assignZoneAdInfo = $this->adsService->assignZoneAdServer($adsServiceInfo['id'], $paramsZone);
         return true;
     }
 

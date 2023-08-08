@@ -17,6 +17,7 @@ class CreateZonesTable extends Migration
             $table->id();
             $table->integer('ad_site_id')->nullable();
             $table->integer('ad_zone_id')->nullable();
+            $table->string('name')->nullable();
             $table->integer('id_zone_format')->nullable();
             $table->integer('id_dimension_method')->nullable();
             $table->json('dimensions')->nullable();
@@ -26,6 +27,7 @@ class CreateZonesTable extends Migration
             $table->timestamps();
             $table->index('ad_site_id');
             $table->index('ad_zone_id');
+            $table->index('name');
         });
     }
 

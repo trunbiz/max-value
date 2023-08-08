@@ -12,6 +12,7 @@ class ZoneModel extends Model
     protected $fillable = [
         'ad_site_id',
         'ad_zone_id',
+        'name',
         'id_zone_format',
         'id_dimension_method',
         'dimensions',
