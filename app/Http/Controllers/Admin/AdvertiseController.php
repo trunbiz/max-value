@@ -194,6 +194,7 @@ class AdvertiseController extends Controller
             'listExtLabelPos' => Common::EXT_LABEL_POST,
             'listExtMenuPos' => Common::EXT_MENU_POST,
             'listExtBrandPos' => Common::EXT_BRAND_POST,
+            'listGeos' => Common::LIST_GEOS,
         ];
 
 //        dd($dataResult);

@@ -92,7 +92,6 @@ class AdsController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
         $item = $this->model->storeByQuery($request);
 
         if (is_array($item) && isset($item['errors'])) {
@@ -105,12 +104,9 @@ class AdsController extends Controller
 
     public function edit($id)
     {
-
         $item = $this->model->where('ads_api_id', $id)->orWhere('id', $id)->first();
         $zone = $item->zoneApi();
         $ads = $item->adApi();
-
-
         $advertisers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=3") ?? [];
 
         return view('administrator.' . $this->prefixView . '.edit', compact('item', 'advertisers', 'zone', 'ads'));

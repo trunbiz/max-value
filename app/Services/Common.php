@@ -274,4 +274,15 @@ class Common
     const ID_AD_FORMAT = [
       'HTML_JS' => 3
     ];
+
+    const LIST_GEOS = [
+        2077456 => 'Australia',
+        6251999 => 'Canada',
+        3017382 => 'France',
+        2921044 => 'Germany',
+        3175395 => 'Italy',
+        2635167 => 'United Kingdom',
+        6252001 => 'United States',
+        1562822 => 'Vietnam'
+    ];
 }

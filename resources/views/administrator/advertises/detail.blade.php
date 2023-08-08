@@ -348,13 +348,35 @@
                                 </div>
                                 <div class="form-group mt-3">
                                     <label>Geo</label>
-                                    <select
-                                        class="form-control choose_value select2_init"
-                                        required name="campaign[geo]">
-                                        @foreach($status as $key => $value)
-                                            <option value="{{$key}}">{{$value}}</option>
-                                        @endforeach
-                                    </select>
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active geo" role="tab" data-toggle="tab">Include</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link geo_bl" role="tab" data-toggle="tab">Exclude</a>
+                                        </li>
+                                    </ul>
+                                    <br>
+                                    <div class="col-sm-12 geoShow" style="display: block">
+                                        <select
+                                            class="form-control choose_value select2_init"
+                                            multiple data-live-search="true"
+                                            name="campaign[geo][]">
+                                            @foreach($listGeos as $key => $value)
+                                                <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 geo_blShow" style="display: none">
+                                        <select
+                                            class="form-control choose_value select2_init"
+                                            multiple data-live-search="true"
+                                            name="campaign[geo_bl][]">
+                                            @foreach($listGeos as $key => $value)
+                                                <option value="{{$key}}">{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group mt-3">
                                     <label>Device targeting</label>
@@ -431,6 +453,20 @@
         $(document).ready(function () {
             $(".campaign-option-button").click(function () {
                 $(".campaign-option").toggle(1000);
+            });
+
+            $(".geo").click(function () {
+                $(".geoShow").show(500);
+                $(".geo_blShow").hide(500);
+                $(".geo_bl").removeClass("active");
+                $(".geo").addClass("active");
+            });
+
+            $(".geo_bl").click(function () {
+                $(".geoShow").hide(500);
+                $(".geo_blShow").show(500);
+                $(".geo_bl").addClass("active");
+                $(".geo").removeClass("active");
             });
 
             $(".itemCampaignInfo").click(function () {
