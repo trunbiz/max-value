@@ -18,7 +18,14 @@ class CampaignController extends Controller
     public function storeAjaxCampaign(Request $request)
     {
         $request = $request->all();
-        $this->campaignService->storeCampaignByAjax($request);
+        $result = $this->campaignService->storeCampaignByAjax($request);
+        if (empty($result))
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Tạo tiến trình thất bại',
+            ], 500);
+        }
         return response()->json([
             'status' => true,
             'message' => 'Tạo campaign thành công',

@@ -32,7 +32,6 @@ class AdsService
 
     public function assignZoneAdServer($adsId, $params)
     {
-        dd($adsId, $params);
         return  Helper::callPostHTTP("https://api.adsrv.net/v2/ad/assign?id=".$adsId, $params);
     }
 }

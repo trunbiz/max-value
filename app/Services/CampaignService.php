@@ -16,8 +16,6 @@ class CampaignService
     public function storeCampaignByAjax($params)
     {
         $zoneInfo = $this->zoneService->getInfoZoneAdServer($params['zone']['id']);
-
-        dd($zoneInfo);
         if (empty($zoneInfo))
             return false;
 
@@ -33,7 +31,6 @@ class CampaignService
 
         // Tạo ads
         $adsServiceInfo = $this->adsService->storeAdsAdService($campaignInfo['id'], Common::ID_AD_FORMAT['HTML_JS'], $params['ads']);
-//        $adsServiceInfo = $this->adsService->storeAdsAdService(97812, Common::ID_AD_FORMAT['HTML_JS'], $params['ads']);
 
         // assign Zone
         $paramsZone = [
@@ -41,8 +38,8 @@ class CampaignService
                 (integer)$params['zone']['id']
             ]
         ];
-        $assignZoneInfo = $this->adsService->assignZoneAdServer($adsServiceInfo['id'], $paramsZone);
-        dd($assignZoneInfo);
+        $this->adsService->assignZoneAdServer($adsServiceInfo['id'], $paramsZone);
+        return true;
     }
 
     public function storeCampaignAdServer($params)

@@ -444,7 +444,6 @@
                     var value = $(this).val();
                     values[name] = value;
                 });
-                console.log(values, 222)
                 $.ajax({
                     type: "POST",
                     headers: {
@@ -457,7 +456,8 @@
                         showLoading()
                     },
                     success: function (response) {
-                        window.location.reload()
+                        // Chuyển hướng người dùng đến route cụ thể
+                        window.location.href = "{{route('administrator.ads.index')}}";
                     },
                     error: function (err) {
                         hideLoading()
