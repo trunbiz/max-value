@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Website;
 use App\Http\Controllers\Controller;
 use App\Models\ZoneModel;
+use App\Services\Common;
 use App\Services\SiteService;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -66,7 +67,7 @@ class WebsiteController extends Controller
         }
 
         // List danh sách Dimensions
-        $listDimensions = ZoneModel::DIMENSIONS;
+        $listDimensions = Common::DIMENSIONS;
 
         // list Dimensions Method
         $listDimensionsMethod = ZoneModel::DIMENSIONS_METHOD;

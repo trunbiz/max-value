@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Models\ZoneModel;
+use App\Services\Common;
 use App\Services\ZoneService;
 use Illuminate\Http\Request;
 use App\Models\Helper;
@@ -34,22 +35,36 @@ class ZoneController extends Controller
         } else {
             $name = $name;
         }
-        $dimensionInfo = ZoneModel::DIMENSIONS[$params['iddimension']] ?? [];
+        $dimensionInfo = Common::DIMENSIONS[$params['iddimension']] ?? [];
 
 
         $params = [
             'name' => $name,
             'idzoneformat' => $request->idzoneformat,
             'iddimension' => 666,
-            'revenue_rate' => optional(Setting::first())->percent ?? 75,
+            'match_algo' => $request->idDimensionMethod,
+            'revenue_rate' => optional(Setting::first())->percent ?? 100,
             'idrevenuemodel' => 2,
-            'match_algo' => 2,
             'height' => (string)$dimensionInfo['size'][0],
             'width' => (string)$dimensionInfo['size'][1],
         ];
-//        dd($params);
 
         $item = Helper::callPostHTTP("https://api.adsrv.net/v2/zone?idsite=" . $request->idsite, $params);
+
+        ZoneModel::create([
+           'ad_site_id' =>$request->idsite,
+           'ad_zone_id' => $item['id'],
+           'id_zone_format' => $request->idzoneformat,
+           'id_dimension_method' => $request->idDimensionMethod,
+           'dimensions' => json_encode([
+               'iddimension' => 666,
+               'width' => (string)$dimensionInfo['size'][1],
+               'height' => (string)$dimensionInfo['size'][0],
+           ]),
+           'status' => $item['status']['id'],
+           'extra_params' => json_encode($params),
+           'extra_response' => json_encode($item),
+        ]);
 
         if (Helper::isErrorAPIAdserver($item)) {
             return response()->json($item, 400);
