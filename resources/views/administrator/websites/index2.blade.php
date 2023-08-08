@@ -94,13 +94,13 @@
                                                             </div>
                                                             <div class="col-sm-6">
                                                                 <div class="info__advs">
-{{--                                                                    <a href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone['id'] ])}}"--}}
-{{--                                                                       title="Edit">--}}
-{{--                                                                        <i class="fa-solid fa-circle-info"></i> DETAIL--}}
-{{--                                                                    </a>--}}
-                                                                    <div title="Edit" class="info__advs--get" onclick="DetailZone({{$itemZone["id"]}})">
+                                                                    <a href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone['id'] ])}}"
+                                                                       title="Edit">
                                                                         <i class="fa-solid fa-circle-info"></i> CONFIG
-                                                                    </div>
+                                                                    </a>
+{{--                                                                    <div title="Edit" class="info__advs--get" onclick="DetailZone({{$itemZone["id"]}})">--}}
+{{--                                                                        <i class="fa-solid fa-circle-info"></i> CONFIG--}}
+{{--                                                                    </div>--}}
                                                                 </div>
                                                             </div>
                                                         </div>

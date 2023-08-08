@@ -80,7 +80,9 @@
                                 ID: @include('administrator.components.lable_require')
                             </div>
                             <div class="col-9" id="zone_id">
-                                {{ $item['id']}}
+                                <input type="text" autocomplete="off"
+                                       value="{{$item['id']}}" name="zone[id]"
+                                       required readonly style="border: 0;">
                             </div>
                         </div>
 
@@ -138,12 +140,12 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h2 class="accordion-header" id="panelsStayOpen">
-                            <button class="accordion-button" type="button">
+                            <button class="accordion-button itemCampaignInfo" type="button">
                                 ZXZXXXXXXXXXXXXXXXXX
                             </button>
                         </h2>
                     </div>
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 showItemCampaignInfo" style="display: none">
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-group row">
@@ -304,12 +306,46 @@
                                           class="form-control"
                                           rows="5" required></textarea>
                             </div>
+                            <div class="form-group mt-3">
+                                <input class="form-check-input" type="checkbox" value="1" id="is_responsive" name="ads[is_responsive]">
+                                <label> Responsive layout</label>
+                            </div>
                             <div class="form-group mt-3 campaign-option-button">
                                 Options
                                 <span class="badge badge-primary"> <i
                                         class="fa-solid fa-plus"></i></span>
                             </div>
                             <div class="campaign-option" style="display: none">
+                                <div class="form-group mt-3">
+                                    <label> Label position</label>
+                                    <select
+                                        class="form-control choose_value select2_init"
+                                        required name="ads[ext_label_pos]">
+                                        @foreach($listExtLabelPos as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label>Menu position</label>
+                                    <select
+                                        class="form-control choose_value select2_init"
+                                        required name="ads[ext_menu_pos]">
+                                        @foreach($listExtMenuPos as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label>Branding position</label>
+                                    <select
+                                        class="form-control choose_value select2_init"
+                                        required name="ads[ext_brand_pos]">
+                                        @foreach($listExtLabelPos as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="form-group mt-3">
                                     <label>Geo</label>
                                     <select
@@ -397,16 +433,18 @@
                 $(".campaign-option").toggle(1000);
             });
 
+            $(".itemCampaignInfo").click(function () {
+                $(".showItemCampaignInfo").toggle(500);
+            });
+
             $("#storeCampaign").click(function() {
                 var values = {};
-                $("input[name^='campaign'], select[name^='campaign'], input[name^='ads'], select[name^='ads'], input[name^='zone'], select[name^='zone']").each(function() {
+                $("textarea[name^='ads'], input[name^='zone'], input[name^='campaign'], select[name^='campaign'], input[name^='ads'], select[name^='ads'], input[name^='zone'], select[name^='zone']").each(function() {
                     var name = $(this).attr("name");
                     var value = $(this).val();
                     values[name] = value;
                 });
-                values['zone'] = {
-                    id: $('#zone_id').val('')
-                }
+                console.log(values, 222)
                 $.ajax({
                     type: "POST",
                     headers: {
@@ -518,6 +556,7 @@
         function onInsertConfig() {
             $(".campaign-create").toggle(1000);
         }
+
 
 
         function chooseSelect(id) {

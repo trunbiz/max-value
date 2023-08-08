@@ -9,15 +9,40 @@ class CampaignService
     public function __construct()
     {
         $this->zoneService = new ZoneService();
+        $this->adsService = new AdsService();
 
     }
 
     public function storeCampaignByAjax($params)
     {
         $zoneInfo = $this->zoneService->getInfoZoneAdServer($params['zone']['id']);
-        dd($params['zone']['id'], $zoneInfo);
+
+        dd($zoneInfo);
+        if (empty($zoneInfo))
+            return false;
+
+        if (empty($params['campaign']['name']))
+            $params['campaign']['name'] = $zoneInfo['site']['name'] . ' - ' . $zoneInfo['dimension']['height'] . 'x' . $zoneInfo['dimension']['width'] . ' - ' . time();
+
+        $params['ads']['iddimension'] = $zoneInfo['dimension']['id'];
+        $params['ads']['width'] = $zoneInfo['dimension']['width'];
+        $params['ads']['height'] = $zoneInfo['dimension']['height'];
+
+        // Tạo campaign
         $campaignInfo = $this->storeCampaignAdServer($params['campaign']);
-        dd($campaignInfo);
+
+        // Tạo ads
+        $adsServiceInfo = $this->adsService->storeAdsAdService($campaignInfo['id'], Common::ID_AD_FORMAT['HTML_JS'], $params['ads']);
+//        $adsServiceInfo = $this->adsService->storeAdsAdService(97812, Common::ID_AD_FORMAT['HTML_JS'], $params['ads']);
+
+        // assign Zone
+        $paramsZone = [
+            'zones' => [
+                (integer)$params['zone']['id']
+            ]
+        ];
+        $assignZoneInfo = $this->adsService->assignZoneAdServer($adsServiceInfo['id'], $paramsZone);
+        dd($assignZoneInfo);
     }
 
     public function storeCampaignAdServer($params)
@@ -26,8 +51,10 @@ class CampaignService
             "name" => $params['name'],
             "idadvertiser" => $params['advertiser_api_id'],
             'idrunstatus' => $params['status'],
-            'geo' => $params['geo']
+            'geo' => $params['geo'] ?? [],
+            'geo_bl' => $params['geo_bl'] ?? [],
         ];
+
         if (!empty($params['device_mode']) && !empty($params['device']))
         {
             $campaignInfo['device_mode'] = $params['device_mode'];

@@ -247,4 +247,31 @@ class Common
         33 => 'Direct injection',
         36 => 'Direct injection (in-place)',
     ];
+
+    const EXT_LABEL_POST = [
+        null => 'Default',
+        1 => 'Disabled',
+        2 => 'Top Left',
+        3 => 'Top Right',
+        4 => 'Bottom Left',
+        5 => 'Bottom Right',
+    ];
+    const EXT_MENU_POST = [
+        null => 'Default',
+        1 => 'Disabled',
+        2 => 'Top Left',
+        3 => 'Top Right'
+    ];
+
+    const EXT_BRAND_POST = [
+        null => 'Default',
+        1 => 'Disabled',
+        2 => 'Top Left',
+        3 => 'Top Right',
+        4 => 'Bottom Left',
+        5 => 'Bottom Right',
+    ];
+    const ID_AD_FORMAT = [
+      'HTML_JS' => 3
+    ];
 }

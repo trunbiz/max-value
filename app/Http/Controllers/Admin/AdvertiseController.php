@@ -190,7 +190,10 @@ class AdvertiseController extends Controller
             'device' => Common::DEVICE,
             'brows' => Common::BROWSER,
             'dimensions' => Common::DIMENSIONS,
-            'injectionType' => Common::INJECTION_TYPE
+            'injectionType' => Common::INJECTION_TYPE,
+            'listExtLabelPos' => Common::EXT_LABEL_POST,
+            'listExtMenuPos' => Common::EXT_MENU_POST,
+            'listExtBrandPos' => Common::EXT_BRAND_POST,
         ];
 
 //        dd($dataResult);
