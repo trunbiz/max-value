@@ -131,123 +131,214 @@
                 </div>
             </div>
         </div>
-            <br>
-{{--            Danh sách các campaign--}}
-            <div class="form-group mt-3">
-                <h3>Campaign Info</h3>
-            </div>
-            <div class="card campaign-info">
+        <br>
+        {{--            Danh sách các campaign--}}
+        <div class="form-group mt-3">
+            <h3>Campaign Info</h3>
+        </div>
+        <div class="card campaign-info">
+            @foreach($campaigns as $campaignItem)
                 <div class="row">
                     <div class="col-sm-12">
                         <h2 class="accordion-header" id="panelsStayOpen">
                             <button class="accordion-button itemCampaignInfo" type="button">
-                                ZXZXXXXXXXXXXXXXXXXX
+                                ID: {{$campaignItem['ads']['campaign']['id']}}
+                                -NAME: {{$campaignItem['campaign']['name']}}
+                                -STATUS: {{\App\Models\CampaignModel::STATUS[$campaignItem['campaign']['status']]}}
                             </button>
                         </h2>
                     </div>
                     <div class="col-sm-12 showItemCampaignInfo" style="display: none">
                         <div class="card">
-                            <div class="card-body">
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-2 col-form-label">Name : </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-2 col-form-label">Advertiser : </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-2 col-form-label">Status : </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-2 col-form-label">Injection type : </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
-                                    </div>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <label>Html/Javascript code @include('user.components.lable_require')</label>
-                                    <textarea name="ads[content_html]" disabled
-                                              class="form-control"
-                                              rows="5" required></textarea>
-                                </div>
-                                <div class="form-group mt-3 campaign-option-button">
-                                    Options
-                                    <span class="badge badge-primary"> <i
-                                            class="fa-solid fa-plus"></i></span>
-                                </div>
-                                <div class="campaign-option" style="display: none">
-                                    <div class="form-group row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label">Geo : </label>
-                                        <div class="col-sm-10">
-                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="form-group mt-3">
+                                                <label>Name</label>
+                                                <input type="text" autocomplete="off"
+                                                       class="form-control"
+                                                       value="{{$campaignItem['campaign']['name']}}" disabled>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label>Advertiser <span class="text-danger">*</span></label>
+                                                <select
+                                                    disabled
+                                                    class="form-control choose_value select2_init advertiser_api_id"
+                                                    required>
+                                                    <option value="null"> -- Chọn --</option>
+                                                    @foreach($advertisers as $advertiser)
+                                                        <option
+                                                            value="{{$advertiser['id']}}" {{$campaignItem['campaign']['advertiser_api_id'] == $advertiser['id'] ? 'selected' : '' }}>{{$advertiser['name']}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label>Status</label>
+                                                <select
+                                                    disabled
+                                                    class="form-control choose_value select2_init">
+                                                    @foreach($status as $key => $value)
+                                                        <option value="{{$key}}" {{$campaignItem['campaign']['status'] == $key ? 'selected' : '' }}>{{$value}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label>Injection
+                                                    type @include('user.components.lable_require')</label>
+                                                <select
+                                                    disabled
+                                                    class="form-control choose_value select2_init"
+                                                    required>
+                                                    @foreach($injectionType as $key => $value)
+                                                        <option value="{{$key}}" {{$campaignItem['campaign']['status'] == $key ? 'selected' : '' }}>{{$value}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <label>Html/Javascript
+                                                    code @include('user.components.lable_require')</label>
+                                                <textarea
+                                                          class="form-control"
+                                                          rows="5" required disabled>{{$campaignItem['ads']['details']['content_html']}}</textarea>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <input class="form-check-input" type="checkbox" value="1"
+                                                       id="is_responsive" disabled {{$campaignItem['ads']['details']['is_responsive'] == 1 ? 'checked' : ''}}>
+                                                <label> Responsive layout</label>
+                                            </div>
+                                            <div class="form-group mt-3 campaign-option-button">
+                                                Options
+                                                <span class="badge badge-primary"> <i
+                                                        class="fa-solid fa-plus"></i></span>
+                                            </div>
+                                            <div class="campaign-option" style="display: none">
+                                                <div class="form-group mt-3">
+                                                    <label> Label position</label>
+                                                    <select
+                                                        class="form-control choose_value select2_init"
+                                                        required disabled>
+                                                        @foreach($listExtLabelPos as $key => $value)
+                                                            <option value="{{$key}}" {{$campaignItem['ads']['details']['ext_label_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mt-3">
+                                                    <label>Menu position</label>
+                                                    <select
+                                                        class="form-control choose_value select2_init"
+                                                        required disabled>
+                                                        @foreach($listExtMenuPos as $key => $value)
+                                                            <option value="{{$key}}" {{$campaignItem['ads']['details']['ext_menu_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mt-3">
+                                                    <label>Branding position</label>
+                                                    <select
+                                                        class="form-control choose_value select2_init"
+                                                        required disabled>
+                                                        @foreach($listExtLabelPos as $key => $value)
+                                                            <option value="{{$key}}" {{$campaignItem['ads']['details']['ext_brand_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-group mt-3">
+                                                    <label>Geo</label>
+                                                    <ul class="nav nav-tabs" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active geo" role="tab"
+                                                               data-toggle="tab">Include</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link geo_bl" role="tab" data-toggle="tab">Exclude</a>
+                                                        </li>
+                                                    </ul>
+                                                    <br>
+                                                    <div class="col-sm-12 geoShow" style="display: block">
+                                                        <select
+                                                            class="form-control choose_value select2_init"
+                                                            multiple data-live-search="true">
+                                                            @foreach($listGeos as $key => $value)
+                                                                <option value="{{$key}}" {{in_array($key, $campaignItem['campaign']['geo'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-12 geo_blShow" style="display: none">
+                                                        <select
+                                                            class="form-control choose_value select2_init"
+                                                            multiple data-live-search="true">
+                                                            @foreach($listGeos as $key => $value)
+                                                                <option value="{{$key}}" {{in_array($key, $campaignItem['campaign']['geo_bl'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mt-3">
+                                                    <label>Device targeting</label>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <label for="Device"
+                                                                   class="col-sm-2 col-form-label">Device</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <select
+                                                                class="form-control choose_value select2_init">
+                                                                @foreach($target_mode as $key => $value)
+                                                                    <option value="{{$key}}" {{$campaignItem['campaign']['device_mode'] ==$key ? 'selected' : '' }}>{{$value}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <select
+                                                                class="form-control choose_value select2_init"
+                                                                multiple data-live-search="true"
+                                                                >
+                                                                @foreach($device as $key => $value)
+                                                                    <option value="{{$key}}" {{in_array($key, $campaignItem['campaign']['device'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-12">
+                                                            <label for="Device"
+                                                                   class="col-sm-2 col-form-label">Browser</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <select
+                                                                class="form-control choose_value select2_init"
+                                                                >
+                                                                @foreach($target_mode as $key => $value)
+                                                                    <option value="{{$key}}" {{$campaignItem['campaign']['browser_mode'] ==$key ? 'selected' : '' }}>{{$value}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <select
+                                                                multiple data-live-search="true"
+                                                                class="form-control choose_value select2_init">
+                                                                @foreach($brows as $key => $value)
+                                                                    <option value="{{$key}}" {{in_array($key, $campaignItem['campaign']['browser'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group mt-3">
-                                        <label>Device targeting</label>
-                                        <div class="form-group row">
-                                            <div class="col-sm-12">
-                                                <label for="Device" class="col-sm-2 col-form-label">Device</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <select
-                                                    class="form-control choose_value select2_init" disabled>
-                                                    @foreach($target_mode as $key => $value)
-                                                        <option value="{{$key}}">{{$value}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <select
-                                                    class="form-control choose_value select2_init"
-                                                    multiple data-live-search="true" disabled>
-                                                    @foreach($device as $key => $value)
-                                                        <option value="{{$key}}">{{$value}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-12">
-                                                <label for="Device" class="col-sm-2 col-form-label">Browser</label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <select
-                                                    class="form-control choose_value select2_init"
-                                                    disabled>
-                                                    @foreach($target_mode as $key => $value)
-                                                        <option value="{{$key}}">{{$value}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <select
-                                                    multiple data-live-search="true"
-                                                    class="form-control choose_value select2_init"
-                                                    disabled>
-                                                    @foreach($brows as $key => $value)
-                                                        <option value="{{$key}}">{{$value}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+                                <br>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
+        </div>
 
 
-{{--            Tạo mới Campaign--}}
+        {{--            Tạo mới Campaign--}}
         @if($item['status']['id'] == 7000)
             <div class="mt-3 mb-3">
                 Add Campaign
@@ -307,7 +398,8 @@
                                           rows="5" required></textarea>
                             </div>
                             <div class="form-group mt-3">
-                                <input class="form-check-input" type="checkbox" value="1" id="is_responsive" name="ads[is_responsive]">
+                                <input class="form-check-input" type="checkbox" value="1" id="is_responsive"
+                                       name="ads[is_responsive]">
                                 <label> Responsive layout</label>
                             </div>
                             <div class="form-group mt-3 campaign-option-button">
@@ -470,12 +562,19 @@
             });
 
             $(".itemCampaignInfo").click(function () {
-                $(".showItemCampaignInfo").toggle(500);
+
+                // Tìm phần tử cha gần nhất của button được nhấp để thao tác với phần showItemCampaignInfo cùng cấp.
+                var parentRow = $(this).closest(".row");
+                var showItem = parentRow.find(".showItemCampaignInfo");
+
+                // Ẩn/hiện phần showItemCampaignInfo.
+                showItem.toggle();
+
             });
 
-            $("#storeCampaign").click(function() {
+            $("#storeCampaign").click(function () {
                 var values = {};
-                $("textarea[name^='ads'], input[name^='zone'], input[name^='campaign'], select[name^='campaign'], input[name^='ads'], select[name^='ads'], input[name^='zone'], select[name^='zone']").each(function() {
+                $("textarea[name^='ads'], input[name^='zone'], input[name^='campaign'], select[name^='campaign'], input[name^='ads'], select[name^='ads'], input[name^='zone'], select[name^='zone']").each(function () {
                     var name = $(this).attr("name");
                     var value = $(this).val();
                     values[name] = value;
@@ -592,7 +691,6 @@
         function onInsertConfig() {
             $(".campaign-create").toggle(1000);
         }
-
 
 
         function chooseSelect(id) {

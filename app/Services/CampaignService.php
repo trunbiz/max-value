@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\AdsCampaignModel;
+use App\Models\CampaignModel;
 use App\Models\Helper;
 use App\Models\ZoneModel;
 
@@ -39,9 +41,17 @@ class CampaignService
 
         // Tạo campaign
         $campaignInfo = $this->storeCampaignAdServer($params['campaign']);
+        $campaignDBInfo = CampaignModel::create([
+            'ad_campaign_id' => $campaignInfo['id'],
+            'name' => $params['campaign']['name'],
+            'id_advertiser' => $campaignInfo['advertiser']['id'],
+            'id_run_status' => $campaignInfo['status']['id'],
+            'extra_request' => json_encode($params['campaign']),
+            'extra_response' => json_encode($campaignInfo),
+        ]);
 
         // Tạo ads
-        $adsServiceInfo = $this->adsService->storeAdsAdService($campaignInfo['id'], Common::ID_AD_FORMAT['HTML_JS'], $params['ads']);
+        $adsAdInfo = $this->adsService->storeAdsAdService($campaignInfo['id'], Common::ID_AD_FORMAT['HTML_JS'], $params['ads']);
 
         // assign Zone
         $paramsZone = [
@@ -49,7 +59,16 @@ class CampaignService
                 (integer)$params['zone']['id']
             ]
         ];
-        $assignZoneAdInfo = $this->adsService->assignZoneAdServer($adsServiceInfo['id'], $paramsZone);
+        $assignZoneAdInfo = $this->adsService->assignZoneAdServer($adsAdInfo['id'], $paramsZone);
+        AdsCampaignModel::create([
+            'ad_ad_id' => $adsAdInfo['id'],
+            'campaign_id' => $campaignDBInfo->id,
+            'zone_id' => $zoneDBInfo->id,
+            'is_active' => $adsAdInfo['is_active'],
+            'extra_request' => json_encode($params['ads']),
+            'extra_response' => json_encode($adsAdInfo)
+        ]);
+
         return true;
     }
 

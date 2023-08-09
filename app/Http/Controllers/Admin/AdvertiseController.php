@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\AdsAdvertiser;
+use App\Models\AdsCampaignModel;
 use App\Models\Advertise;
 use App\Http\Controllers\Controller;
 use App\Models\CampaignAd;
@@ -13,6 +14,7 @@ use App\Models\National;
 use App\Models\TypeAdv;
 use App\Models\User;
 use App\Models\Website;
+use App\Models\ZoneModel;
 use App\Services\Common;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -107,78 +109,21 @@ class AdvertiseController extends Controller
         // $id là zone id
 
         $countries = National::orderby('name', 'ASC')->get();
-        $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
-
-//        dd($id, $item);
+        $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);;
         $sites = Helper::callGetHTTP("https://api.adsrv.net/v2/site/" . $item['site']['id']);
-        $campaigns = [];
-
-        foreach ($item['assigned_ads'] as $itemAd){
-            $campaign = Helper::callGetHTTP("https://api.adsrv.net/v2/campaign/" . $itemAd['idcampaign']);
-            if (!Helper::isErrorAPIAdserver($campaign)){
-
-                $campaignAd = CampaignAd::firstOrCreate([
-                    'campaign_id' => $campaign['id'],
-                    'ad_id' => $itemAd['id'],
-                ],[
-                    'campaign_id' => $campaign['id'],
-                    'ad_id' => $itemAd['id'],
-                    'counter_percent' => 80
-                ]);
-
-                $campaign['counter_percent'] = $campaignAd['counter_percent'];
-                $campaign['order'] = $campaignAd['order'];
-                $campaign['ad_id'] = $itemAd['id'];
-                $campaign['continent'] = $campaignAd['continent'];
-
-                $fc_counter = 0;
-                $fc_limit = 0;
-                $fc_interval = 0;
-                $fc_mode = 0;
-
-                if (!empty($campaign['frequency_capping'])){
-                    if (str_contains($campaign['frequency_capping'], "imp")){
-                        $fc_counter = 1;
-                    }else{
-                        $fc_counter = 2;
-                    }
-
-                    if (str_contains($campaign['frequency_capping'], "Visitor")){
-                        $fc_mode = 1;
-                    }else{
-                        $fc_mode = 2;
-                    }
-
-                    $values = explode( " ", $campaign['frequency_capping']);
-                    $fc_limit = $values[0];
-
-                    $fc_interval = $campaign['frequency_capping'];
-                }
-
-                $campaign['infor_frequency_capping'] = [
-                    'fc_counter' => $fc_counter,
-                    'fc_limit' => $fc_limit,
-                    'fc_interval' => $fc_interval,
-                    'fc_mode' => $fc_mode,
-                ];
-
-                $campaigns[] = $campaign;
-
-            }
-        }
-
-        $campaigns = collect($campaigns)->sortBy('order')->toArray();
-
-        foreach ($campaigns as $index => $itemCampaign){
-
-            foreach ($itemCampaign['ads'] as $itemAds){
-                $campaigns[$index]['ad_infor'] = Helper::callGetHTTP("https://api.adsrv.net/v2/ad/" . $itemAds['id']);
-                break;
-            }
-        }
-
         $advertisers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3");
 
+        // Lấy thông tin Campaign có trong DB
+        $zoneInfo = ZoneModel::where('ad_zone_id', $id)->first();
+        $listCampaigns = $zoneInfo->getInfoCampaign;
+
+        $campaigns = [];
+        foreach ($listCampaigns as $campaign) {
+            $campaigns[] = [
+                'campaign' => json_decode($campaign->extra_request, true),
+                'ads' => json_decode($campaign->getAds->extra_response, true)
+            ];
+        }
         $dataResult = [
             'item' => $item,
             'campaigns' => $campaigns,
@@ -196,8 +141,6 @@ class AdvertiseController extends Controller
             'listExtBrandPos' => Common::EXT_BRAND_POST,
             'listGeos' => Common::LIST_GEOS,
         ];
-
-//        dd($dataResult);
 
         return view('administrator.' . $this->prefixView . '.detail', $dataResult);
     }

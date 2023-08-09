@@ -26,4 +26,9 @@ class ZoneModel extends Model
       4 => 'Not higher than',
       2 => 'Not larger than',
     ];
+
+    public function getInfoCampaign()
+    {
+        return $this->belongsToMany(CampaignModel::class, 'ads_campaign', 'zone_id', 'campaign_id');
+    }
 }
