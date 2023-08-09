@@ -7,6 +7,7 @@ use App\Models\AdsCampaignModel;
 use App\Models\CampaignModel;
 use App\Services\AdsService;
 use App\Services\CampaignService;
+use App\Services\ZoneService;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
@@ -16,6 +17,7 @@ class CampaignController extends Controller
     {
         $this->campaignService = new CampaignService();
         $this->adsService = new AdsService();
+        $this->zoneService = new ZoneService();
     }
 
 
@@ -23,8 +25,7 @@ class CampaignController extends Controller
     {
         $request = $request->all();
         $result = $this->campaignService->storeCampaignByAjax($request);
-        if (empty($result))
-        {
+        if (empty($result)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Tạo tiến trình thất bại',
@@ -44,9 +45,14 @@ class CampaignController extends Controller
             'ads' => $request['adsUpdate'] ?? [],
         ];
 
+        $zoneInfo = $this->zoneService->getInfoZoneAdServer($request['zone']['id']);
+        $params['ads']['iddimension'] = $zoneInfo['dimension']['id'] ?? 666;
+        $params['ads']['width'] = (string)$zoneInfo['width'] ?? 'auto';
+        $params['ads']['height'] = (string)$zoneInfo['height'] ?? 'auto';
+
         // Update campaign
         $campaignInfo = $this->campaignService->updateCampaignAdServer($params['campaign']['ad_campaign_id'], $params['campaign']);
-        $campaignDBInfo = CampaignModel::find($params['campaign']['id'])->update([
+        CampaignModel::find($params['campaign']['id'])->update([
             'ad_campaign_id' => $campaignInfo['id'],
             'name' => $params['campaign']['name'],
             'id_advertiser' => $campaignInfo['advertiser']['id'],
@@ -57,13 +63,30 @@ class CampaignController extends Controller
 
         // Update Ads
         $adsAdInfo = $this->adsService->updateAdsAdService($params['ads']['ad_ad_id'], $params['campaign']['ad_campaign_id'], $params['ads']);
-        AdsCampaignModel::update([
-            'ad_ad_id' => $adsAdInfo['id'],
-            'campaign_id' => $campaignDBInfo->id,
+        AdsCampaignModel::where('ad_ad_id', $params['ads']['ad_ad_id'])->update([
             'is_active' => $adsAdInfo['is_active'],
             'extra_request' => json_encode($params['ads']),
             'extra_response' => json_encode($adsAdInfo)
-        ])->where('ad_ad_id', $params['ads']['ad_ad_id'])->first();
-        return true;
+        ]);
+
+        return back();
+    }
+
+    public function deleteAjaxCampaign(Request $request)
+    {
+        $request = $request->all();
+        $campaignInfo = $this->campaignService->getInfoCampaignAdServer($request['campaignId']);
+
+        $this->campaignService->removeCampaignAdServer($request['campaignId']);
+        CampaignModel::where('ad_campaign_id', $request['campaignId'])->delete();
+
+        foreach ($campaignInfo['ads'] ?? [] as $item) {
+            $this->adsService->deleteAdsAdService($item['id']);
+            AdsCampaignModel::where('ad_ad_id', $item['id'])->delete();
+        }
+        return response()->json([
+            'status' => true,
+            'message' => 'remove campaign success',
+        ]);
     }
 }

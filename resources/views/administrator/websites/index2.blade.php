@@ -447,7 +447,7 @@
             $('select[name="zone_status_id"]').val(statusId).change()
             if (active)
             {
-                $( "#zone_active").attr("checked", "checked");
+                $( "#zone_active").prop('checked', true);
             }else {
                 $("#zone_active").prop('checked', false);
             }

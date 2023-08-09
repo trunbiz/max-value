@@ -34,10 +34,10 @@ class CampaignService
             $message = 'Empty data zone DB';
             return false;
         }
-        $dimensionZoneDB = json_decode($zoneDBInfo->dimensions, true);
-        $params['ads']['iddimension'] = $dimensionZoneDB['iddimension'] ?? 666;
-        $params['ads']['width'] = (string)$dimensionZoneDB['width'] ?? 'auto';
-        $params['ads']['height'] = (string)$dimensionZoneDB['height'] ?? 'auto';
+//        $dimensionZoneDB = json_decode($zoneDBInfo->dimensions, true);
+        $params['ads']['iddimension'] = $zoneInfo['dimension']['id'] ?? 666;
+        $params['ads']['width'] = (string)$zoneInfo['width'] ?? 'auto';
+        $params['ads']['height'] = (string)$zoneInfo['height'] ?? 'auto';
 
         // Tạo campaign
         $campaignInfo = $this->storeCampaignAdServer($params['campaign']);
@@ -123,5 +123,10 @@ class CampaignService
     public function removeCampaignAdServer($id)
     {
         return Helper::callDeleteHTTP("https://api.adsrv.net/v2/campaign/" . $id);
+    }
+
+    public function getInfoCampaignAdServer($id)
+    {
+        return Helper::callGetHTTP("https://api.adsrv.net/v2/campaign/" . $id);
     }
 }

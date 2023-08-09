@@ -237,6 +237,10 @@ Route::prefix('ajax/administrator')->group(function () {
                 'as' => 'ajax.administrator.campaign.store',
                 'uses' => 'App\Http\Controllers\Admin\CampaignController@storeAjaxCampaign',
             ]);
+            Route::delete('/', [
+                'as' => 'ajax.administrator.campaign.delete',
+                'uses' => 'App\Http\Controllers\Admin\CampaignController@deleteAjaxCampaign',
+            ]);
 
         });
 

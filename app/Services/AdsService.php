@@ -33,7 +33,7 @@ class AdsService
     public function updateAdsAdService($id, $idCampaign, $params)
     {
         $data = [
-            'idcampaign' => $idCampaign,
+            'idcampaign' => (integer)$idCampaign,
             'is_active' => 1,
             'details' => [
                 'width' => !empty($params['width']) ? $params['width'] : 'auto',
@@ -47,11 +47,17 @@ class AdsService
                 'ext_brand_pos' => $params['ext_brand_pos'] ?? '',
             ]
         ];
-        return  Helper::callPutHTTP("https://api.adsrv.net/v2/ad?id=".$id, $data);
+//        dd($data);
+        return  Helper::callPutHTTP("https://api.adsrv.net/v2/ad/".$id, $data);
     }
 
     public function assignZoneAdServer($adsId, $params)
     {
         return  Helper::callPostHTTP("https://api.adsrv.net/v2/ad/assign?id=".$adsId, $params);
+    }
+
+    public function deleteAdsAdService($id)
+    {
+        return  Helper::callDeleteHTTP("https://api.adsrv.net/v2/ad/".$id);
     }
 }
