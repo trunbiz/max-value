@@ -143,27 +143,45 @@
                         <h2 class="accordion-header" id="panelsStayOpen">
                             <button class="accordion-button itemCampaignInfo" type="button">
                                 ID: {{$campaignItem['ads']['campaign']['id']}}
-                                -NAME: {{$campaignItem['campaign']['name']}}
-                                -STATUS: {{\App\Models\CampaignModel::STATUS[$campaignItem['campaign']['status']]}}
+                                | Advertiser: @foreach($advertisers as $advertiser)
+                                    {{$campaignItem['campaign']['advertiser_api_id'] == $advertiser['id'] ? $advertiser['name'] : '' }}
+                                @endforeach
+                                | name: {{$campaignItem['campaign']['name']}}
+                                | status: {{\App\Models\CampaignModel::STATUS[$campaignItem['campaign']['status']]}}
                             </button>
                         </h2>
                     </div>
                     <div class="col-sm-12 showItemCampaignInfo" style="display: none">
                         <div class="card">
+                            <form action="{{route('administrator.campaign.update')}}" method="POST">
+                                @csrf
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="card">
                                         <div class="card-body">
+                                            <input type="text" hidden
+                                                   class="form-control"
+                                                   name="adsUpdate[ad_ad_id]"
+                                                   value="{{$campaignItem['ads']['ad_ad_id'] ?? ''}}" >
+                                            <input type="text" hidden
+                                                   class="form-control"
+                                                   name="campaignUpdate[id]"
+                                                   value="{{$campaignItem['campaign']['id'] ?? ''}}" >
+                                            <input type="text" hidden
+                                                   class="form-control"
+                                                   name="campaignUpdate[ad_campaign_id]"
+                                                   value="{{$campaignItem['campaign']['ad_campaign_id'] ?? ''}}" >
                                             <div class="form-group mt-3">
                                                 <label>Name</label>
                                                 <input type="text" autocomplete="off"
                                                        class="form-control"
-                                                       value="{{$campaignItem['campaign']['name']}}" disabled>
+                                                       name="campaignUpdate[name]"
+                                                       value="{{$campaignItem['campaign']['name']}}" >
                                             </div>
                                             <div class="form-group mt-3">
                                                 <label>Advertiser <span class="text-danger">*</span></label>
                                                 <select
-                                                    disabled
+                                                    name="campaignUpdate[advertiser_api_id]"
                                                     class="form-control choose_value select2_init advertiser_api_id"
                                                     required>
                                                     <option value="null"> -- Chọn --</option>
@@ -176,10 +194,11 @@
                                             <div class="form-group mt-3">
                                                 <label>Status</label>
                                                 <select
-                                                    disabled
+                                                    required name="campaignUpdate[status]"
                                                     class="form-control choose_value select2_init">
                                                     @foreach($status as $key => $value)
-                                                        <option value="{{$key}}" {{$campaignItem['campaign']['status'] == $key ? 'selected' : '' }}>{{$value}}</option>
+                                                        <option
+                                                            value="{{$key}}" {{$campaignItem['campaign']['status'] == $key ? 'selected' : '' }}>{{$value}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -187,11 +206,12 @@
                                                 <label>Injection
                                                     type @include('user.components.lable_require')</label>
                                                 <select
-                                                    disabled
+                                                    name="adsUpdate[idinjectiontype]"
                                                     class="form-control choose_value select2_init"
                                                     required>
                                                     @foreach($injectionType as $key => $value)
-                                                        <option value="{{$key}}" {{$campaignItem['campaign']['status'] == $key ? 'selected' : '' }}>{{$value}}</option>
+                                                        <option
+                                                            value="{{$key}}" {{$campaignItem['campaign']['status'] == $key ? 'selected' : '' }}>{{$value}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -199,12 +219,14 @@
                                                 <label>Html/Javascript
                                                     code @include('user.components.lable_require')</label>
                                                 <textarea
-                                                          class="form-control"
-                                                          rows="5" required disabled>{{$campaignItem['ads']['details']['content_html']}}</textarea>
+                                                    class="form-control"
+                                                    rows="5" required
+                                                    name="adsUpdate[content_html]">{{$campaignItem['ads']['details']['content_html']}}</textarea>
                                             </div>
                                             <div class="form-group mt-3">
                                                 <input class="form-check-input" type="checkbox" value="1"
-                                                       id="is_responsive" disabled {{$campaignItem['ads']['details']['is_responsive'] == 1 ? 'checked' : ''}}>
+                                                       id="is_responsive"
+                                                       name="adsUpdate[is_responsive]" {{$campaignItem['ads']['details']['is_responsive'] == 1 ? 'checked' : ''}}>
                                                 <label> Responsive layout</label>
                                             </div>
                                             <div class="form-group mt-3 campaign-option-button">
@@ -217,9 +239,10 @@
                                                     <label> Label position</label>
                                                     <select
                                                         class="form-control choose_value select2_init"
-                                                        required disabled>
+                                                        name="adsUpdate[ext_label_pos]">
                                                         @foreach($listExtLabelPos as $key => $value)
-                                                            <option value="{{$key}}" {{$campaignItem['ads']['details']['ext_label_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
+                                                            <option
+                                                                value="{{$key}}" {{$campaignItem['ads']['details']['ext_label_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -227,9 +250,10 @@
                                                     <label>Menu position</label>
                                                     <select
                                                         class="form-control choose_value select2_init"
-                                                        required disabled>
+                                                        name="adsUpdate[ext_menu_pos]">
                                                         @foreach($listExtMenuPos as $key => $value)
-                                                            <option value="{{$key}}" {{$campaignItem['ads']['details']['ext_menu_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
+                                                            <option
+                                                                value="{{$key}}" {{$campaignItem['ads']['details']['ext_menu_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -237,9 +261,10 @@
                                                     <label>Branding position</label>
                                                     <select
                                                         class="form-control choose_value select2_init"
-                                                        required disabled>
+                                                        name="adsUpdate[ext_brand_pos]">
                                                         @foreach($listExtLabelPos as $key => $value)
-                                                            <option value="{{$key}}" {{$campaignItem['ads']['details']['ext_brand_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
+                                                            <option
+                                                                value="{{$key}}" {{$campaignItem['ads']['details']['ext_brand_pos'] == $key ? 'selected': ''}}>{{$value}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -258,18 +283,22 @@
                                                     <div class="col-sm-12 geoShow" style="display: block">
                                                         <select
                                                             class="form-control choose_value select2_init"
+                                                            name="campaignUpdate[geo][]"
                                                             multiple data-live-search="true">
                                                             @foreach($listGeos as $key => $value)
-                                                                <option value="{{$key}}" {{in_array($key, $campaignItem['campaign']['geo'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
+                                                                <option
+                                                                    value="{{$key}}" {{in_array($key, $campaignItem['campaign']['geo'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-12 geo_blShow" style="display: none">
                                                         <select
                                                             class="form-control choose_value select2_init"
+                                                            name="campaignUpdate[geo_bl][]"
                                                             multiple data-live-search="true">
                                                             @foreach($listGeos as $key => $value)
-                                                                <option value="{{$key}}" {{in_array($key, $campaignItem['campaign']['geo_bl'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
+                                                                <option
+                                                                    value="{{$key}}" {{in_array($key, $campaignItem['campaign']['geo_bl'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -283,19 +312,23 @@
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <select
+                                                                name="campaignUpdate[device_mode]"
                                                                 class="form-control choose_value select2_init">
                                                                 @foreach($target_mode as $key => $value)
-                                                                    <option value="{{$key}}" {{$campaignItem['campaign']['device_mode'] ==$key ? 'selected' : '' }}>{{$value}}</option>
+                                                                    <option
+                                                                        value="{{$key}}" {{$campaignItem['campaign']['device_mode'] ==$key ? 'selected' : '' }}>{{$value}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-9">
                                                             <select
+                                                                name="campaignUpdate[device][]"
                                                                 class="form-control choose_value select2_init"
                                                                 multiple data-live-search="true"
-                                                                >
+                                                            >
                                                                 @foreach($device as $key => $value)
-                                                                    <option value="{{$key}}" {{in_array($key, $campaignItem['campaign']['device'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
+                                                                    <option
+                                                                        value="{{$key}}" {{in_array($key, $campaignItem['campaign']['device'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -307,23 +340,33 @@
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <select
+                                                                name="campaignUpdate[browser_mode]"
                                                                 class="form-control choose_value select2_init"
-                                                                >
+                                                            >
                                                                 @foreach($target_mode as $key => $value)
-                                                                    <option value="{{$key}}" {{$campaignItem['campaign']['browser_mode'] ==$key ? 'selected' : '' }}>{{$value}}</option>
+                                                                    <option
+                                                                        value="{{$key}}" {{$campaignItem['campaign']['browser_mode'] ==$key ? 'selected' : '' }}>{{$value}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-9">
                                                             <select
+                                                                name="campaignUpdate[browser][]"
                                                                 multiple data-live-search="true"
                                                                 class="form-control choose_value select2_init">
                                                                 @foreach($brows as $key => $value)
-                                                                    <option value="{{$key}}" {{in_array($key, $campaignItem['campaign']['browser'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
+                                                                    <option
+                                                                        value="{{$key}}" {{in_array($key, $campaignItem['campaign']['browser'] ?? []) ? 'selected' : ''}}>{{$value}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mt-3">
+                                                <div class="col-sm-12" style="text-align: center">
+                                                    <button class="btn btn-primary mt-3" id="updateCampaign">Update
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -331,6 +374,7 @@
                                 </div>
                                 <br>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -573,6 +617,45 @@
             });
 
             $("#storeCampaign").click(function () {
+                var values = {};
+                $("textarea[name^='ads'], input[name^='zone'], input[name^='campaign'], select[name^='campaign'], input[name^='ads'], select[name^='ads'], input[name^='zone'], select[name^='zone']").each(function () {
+                    var name = $(this).attr("name");
+                    var value = $(this).val();
+                    values[name] = value;
+                });
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    cache: false,
+                    data: values,
+                    url: "{{route('ajax.administrator.campaign.store')}}",
+                    beforeSend: function () {
+                        showLoading()
+                    },
+                    success: function (response) {
+                        // Chuyển hướng người dùng đến route cụ thể
+                        window.location.href = "{{route('administrator.ads.index')}}";
+                    },
+                    error: function (err) {
+                        hideLoading()
+                        Swal.fire(
+                            {
+                                icon: 'error',
+                                title: err.responseText,
+                            }
+                        );
+                        console.log(err)
+                    },
+                });
+            });
+
+            // Update lại campaign
+            $(".updateButton").click(function() {
+                var row = $(this).closest(".row"); // Tìm hàng gần nhất chứa nút "Update"
+
+                var campaignId = row.find(".campaignId").val(); // Lấy giá trị của input campaignId
                 var values = {};
                 $("textarea[name^='ads'], input[name^='zone'], input[name^='campaign'], select[name^='campaign'], input[name^='ads'], select[name^='ads'], input[name^='zone'], select[name^='zone']").each(function () {
                     var name = $(this).attr("name");

@@ -107,7 +107,6 @@ class AdvertiseController extends Controller
         $title = "Detail Zone";
 
         // $id là zone id
-
         $countries = National::orderby('name', 'ASC')->get();
         $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);;
         $sites = Helper::callGetHTTP("https://api.adsrv.net/v2/site/" . $item['site']['id']);
@@ -115,13 +114,21 @@ class AdvertiseController extends Controller
 
         // Lấy thông tin Campaign có trong DB
         $zoneInfo = ZoneModel::where('ad_zone_id', $id)->first();
-        $listCampaigns = $zoneInfo->getInfoCampaign;
+        $listCampaigns = $zoneInfo->getInfoCampaign ?? [];
 
         $campaigns = [];
         foreach ($listCampaigns as $campaign) {
             $campaigns[] = [
-                'campaign' => json_decode($campaign->extra_request, true),
-                'ads' => json_decode($campaign->getAds->extra_response, true)
+                'campaign' => array_merge(json_decode($campaign->extra_request, true) ?? [], [
+                    'ad_campaign_id' => $campaign->ad_campaign_id,
+                    'id' => $campaign->id,
+                ]),
+                'ads' => array_merge(json_decode($campaign->getAds->extra_response, true) ?? [], [
+                    'ad_ad_id' => $campaign->getAds->ad_ad_id,
+                    'id' => $campaign->getAds->id,
+                    'zone_id' => $campaign->getAds->zone_id,
+                    'campaign_id' => $campaign->getAds->campaign_id,
+                ])
             ];
         }
         $dataResult = [

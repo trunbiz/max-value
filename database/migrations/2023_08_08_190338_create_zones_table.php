@@ -24,6 +24,7 @@ class CreateZonesTable extends Migration
             $table->integer('status')->nullable();
             $table->json('extra_params')->nullable()->comment('Save config params request');
             $table->json('extra_response')->nullable()->comment('Save config params response');
+            $table->integer('is_delete')->default(0);
             $table->timestamps();
             $table->index('ad_site_id');
             $table->index('ad_zone_id');

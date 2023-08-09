@@ -84,6 +84,12 @@ class WebsiteController extends Controller
             'listDimensionsMethod' => $listDimensionsMethod,
             'publishers' => $publishers,
         ];
+
+//        foreach ($items as $a)
+//        {
+//            if (empty($a['zones'])) continue;
+//            dd($a);
+//        }
 //        dd($dataResult);
 
         return view('administrator.' . $this->prefixView . '.index2', $dataResult);

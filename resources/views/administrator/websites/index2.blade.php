@@ -43,9 +43,7 @@
                                                                 class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
                                                                 {{ $itemWebsite['status']['name'] }}
                                                             </div>
-                                                            <div class="category__site">
-                                                                <i class="fa-regular fa-folder"></i>
-                                                                <span>{{$itemWebsite['category']['iab'] ?? null}}: {{$itemWebsite['category']['name'] ?? null}}</span>
+                                                            <div class="category__site">{{$itemWebsite['publisher']['email'] ?? ''}}</span>
                                                             </div>
                                                             <div class="category__site">
                                                                 <a onclick="oneditStatusModal('{{$itemWebsite['id']}}')"
@@ -70,10 +68,17 @@
                                                         <div class="title__advs">
                                                             <div class="title__advs--title">
                                                                 <span>{{$itemZone['name']}}</span>
-                                                                <p>{{$itemZone['format']['name']}}</p>
+                                                                <p>
+                                                                @if($itemZone['is_active'])
+                                                                    <span class="badge badge-success">Active</span>
+                                                                @else
+                                                                    <span class="badge badge-warning">Off</span>
+                                                                @endif
+                                                                    {{$itemZone['format']['name']}}
+                                                                </p>
                                                             </div>
                                                             <div
-                                                                onclick="onEditZone({{$itemZone['id']}}, {{$itemZone['status']['id']}})"
+                                                                onclick="onEditZone({{$itemZone['id']}}, {{$itemZone['status']['id']}}, {{$itemZone['is_active']}})"
                                                                 style="cursor: pointer;display: flex;" data-bs-toggle="modal"
                                                                 data-bs-target="#editZone"
                                                                 class="title__advs--status {{ strtolower($itemZone['status']['name']) }}">
@@ -81,6 +86,7 @@
                                                             </div>
                                                             <span class="badge badge-danger" onclick="removeZone({{$itemZone['id']}})"><i class="fa-solid fa-xmark"></i></span>
                                                         </div>
+                                                        <br>
                                                         <div class="row" style="width: 100%">
                                                             <div class="col-sm-6">
                                                                 <div class="info__advs">
@@ -394,12 +400,18 @@
                 <div class="modal-body">
                     <input hidden name="zone_id" value="">
                     <div class="mt-3">
-                        <label class="bold">Status @include('administrator.components.lable_require')</label>
+                        <label class="bold">Moderation @include('administrator.components.lable_require')</label>
                         <select name="zone_status_id" class="form-control select2_init" required>
                             <option value="7010">Pending</option>
                             <option value="7000">Approved</option>
                             <option value="7020">Rejected</option>
                         </select>
+                    </div>
+                    <div class="mt-3">
+                        <input class="form-check-input" type="checkbox" name="zone_active" id="zone_active" value="1">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            Active
+                        </label>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
@@ -430,9 +442,15 @@
             $('select[name="status_id"]').val(id_status).change()
         }
 
-        function onEditZone(zoneId, statusId) {
+        function onEditZone(zoneId, statusId, active) {
             $('input[name="zone_id"]').val(zoneId).change()
             $('select[name="zone_status_id"]').val(statusId).change()
+            if (active)
+            {
+                $( "#zone_active").attr("checked", "checked");
+            }else {
+                $("#zone_active").prop('checked', false);
+            }
         }
 
         function removeZone(zoneId)
@@ -478,6 +496,13 @@
 
         function onSubmitChangeStatusZone()
         {
+            var checkActive = 0;
+            if ($('input[name="zone_active"]').is(":checked")) {
+                checkActive = 1 // Nếu checked, thiết lập giá trị thành 1
+            } else {
+                checkActive = 0 // Nếu unchecked, thiết lập giá trị thành 0
+            }
+
             $.ajax({
                 type: "PUT",
                 headers: {
@@ -487,6 +512,7 @@
                 data: {
                     zone_id: $('input[name="zone_id"]').val(),
                     zone_status_id: $('select[name="zone_status_id"]').val(),
+                    zone_active: checkActive,
                 },
                 url: "{{route('ajax.administrator.zone.update')}}",
                 beforeSend: function () {

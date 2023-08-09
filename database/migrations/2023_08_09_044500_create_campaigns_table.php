@@ -21,6 +21,7 @@ class CreateCampaignsTable extends Migration
             $table->integer('id_run_status')->nullable();
             $table->json('extra_request')->nullable();
             $table->json('extra_response')->nullable();
+            $table->integer('is_delete')->default(0);
             $table->timestamps();
             $table->index('ad_campaign_id');
             $table->index('id_advertiser');

@@ -200,6 +200,7 @@ Route::prefix('ajax/administrator')->group(function () {
 
                 $params = [
                     "idstatus" => $request->zone_status_id,
+                    "is_active" => $request->zone_active ? 1 : 0,
                 ];
 
                 $item = Helper::callPutHTTP("https://api.adsrv.net/v2/zone/" . $request->zone_id, $params);

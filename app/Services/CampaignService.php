@@ -95,4 +95,33 @@ class CampaignService
         }
         return Helper::callPostHTTP("https://api.adsrv.net/v2/campaign", $campaignInfo);
     }
+
+    public function updateCampaignAdServer($id, $params)
+    {
+        $campaignInfo = [
+            "name" => $params['name'],
+            "idadvertiser" => $params['advertiser_api_id'],
+            'idrunstatus' => $params['status'],
+            'geo' => $params['geo'] ?? [],
+            'geo_bl' => $params['geo_bl'] ?? [],
+        ];
+
+        if (!empty($params['device_mode']) && !empty($params['device']))
+        {
+            $campaignInfo['device_mode'] = $params['device_mode'];
+            $campaignInfo['device'] = $params['device'];
+        }
+
+        if (!empty($params['browser_mode']) && !empty($params['browser']))
+        {
+            $campaignInfo['browser_mode'] = $params['browser_mode'];
+            $campaignInfo['browser'] = $params['browser'];
+        }
+        return Helper::callPutHTTP("https://api.adsrv.net/v2/campaign/" . $id, $campaignInfo);
+    }
+
+    public function removeCampaignAdServer($id)
+    {
+        return Helper::callDeleteHTTP("https://api.adsrv.net/v2/campaign/" . $id);
+    }
 }
