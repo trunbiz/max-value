@@ -25,14 +25,21 @@ class CampaignService
             return false;
         }
         $zoneDBInfo = ZoneModel::where('ad_zone_id', $params['zone']['id'])->first();
-        $dimensionZoneDB = json_decode($zoneDBInfo->dimensions ?? [], true);
+
 
         if (empty($params['campaign']['name']))
         {
-            if (!empty($dimensionZoneDB['paramsIdDimension']))
+            if (!empty($zoneDBInfo))
             {
-                $nameDimension = Common::getNameDimension($zoneInfo['height'], $zoneInfo['width']);
-                $params['campaign']['name'] = $zoneInfo['site']['name'] . ' ' . $nameDimension;
+                $dimensionZoneDB = json_decode($zoneDBInfo->dimensions ?? [], true);
+                if (!empty($dimensionZoneDB['paramsIdDimension']))
+                {
+                    $nameDimension = Common::getNameDimension($zoneInfo['height'], $zoneInfo['width']);
+                    $params['campaign']['name'] = $zoneInfo['site']['name'] . ' ' . $nameDimension;
+                }
+                else{
+                    $params['campaign']['name'] = $zoneInfo['site']['name'] . ' - ' . $zoneInfo['height'] . 'x' . $zoneInfo['width'];
+                }
             }
             else{
                 $params['campaign']['name'] = $zoneInfo['site']['name'] . ' - ' . $zoneInfo['height'] . 'x' . $zoneInfo['width'];
