@@ -43,7 +43,7 @@
                                                                 class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
                                                                 {{ $itemWebsite['status']['name'] }}
                                                             </div>
-                                                            <div class="category__site">{{$itemWebsite['publisher']['email'] ?? ''}}</span>
+                                                            <div class="category__site">{{$itemWebsite['publisher']['name'] ?? ''}}</span>
                                                             </div>
                                                             <div class="category__site">
                                                                 <a onclick="oneditStatusModal('{{$itemWebsite['id']}}')"

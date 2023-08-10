@@ -24,17 +24,32 @@ class CampaignService
             $message = 'Zone 404';
             return false;
         }
+        $zoneDBInfo = ZoneModel::where('ad_zone_id', $params['zone']['id'])->first();
+        $dimensionZoneDB = json_decode($zoneDBInfo->dimensions, true);
 
         if (empty($params['campaign']['name']))
-            $params['campaign']['name'] = $zoneInfo['site']['name'] . ' - ' . $zoneInfo['dimension']['height'] . 'x' . $zoneInfo['dimension']['width'] . ' - ' . time();
+        {
+            if (!empty($dimensionZoneDB['paramsIdDimension']))
+            {
+                $nameDimension = Common::getNameDimension($zoneInfo['height'], $zoneInfo['width']);
+                $params['campaign']['name'] = $zoneInfo['site']['name'] . ' ' . $nameDimension;
+            }
+            else{
+                $params['campaign']['name'] = $zoneInfo['site']['name'] . ' - ' . $zoneInfo['height'] . 'x' . $zoneInfo['width'];
+            }
 
-        $zoneDBInfo = ZoneModel::where('ad_zone_id', $params['zone']['id'])->first();
+            // Kiểm tra xem name đã tồn tại hay chưa
+            $check_name = $this->listCampaignByParams(['name' => $params['campaign']['name']]);
+            if (count($check_name) > 0) {
+                $params['campaign']['name'] = $params['campaign']['name'] . ' #' . (count($check_name) + 1);
+            }
+        }
+
         if (empty($zoneDBInfo))
         {
             $message = 'Empty data zone DB';
             return false;
         }
-//        $dimensionZoneDB = json_decode($zoneDBInfo->dimensions, true);
         $params['ads']['iddimension'] = $zoneInfo['dimension']['id'] ?? 666;
         $params['ads']['width'] = (string)$zoneInfo['width'] ?? 'auto';
         $params['ads']['height'] = (string)$zoneInfo['height'] ?? 'auto';
@@ -94,6 +109,12 @@ class CampaignService
             $campaignInfo['browser'] = $params['browser'];
         }
         return Helper::callPostHTTP("https://api.adsrv.net/v2/campaign", $campaignInfo);
+    }
+
+    public function listCampaignByParams($params)
+    {
+        $paramsCampaign['filter']['name'] = $params['name'];
+        return Helper::callGetHTTP("https://api.adsrv.net/v2/campaign", $paramsCampaign);
     }
 
     public function updateCampaignAdServer($id, $params)

@@ -35,6 +35,7 @@ class ZoneController extends Controller
         } else {
             $name = $name;
         }
+        $keyIdDimension = $params['iddimension'] ?? null;
         $dimensionInfo = Common::DIMENSIONS[$params['iddimension']] ?? [];
 
 
@@ -58,6 +59,7 @@ class ZoneController extends Controller
            'id_zone_format' => $request->idzoneformat,
            'id_dimension_method' => $request->idDimensionMethod,
            'dimensions' => json_encode([
+               'paramsIdDimension' =>$keyIdDimension ?? null,
                'iddimension' => 666,
                'width' => (string)$dimensionInfo['size'][1],
                'height' => (string)$dimensionInfo['size'][0],

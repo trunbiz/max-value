@@ -28,16 +28,16 @@
                 </li>
             @endcan
 
-            @can('ads-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav" href="/administrator/ads">
-                        <i class="fa-solid fa-fire"></i>
-                        <span>Campaign</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
-            @endcan
+{{--            @can('ads-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <a--}}
+{{--                        class="sidebar-link sidebar-title link-nav" href="/administrator/ads">--}}
+{{--                        <i class="fa-solid fa-fire"></i>--}}
+{{--                        <span>Campaign</span>--}}
+{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
 
             @can('websites-list')
                 <li class="sidebar-list">

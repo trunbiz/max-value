@@ -143,11 +143,11 @@
                         <h2 class="accordion-header" id="panelsStayOpen">
                             <button class="accordion-button itemCampaignInfo" type="button">
                                 ID: {{$campaignItem['ads']['campaign']['id']}}
-                                | Advertiser: @foreach($advertisers as $advertiser)
+                                | @foreach($advertisers as $advertiser)
                                     {{$campaignItem['campaign']['advertiser_api_id'] == $advertiser['id'] ? $advertiser['name'] : '' }}
                                 @endforeach
-                                | name: {{$campaignItem['campaign']['name']}}
-                                | status: {{\App\Models\CampaignModel::STATUS[$campaignItem['campaign']['status']]}}
+                                | {{$campaignItem['campaign']['name']}}
+                                | {{\App\Models\CampaignModel::STATUS[$campaignItem['campaign']['status']]}}
                             </button>
                         </h2>
                     </div>
@@ -645,7 +645,7 @@
                     },
                     success: function (response) {
                         // Chuyển hướng người dùng đến route cụ thể
-                        window.location.href = "{{route('administrator.ads.index')}}";
+                        window.location.reload()
                     },
                     error: function (err) {
                         hideLoading()
@@ -684,7 +684,7 @@
                     },
                     success: function (response) {
                         // Chuyển hướng người dùng đến route cụ thể
-                        window.location.href = "{{route('administrator.ads.index')}}";
+                        window.location.reload()
                     },
                     error: function (err) {
                         hideLoading()
