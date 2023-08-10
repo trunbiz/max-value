@@ -25,7 +25,7 @@ class CampaignService
             return false;
         }
         $zoneDBInfo = ZoneModel::where('ad_zone_id', $params['zone']['id'])->first();
-        $dimensionZoneDB = json_decode($zoneDBInfo->dimensions, true);
+        $dimensionZoneDB = json_decode($zoneDBInfo->dimensions ?? [], true);
 
         if (empty($params['campaign']['name']))
         {
