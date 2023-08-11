@@ -710,6 +710,7 @@
                             }
                         );
                         $('#container_tr').prepend(response.html);
+                        window.location.reload();
                     } else {
                         Swal.fire(
                             {

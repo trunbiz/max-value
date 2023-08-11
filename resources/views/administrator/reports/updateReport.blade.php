@@ -52,7 +52,6 @@
                                     <th>P.Imp</th>
                                     <th>P.CPM</th>
                                     <th>P.Revenue</th>
-                                    <th>Revenue đối soát</th>
                                     <th>Profit</th>
                                     <th>Status</th>
                                     <th>Options</th>
@@ -138,7 +137,6 @@
                                             <td class="pImp">{{number_format($pImp)}}</td>
                                             <td class="pCpm">{{$pCpm}}</td>
                                             <td class="pRevenue">{{$pRevenue}}</td>
-                                            <td class="">{{$item->change_revenue}}</td>
                                             <td class="pProfit">{{$pProfit}}</td>
                                             <td>@if($item->status == 1)
                                                     <span class="badge bg-success">accept</span>
