@@ -76,7 +76,6 @@ Route::prefix('ajax/administrator')->group(function () {
             Route::put('/update', function (Request $request) {
 
                 $params = [];
-
                 if (isset($request->is_active)){
                     $params['is_active'] = $request->is_active;
                 }
@@ -122,6 +121,11 @@ Route::prefix('ajax/administrator')->group(function () {
             Route::get('/list-by-publisher', [
                 'as' => 'ajax.administrator.website.listByPublisher',
                 'uses' => 'App\Http\Controllers\Admin\WebsiteController@listByPublisher',
+            ]);
+
+            Route::delete('/delete', [
+                'as' => 'ajax.administrator.website.delete',
+                'uses' => 'App\Http\Controllers\Admin\WebsiteController@delete',
             ]);
         });
 

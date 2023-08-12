@@ -40,9 +40,14 @@
                                                                 </a>
                                                             </div>
                                                             <div
+                                                                onclick="oneditStatusModal({{$itemWebsite['id']}}, {{$itemWebsite['status']['id']}})"
+                                                                style="cursor: pointer;display: flex;" data-bs-toggle="modal"
+                                                                data-bs-target="#editStatusModal"
                                                                 class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
-                                                                {{ $itemWebsite['status']['name'] }}
+                                                                {{ $itemWebsite['status']['name'] }} <i class="fa-solid fa-rotate"></i>
                                                             </div>
+
+
                                                             <div class="category__site">{{$itemWebsite['publisher']['name'] ?? ''}}</span>
                                                             </div>
                                                             <div class="category__site">
@@ -51,6 +56,13 @@
                                                                    title="Add zone" data-bs-toggle="modal"
                                                                    data-bs-target="#createZoneModal">
                                                                     Add zone
+                                                                </a>
+                                                            </div>
+                                                            <div class="category__site">
+                                                                <a onclick="deleteSite('{{$itemWebsite['id']}}')"
+                                                                   style="cursor: pointer;"
+                                                                   title="Delete site">
+                                                                    <span class="badge badge-danger"><i class="fa-solid fa-xmark"></i></span>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -337,6 +349,7 @@
                 </div>
                 <div class="modal-body">
 
+                    <input hidden name="site_id">
                     <div class="mt-3">
                         <label class="bold">Status @include('administrator.components.lable_require')</label>
                         <select name="status_id" class="form-control select2_init" required>
@@ -440,6 +453,48 @@
             id_status = idstatus;
 
             $('select[name="status_id"]').val(id_status).change()
+            $('select[name="site_id"]').val(idsite).change()
+        }
+
+        function deleteSite(siteId)
+        {
+            var checkDelete = confirm("Want to delete?");
+            if (!checkDelete) {
+                return;
+            }
+            $.ajax({
+                type: "DELETE",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                cache: false,
+                data: {
+                    id: siteId,
+                },
+                url: "{{route('ajax.administrator.website.delete')}}",
+                beforeSend: function () {
+                    showLoading()
+                },
+                success: function (response) {
+                    window.location.reload();
+                    Swal.fire(
+                        {
+                            icon: 'success',
+                            title: 'remove success',
+                        }
+                    );
+                },
+                error: function (err) {
+                    hideLoading()
+                    Swal.fire(
+                        {
+                            icon: 'error',
+                            title: err.responseText,
+                        }
+                    );
+                    console.log(err)
+                },
+            });
         }
 
         function onEditZone(zoneId, statusId, active) {
@@ -658,7 +713,7 @@
                 },
                 cache: false,
                 data: {
-                    idsite: id_site,
+                    idsite: $('select[name="site_id"]').val(),
                     idstatus: $('select[name="status_id"]').val(),
                 },
                 url: "{{route('ajax.administrator.website.update')}}",
@@ -733,7 +788,7 @@
             });
         }
 
-        function onSubmitEditWebsite() {
+        function onSubmitEditWebsite(id_site) {
 
             $.ajax({
                 type: "PUT",

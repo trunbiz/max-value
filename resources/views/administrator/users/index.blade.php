@@ -255,6 +255,7 @@
                     {
                         alert(response.message)
                     }else{
+                        $this.html(response.html);
                         $this.modal('show');
                     }
                 }

@@ -131,9 +131,10 @@ class WebsiteController extends Controller
         return redirect()->route('administrator.' . $this->prefixView . '.edit', ['id' => $id]);
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
-
+        $request = $request->all();
+        $id = $request['id'];
         $sites = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite='.$id);
         foreach($sites as $key => $site){
             $items = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]'.$site['id']);
