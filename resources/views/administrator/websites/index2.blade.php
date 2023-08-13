@@ -30,25 +30,29 @@
                                                     aria-expanded="true"
                                                     aria-controls="collapse{{ $itemWebsite['id'] }}">
                                                 @else
-                                                    <button class="accordion-button" type="button"
+                                                    <button class="accordion-button button_info_site" type="button"
                                                             style="cursor:auto;">@endif
-                                                        <div class="info__site">
-                                                            <div class="name__site">
-                                                                <a style="cursor: pointer;" onclick="onEditWebsiteModal('{{$itemWebsite['id']}}','{{$itemWebsite['publisher']['id']}}','{{$itemWebsite['name']}}','{{$itemWebsite['url']}}','{{$itemWebsite['category']['id'] ?? null}}')"
-                                                                   title="Edit" data-bs-toggle="modal" data-bs-target="#editWebsiteModal">
+                                                        <div class="info_site">
+                                                            <div class="name__site name_site">
+                                                                <a style="cursor: pointer;"
+                                                                   onclick="onEditWebsiteModal('{{$itemWebsite['id']}}','{{$itemWebsite['publisher']['id']}}','{{$itemWebsite['name']}}','{{$itemWebsite['url']}}','{{$itemWebsite['category']['id'] ?? null}}')"
+                                                                   title="Edit" data-bs-toggle="modal"
+                                                                   data-bs-target="#editWebsiteModal">
                                                                     {{$itemWebsite['url']}}
                                                                 </a>
                                                             </div>
                                                             <div
                                                                 onclick="oneditStatusModal({{$itemWebsite['id']}}, {{$itemWebsite['status']['id']}})"
-                                                                style="cursor: pointer;display: flex;" data-bs-toggle="modal"
+                                                                data-bs-toggle="modal"
                                                                 data-bs-target="#editStatusModal"
                                                                 class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
-                                                                {{ $itemWebsite['status']['name'] }} <i class="fa-solid fa-rotate"></i>
+                                                                {{ $itemWebsite['status']['name'] }} <i
+                                                                    class="fa-solid fa-rotate"></i>
                                                             </div>
 
 
-                                                            <div class="category__site">{{$itemWebsite['publisher']['name'] ?? ''}}</span>
+                                                            <div
+                                                                class="category__site">{{$itemWebsite['publisher']['name'] ?? ''}}</span>
                                                             </div>
                                                             <div class="category__site">
                                                                 <a onclick="oneditStatusModal('{{$itemWebsite['id']}}')"
@@ -58,11 +62,12 @@
                                                                     Add zone
                                                                 </a>
                                                             </div>
-                                                            <div class="category__site">
+                                                            <div class="site_delete">
                                                                 <a onclick="deleteSite('{{$itemWebsite['id']}}')"
                                                                    style="cursor: pointer;"
                                                                    title="Delete site">
-                                                                    <span class="badge badge-danger"><i class="fa-solid fa-xmark"></i></span>
+                                                                    <span class="badge badge-danger"><i
+                                                                            class="fa-solid fa-xmark"></i></span>
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -81,22 +86,26 @@
                                                             <div class="title__advs--title">
                                                                 <span>{{$itemZone['name']}}</span>
                                                                 <p>
-                                                                @if($itemZone['is_active'])
-                                                                    <span class="badge badge-success">Active</span>
-                                                                @else
-                                                                    <span class="badge badge-warning">Off</span>
-                                                                @endif
+                                                                    @if($itemZone['is_active'])
+                                                                        <span class="badge badge-success">Active</span>
+                                                                    @else
+                                                                        <span class="badge badge-warning">Off</span>
+                                                                    @endif
                                                                     {{$itemZone['format']['name']}}
                                                                 </p>
                                                             </div>
                                                             <div
                                                                 onclick="onEditZone({{$itemZone['id']}}, {{$itemZone['status']['id']}}, {{$itemZone['is_active']}})"
-                                                                style="cursor: pointer;display: flex;" data-bs-toggle="modal"
+                                                                style="cursor: pointer;display: flex;"
+                                                                data-bs-toggle="modal"
                                                                 data-bs-target="#editZone"
                                                                 class="title__advs--status {{ strtolower($itemZone['status']['name']) }}">
-                                                                {{ $itemZone['status']['name'] }} <i class="fa-solid fa-rotate"></i>
+                                                                {{ $itemZone['status']['name'] }} <i
+                                                                    class="fa-solid fa-rotate"></i>
                                                             </div>
-                                                            <span class="badge badge-danger" onclick="removeZone({{$itemZone['id']}})"><i class="fa-solid fa-xmark"></i></span>
+                                                            <span class="badge badge-danger"
+                                                                  onclick="removeZone({{$itemZone['id']}})"><i
+                                                                    class="fa-solid fa-xmark"></i></span>
                                                         </div>
                                                         <br>
                                                         <div class="row" style="width: 100%">
@@ -116,9 +125,9 @@
                                                                        title="Edit">
                                                                         <i class="fa-solid fa-circle-info"></i> CONFIG
                                                                     </a>
-{{--                                                                    <div title="Edit" class="info__advs--get" onclick="DetailZone({{$itemZone["id"]}})">--}}
-{{--                                                                        <i class="fa-solid fa-circle-info"></i> CONFIG--}}
-{{--                                                                    </div>--}}
+                                                                    {{--                                                                    <div title="Edit" class="info__advs--get" onclick="DetailZone({{$itemZone["id"]}})">--}}
+                                                                    {{--                                                                        <i class="fa-solid fa-circle-info"></i> CONFIG--}}
+                                                                    {{--                                                                    </div>--}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -401,7 +410,7 @@
     <!-- Modal get code -->
     <div class="modal" id="getCode" tabindex="-1" role="dialog" aria-labelledby="getCode"></div>
 
-{{--    update status zone--}}
+    {{--    update status zone--}}
     <div class="modal fade" id="editZone" aria-labelledby="editZoneLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -428,7 +437,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" onclick="onSubmitChangeStatusZone()" class="btn btn-success">Update now</button>
+                    <button type="button" onclick="onSubmitChangeStatusZone()" class="btn btn-success">Update now
+                    </button>
                 </div>
 
             </div>
@@ -456,8 +466,7 @@
             $('select[name="site_id"]').val(idsite).change()
         }
 
-        function deleteSite(siteId)
-        {
+        function deleteSite(siteId) {
             var checkDelete = confirm("Want to delete?");
             if (!checkDelete) {
                 return;
@@ -500,16 +509,14 @@
         function onEditZone(zoneId, statusId, active) {
             $('input[name="zone_id"]').val(zoneId).change()
             $('select[name="zone_status_id"]').val(statusId).change()
-            if (active)
-            {
-                $( "#zone_active").prop('checked', true);
-            }else {
+            if (active) {
+                $("#zone_active").prop('checked', true);
+            } else {
                 $("#zone_active").prop('checked', false);
             }
         }
 
-        function removeZone(zoneId)
-        {
+        function removeZone(zoneId) {
             var checkDelete = confirm("Want to delete?");
             if (!checkDelete) {
                 return;
@@ -549,8 +556,7 @@
             });
         }
 
-        function onSubmitChangeStatusZone()
-        {
+        function onSubmitChangeStatusZone() {
             var checkActive = 0;
             if ($('input[name="zone_active"]').is(":checked")) {
                 checkActive = 1 // Nếu checked, thiết lập giá trị thành 1
@@ -595,12 +601,11 @@
             });
         }
 
-        function DetailZone(id)
-        {
+        function DetailZone(id) {
             var $this = $('#createZoneModal');
             callAjax(
                 "GET",
-                "{{ route('ajax.administrator.zone.detail') }}" + "?id="+id,{},
+                "{{ route('ajax.administrator.zone.detail') }}" + "?id=" + id, {},
                 (response) => {
                     let data = response.data;
                     $('#ad_unit_name').val(data.name)
@@ -609,7 +614,6 @@
                     $("#createZoneModalLabel").append("Chi tiết Zone")
                     $this.modal('show');
                 }
-
             )
             $this.modal('show');
         }
@@ -830,14 +834,13 @@
             $this.find('form').attr('data-id', id);
             callAjax(
                 "GET",
-                "{{ route('user.ajax.getcode') }}" + "?id="+id,{},
+                "{{ route('user.ajax.getcode') }}" + "?id=" + id, {},
                 (response) => {
                     let html = '';
                     $this.find('.getcode__info--name input').val(response.name);
                     $this.html(response.html);
                     $this.modal('show');
                 }
-
             )
         }
 
