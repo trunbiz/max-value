@@ -162,6 +162,10 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+        //Backup
+        \Spatie\Backup\BackupServiceProvider::class,
+        \App\Providers\GoogleDriveServiceProvider::class,
+
         /*
          * Package Service Providers...
          */

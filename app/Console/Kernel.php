@@ -33,6 +33,12 @@ class Kernel extends ConsoleKernel
 
 //        $schedule->command('revenue:publisher')
 //            ->everyMinute();
+
+        // Backups (to Google Drive)
+        $schedule->command('backup:clean --disable-notifications')->dailyAt('01:30');
+        $schedule->command('backup:run --only-db --disable-notifications')->dailyAt('01:35');
+
+
     }
 
     /**
