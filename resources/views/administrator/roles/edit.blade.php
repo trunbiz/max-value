@@ -43,7 +43,7 @@
                                 <div class="card-header">
                                     <input id="parent-{{$premissionsParentItem->id}}" class="checkbox_wrapper" type="checkbox" value="">
                                     <label for="parent-{{$premissionsParentItem->id}}">
-                                        Quyền: {{$premissionsParentItem->display_name}}
+                                        <b>Quyền: {{$premissionsParentItem->display_name}}</b>
                                     </label>
 
                                 </div>
