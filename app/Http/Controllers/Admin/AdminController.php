@@ -32,7 +32,8 @@ class AdminController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ], $remember)) {
-            if (optional(auth()->user())->is_admin == 0) return view('administrator.login.index');
+            if (optional(auth()->user())->is_admin == 0)
+                return view('administrator.login.index');
             return redirect()->route('administrator.dashboard.index');
         }
 

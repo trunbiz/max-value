@@ -42,11 +42,11 @@ class UserController extends Controller
 //        if (!Gate::check('register-product-list')){
 //            return redirect()->route('administrator.dashboard.index');
 //        }
-        if (auth()->user()->is_admin == 2 || optional(auth()->user()->role)->name == "Admin") {
+//        if (auth()->user()->is_admin == 2 || optional(auth()->user()->role)->name == "Admin") {
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
-        } else {
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
-        }
+//        } else {
+//            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
+//        }
 
         $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
 

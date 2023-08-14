@@ -120,6 +120,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
+                                                                @can('advertises-config')
                                                                 <div class="info__advs">
                                                                     <a href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone['id'] ])}}"
                                                                        title="Edit">
@@ -129,6 +130,7 @@
                                                                     {{--                                                                        <i class="fa-solid fa-circle-info"></i> CONFIG--}}
                                                                     {{--                                                                    </div>--}}
                                                                 </div>
+                                                                @endcan
                                                             </div>
                                                         </div>
                                                     </div>

@@ -62,9 +62,10 @@ class WebsiteController extends Controller
             }
         }
 
-        if (auth()->user()->is_admin != 2){
-            $items = $itemsFilter;
-        }
+        // Comment tam phần này vì nó bị check quyền
+//        if (auth()->user()->is_admin != 2){
+//            $items = $itemsFilter;
+//        }
 
         // List danh sách Dimensions
         $listDimensions = Common::DIMENSIONS;
