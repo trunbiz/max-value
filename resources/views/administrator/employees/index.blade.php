@@ -43,8 +43,6 @@
                                     <th>Tên NV</th>
                                     <th>Số điện thoại</th>
                                     <th>Email</th>
-                                    <th>Ngày sinh</th>
-                                    <th>Giới tính</th>
                                     <th>Ngày sử dụng</th>
                                     <th style="min-width: 200px;">Hành động</th>
                                 </tr>
@@ -58,8 +56,6 @@
                                         <td>{{$item->name}}</td>
                                         <td>{{$item->phone}}</td>
                                         <td>{{$item->email}}</td>
-                                        <td>{{\App\Models\Formatter::getOnlyDate($item->date_of_birth)}}</td>
-                                        <td>{{ optional($item->gender)->name}}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
                                             <a class="btn btn-outline-secondary btn-sm edit"
@@ -107,10 +103,6 @@
                             <label class="col-form-label">Email<span class="text-danger">*</span></label>
                             <input id="input_email" class="form-control" type="text"/>
                         </div>
-                        <div class="col-md-3 form-group mt-3">
-                            <label>Ngày sinh</label>
-                            <input id="input_date_of_birth" type="date" name="date_of_birth" class="form-control">
-                        </div>
 
                         <div class="col-md-6 form-group mt-3">
                             <label>Vai trò</label>
@@ -120,19 +112,6 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="form-group mt-3">
-                            <label class="me-3">Giới tính</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender" id="input_gender" checked>
-                                <label class="form-check-label" for="input_gender">Nam</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender" id="inlineRadio2">
-                                <label class="form-check-label" for="inlineRadio2">Nữ</label>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -171,15 +150,6 @@
                             <label class="col-form-label">Email<span class="text-danger">*</span></label>
                             <input id="input_email_edit" class="form-control" type="text"/>
                         </div>
-                        <div class="col-md-6 form-group mt-3">
-                            <label>Ngày sinh</label>
-                            <input id="input_date_of_birth_edit" type="date" name="date_of_birth"
-                                   class="form-control @error('date_of_birth') is-invalid @enderror"
-                                   placeholder="Nhập ngày sinh" value="{{old('date_of_birth')}}">
-                            @error('date_of_birth')
-                            <div class="alert alert-danger">{{$message}}</div>
-                            @enderror
-                        </div>
 
                         <div class="col-md-6 form-group mt-3">
                             <label>Vai trò</label>
@@ -189,19 +159,6 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="form-group mt-3" style="display: none;">
-                            <label class="me-3">Giới tính</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender_edit" id="input_gender_edit" checked>
-                                <label class="form-check-label" for="input_gender_edit">Nam</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender_edit" id="inlineRadio2_edit">
-                                <label class="form-check-label" for="inlineRadio2_edit">Nữ</label>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">
