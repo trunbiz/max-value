@@ -59,6 +59,7 @@ class CampaignController extends Controller
             'id_run_status' => $campaignInfo['status']['id'],
             'extra_request' => json_encode($params['campaign']),
             'extra_response' => json_encode($campaignInfo),
+            'updated_by' => auth()->user()->id ?? '0',
         ]);
 
         // Update Ads
@@ -78,7 +79,9 @@ class CampaignController extends Controller
         $campaignInfo = $this->campaignService->getInfoCampaignAdServer($request['campaignId']);
 
         $this->campaignService->removeCampaignAdServer($request['campaignId']);
-        CampaignModel::where('ad_campaign_id', $request['campaignId'])->delete();
+        CampaignModel::where('ad_campaign_id', $request['campaignId'])->update([
+            'is_delete' => 1
+        ]);
 
         foreach ($campaignInfo['ads'] ?? [] as $item) {
             $this->adsService->deleteAdsAdService($item['id']);

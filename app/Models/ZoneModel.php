@@ -17,8 +17,11 @@ class ZoneModel extends Model
         'id_dimension_method',
         'dimensions',
         'status',
-        'extra_params',
-        'extra_response'
+        'is_delete',
+        'extra_response',
+        'extra_response',
+        'created_by',
+        'updated_by',
     ];
     const DIMENSIONS_METHOD = [
       1 => 'Exact match',

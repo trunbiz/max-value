@@ -150,6 +150,9 @@ class WebsiteController extends Controller
 
         Helper::callDeleteHTTP("https://api.adsrv.net/v2/site/". $id);
 
+        // Xoas site trong database
+        Website::where('api_site_id', $id)->update(['is_delete' => 1]);
+
         return response()->json([
             'code'=>200,
             'message'=>'success',
