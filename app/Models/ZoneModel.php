@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use App\Services\Common;
 use Illuminate\Database\Eloquent\Model;
 
 class ZoneModel extends Model
@@ -33,5 +34,16 @@ class ZoneModel extends Model
     public function getInfoCampaign()
     {
         return $this->belongsToMany(CampaignModel::class, 'ads_campaign', 'zone_id', 'campaign_id');
+    }
+
+    public function getUserCreated()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by')->first();
+    }
+
+    public function getArrayUserAssign()
+    {
+        return $this->hasOne(AssignUserModel::class, 'service_id', 'id')->where('type', AssignUserModel::TYPE['ZONE'])
+            ->where('is_delete', Common::NOT_DELETE)->pluck('user_id')->toArray();
     }
 }
