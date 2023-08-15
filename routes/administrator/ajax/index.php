@@ -43,6 +43,8 @@ Route::prefix('ajax/administrator')->group(function () {
 
         Route::prefix('website')->group(function () {
             Route::post('/store', function (Request $request) {
+
+                $requestParams = $request->all();
                 $params = [
                     "url" => $request->url,
                     "idcategory" => $request->id_category,
@@ -59,6 +61,20 @@ Route::prefix('ajax/administrator')->group(function () {
 
 
                 $item = Helper::callPostHTTP("https://api.adsrv.net/v2/site", $params);
+
+                // Lưu dữ lieu vao database
+                \App\Models\Website::create([
+                    'user_id' => auth()->user()->id ?? '0',
+                    'name' => $item['name'] ?? '0',
+                    'url' => $item['url'] ?? '0',
+                    'category_website_id' => $item['category']['id'] ?? '0',
+                    'description' => '0',
+                    'status' => $item['status']['id'] ?? '0',
+                    'api_site_id' => $item['id'] ?? '0',
+                    'is_delete' => 0,
+                    'created_by' => auth()->user()->id ?? '0',
+                ]);
+
                 $users = User::where('is_admin', 0)->get();
 
                 if (Helper::isErrorAPIAdserver($item)){
@@ -75,7 +91,6 @@ Route::prefix('ajax/administrator')->group(function () {
             Route::put('/update', function (Request $request) {
 
                 $params = [];
-
                 if (isset($request->is_active)){
                     $params['is_active'] = $request->is_active;
                 }
@@ -117,13 +132,22 @@ Route::prefix('ajax/administrator')->group(function () {
                 return response()->json($item);
 
             })->name('ajax.administrator.website.update');
+
+            Route::get('/list-by-publisher', [
+                'as' => 'ajax.administrator.website.listByPublisher',
+                'uses' => 'App\Http\Controllers\Admin\WebsiteController@listByPublisher',
+            ]);
+
+            Route::delete('/delete', [
+                'as' => 'ajax.administrator.website.delete',
+                'uses' => 'App\Http\Controllers\Admin\WebsiteController@delete',
+            ]);
         });
 
         Route::prefix('zone')->group(function () {
-
-            Route::get('list', [
-                'as' => 'administrator.zone.list',
-                'uses' => 'App\Http\Controllers\Admin\ZoneController@list',
+            Route::delete('/', [
+                'as' => 'ajax.administrator.zone.delete',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@delete',
             ]);
 
             Route::get('/get', function (Request $request) {
@@ -145,6 +169,16 @@ Route::prefix('ajax/administrator')->group(function () {
             Route::post('/store', [
                 'as' => 'ajax.administrator.zone.store',
                 'uses' => 'App\Http\Controllers\Admin\ZoneController@store',
+            ]);
+
+            Route::get('/detail', [
+                'as' => 'ajax.administrator.zone.detail',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@detailZone',
+            ]);
+
+            Route::get('/list-by-site', [
+                'as' => 'ajax.administrator.zone.listBySite',
+                'uses' => 'App\Http\Controllers\Admin\ZoneController@listBySite',
             ]);
 //            Route::post('/store', function (Request $request) {
 //                $get_url = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'.$request->idsite);
@@ -185,14 +219,19 @@ Route::prefix('ajax/administrator')->group(function () {
 
                 $params = [
                     "idstatus" => $request->zone_status_id,
+                    "is_active" => $request->zone_active ? 1 : 0,
                 ];
 
                 $item = Helper::callPutHTTP("https://api.adsrv.net/v2/zone/" . $request->zone_id, $params);
 
-                $site_id  = Helper::callGetHTTP('https://api.adsrv.net/v2/zone/'. $request->zone_id)['site']['id'];
-                $send_to = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'. $site_id)['publisher']['email'];
+                \App\Models\ZoneModel::where('ad_zone_id', $request->zone_id)->update([
+                    'updated_by' => auth()->user()->id ?? '0'
+                ]);
 
-                Mail::to($send_to)->send(new \App\Mail\ZoneMail($item));
+//                $site_id  = Helper::callGetHTTP('https://api.adsrv.net/v2/zone/'. $request->zone_id)['site']['id'];
+//                $send_to = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'. $site_id)['publisher']['email'];
+//
+//                Mail::to($send_to)->send(new \App\Mail\ZoneMail($item));
 
                 return response()->json([
                     'html' => \view('administrator.advertises.add_table')->with(compact('item'))->render(),
@@ -216,6 +255,15 @@ Route::prefix('ajax/administrator')->group(function () {
                 return response()->json($item);
 
             })->name('ajax.administrator.campaign.delete');
+
+            Route::post('/store', [
+                'as' => 'ajax.administrator.campaign.store',
+                'uses' => 'App\Http\Controllers\Admin\CampaignController@storeAjaxCampaign',
+            ]);
+            Route::delete('/', [
+                'as' => 'ajax.administrator.campaign.delete',
+                'uses' => 'App\Http\Controllers\Admin\CampaignController@deleteAjaxCampaign',
+            ]);
 
         });
 

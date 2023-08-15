@@ -123,6 +123,10 @@
                                                title="Edit">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
+                                            <a href="{{route('administrator.websites.index' , ['publisher_id'=> $item['id'] ])}}"
+                                               title="Web">
+                                                <i class="fa-solid fa-globe"></i>
+                                            </a>
 
                                             <a class="delete action_delete"
                                                href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item['id'] ])}}"

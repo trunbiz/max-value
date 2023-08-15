@@ -132,6 +132,7 @@
                     $('.list__data').prepend(response.html);
                     $this.find('input[name="email"]').val('');
                     $this.find('input[name="password"]').val('');
+                    location.reload();
                 }else{
                     Swal.fire(
                         {

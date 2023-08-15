@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Website;
 use App\Http\Controllers\Controller;
 use App\Models\ZoneModel;
+use App\Services\Common;
+use App\Services\SiteService;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
 use App\Exports\ModelExport;
@@ -28,22 +30,17 @@ class WebsiteController extends Controller
         $this->initBaseModel($model);
         $this->title = "Websites";
         $this->shareBaseModel($model);
+        $this->siteService = new SiteService();
     }
 
     public function index(Request $request)
     {
         $categories = TypeCategory::all();
-        $query = $this->model;
-
-        if(isset($_GET['user']) && !empty($_GET['user'])){
-            $query = $query->where('user_id', $_GET['user']);
-        }
-
-        $items = $query->orderBy('id', 'DESC')->paginate(10);
 
         if (isset($request->publisher_id) && !empty($request->publisher_id)){
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?filter[idpublisher]=".$request->publisher_id."&page=1&per-page=10000");
         }else{
+
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=10000");
         }
 
@@ -65,12 +62,13 @@ class WebsiteController extends Controller
             }
         }
 
-        if (auth()->user()->is_admin != 2){
-            $items = $itemsFilter;
-        }
+        // Comment tam phần này vì nó bị check quyền
+//        if (auth()->user()->is_admin != 2){
+//            $items = $itemsFilter;
+//        }
 
         // List danh sách Dimensions
-        $listDimensions = ZoneModel::DIMENSIONS;
+        $listDimensions = Common::DIMENSIONS;
 
         // list Dimensions Method
         $listDimensionsMethod = ZoneModel::DIMENSIONS_METHOD;
@@ -79,7 +77,23 @@ class WebsiteController extends Controller
 
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4");
 
-        return view('administrator.' . $this->prefixView . '.index', compact('items', 'categories', 'users','publishers', 'listDimensions', 'listDimensionsMethod'));
+        $dataResult = [
+            'items' => $items,
+            'categories' => $categories,
+            'users' => $users,
+            'listDimensions' => $listDimensions,
+            'listDimensionsMethod' => $listDimensionsMethod,
+            'publishers' => $publishers,
+        ];
+
+//        foreach ($items as $a)
+//        {
+//            if (empty($a['zones'])) continue;
+//            dd($a);
+//        }
+//        dd($dataResult);
+
+        return view('administrator.' . $this->prefixView . '.index2', $dataResult);
     }
 
     public function get(Request $request, $id)
@@ -118,9 +132,10 @@ class WebsiteController extends Controller
         return redirect()->route('administrator.' . $this->prefixView . '.edit', ['id' => $id]);
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
-
+        $request = $request->all();
+        $id = $request['id'];
         $sites = Helper::callGetHTTP('https://api.adsrv.net/v2/zone?idsite='.$id);
         foreach($sites as $key => $site){
             $items = Helper::callGetHTTP('https://api.adsrv.net/v2/campaign/?filter[name]'.$site['id']);
@@ -134,6 +149,9 @@ class WebsiteController extends Controller
         }
 
         Helper::callDeleteHTTP("https://api.adsrv.net/v2/site/". $id);
+
+        // Xoas site trong database
+        Website::where('api_site_id', $id)->update(['is_delete' => 1]);
 
         return response()->json([
             'code'=>200,
@@ -151,5 +169,22 @@ class WebsiteController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function listByPublisher(Request $request)
+    {
+        $request = $request->all();
+        $id = $request['id'] ?? null;
+        $dataSite = $this->siteService->listSiteByPublisher($id);
+        $dataResult = [];
+        foreach ($dataSite as $item)
+        {
+            $dataResult[$item['id']] = $item['name'];
+
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $dataResult,
+        ], 200);
     }
 }

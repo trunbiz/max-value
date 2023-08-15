@@ -1,0 +1,23 @@
+.info_site{
+    width: 98%;
+}
+.name_site{
+    display: inline-block;
+    font-weight: 700;
+}
+.site_delete{
+    float: right;
+}
+.status__site {
+    display: inline-block;
+}
+.category__site {
+    display: inline-block;
+}
+.info_site .category__site, .action__site .action__site--item {
+    background-color: #d5effe;
+    border: 1px solid #d5effe;
+    color: #1D79C4;
+    display: inline-block;
+    border-radius: 16px;
+}

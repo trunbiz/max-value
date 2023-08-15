@@ -7,14 +7,14 @@ use App\Models\AdsAdvertiser;
 use App\Models\Advertise;
 use App\Http\Controllers\Controller;
 use App\Models\CampaignAd;
+use App\Models\CampaignModel;
 use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\Setting;
 use App\Models\TypeAdv;
 use App\Models\User;
 use App\Models\Website;
-use App\Services\CampaignService;
-use App\Services\SiteService;
+use App\Services\Common;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -33,8 +33,6 @@ class AdsController extends Controller
         $this->initBaseModel($model);
         $this->title = "Campaign";
         $this->shareBaseModel($model);
-        $this->siteService = new SiteService();
-        $this->campaignService = new CampaignService();
     }
 
     public function index(Request $request)
@@ -74,32 +72,41 @@ class AdsController extends Controller
     public function create()
     {
         $advertisers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=3") ?? [];
-        $sites = $this->siteService->listAllSite();
-        return view('administrator.' . $this->prefixView . '.add', compact('advertisers', 'sites'));
+        $sites = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=1000");
+
+        $statusOption = CampaignModel::STATUS;
+        $data = [
+            'advertisers' => $advertisers,
+            'sites' => $sites,
+            'status' => $statusOption,
+            'target_mode' => Common::TARGET_MODE,
+            'device' => Common::DEVICE,
+            'brows' => Common::BROWSER,
+            'dimensions' => Common::DIMENSIONS,
+            'injectionType' => Common::INJECTION_TYPE
+        ];
+
+//        dd($data);
+        return view('administrator.' . $this->prefixView . '.add', $data);
     }
 
     public function store(Request $request)
     {
-        $request = $request->all();
-        $this->campaignService->storeCampaignAdServer($request);
-//        $item = $this->model->storeByQuery($request);
+        $item = $this->model->storeByQuery($request);
 
-//        if (is_array($item) && isset($item['errors'])) {
-//            Session::flash("error", json_encode($item));
-//            return back();
-//        }
+        if (is_array($item) && isset($item['errors'])) {
+            Session::flash("error", json_encode($item));
+            return back();
+        }
 
         return redirect()->route('administrator.' . $this->prefixView . '.edit', ["id" => $item->id]);
     }
 
     public function edit($id)
     {
-
         $item = $this->model->where('ads_api_id', $id)->orWhere('id', $id)->first();
         $zone = $item->zoneApi();
         $ads = $item->adApi();
-
-
         $advertisers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=3") ?? [];
 
         return view('administrator.' . $this->prefixView . '.edit', compact('item', 'advertisers', 'zone', 'ads'));

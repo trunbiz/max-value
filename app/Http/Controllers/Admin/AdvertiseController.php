@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\AdsAdvertiser;
+use App\Models\AdsCampaignModel;
 use App\Models\Advertise;
 use App\Http\Controllers\Controller;
+use App\Models\AssignUserModel;
 use App\Models\CampaignAd;
+use App\Models\CampaignModel;
 use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\National;
 use App\Models\TypeAdv;
 use App\Models\User;
 use App\Models\Website;
+use App\Models\ZoneModel;
+use App\Services\AssignUserService;
 use App\Services\Common;
-use App\Services\SiteService;
-use App\Services\ZoneService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -34,8 +37,8 @@ class AdvertiseController extends Controller
         $this->initBaseModel($model);
         $this->title = "Zone";
         $this->shareBaseModel($model);
-        $this->zoneService = new ZoneService();
-        $this->siteService = new SiteService();
+        $this->commonService = new Common();
+        $this->assignUserService = new AssignUserService();
     }
 
     public function index(Request $request)
@@ -45,8 +48,6 @@ class AdvertiseController extends Controller
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4");
 
         $items = [];
-        $website_id = $request->website_id ?? null;
-
         if (isset($request->website_id) && !empty($request->website_id)) {
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/zone?idsite=" . $request->website_id);
         }else{
@@ -66,7 +67,7 @@ class AdvertiseController extends Controller
 
         $items = Formatter::paginator($request, $items);
 
-        return view('administrator.' . $this->prefixView . '.index', compact('items', 'websites', 'publishers', 'website_id'));
+        return view('administrator.' . $this->prefixView . '.index', compact('items', 'websites', 'publishers'));
     }
 
     public function get(Request $request, $id)
@@ -74,51 +75,35 @@ class AdvertiseController extends Controller
         return $this->model->findById($id);
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $request = $request->all();
-        $website_id = $request['website_id'] ?? null;
-        if (empty($website_id))
-        {
-            abort(404);
-        }
-
-        $data['site'] = $this->siteService->getSite($website_id);
-        $data['list_format_zone'] = \App\Models\Advertise::getCategoryRecusive();
-        $data['dimensions'] = Common::DIMENSIONS;
-        $data['dimension_method'] = Common::DIMENSION_METHOD;
-        return view('administrator.' . $this->prefixView . '.add', $data);
+        return view('administrator.' . $this->prefixView . '.add');
     }
 
     public function store(Request $request)
     {
-        $request = $request->all();
-        $result = $this->zoneService->storeAdServer($request);
-        if (empty($result))
-        {
-            return abort(500, 'Có lỗi xảy ra');
-        }
-        return redirect()->route('administrator.zones.index', ['website_id' => $request['website_id']]);
+        $item = $this->model->storeByQuery($request);
+        return back();
+//        return redirect()->route('administrator.' . $this->prefixView . '.edit', ["id" => $item->id]);
     }
 
     public function edit($id)
     {
-        $data['title'] = "Detail Zone";
-//        $params = [
-//            'query' => [
-//                'dateBegin' => date("Y-m-d", Carbon::now()->startOfMonth()->timestamp),
-//                'dateEnd' => date("Y-m-d", Carbon::now()->endOfMonth()->timestamp),
-//                'idzone' => $id,
-//            ]
-//        ];
+        $title = "Detail Zone";
 
-//        $stat = Helper::callGetHTTP('https://api.adsrv.net/v2/stats', $params);
-        $data['list_format_zone'] = \App\Models\Advertise::getCategoryRecusive();
-        $data['dimensions'] = Common::DIMENSIONS;
-        $data['dimension_method'] = Common::DIMENSION_METHOD;
-        $data['item'] = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
+        $params = [
+            'query' => [
+                'dateBegin' => date("Y-m-d", Carbon::now()->startOfMonth()->timestamp),
+                'dateEnd' => date("Y-m-d", Carbon::now()->endOfMonth()->timestamp),
+                'idzone' => $id,
+            ]
+        ];
 
-        return view('administrator.' . $this->prefixView . '.show', $data);
+        $stat = Helper::callGetHTTP('https://api.adsrv.net/v2/stats', $params);
+
+        $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
+
+        return view('administrator.' . $this->prefixView . '.edit', compact('item', 'stat', 'title'));
     }
 
     public function indexDetail($id)
@@ -126,80 +111,51 @@ class AdvertiseController extends Controller
         $title = "Detail Zone";
 
         // $id là zone id
-
         $countries = National::orderby('name', 'ASC')->get();
-        $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
-
-        $site = Helper::callGetHTTP("https://api.adsrv.net/v2/site/" . $item['site']['id']);
-        $campaigns = [];
-
-        foreach ($item['assigned_ads'] as $itemAd){
-            $campaign = Helper::callGetHTTP("https://api.adsrv.net/v2/campaign/" . $itemAd['idcampaign']);
-            if (!Helper::isErrorAPIAdserver($campaign)){
-
-                $campaignAd = CampaignAd::firstOrCreate([
-                    'campaign_id' => $campaign['id'],
-                    'ad_id' => $itemAd['id'],
-                ],[
-                    'campaign_id' => $campaign['id'],
-                    'ad_id' => $itemAd['id'],
-                    'counter_percent' => 80
-                ]);
-
-                $campaign['counter_percent'] = $campaignAd['counter_percent'];
-                $campaign['order'] = $campaignAd['order'];
-                $campaign['ad_id'] = $itemAd['id'];
-                $campaign['continent'] = $campaignAd['continent'];
-
-                $fc_counter = 0;
-                $fc_limit = 0;
-                $fc_interval = 0;
-                $fc_mode = 0;
-
-                if (!empty($campaign['frequency_capping'])){
-                    if (str_contains($campaign['frequency_capping'], "imp")){
-                        $fc_counter = 1;
-                    }else{
-                        $fc_counter = 2;
-                    }
-
-                    if (str_contains($campaign['frequency_capping'], "Visitor")){
-                        $fc_mode = 1;
-                    }else{
-                        $fc_mode = 2;
-                    }
-
-                    $values = explode( " ", $campaign['frequency_capping']);
-                    $fc_limit = $values[0];
-
-                    $fc_interval = $campaign['frequency_capping'];
-                }
-
-                $campaign['infor_frequency_capping'] = [
-                    'fc_counter' => $fc_counter,
-                    'fc_limit' => $fc_limit,
-                    'fc_interval' => $fc_interval,
-                    'fc_mode' => $fc_mode,
-                ];
-
-                $campaigns[] = $campaign;
-
-            }
-        }
-
-        $campaigns = collect($campaigns)->sortBy('order')->toArray();
-
-        foreach ($campaigns as $index => $itemCampaign){
-
-            foreach ($itemCampaign['ads'] as $itemAds){
-                $campaigns[$index]['ad_infor'] = Helper::callGetHTTP("https://api.adsrv.net/v2/ad/" . $itemAds['id']);
-                break;
-            }
-        }
-
+        $item = Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);;
+        $sites = Helper::callGetHTTP("https://api.adsrv.net/v2/site/" . $item['site']['id']);
         $advertisers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3");
 
-        return view('administrator.' . $this->prefixView . '.detail', compact('item', 'site', 'advertisers','campaigns', 'countries'));
+        // Lấy thông tin Campaign có trong DB
+        $zoneInfo = ZoneModel::where('ad_zone_id', $id)->where('is_delete', Common::NOT_DELETE)->first();
+        $listCampaigns = $zoneInfo->getInfoCampaign ?? [];
+
+        $campaigns = [];
+        foreach ($listCampaigns as $campaign) {
+            $campaigns[] = [
+                'campaign' => array_merge(json_decode($campaign->extra_request, true) ?? [], [
+                    'ad_campaign_id' => $campaign->ad_campaign_id,
+                    'id' => $campaign->id,
+                ]),
+                'ads' => array_merge(json_decode($campaign->getAds->extra_response, true) ?? [], [
+                    'ad_ad_id' => $campaign->getAds->ad_ad_id,
+                    'id' => $campaign->getAds->id,
+                    'zone_id' => $campaign->getAds->zone_id,
+                    'campaign_id' => $campaign->getAds->campaign_id,
+                ])
+            ];
+        }
+        $dataResult = [
+            'item' => $item,
+            'zoneInfo' => $zoneInfo,
+            'listUserGroupAdmin' => $this->commonService->listUserGroupAdmin(),
+            'campaigns' => $campaigns,
+            'countries' => $countries,
+            'advertisers' => $advertisers,
+            'site' => $sites,
+            'status' => CampaignModel::STATUS,
+            'target_mode' => Common::TARGET_MODE,
+            'device' => Common::DEVICE,
+            'brows' => Common::BROWSER,
+            'dimensions' => Common::DIMENSIONS,
+            'injectionType' => Common::INJECTION_TYPE,
+            'listExtLabelPos' => Common::EXT_LABEL_POST,
+            'listExtMenuPos' => Common::EXT_MENU_POST,
+            'listExtBrandPos' => Common::EXT_BRAND_POST,
+            'listGeos' => Common::LIST_GEOS,
+        ];
+
+        return view('administrator.' . $this->prefixView . '.detail', $dataResult);
     }
 
     public function storeDetailConfig(Request $request, $id)
@@ -277,10 +233,18 @@ class AdvertiseController extends Controller
 
     public function updateDetailZone(Request $request, $id)
     {
+        $paramsRequest = $request->all();
         $params = [
             "name" => $request->name,
-            "revenue_rate" => $request->share,
         ];
+
+        $zoneInfo = ZoneModel::where('ad_zone_id', $id)->first();
+
+        // Update assign user
+        if (!empty($zoneInfo) && !empty($paramsRequest['assign_user']))
+        {
+            $this->assignUserService->saveAssignUser(AssignUserModel::TYPE['ZONE'], $zoneInfo->id, $paramsRequest['assign_user'], auth()->user()->id ?? '0');
+        }
 
         Helper::callPutHTTP("https://api.adsrv.net/v2/zone/" . $id, $params);
         return back();

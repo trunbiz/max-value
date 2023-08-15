@@ -959,13 +959,13 @@ section.payment {
     margin-top: 28px;
     right: 3%;
 }
-#payment ul li i:before, ul li i:after {
-    content: "";
-    position: absolute;
-    background-color: #1D79C4;
-    width: 2px;
-    height: 18px;
-}
+/*#payment ul li i:before, ul li i:after {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    background-color: #1D79C4;*/
+/*    width: 2px;*/
+/*    height: 18px;*/
+/*}*/
 #payment ul li i:before {
     transform: translate(-2px, 0) rotate(45deg);
 }

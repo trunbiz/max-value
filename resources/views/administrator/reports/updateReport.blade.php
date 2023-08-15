@@ -118,8 +118,8 @@
                                                 <?php
 
                                                 $pImp = round(!empty($item->change_impressions) ? $item->change_impressions : ($item->impressions * ($item->change_count / 100)));
-                                                $pRevenue = round(($pImp == 0 ? 0 : ($pImp / 1000 * $item->cpm * ($item->change_share / 100))), 2);
-                                                $pCpm = round($pImp == 0 ? 0 : (!empty($item->change_cpm) ? $item->change_cpm : ($pRevenue / $pImp * 1000)), 3);
+                                                $pCpm = round($pImp == 0 ? 0 : ($item->cpm * ($item->change_share / 100)), 3);
+                                                $pRevenue = round(($pImp == 0 ? 0 : ($pImp / 1000 * $pCpm)), 2);
                                                 $pProfit = round($item->revenue - $pRevenue, 2);
 
                                                 $totalRequest += $item->request ?? 0;
@@ -247,16 +247,17 @@
             var $row = $(this).closest('tr'); // Tìm hàng gần nhất chứa các phần tử input
             var change_count = parseFloat($row.find('input[name="change_count"]').val()) || 0;
             var change_share = parseFloat($row.find('input[name="change_share"]').val()) || 0;
-            var request = parseInt($row.find('td:nth-child(3)').text().replace(",", "")) || 0;
-            var impressions = parseInt($row.find('td:nth-child(4)').text().replace(",", "")) || 0;
-            var cpm = parseFloat($row.find('td:nth-child(6)').text()) || 0;
-            var revenue = parseFloat($row.find('td:nth-child(7)').text()) || 0;
+            var request = parseInt($row.find('td:nth-child(4)').text().replace(",", "")) || 0;
+            var impressions = parseInt($row.find('td:nth-child(5)').text().replace(",", "")) || 0;
+            var cpm = parseFloat($row.find('td:nth-child(7)').text()) || 0;
+            var revenue = parseFloat($row.find('td:nth-child(8)').text()) || 0;
             var rate = (impressions / request) * 100;
 
             var pImp = parseInt((impressions * (change_count / 100)));
-            var pRevenue = (pImp / 1000 * cpm * (change_share / 100));
-            var pCpm = (pRevenue / pImp * 1000);
+            var pCpm = (cpm * (change_share / 100));
+            var pRevenue = (pImp / 1000 * pCpm);
             var profit = revenue - pRevenue;
+            console.log(123, pCpm, change_share, cpm)
 
             $row.find('.pImp').text(pImp.toLocaleString("en-US", {useGrouping: true}));
             $row.find('.pCpm').text(pCpm.toFixed(3).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: true}));

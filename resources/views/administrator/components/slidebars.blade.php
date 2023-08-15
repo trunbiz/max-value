@@ -28,46 +28,53 @@
                 </li>
             @endcan
 
-            @can('ads-list')
+{{--            @can('ads-list')--}}
+{{--                <li class="sidebar-list">--}}
+{{--                    <a--}}
+{{--                        class="sidebar-link sidebar-title link-nav" href="/administrator/ads">--}}
+{{--                        <i class="fa-solid fa-fire"></i>--}}
+{{--                        <span>Campaign</span>--}}
+{{--                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            @endcan--}}
+
+            @can('websites-list')
                 <li class="sidebar-list">
                     <a
-                        class="sidebar-link sidebar-title link-nav" href="/administrator/ads">
-                        <i class="fa-solid fa-fire"></i>
-                        <span>Campaign</span>
+                        class="sidebar-link sidebar-title link-nav" href="/administrator/websites">
+                        <i class="fa-solid fa-globe"></i>
+                        <span>Website</span>
                         <div class="according-menu"><i class="fa fa-angle-right"></i></div>
                     </a>
                 </li>
-            @endcan
-
-            @can('websites-list')
-
-                <li class="sidebar-list">
-                    <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                        <i class="fa-solid fa-globe"></i>
-                        <span class="">Websites</span>
-                        <div class="according-menu"><i class="fas fa fa-angle-right"></i></div>
-                    </a>
-                    <ul class="sidebar-submenu" style="display: none;">
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav" href="/administrator/websites">
-                                <i class="fa-solid fa-globe"></i>
-                                <span>Website</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                        @can('advertises-list')
-                            <li class="sidebar-list">
-                                <a
-                                    class="sidebar-link sidebar-title link-nav" href="/administrator/zones">
-                                    <i class="fa-solid fa-rectangle-ad"></i>
-                                    <span>Zones</span>
-                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
+{{--                <li class="sidebar-list">--}}
+{{--                    <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">--}}
+{{--                        <i class="fa-solid fa-globe"></i>--}}
+{{--                        <span class="">Websites</span>--}}
+{{--                        <div class="according-menu"><i class="fas fa fa-angle-right"></i></div>--}}
+{{--                    </a>--}}
+{{--                    <ul class="sidebar-submenu" style="display: none;">--}}
+{{--                        <li class="sidebar-list">--}}
+{{--                            <a--}}
+{{--                                class="sidebar-link sidebar-title link-nav" href="/administrator/websites">--}}
+{{--                                <i class="fa-solid fa-globe"></i>--}}
+{{--                                <span>Website</span>--}}
+{{--                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        @can('advertises-list')--}}
+{{--                            <li class="sidebar-list">--}}
+{{--                                <a--}}
+{{--                                    class="sidebar-link sidebar-title link-nav" href="/administrator/zones">--}}
+{{--                                    <i class="fa-solid fa-rectangle-ad"></i>--}}
+{{--                                    <span>Zones</span>--}}
+{{--                                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        @endcan--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
             @endcan
             @can('reports-list')
                 <li class="sidebar-list">
@@ -119,6 +126,7 @@
                 </li>
             @endcan
 
+            @can(['job_emails-list', 'job_emails-list'])
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
                     <i class="fas fa-thin fa-bell"></i>
@@ -152,15 +160,25 @@
 
                 </ul>
             </li>
+            @endcan
 
-
+            @can('settings-list')
             <li class="sidebar-list">
                 <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                    <i class="fas fa-solid fa-ruler-combined"></i>
-                    <span class="">Decentralization</span>
-                    <div class="according-menu"><i class="fas fa fa-angle-right"></i></div>
+                    <i class="fa-solid fa-gear"></i>
+                    <span class="">Admin</span>
                 </a>
                 <ul class="sidebar-submenu" style="display: none;">
+                    @can('logos-list')
+                        <li>
+                            <a
+                                class="sidebar-link sidebar-title link-nav" href="/administrator/logos">
+                                <i class="fas fa-brands fa-pied-piper"></i>
+                                <span>Logo</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
                     @can('employees-list')
                         <li>
                             <a
@@ -172,7 +190,6 @@
                             </a>
                         </li>
                     @endcan
-
                     @can('roles-list')
                         <li>
                             <a
@@ -183,72 +200,12 @@
                             </a>
                         </li>
                     @endcan
-
-                </ul>
-            </li>
-
-            <li class="sidebar-list">
-                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                    <i class="fas fa-solid fa-file-pen"></i>
-                    <span class="">Content</span>
-                    <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                </a>
-                <ul class="sidebar-submenu" style="display: none;">
-
-                    @can('logos-list')
-                        <li>
-                            <a
-                                class="sidebar-link sidebar-title link-nav" href="/administrator/logos">
-                                <i class="fas fa-brands fa-pied-piper"></i>
-                                <span>Logo</span>
-                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                            </a>
-                        </li>
-                    @endcan
-
-                </ul>
-            </li>
-
-            <li class="sidebar-list">
-                <a class="sidebar-link sidebar-title" href="javascript:void(0)" data-bs-original-title="" title="">
-                    <i class="fa-solid fa-gear"></i>
-                    <span class="">Setting</span>
-                </a>
-                <ul class="sidebar-submenu" style="display: none;">
-
                     <li class="sidebar-list">
                         <a
-                            class="sidebar-link sidebar-title link-nav" href="/administrator/password">
-                            <span>Password</span>
+                            class="sidebar-link sidebar-title link-nav" href="/administrator/api">
+                            <span>API</span>
                         </a>
                     </li>
-
-                    @can('settings-list')
-
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav" href="/administrator/percent">
-                                <span>Percent Ads</span>
-                            </a>
-                        </li>
-
-                        {{--                        <li class="sidebar-list">--}}
-                        {{--                            <a--}}
-                        {{--                                class="sidebar-link sidebar-title link-nav" href="/administrator/ads_txt">--}}
-                        {{--                                <span>Ads.txt</span>--}}
-                        {{--                            </a>--}}
-                        {{--                        </li>--}}
-
-                        <li class="sidebar-list">
-                            <a
-                                class="sidebar-link sidebar-title link-nav" href="/administrator/api">
-                                <span>API</span>
-                            </a>
-                        </li>
-
-                    @endcan
-
-
                     <li class="sidebar-list">
                         <a
                             class="sidebar-link sidebar-title link-nav" href="{{route('administrator.logout')}}">
@@ -256,20 +213,19 @@
                             <span>Logout</span>
                         </a>
                     </li>
-
+                    @can('history_datas-list')
+                        <li class="sidebar-list">
+                            <a
+                                class="sidebar-link sidebar-title link-nav"
+                                href="/administrator/history-datas">
+                                <i class="fas fa-solid fa-database"></i>
+                                <span>History data</span>
+                                <div class="according-menu"><i class="fa fa-angle-right"></i></div>
+                            </a>
+                        </li>
+                    @endcan
                 </ul>
             </li>
-
-            @can('history_datas-list')
-                <li class="sidebar-list">
-                    <a
-                        class="sidebar-link sidebar-title link-nav"
-                        href="/administrator/history-datas">
-                        <i class="fas fa-solid fa-database"></i>
-                        <span>History data</span>
-                        <div class="according-menu"><i class="fa fa-angle-right"></i></div>
-                    </a>
-                </li>
             @endcan
 
         </ul>

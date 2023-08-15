@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'maxvalue.media'),
 
     /*
     |--------------------------------------------------------------------------
@@ -161,6 +161,10 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+
+        //Backup
+        \Spatie\Backup\BackupServiceProvider::class,
+        \App\Providers\GoogleDriveServiceProvider::class,
 
         /*
          * Package Service Providers...

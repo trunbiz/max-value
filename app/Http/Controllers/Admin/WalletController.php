@@ -69,9 +69,11 @@ class WalletController extends Controller
 
     public function update(Request $request)
     {
+        $position = $request->position;
         $withdrawUser = WithdrawUser::find($request->id);
-        if ($withdrawUser->status != 1)
+        if ($withdrawUser->withdraw_status_id != 1)
         {
+            $item = $withdrawUser;
             return response()->json([
                 'status' => false,
                 'messsage' => 'Status unkinow',
@@ -80,7 +82,6 @@ class WalletController extends Controller
         }
 
         $item = $this->model->updateByQuery($request, $request->id);
-        $position = $request->position;
         return response()->json([
             'status' => true,
             'messsage' => 'Update Successful',

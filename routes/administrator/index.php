@@ -454,6 +454,13 @@ Route::prefix('administrator')->group(function () {
 
     });
 
+    Route::prefix('campaigns')->group(function () {
+        Route::post('/update', [
+            'as' => 'administrator.campaign.update',
+            'uses' => 'App\Http\Controllers\Admin\CampaignController@update',
+        ]);
+    });
+
     Route::prefix('contacts')->group(function () {
         Route::get('/', [
             'as' => 'administrator.contacts.index',

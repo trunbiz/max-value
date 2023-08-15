@@ -33,4 +33,14 @@ class ZoneService
         return Helper::callPostHTTP("https://api.adsrv.net/v2/zone?idsite=" . $params['website_id'], $data);
     }
 
+    public function deleteZoneAdServer($id)
+    {
+        return Helper::callDeleteHTTP("https://api.adsrv.net/v2/zone/" . $id);
+    }
+
+    public function getInfoZoneAdServer($id)
+    {
+        return Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
+    }
+
 }

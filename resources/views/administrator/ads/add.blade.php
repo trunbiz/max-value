@@ -19,153 +19,244 @@
 
         <form action="{{route('administrator.'.$prefixView.'.store')}}" method="post" enctype="multipart/form-data">
             @csrf
-            <div class="card">
-                <div class="card-body">
-                    <div class="form-group mt-3">
-                        <h3>Campaign Info</h3>
+            <div class="row">
+                <div class="col-xl-6">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group mt-3">
+                                <h3>Campaign Info</h3>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Name</label>
+                                <input type="text" autocomplete="off" name="campaign[name]" class="form-control"
+                                       value="">
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Advertiser <span class="text-danger">*</span></label>
+                                <select
+                                    class="form-control choose_value select2_init advertiser_api_id"
+                                    required name="campaign[advertiser_api_id]">
+                                    <option value="null"> -- Chọn --</option>
+                                    @foreach($advertisers as $advertiser)
+                                        <option value="{{$advertiser['id']}}">{{$advertiser['name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Website <span class="text-danger">*</span></label>
+                                <select
+                                    class="form-control choose_value select2_init list-site"
+                                    required name="campaign[site_id]">
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Status</label>
+                                <select
+                                    class="form-control choose_value select2_init"
+                                    required name="campaign[status]">
+                                    @foreach($status as $key => $value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mt-3 campaign-option-button">
+                                Options
+                                <span class="badge badge-primary"> <i
+                                        class="fa-solid fa-plus"></i></span>
+                            </div>
+                            <div class="campaign-option" style="display: none">
+                                <div class="form-group mt-3">
+                                    <label>Geo</label>
+                                    <select
+                                        class="form-control choose_value select2_init"
+                                        required name="campaign[geo]">
+                                        @foreach($status as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label>Device targeting</label>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <label for="Device" class="col-sm-2 col-form-label">Device</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[device_mode]">
+                                                @foreach($target_mode as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select
+                                                class="form-control choose_value select2_init"
+                                                multiple data-live-search="true"
+                                                name="campaign[device][]">
+                                                @foreach($device as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <label for="Device" class="col-sm-2 col-form-label">Browser</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[browser_mode]">
+                                                @foreach($target_mode as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select
+                                                multiple data-live-search="true"
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[browser][]">
+                                                @foreach($brows as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-12">
+                                            <label for="Device" class="col-sm-2 col-form-label">Language</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[language_mode]">
+                                                @foreach($target_mode as $key => $value)
+                                                    <option value="{{$key}}">{{$value}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <select
+                                                multiple data-live-search="true"
+                                                class="form-control choose_value select2_init"
+                                                name="campaign[language][]">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-3" style="text-align: center">
+                                <button class="btn btn-primary mt-3">Save</button>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label>Name campaign <span class="text-danger">(*)</span></label>
-                            <input type="text" autocomplete="off" name="campaign[name]" class="form-control"
-                                   value="" required>
+
+
+                </div>
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group mt-3">
+                                <h3>Ads Info</h3>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <div class="form-group mt-3">
+                                    <label>Ads Name</label>
+                                    <input type="text" autocomplete="off" name="ads['name']" class="form-control"
+                                           value="">
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label>Dimensions @include('user.components.lable_require')</label>
+                                <select
+                                    class="form-control choose_value select2_init @error("dimension_id") is-invalid @enderror"
+                                    required name="ads[iddimension]">
+                                    @foreach($dimensions as $key => $value)
+                                        <option value="{{$key}}">{{$value['name']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Injection type @include('user.components.lable_require')</label>
+                                <select
+                                    class="form-control choose_value select2_init"
+                                    required name="ads[idinjectiontype]">
+                                    @foreach($injectionType as $key => $value)
+                                        <option value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label>Zone @include('user.components.lable_require')</label>
+                                <select
+                                    class="form-control choose_value select2_init list_zone"
+                                    required name="zone[id]">
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label>Html/Javascript code @include('user.components.lable_require')</label>
+                                <textarea name="ads[content_html]"
+                                          class="form-control"
+                                          rows="5" required></textarea>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-6">
-                            <label>Advertiser <span class="text-danger">(*)</span></label>
-                            <select
-                                class="form-control choose_value select2_init"
-                                required name="campaign[advertiser_api_id]">
-                                @foreach($advertisers as $advertiser)
-                                    <option value="{{$advertiser['id']}}">{{$advertiser['name']}}
-                                        /{{$advertiser['email']}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label>Category</label>
-                            <select
-                                class="form-control"
-                                name="campaign[idCategory]">
-                                <option value="13">Arts & Entertainment</option>
-                                <option value="34"> Business</option>
-                                <option value="31"> Uncategorized </option>
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label>Status <span class="text-danger">(*)</span></label>
-                            <select
-                                class="form-control"
-                                name="campaign[status]">
-                                <option value="1510">Pending</option>
-                                <option value="1520" selected>Approved</option>
-                                <option value="1530">Blocked</option>
-                            </select>
-                        </div>
-                    </div>
-                    {{--                    CREATE ADS--}}
-                    <hr>
-                    <div class="form-group mt-3">
-                        <h3>Ads Info</h3>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label>Ads name <span class="text-danger">(*)</span></label>
-                            <input type="text" autocomplete="off" name="ads[ad_name]" class="form-control"
-                                   value="">
-                        </div>
-                        {{--                        <div class="form-group col-sm-6">--}}
-                        {{--                            <label>Landing page URL</label>--}}
-                        {{--                            <input class="form-control" name="ads[url]">--}}
-                        {{--                        </div>--}}
-                        <div class="form-group col-sm-6">
-                            <label>Dimensions <span class="text-danger">(*)</span></label>
-                            <select
-                                class="form-control choose_value select2_init"
-                                required name="ads[dimension_id]">
-                                <option value="46">120x600 / Skyscrape</option>
-                                <option value="29">120x240 / Vertical Banner</option>
-                                <option value="32">125x125 / Square Button</option>
-                                <option value="11">160x600 / Wide Skyscraper</option>
-                                <option value="10">180x150 / Rectangle</option>
-                                <option value="36">200x200 / Small Square</option>
-                                <option value="19">234x60 / Half Banner</option>
-                                <option value="5">240x400 / Vertical Rectangle</option>
-                                <option value="37">250x250 / Square Pop-Up</option>
-                                <option value="40">300x100 / 3:1 Rectangle</option>
-                                <option value="9">300x250 / Medium Rectangle</option>
-                                <option value="47">300x600 / Half-page Ad</option>
-                                <option value="52">315x300</option>
-                                <option value="35">320x100 / Large Mobile Banner</option>
-                                <option value="34">320x50 / Mobile Banner</option>
-                                <option value="48">320x480 / Mobile Interstitial</option>
-                                <option value="38">336x280 / Large Rectangle</option>
-                                <option value="1">468x60 / Full Banner</option>
-                                <option value="49">480x320</option>
-                                <option value="42">580x400 / Netboard</option>
-                                <option value="50">600x400</option>
-                                <option value="41">720x300 / Pop-Under</option>
-                                <option value="6">728x90 / Leaderboard</option>
-                                <option value="33">88x31 / Micro Bar</option>
-                                <option value="51">930x180 / Top Banner</option>
-                                <option value="20">970x90 / Large Leaderboard</option>
-                                <option value="21">970x250 / Billboard</option>
-                                <option value="24">980x120 / Panorama</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label>Injection type <span class="text-danger">(*)</span></label>
-                            <select
-                                class="form-control choose_value select2_init"
-                                required name="ads[idinjectiontype]">
-                                <option value="32">IFrame container</option>
-                                <option value="35">IFrame container (strict)</option>
-                                <option value="33">Direct injection</option>
-                                <option value="36">Direct injection (in-place)</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label>Html/Javascript code <span class="text-danger">(*)</span></label>
-                            <textarea name="ads[content_html]"
-                                      class="form-control"
-                                      rows="5" required></textarea>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group mt-3">
-                        <h3>Zone Info</h3>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label>Site <span class="text-danger">(*)</span></label>
-                            <select
-                                class="form-control" id="siteSelect"
-                                name="site[id]">
-                                <option value="">-- Chọn Site --</option>
-                                @foreach($sites as $site)
-                                    <option value="{{$site['id']}}">{{$site['name']}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-6">
-                            <label>Zone <span class="text-danger">(*)</span></label>
-                            <select id="zoneSelect"
-                                class="form-control"
-                                name="zone[id][]">
-                            </select>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row" style="text-align: center">
-                        <div class="col-xl-12">
-                            <button type="submit" class="btn btn-primary mt-3">Save</button>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </form>
-    </div>
 
-    @include('administrator.scriptJquery')
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(".campaign-option-button").click(function () {
+                $(".campaign-option").toggle(1000);
+            });
+            $(".advertiser_api_id").change(function(){
+                var id = $('select[name="campaign[advertiser_api_id]"]').val();
+                callAjax(
+                    "GET",
+                    "{{ route('ajax.administrator.website.listByPublisher') }}" + "?id="+id,{},
+                    (response) => {
+                        $(".list-site").empty();
+                        let html = ' <option value="null"> -- Chọn --</option>';
+                        $.each(response.data,function(key, value)
+                        {
+                            $(".list-site").append(html + '<option value=' + key + '>' + value + '</option>');
+                        });
+                    }
+
+                )
+            });
+
+            // lấy danh sách zone theo site
+            $(".list-site").change(function(){
+                var id = $('select[name="campaign[site_id]"]').val();
+                callAjax(
+                    "GET",
+                    "{{ route('ajax.administrator.zone.listBySite') }}" + "?id="+id,{},
+                    (response) => {
+                        $(".list_zone").empty();
+                        $.each(response.data,function(key, value)
+                        {
+                            $(".list_zone").append('<option value=' + key + '>' + value + '</option>');
+                        });
+                    }
+
+                )
+            });
+        });
+    </script>
+
 @endsection
 @section('js')
 @endsection

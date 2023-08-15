@@ -272,18 +272,18 @@ class User extends Authenticatable implements MustVerifyEmail
         if (!empty($request->manager_id)){
             $manager = User::findOrFail($request->manager_id);
 
-            $params['idmanager'] = $manager->api_publisher_id;
+//            $params['idmanager'] = $manager->api_publisher_id;
         }else{
-            $params['idmanager'] = 0;
+//            $params['idmanager'] = 0;
             if (auth()->user()->is_admin != 2){
                 $manager = \auth()->user();
-                $params['idmanager'] = auth()->user()->api_publisher_id;
+//                $params['idmanager'] = auth()->user()->api_publisher_id;
             }
         }
 
-        if($params['idmanager'] == 0){
-            unset($params['idmanager']);
-        }
+//        if($params['idmanager'] == 0){
+//            unset($params['idmanager']);
+//        }
 
         $itemApi = Helper::callPostHTTP("https://api.adsrv.net/v2/user", $params);
 
