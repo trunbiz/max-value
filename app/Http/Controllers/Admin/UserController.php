@@ -10,6 +10,7 @@ use App\Models\Helper;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserType;
+use App\Services\Common;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,7 @@ class UserController extends Controller
         $this->shareBaseModel($model);
         $this->role = $role;
         $userTypes = UserType::all();
+        $this->commonService = new Common();
         View::share('userTypes', $userTypes);
     }
 
@@ -43,7 +45,7 @@ class UserController extends Controller
 //            return redirect()->route('administrator.dashboard.index');
 //        }
 //        if (auth()->user()->is_admin == 2 || optional(auth()->user()->role)->name == "Admin") {
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
+        $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
 //        } else {
 //            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
 //        }
@@ -53,7 +55,14 @@ class UserController extends Controller
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
         $items = Formatter::paginator($request, $items);
-        return view('administrator.' . $this->prefixView . '.index', compact('items', 'users', 'urls'));
+        $data = [
+            'items' => $items,
+            'users' => $users,
+            'urls' => $urls,
+            'listUserGroupAdmin' => $this->commonService->listUserGroupAdmin()
+        ];
+        dd($data);
+        return view('administrator.' . $this->prefixView . '.index', $data);
     }
 
     public function get(Request $request, $id)
@@ -109,14 +118,14 @@ class UserController extends Controller
         if (empty($item))
             return response()->json([
                 'status' => false,
-                'message' => 'Không tìm thấy thông tin',
+                'message' => 'Không tìm thấy thông tin user trong database',
             ]);
 
         $itemAdserver = Helper::callGetHTTP("https://api.adsrv.net/v2/user/" . $item->api_publisher_id);
         if (Helper::isErrorAPIAdserver($itemAdserver))
             return response()->json([
                 'status' => false,
-                'message' => 'Không tìm thấy thông tin',
+                'message' => 'Không tìm thấy thông tin trên hệ thống AdServer',
             ]);
 
         return response()->json([

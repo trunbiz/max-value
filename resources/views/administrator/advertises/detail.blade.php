@@ -115,22 +115,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mt-3">
-                            <div class="col-3">
-                                Assign User
-                            </div>
-                            <div class="col-9">
-                                <select
-                                    class="form-control choose_value select2_init"
-                                    name="assign_user[]"
-                                    multiple data-live-search="true">
-                                    @foreach($listUserGroupAdmin as $value)
-                                        <option
-                                            value="{{$value->id}}" {{in_array($value->id, $zoneInfo->getArrayUserAssign() ?? []) ? 'selected' : ''}}>{{$value->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+{{--                        <div class="row mt-3">--}}
+{{--                            <div class="col-3">--}}
+{{--                                Assign User--}}
+{{--                            </div>--}}
+{{--                            <div class="col-9">--}}
+{{--                                <select--}}
+{{--                                    class="form-control choose_value select2_init"--}}
+{{--                                    name="assign_user[]"--}}
+{{--                                    multiple data-live-search="true">--}}
+{{--                                    @foreach($listUserGroupAdmin as $value)--}}
+{{--                                        <option--}}
+{{--                                            value="{{$value->id}}" {{in_array($value->id, $zoneInfo->getArrayUserAssign() ?? []) ? 'selected' : ''}}>{{$value->name}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="row mt-3">
                             <div class="col-3">
                                 Created by:

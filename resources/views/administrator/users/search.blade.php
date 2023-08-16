@@ -54,7 +54,17 @@
                         <input type="password" name="password" class="form-control">
                     </div>
                     <div class="mb-3">
-                        @include('administrator.components.select_category' , ['label' => 'Manager','name' => 'manager_id_add' ,'html_category' => \App\Models\User::getCategory(isset($item) ? optional($item)->manger_id : '')])
+                        <input type="text" hidden name="manager_id" class="form-control" value="0">
+{{--                        @include('administrator.components.select_category' , ['label' => 'Manager','name' => 'manager_id_add' ,'html_category' => \App\Models\User::getCategory(isset($item) ? optional($item)->manger_id : '')])--}}
+                        <label>Assign User</label>
+                        <select id="assign_user" class="form-control choose_value select2_init" required
+                                name="assign_user">
+                            <option value='null'>-Select-</option>
+                            @foreach($listUserGroupAdmin as $userAdmin)
+                                <option value="{{$userAdmin}}">{{$userAdmin->name}}</option>
+                            @endforeach
+                        </select>
+
                     </div>
                     <div class="mb-3">
                         <label>Active? @include('user.components.lable_require')</label>

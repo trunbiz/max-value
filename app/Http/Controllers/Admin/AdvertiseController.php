@@ -241,10 +241,10 @@ class AdvertiseController extends Controller
         $zoneInfo = ZoneModel::where('ad_zone_id', $id)->first();
 
         // Update assign user
-        if (!empty($zoneInfo) && !empty($paramsRequest['assign_user']))
-        {
-            $this->assignUserService->saveAssignUser(AssignUserModel::TYPE['ZONE'], $zoneInfo->id, $paramsRequest['assign_user'], auth()->user()->id ?? '0');
-        }
+//        if (!empty($zoneInfo) && !empty($paramsRequest['assign_user']))
+//        {
+//            $this->assignUserService->saveAssignUser(AssignUserModel::TYPE['ZONE'], $zoneInfo->id, $paramsRequest['assign_user'], auth()->user()->id ?? '0');
+//        }
 
         Helper::callPutHTTP("https://api.adsrv.net/v2/zone/" . $id, $params);
         return back();
