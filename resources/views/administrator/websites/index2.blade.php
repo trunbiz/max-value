@@ -464,8 +464,9 @@
             id_site = idsite;
             id_status = idstatus;
 
+
             $('select[name="status_id"]').val(id_status).change()
-            $('select[name="site_id"]').val(idsite).change()
+            $('input[name="site_id"]').val(idsite).change()
         }
 
         function deleteSite(siteId) {
@@ -719,7 +720,7 @@
                 },
                 cache: false,
                 data: {
-                    idsite: $('select[name="site_id"]').val(),
+                    idsite: $('input[name="site_id"]').val(),
                     idstatus: $('select[name="status_id"]').val(),
                 },
                 url: "{{route('ajax.administrator.website.update')}}",
@@ -730,6 +731,7 @@
                     hideModal('editStatusModal')
                     hideLoading()
                     $('#tr_container_' + id_site).html(response.html_row)
+                    window.location.reload();
                 },
                 error: function (err) {
                     hideLoading()
