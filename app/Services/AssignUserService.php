@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\AssignUserModel;
+use Carbon\Carbon;
 
 class AssignUserService
 {
@@ -12,9 +13,9 @@ class AssignUserService
 
     }
 
-    public function saveAssignUser($type, $serviceId, $listUserId, $created_at)
+    public function saveAssignUser($type, $serviceId, $listUserId)
     {
-        $this->removeAssign($type, $serviceId, $created_at);
+        $this->removeAssign($type, $serviceId);
         $data = [];
         foreach ($listUserId as $userId)
         {
@@ -22,18 +23,18 @@ class AssignUserService
                 'type' => $type,
                 'service_id' => $serviceId,
                 'user_id' => $userId,
-                'created_at' => $created_at
+                'created_at' => Carbon::now()
             ];
         }
 
         return AssignUserModel::insert($data);
     }
 
-    public function removeAssign($type, $serviceId, $created_at)
+    public function removeAssign($type, $serviceId)
     {
         return AssignUserModel::where('type', $type)->where('service_id', $serviceId)->update([
             'is_delete' => Common::IS_DELETE,
-            'updated_at' => $created_at
+            'updated_at' => Carbon::now()
         ]);
     }
 }

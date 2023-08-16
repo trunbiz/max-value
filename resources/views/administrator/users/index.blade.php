@@ -48,12 +48,8 @@
                                         </td>
                                         <td>{{$item['id']}}</td>
                                         <td>
-                                            @foreach($users as $itemUser)
-                                                @if($item['id'] == $itemUser->api_publisher_id)
-                                                    {{optional($itemUser->manager)->name}}
-                                                    @break
-                                                @endif
-                                            @endforeach
+                                            {{var_dump($item->getFirstUserAssign())}}
+{{--                                            {{!empty($item->getFirstUserAssign()->name) ? $item->getFirstUserAssign()->name : $item->name}}--}}
                                         </td>
                                         <td>
                                             @foreach($users as $itemUser)
@@ -269,8 +265,8 @@
                 '{{route('administrator.users.update')}}'+ '?id='+id,
                 {
                     password: $this.find('input[name="password"]').val(),
-                    manager_id: $this.find('select[name="manager_id"]').val(),
                     user_status_id: $this.find('select[name="user_status_id"]').val(),
+                    assign_user: $this.find('select[name="assign_user"]').val(),
                 },
                 (response) => {
                     if(response.status == true){
@@ -282,6 +278,7 @@
                             }
                         );
                         $('.list__data').find('.item'+id).after(response.html).remove();
+                        location.reload();
                     }else{
                         Swal.fire(
                             {

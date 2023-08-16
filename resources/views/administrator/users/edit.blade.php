@@ -15,7 +15,16 @@
                     <input type="password" name="password" class="form-control">
                 </div>
                 <div class="mb-3">
-                    <input type="text" hidden name="manager_id" class="form-control" value="0">
+                    <label>Assign User</label>
+                    <select id="assign_user" class="form-control choose_value select2_init" required
+                            name="assign_user">
+
+                        <option value='null'>-Select-</option>
+                        @foreach($listUserGroupAdmin as $userAdmin)
+                            <option value="{{$userAdmin->id}}" {{in_array($userAdmin->id, $item->getArrayUserAssign() ?? []) ? 'selected' : ''}}>{{$userAdmin->name}}</option>
+                        @endforeach
+                    </select>
+{{--                    <input type="text" hidden name="manager_id" class="form-control" value="0">--}}
 {{--                    <div class="form-group mt-3">--}}
 {{--                        <label>Manager @include('user.components.lable_require')</label>--}}
 {{--                        <select id="manager_id" class="form-control choose_value select2_init" required--}}

@@ -54,14 +54,14 @@
                         <input type="password" name="password" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <input type="text" hidden name="manager_id" class="form-control" value="0">
+                        <input type="text" hidden name="manager_id" class="form-control" value="{{auth()->user()->id}}">
 {{--                        @include('administrator.components.select_category' , ['label' => 'Manager','name' => 'manager_id_add' ,'html_category' => \App\Models\User::getCategory(isset($item) ? optional($item)->manger_id : '')])--}}
                         <label>Assign User</label>
                         <select id="assign_user" class="form-control choose_value select2_init" required
                                 name="assign_user">
                             <option value='null'>-Select-</option>
                             @foreach($listUserGroupAdmin as $userAdmin)
-                                <option value="{{$userAdmin}}">{{$userAdmin->name}}</option>
+                                <option value="{{$userAdmin->id}}">{{$userAdmin->name}}</option>
                             @endforeach
                         </select>
 
@@ -124,7 +124,8 @@
             data: {
                 email: $('input[name="email"]').val(),
                 password: $('input[name="password"]').val(),
-                manager_id: $('select[name="manager_id_add"]').val(),
+                manager_id: $('input[name="manager_id"]').val(),
+                assign_user: $('select[name="assign_user"]').val(),
                 user_status_id: $('select[name="user_status_id_add"]').val(),
             },
             beforeSend: function() {

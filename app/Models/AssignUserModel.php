@@ -19,6 +19,7 @@ class AssignUserModel extends Model
     ];
 
     const TYPE = [
-        'ZONE' => 'ZONE'
+        'ZONE' => 'ZONE',
+        'PUBLISHER' => 'PUBLISHER'
     ];
 }

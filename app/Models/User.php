@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Components\Recusive;
+use App\Services\Common;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use App\Traits\UserTrait;
@@ -271,19 +272,11 @@ class User extends Authenticatable implements MustVerifyEmail
         $manager = \auth()->user();
         if (!empty($request->manager_id)){
             $manager = User::findOrFail($request->manager_id);
-
-//            $params['idmanager'] = $manager->api_publisher_id;
         }else{
-//            $params['idmanager'] = 0;
             if (auth()->user()->is_admin != 2){
                 $manager = \auth()->user();
-//                $params['idmanager'] = auth()->user()->api_publisher_id;
             }
         }
-
-//        if($params['idmanager'] == 0){
-//            unset($params['idmanager']);
-//        }
 
         $itemApi = Helper::callPostHTTP("https://api.adsrv.net/v2/user", $params);
 
@@ -419,5 +412,18 @@ class User extends Authenticatable implements MustVerifyEmail
         $item->gender;
         $item->role;
         return $item;
+    }
+
+    public function getArrayUserAssign()
+    {
+        return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
+            ->where('type', AssignUserModel::TYPE['PUBLISHER'])
+            ->where('is_delete', Common::NOT_DELETE)->pluck('user_id')->toArray();
+    }
+    public function getFirstUserAssign()
+    {
+        return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
+            ->where('type', AssignUserModel::TYPE['PUBLISHER'])
+            ->where('is_delete', Common::NOT_DELETE)->first();
     }
 }
