@@ -23,6 +23,7 @@ class Helper extends Model
 
     protected $urlAdServer;
     protected $accessTokenAdServer;
+
     public function __construct()
     {
         $this->urlAdServer = config('api.adServer.url');
@@ -387,7 +388,8 @@ class Helper extends Model
 
     }
 
-    public static function getToken(){
+    public static function getToken()
+    {
         $setting = Setting::first();
         return optional($setting)->token_api;
     }
@@ -409,8 +411,7 @@ class Helper extends Model
 
             $headers = [
                 'Content-Type' => 'application/json',
-                'AccessToken' => 'C_RnD5JkSIN2Ylcb4loeYNe4MZ5cAL8DL1OqG0DY',
-                'Authorization' => 'Bearer '. self::getToken(),
+                'Authorization' => 'Bearer ' . self::getToken(),
             ];
 
             $client = new Client([
@@ -432,8 +433,7 @@ class Helper extends Model
         try {
             $headers = [
                 'Content-Type' => 'application/json',
-                'AccessToken' => 'C_RnD5JkSIN2Ylcb4loeYNe4MZ5cAL8DL1OqG0DY',
-                'Authorization' => 'Bearer '. self::getToken(),
+                'Authorization' => 'Bearer ' . self::getToken(),
             ];
 
             $response = Http::withHeaders($headers)->timeout(10)
@@ -443,6 +443,7 @@ class Helper extends Model
 
             return $response;
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             if ($exception->getCode() == 429) return self::callPostHTTP($url, $params);
             Log::error($exception->getMessage());
             return null;
@@ -455,8 +456,7 @@ class Helper extends Model
         try {
             $headers = [
                 'Content-Type' => 'application/json',
-                'AccessToken' => 'C_RnD5JkSIN2Ylcb4loeYNe4MZ5cAL8DL1OqG0DY',
-                'Authorization' => 'Bearer '. self::getToken(),
+                'Authorization' => 'Bearer ' . self::getToken(),
             ];
 
             $response = Http::withHeaders($headers)->timeout(10)
@@ -478,8 +478,7 @@ class Helper extends Model
         try {
             $headers = [
                 'Content-Type' => 'application/json',
-                'AccessToken' => 'C_RnD5JkSIN2Ylcb4loeYNe4MZ5cAL8DL1OqG0DY',
-                'Authorization' => 'Bearer '. self::getToken(),
+                'Authorization' => 'Bearer ' . self::getToken(),
             ];
 
             $response = Http::withHeaders($headers)->timeout(10)
@@ -535,7 +534,7 @@ class Helper extends Model
 
     public static function impressPub($amount)
     {
-        return (int) (((float)$amount) * (optional(Setting::first())->count ?? 0) / 100);
+        return (int)(((float)$amount) * (optional(Setting::first())->count ?? 0) / 100);
     }
 
     public static function totalByKeyInArray($array, $key)
@@ -544,8 +543,8 @@ class Helper extends Model
         $total = 0;
 
         foreach ($array as $item) {
-            if (isset($item[$key])){
-                $total += (float) $item[$key];
+            if (isset($item[$key])) {
+                $total += (float)$item[$key];
             }
         }
 
@@ -559,11 +558,11 @@ class Helper extends Model
 
     public static function htmlStatus($input)
     {
-        if ($input == "Pending"){
+        if ($input == "Pending") {
             return "<span style=\"display: flex;align-items: center;background-color: #fffcf9;padding: 5px;border-radius: 15px;color: #ffc500;\"><a class='ms-1 me-1'>{$input}</a><i class=\"fa-solid fa-rotate\"></i></span>";
-        }else if ($input == "Approved"){
+        } else if ($input == "Approved") {
             return "<span style=\"display: flex;align-items: center;background-color: #d0ffef;padding: 5px;border-radius: 15px;color: #03a900;\"><a class='ms-1 me-1'>{$input}</a><i class=\"fa-solid fa-rotate\"></i></span>";
-        }else{
+        } else {
             return "<span style=\"display: flex;align-items: center;background-color: #ffdbdb;padding: 5px;border-radius: 15px;color: #ff0000;\"><a class='ms-1 me-1'>{$input}</a><i class=\"fa-solid fa-rotate\"></i></span>";
         }
     }

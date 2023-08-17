@@ -10,22 +10,57 @@
 @section('content')
 
     <div class="container-fluid list-products">
-        <div class="row">
-
-            <form action="{{route('administrator.'.$prefixView.'.store')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('administrator.zones.store')}}" method="post" enctype="multipart/form-data">
+                <div class="row">
                 @csrf
-                <div class="col-md-12">
-
-                    @include('administrator.components.require_input_text' , ['name' => 'name' , 'label' => 'Name'])
-
-                    @include('administrator.components.select_category' , ['label' => 'Domain', 'name' => 'website_id' ,'html_category' => \App\Models\Advertise::getWeb(isset($item) ? optional($item)->category_id : ''), 'can_create' => true])
-
-                    @include('administrator.components.select_category' , ['label' => 'Type advertises', 'name' => 'type_adv' ,'html_category' => \App\Models\Advertise::getTypeAd(isset($item) ? optional($item)->category_id : ''), 'can_create' => true])
-
-                    @include('administrator.components.button_save')
+                <div class="form-group col-sm-12">
+                    <label>Website: {{$site['name']}}</label>
+                    <input hidden type="text" autocomplete="off" name="website_id" class="form-control"
+                           value="{{$site['id']}}" required>
+                </div>
+                    <div class="form-group col-sm-6">
+                        <label>Name</label>
+                        <input type="text" autocomplete="off" name="name" class="form-control"
+                               value="" required>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Format</label>
+                        <select id="format" class="form-control choose_value select2_init" required
+                                name="format_id">
+                            @foreach($list_format_zone as $key => $item)
+                                <option value="{{$key}}">{{$item}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Dimension</label>
+                        <select id="dimension" class="form-control choose_value select2_init" required
+                                name="dimension_id">
+                           @foreach($dimensions as $key => $item)
+                                <option value="{{$key}}">{{$item}}</option>
+                           @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>Dimension Method</label>
+                        <select id="dimension_method_id" class="form-control choose_value select2_init" required
+                                name="dimension_method_id">
+                            @foreach($dimension_method as $key => $item)
+                                <option value="{{$key}}">{{$item}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <input class="form-check-input" type="checkbox" value="1" id="active" name="active">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Active
+                        </label>
+                    </div>
+                    <div class="form-group col-sm-12" style="text-align: center">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
                 </div>
             </form>
-        </div>
 
     </div>
 

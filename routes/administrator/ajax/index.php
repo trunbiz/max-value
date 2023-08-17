@@ -44,6 +44,7 @@ Route::prefix('ajax/administrator')->group(function () {
         Route::prefix('website')->group(function () {
             Route::post('/store', function (Request $request) {
 
+                $requestParams = $request->all();
                 $params = [
                     "url" => $request->url,
                     "idcategory" => $request->id_category,
@@ -60,6 +61,20 @@ Route::prefix('ajax/administrator')->group(function () {
 
 
                 $item = Helper::callPostHTTP("https://api.adsrv.net/v2/site", $params);
+
+                // Lưu dữ lieu vao database
+                \App\Models\Website::create([
+                    'user_id' => auth()->user()->id ?? '0',
+                    'name' => $item['name'] ?? '0',
+                    'url' => $item['url'] ?? '0',
+                    'category_website_id' => $item['category']['id'] ?? '0',
+                    'description' => '0',
+                    'status' => $item['status']['id'] ?? '0',
+                    'api_site_id' => $item['id'] ?? '0',
+                    'is_delete' => 0,
+                    'created_by' => auth()->user()->id ?? '0',
+                ]);
+
                 $users = User::where('is_admin', 0)->get();
 
                 if (Helper::isErrorAPIAdserver($item)){
@@ -208,6 +223,10 @@ Route::prefix('ajax/administrator')->group(function () {
                 ];
 
                 $item = Helper::callPutHTTP("https://api.adsrv.net/v2/zone/" . $request->zone_id, $params);
+
+                \App\Models\ZoneModel::where('ad_zone_id', $request->zone_id)->update([
+                    'updated_by' => auth()->user()->id ?? '0'
+                ]);
 
 //                $site_id  = Helper::callGetHTTP('https://api.adsrv.net/v2/zone/'. $request->zone_id)['site']['id'];
 //                $send_to = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'. $site_id)['publisher']['email'];

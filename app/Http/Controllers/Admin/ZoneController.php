@@ -67,6 +67,8 @@ class ZoneController extends Controller
            'status' => $item['status']['id'],
            'extra_params' => json_encode($params),
            'extra_response' => json_encode($item),
+           'created_by' => auth()->user()->id ?? '0',
+           'updated_by' => auth()->user()->id ?? '0',
         ]);
 
         if (Helper::isErrorAPIAdserver($item)) {
@@ -113,6 +115,12 @@ class ZoneController extends Controller
         $request = $request->all();
         $id = $request['id'] ?? null;
         $this->zoneService->deleteZoneAdServer($id);
+        // xoa trong database
+        ZoneModel::where('ad_zone_id', $id)->update([
+            'is_delete' => 1,
+            'updated_by' => auth()->user()->id ?? '0'
+        ]);
+
         return response()->json([
             'status' => true,
             'message' => 'remove zone success',

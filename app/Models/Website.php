@@ -19,6 +19,20 @@ class Website extends Model implements Auditable
     use StorageImageTrait;
 
     protected $guarded = [];
+    protected $table = 'websites';
+
+    protected $fillable = [
+        'user_id',
+        'name',
+        'url',
+        'category_website_id',
+        'description',
+        'status',
+        'api_site_id',
+        'is_delete',
+        'created_by',
+        'updated_by',
+    ];
 
     // begin
 

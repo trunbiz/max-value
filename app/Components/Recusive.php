@@ -28,5 +28,13 @@ class Recusive
         }
         return $this->htmlSelect;
     }
+    public function getCategoryRecusive($parent_id, $id = 0, $text = '')
+    {
+        $data = [];
+        foreach ($this->data as $value) {
+            $data[$value->id] = $value->name;
+        }
+        return $data;
+    }
 }
 

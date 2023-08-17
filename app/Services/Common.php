@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\User;
+
 class Common
 {
 
@@ -286,6 +288,11 @@ class Common
         1562822 => 'Vietnam'
     ];
 
+    const IS_DELETE = 1;
+    const NOT_DELETE = 0;
+
+    const ACTIVE = 1;
+
     static function getNameDimension($height, $width)
     {
         foreach (self::DIMENSIONS as $key => $item)
@@ -296,5 +303,10 @@ class Common
             }
         }
         return '';
+    }
+
+    public function listUserGroupAdmin()
+    {
+        return User::where('is_admin', '<>', 0)->where('active', self::ACTIVE)->get();
     }
 }
