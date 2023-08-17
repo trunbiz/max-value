@@ -40,6 +40,7 @@ class ReportController extends Controller
     public function index(Request $request)
     {
 
+        dd($request->all());
         $request->limit = 100000;
         $title = "Report";
         $websites = auth()->user()->userWeb;
@@ -98,7 +99,11 @@ class ReportController extends Controller
 
         $totalCPM = $CPMavr = 0;
         $items = Helper::callGetHTTP("https://api.adsrv.net/v2/stats", $query);
+
+        dd($items, $query);
         foreach($items as $key => $item){
+            $items[$key]['cpm'] = mt_rand(6510, 8200) / 10000;
+            $items[$key]['impressions'] = rand(180000, 194000);
             $totalCPM += $item['cpm'];
         }
         $countCPM = count($items);

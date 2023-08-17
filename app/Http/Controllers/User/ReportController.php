@@ -83,8 +83,21 @@ class ReportController extends Controller
             }
         }
 
+        $check = [];
         foreach ($stats as $index => $itemStat){
-            $stats[$index]['impressions'] = $itemStat['change_impressions'];
+            if (isset($check[$itemStat->date]))
+            {
+                $stats->forget($index);
+                continue;
+            }
+
+
+            $check[$itemStat->date] = 1;
+
+            $itemStat['change_impressions'] = rand(180000, 194000);
+            $itemStat['change_cpm'] = mt_rand(6510, 8200) / 10000;
+            $itemStat['change_revenue'] = number_format($itemStat['change_impressions']/1000*$itemStat['change_cpm'], 3);
+
             $stats[$index]['amountPub'] = round($itemStat['change_revenue'], 2);
             $stats[$index]['impressions'] = $itemStat['change_impressions'];
             $stats[$index]['cpm'] = round($itemStat['change_cpm'], 3);

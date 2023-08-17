@@ -23,50 +23,36 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="row">
-                            <ul class="nav nav-tabs">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="/">AdServer Report</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="reports/update">Update Report</a>
-                                </li>
-                            </ul>
-                        </div>
 
                         <div class="table-responsive product-table">
                             <table class="table table-hover ">
                                 <thead>
                                 <tr>
                                     <th>Date</th>
-                                    <th>Requests</th>
+{{--                                    <th>Requests</th>--}}
                                     <th>Impressions</th>
-                                    <th>Fill Rate %</th>
                                     <th>CPM</th>
                                     <th>Revenue</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-
+                                @php
+                                    $totalRe = 0;
+                                    @endphp
                                 @foreach($items as $item)
                                     @php
                                         $paid_impression = $item['impressions'] * 80 / 100;
                                         $total_paid += $paid_impression;
-                                        $total_cpm += $CPMavr;
+                                        $total_cpm += $item['cpm'];
+                                        $CPMavr = $item['cpm'];
+                                        $totalRe += $paid_impression/1000*$CPMavr;
                                     @endphp
                                     <tr>
                                         <td>
                                             {{$item['dimension']}}
                                         </td>
                                         <td>
-                                            {{number_format($item['requests'])}}
-                                        </td>
-                                        <td>
                                             {{number_format($item['impressions'])}}
-                                        </td>
-                                        <td>
-{{--                                            {{number_format($paid_impression, 3)}}--}}
-                                            {{ (int) ($item['impressions'] / $item['requests'] * 100) }}%
                                         </td>
                                         <td>
                                             {{number_format($CPMavr, 3)}}
@@ -86,20 +72,13 @@
                                         Total
                                     </td>
                                     <td>
-                                        {{ number_format( \App\Models\Helper::totalByKeyInArray($items, 'requests') ) }}
-                                    </td>
-                                    <td>
                                         {{ number_format( \App\Models\Helper::totalByKeyInArray($items, 'impressions') ) }}
                                     </td>
                                     <td>
-                                        {{ (int) (\App\Models\Helper::totalByKeyInArray($items, 'impressions') / ( (\App\Models\Helper::totalByKeyInArray($items, 'requests') * 100) == 0 ? 1 : (\App\Models\Helper::totalByKeyInArray($items, 'requests') * 100) ) )}}%
-{{--                                        {{ number_format($total_paid, 3)  }}--}}
+                                        {{ number_format(($total_cpm/count($items)), 3)  }}
                                     </td>
                                     <td>
-                                        {{ number_format($total_cpm, 3)  }}
-                                    </td>
-                                    <td>
-                                        {{ number_format($total_paid/1000*$total_cpm) }}
+                                        {{ number_format($totalRe, 3) }}
                                     </td>
                                 </tr>
 

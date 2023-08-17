@@ -1388,7 +1388,7 @@ Route::prefix('administrator')->group(function () {
     Route::prefix('reports')->group(function () {
         Route::get('/', [
             'as' => 'administrator.reports.index',
-            'uses' => 'App\Http\Controllers\Admin\ReportController@updateReport',
+            'uses' => 'App\Http\Controllers\Admin\ReportController@index',
             'middleware' => 'can:reports-list',
         ]);
 
