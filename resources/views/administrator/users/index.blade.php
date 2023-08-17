@@ -48,8 +48,7 @@
                                         </td>
                                         <td>{{$item['id']}}</td>
                                         <td>
-                                            {{var_dump($item->getFirstUserAssign())}}
-{{--                                            {{!empty($item->getFirstUserAssign()->name) ? $item->getFirstUserAssign()->name : $item->name}}--}}
+                                            {{!empty($listUserByPublisher[$item['id']]) ? $listUserByPublisher[$item['id']] : $item['name']}}
                                         </td>
                                         <td>
                                             @foreach($users as $itemUser)

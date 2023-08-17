@@ -54,29 +54,37 @@ class UserController extends Controller
 //        } else {
 //            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
 //        }
+        foreach ($items as $item)
+        {
+            $listApiPublisherId[] = $item['id'];
+        }
+
+        // Nếu là Publisher manager thì chỉ được nhìn các publisher tạo được ass
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+            foreach ($items as $key=>$item)
+            {
+                $publisherInfo = User::where('api_publisher_id', $item['id'])->first();
+                if (empty($publisherInfo))
+                    continue;
+
+                if ($publisherInfo->manager_id !=auth()->user()->id && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id)
+                {
+                    unset($items[$key]);
+                }
+            }
+        }
 
         $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
 
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
-        $items = Formatter::paginator($items, [
-            'assign_user' => ['id', 'user_id', 'service_id']
-        ]);
-        ;
+        $items = Formatter::paginator($request, $items);
         $listApiPublisherId = [];
         $listUserByPublisher = [];
-        dd($items);
-        foreach ($items as $item)
-        {
-            dd($item);
-            $listApiPublisherId[] = $item['id'];
-            dd($item->getFirstUserAssign());
-        }
 
         if (!empty($listApiPublisherId))
         {
             $listUserByPublisher = $this->userService->getListUserByPublisher($listApiPublisherId);
-            dd($listUserByPublisher);
         }
         $data = [
             'items' => $items,

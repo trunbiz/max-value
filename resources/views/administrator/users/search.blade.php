@@ -53,6 +53,7 @@
                         <label>Mật khẩu<span class="text-danger">*</span></label>
                         <input type="password" name="password" class="form-control">
                     </div>
+                    @if(auth()->user()->role->id != \App\Models\User::ROLE_PUBLISHER_MANAGER)
                     <div class="mb-3">
                         <input type="text" hidden name="manager_id" class="form-control" value="{{auth()->user()->id}}">
 {{--                        @include('administrator.components.select_category' , ['label' => 'Manager','name' => 'manager_id_add' ,'html_category' => \App\Models\User::getCategory(isset($item) ? optional($item)->manger_id : '')])--}}
@@ -66,6 +67,7 @@
                         </select>
 
                     </div>
+                    @endif
                     <div class="mb-3">
                         <label>Active? @include('user.components.lable_require')</label>
                         <select class="form-control choose_value select2_init" name="user_status_id_add">

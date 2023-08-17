@@ -12,6 +12,6 @@ class UserService
 
     public function getListUserByPublisher($listApiPublisherId)
     {
-        return User::whereIn('api_publisher_id', $listApiPublisherId)->pluck('api_publisher_id', 'id');
+        return User::whereIn('api_publisher_id', $listApiPublisherId)->pluck('name', 'api_publisher_id')->toArray();
     }
 }

@@ -58,6 +58,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    const ROLE_PUBLISHER_MANAGER = 5;
+
     // begin
 
     public function addTransection($amount, $description){
@@ -424,6 +426,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
             ->where('type', AssignUserModel::TYPE['PUBLISHER'])
-            ->where('is_delete', Common::NOT_DELETE)->first();
+            ->where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->first();
     }
 }
