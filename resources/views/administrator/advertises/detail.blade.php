@@ -136,7 +136,7 @@
                                 Created by:
                             </div>
                             <div class="col-9">
-                                {{$zoneInfo->getUserCreated()->name}}
+                                {{$zoneInfo->getUserCreated()->name ?? ''}}
                             </div>
                         </div>
 

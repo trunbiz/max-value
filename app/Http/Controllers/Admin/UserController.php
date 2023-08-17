@@ -331,11 +331,11 @@ class UserController extends Controller
     {
 
         $user_id = $request->user_id;
-        if (session()->get('hasClonedUser') == 1) {
-            auth()->loginUsingId(session()->remove('hasClonedUser'));
-            session()->remove('hasClonedUser');
-            return redirect()->route('administrator.users.index');
-        }
+//        if (session()->get('hasClonedUser') == 1) {
+//            auth()->loginUsingId(session()->remove('hasClonedUser'));
+//            session()->remove('hasClonedUser');
+//            return redirect()->route('administrator.users.index');
+//        }
 
         //only run for developer, clone selected user and create a cloned session
         if (auth()->user()->id == 1) {
