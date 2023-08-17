@@ -240,9 +240,12 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         $role = optional(auth()->user())->role;
-        $permissions = $role->permissions;
-        if ($permissions->contains('key_code', $permissionCheck)) {
-            return true;
+        if (!empty($role))
+        {
+            $permissions = $role->permissions;
+            if ($permissions->contains('key_code', $permissionCheck)) {
+                return true;
+            }
         }
 
         return false;
