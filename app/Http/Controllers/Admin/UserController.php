@@ -59,12 +59,18 @@ class UserController extends Controller
 
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
-        $items = Formatter::paginator($request, $items);
+        $items = Formatter::paginator($items, [
+            'assign_user' => ['id', 'user_id', 'service_id']
+        ]);
+        ;
         $listApiPublisherId = [];
         $listUserByPublisher = [];
+        dd($items);
         foreach ($items as $item)
         {
+            dd($item);
             $listApiPublisherId[] = $item['id'];
+            dd($item->getFirstUserAssign());
         }
 
         if (!empty($listApiPublisherId))
