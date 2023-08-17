@@ -381,25 +381,25 @@ Route::prefix('administrator')->group(function () {
     Route::prefix('zones')->group(function () {
 
         Route::get('/', [
-            'as' => 'administrator.advertises.index',
+            'as' => 'administrator.zones.index',
             'uses' => 'App\Http\Controllers\Admin\AdvertiseController@index',
             'middleware' => 'can:advertises-list',
         ]);
 
         Route::get('/create', [
-            'as' => 'administrator.advertises.create',
+            'as' => 'administrator.zones.create',
             'uses' => 'App\Http\Controllers\Admin\AdvertiseController@create',
             'middleware' => 'can:advertises-add',
         ]);
 
         Route::post('/store', [
-            'as' => 'administrator.advertises.store',
+            'as' => 'administrator.zones.store',
             'uses' => 'App\Http\Controllers\Admin\AdvertiseController@store',
             'middleware' => 'can:advertises-add',
         ]);
 
         Route::get('/edit/{id}', [
-            'as' => 'administrator.advertises.edit',
+            'as' => 'administrator.zones.edit',
             'uses' => 'App\Http\Controllers\Admin\AdvertiseController@edit',
             'middleware' => 'can:advertises-edit',
         ]);

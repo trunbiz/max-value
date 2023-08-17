@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\ModelExport;
 use App\Http\Controllers\Controller;
+use App\Models\AssignUserModel;
 use App\Models\CampaignAd;
 use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserType;
+use App\Services\AssignUserService;
+use App\Services\Common;
+use App\Services\UserService;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +37,9 @@ class UserController extends Controller
         $this->shareBaseModel($model);
         $this->role = $role;
         $userTypes = UserType::all();
+        $this->commonService = new Common();
+        $this->assignUserService = new AssignUserService();
+        $this->userService = new UserService();
         View::share('userTypes', $userTypes);
     }
 
@@ -43,17 +50,50 @@ class UserController extends Controller
 //            return redirect()->route('administrator.dashboard.index');
 //        }
 //        if (auth()->user()->is_admin == 2 || optional(auth()->user()->role)->name == "Admin") {
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
+        $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
 //        } else {
 //            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
 //        }
+        foreach ($items as $item)
+        {
+            $listApiPublisherId[] = $item['id'];
+        }
+
+        // Nếu là Publisher manager thì chỉ được nhìn các publisher tạo được ass
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+            foreach ($items as $key=>$item)
+            {
+                $publisherInfo = User::where('api_publisher_id', $item['id'])->first();
+                if (empty($publisherInfo))
+                    continue;
+
+                if ($publisherInfo->manager_id !=auth()->user()->id && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id)
+                {
+                    unset($items[$key]);
+                }
+            }
+        }
 
         $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
 
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
         $items = Formatter::paginator($request, $items);
-        return view('administrator.' . $this->prefixView . '.index', compact('items', 'users', 'urls'));
+        $listApiPublisherId = [];
+        $listUserByPublisher = [];
+
+        if (!empty($listApiPublisherId))
+        {
+            $listUserByPublisher = $this->userService->getListUserByPublisher($listApiPublisherId);
+        }
+        $data = [
+            'items' => $items,
+            'users' => $users,
+            'urls' => $urls,
+            'listUserByPublisher' => $listUserByPublisher,
+            'listUserGroupAdmin' => $this->commonService->listUserGroupAdmin()
+        ];
+        return view('administrator.' . $this->prefixView . '.index', $data);
     }
 
     public function get(Request $request, $id)
@@ -68,6 +108,8 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $requestParams = $request->all();
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
@@ -92,6 +134,12 @@ class UserController extends Controller
                     'message' => json_encode($item),
                 ], 500);
             }
+            // Lưu dữ liệu vào assign user
+            if (!empty($requestParams['assign_user']))
+            {
+                $this->assignUserService->saveAssignUser(AssignUserModel::TYPE['PUBLISHER'], $item->id, [$requestParams['assign_user']]);
+            }
+
             $item['user_id'] = $item->id;
             return response()->json([
                 'html' => view('administrator.' . $this->prefixView . '.add_table', compact('item'))->render(),
@@ -109,19 +157,24 @@ class UserController extends Controller
         if (empty($item))
             return response()->json([
                 'status' => false,
-                'message' => 'Không tìm thấy thông tin',
+                'message' => 'Không tìm thấy thông tin user trong database',
             ]);
 
         $itemAdserver = Helper::callGetHTTP("https://api.adsrv.net/v2/user/" . $item->api_publisher_id);
         if (Helper::isErrorAPIAdserver($itemAdserver))
             return response()->json([
                 'status' => false,
-                'message' => 'Không tìm thấy thông tin',
+                'message' => 'Không tìm thấy thông tin trên hệ thống AdServer',
             ]);
 
+        $data = [
+            'item' => $item,
+            'itemAdserver' => $itemAdserver,
+            'listUserGroupAdmin' => $this->commonService->listUserGroupAdmin()
+        ];
         return response()->json([
             'status' => true,
-            'html' => view('administrator.' . $this->prefixView . '.edit', compact('item', 'itemAdserver'))->render()
+            'html' => view('administrator.' . $this->prefixView . '.edit', $data)->render()
         ]);
 
         //return view('administrator.' . $this->prefixView . '.edit', compact('item','itemAdserver'));
@@ -129,8 +182,15 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $requestParams = $request->all();
         $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
         $item = $this->model->updateByQuery($request, $request->id);
+
+        // Lưu dữ liệu vào assign user
+        if (!empty($requestParams['assign_user']))
+        {
+            $this->assignUserService->saveAssignUser(AssignUserModel::TYPE['PUBLISHER'], $item->id, [$requestParams['assign_user']]);
+        }
 
         if (Helper::isErrorAPIAdserver($item)) {
             Session::flash("error", json_encode($item));

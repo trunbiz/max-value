@@ -72,6 +72,11 @@ class Advertise extends Model implements Auditable
 
         return $htmlOption;
     }
+    public function getCategoryRecusive($parent_id = null){
+        $data = TypeAdv::all();
+        $recusive = new Recusive($data);
+        return $recusive->getCategoryRecusive($parent_id);
+    }
 
     public function getDimension($parent_id = null){
         $data = Dimension::all();

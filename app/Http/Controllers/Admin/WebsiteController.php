@@ -73,6 +73,20 @@ class WebsiteController extends Controller
         // list Dimensions Method
         $listDimensionsMethod = ZoneModel::DIMENSIONS_METHOD;
 
+        // Lọc các website được ass mowis cho nhifn thaays
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+            foreach ($items as $key=>$item)
+            {
+                $publisherInfo = User::where('api_publisher_id', $item['publisher']['id'])->first();
+                if (empty($publisherInfo))
+                    continue;
+
+                if ($publisherInfo->manager_id !=auth()->user()->id && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id)
+                {
+                    unset($items[$key]);
+                }
+            }
+        }
         $items = Formatter::paginator($request,$items);
 
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4");
@@ -149,6 +163,9 @@ class WebsiteController extends Controller
         }
 
         Helper::callDeleteHTTP("https://api.adsrv.net/v2/site/". $id);
+
+        // Xoas site trong database
+        Website::where('api_site_id', $id)->update(['is_delete' => 1]);
 
         return response()->json([
             'code'=>200,

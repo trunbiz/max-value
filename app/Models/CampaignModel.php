@@ -15,6 +15,9 @@ class CampaignModel extends Model
         'id_run_status',
         'extra_request',
         'extra_response',
+        'is_delete',
+        'created_by',
+        'updated_by',
     ];
     const STATUS = [
         4010 => 'Running',

@@ -70,6 +70,9 @@ class CampaignService
             'id_run_status' => $campaignInfo['status']['id'],
             'extra_request' => json_encode($params['campaign']),
             'extra_response' => json_encode($campaignInfo),
+            'is_delete' => 0,
+            'created_by' => auth()->user()->id ?? '0',
+            'updated_by' => auth()->user()->id ?? '0',
         ]);
 
         // Tạo ads
