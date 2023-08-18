@@ -338,11 +338,9 @@ class UserController extends Controller
 //        }
 
         //only run for developer, clone selected user and create a cloned session
-        if (auth()->user()->id == 1) {
-            session()->put('hasClonedUser', auth()->user()->id);
-            auth()->loginUsingId($user_id);
-            return redirect()->route('user.dashboard.index');
-        }
+        session()->put('hasClonedUser', auth()->user()->id);
+        auth()->loginUsingId($user_id);
+        return redirect()->route('user.dashboard.index');
     }
 
     //Partner
