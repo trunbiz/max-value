@@ -242,7 +242,7 @@
                                                         required>
                                                         @foreach($injectionType as $key => $value)
                                                             <option
-                                                                value="{{$key}}" {{$campaignItem['campaign']['status'] == $key ? 'selected' : '' }}>{{$value}}</option>
+                                                                value="{{$key}}" {{$campaignItem['ads']['details']['idinjectiontype'] == $key ? 'selected' : '' }}>{{$value}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
