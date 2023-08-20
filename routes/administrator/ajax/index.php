@@ -59,12 +59,17 @@ Route::prefix('ajax/administrator')->group(function () {
                     ]);
                 }
 
+                // Lấy thông tin người assign publisher được gán
+
+                $infoPublisher = User::where('api_publisher_id', $request->id_publisher)->first();
+                $assignUser = !empty($infoPublisher->getFirstUserAssign()->id) ? ($infoPublisher->getFirstUserAssign()->getInfoAssign()->id) : $infoPublisher->id;
+
 
                 $item = Helper::callPostHTTP("https://api.adsrv.net/v2/site", $params);
 
                 // Lưu dữ lieu vao database
                 \App\Models\Website::create([
-                    'user_id' => auth()->user()->id ?? '0',
+                    'user_id' => $assignUser,
                     'name' => $item['name'] ?? '0',
                     'url' => $item['url'] ?? '0',
                     'category_website_id' => $item['category']['id'] ?? '0',

@@ -183,4 +183,10 @@ class Website extends Model implements Auditable
         return $item;
     }
 
+    public function getInfoAssign()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id')
+            ->first();
+    }
+
 }

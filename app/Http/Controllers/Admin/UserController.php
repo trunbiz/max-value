@@ -45,6 +45,8 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $listApiPublisherId = [];
+        $listUserAssign = [];
 
 //        if (!Gate::check('register-product-list')){
 //            return redirect()->route('administrator.dashboard.index');
@@ -60,17 +62,18 @@ class UserController extends Controller
         }
 
         // Nếu là Publisher manager thì chỉ được nhìn các publisher tạo được ass
-        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
-            foreach ($items as $key=>$item)
-            {
-                $publisherInfo = User::where('api_publisher_id', $item['id'])->first();
-                if (empty($publisherInfo))
-                    continue;
+        foreach ($items as $key => $item) {
+            $publisherInfo = User::where('api_publisher_id', $item['id'])->first();
+            if (empty($publisherInfo))
+                continue;
 
-                if ($publisherInfo->manager_id !=auth()->user()->id && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id)
-                {
-                    unset($items[$key]);
-                }
+            // Lấy thông tin các publisher được assign
+            $listUserAssign[$item['id']] = !empty($publisherInfo->getFirstUserAssign()->id) ? ($publisherInfo->getFirstUserAssign()->getInfoAssign()->name) : $publisherInfo->name;
+
+            if ($publisherInfo->manager_id != auth()->user()->id && !empty($publisherInfo->getFirstUserAssign()->user_id) && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id &&
+                auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER
+            ) {
+                unset($items[$key]);
             }
         }
 
@@ -79,18 +82,12 @@ class UserController extends Controller
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
         $items = Formatter::paginator($request, $items);
-        $listApiPublisherId = [];
-        $listUserByPublisher = [];
 
-        if (!empty($listApiPublisherId))
-        {
-            $listUserByPublisher = $this->userService->getListUserByPublisher($listApiPublisherId);
-        }
         $data = [
             'items' => $items,
             'users' => $users,
             'urls' => $urls,
-            'listUserByPublisher' => $listUserByPublisher,
+            'listUserAssign' => $listUserAssign,
             'listUserGroupAdmin' => $this->commonService->listUserGroupAdmin()
         ];
         return view('administrator.' . $this->prefixView . '.index', $data);

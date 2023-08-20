@@ -429,6 +429,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
             ->where('type', AssignUserModel::TYPE['PUBLISHER'])
+            ->where('user_id', '<>', 0)
             ->where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->first();
     }
 }

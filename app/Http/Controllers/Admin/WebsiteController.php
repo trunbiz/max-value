@@ -91,6 +91,15 @@ class WebsiteController extends Controller
 
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4");
 
+        $listAssign = [];
+        // Lấy danh sách được assign
+        foreach ($items as $item)
+        {
+            $webSiteInfo = Website::where('api_site_id', $item['id'])->first();
+            $listAssign[$item['id']] = $webSiteInfo->getInfoAssign()->name ?? 'chưa xác định';
+
+        }
+
         $dataResult = [
             'items' => $items,
             'categories' => $categories,
@@ -98,13 +107,8 @@ class WebsiteController extends Controller
             'listDimensions' => $listDimensions,
             'listDimensionsMethod' => $listDimensionsMethod,
             'publishers' => $publishers,
+            'listAssign' => $listAssign
         ];
-
-//        foreach ($items as $a)
-//        {
-//            if (empty($a['zones'])) continue;
-//            dd($a);
-//        }
 //        dd($dataResult);
 
         return view('administrator.' . $this->prefixView . '.index2', $dataResult);

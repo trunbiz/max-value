@@ -48,7 +48,7 @@
                                         </td>
                                         <td>{{$item['id']}}</td>
                                         <td>
-                                            {{!empty($listUserByPublisher[$item['id']]) ? $listUserByPublisher[$item['id']] : $item['name']}}
+                                            {{!empty($listUserAssign[$item['id']]) ? $listUserAssign[$item['id']] : $item['name']}}
                                         </td>
                                         <td>
                                             @foreach($users as $itemUser)
