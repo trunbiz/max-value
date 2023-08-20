@@ -81,8 +81,8 @@ class WebsiteController extends Controller
                 if (empty($publisherInfo))
                     continue;
 
-                if ($publisherInfo->manager_id !=auth()->user()->id && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id)
-                {
+                if ($publisherInfo->manager_id != auth()->user()->id && !empty($publisherInfo->getFirstUserAssign()->user_id)
+                    && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id) {
                     unset($items[$key]);
                 }
             }
@@ -96,7 +96,13 @@ class WebsiteController extends Controller
         foreach ($items as $item)
         {
             $webSiteInfo = Website::where('api_site_id', $item['id'])->first();
-            $listAssign[$item['id']] = $webSiteInfo->getInfoAssign()->name ?? 'chưa xác định';
+            if (!empty($webSiteInfo))
+            {
+                $listAssign[$item['id']] = !empty($webSiteInfo->getInfoAssign()->name) ? $webSiteInfo->getInfoAssign()->name :  'chưa xác định';
+            }
+            else{
+                $listAssign[$item['id']] = '';
+            }
 
         }
 
