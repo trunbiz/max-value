@@ -155,7 +155,7 @@ class ReportController extends Controller
         foreach ($data['items'] as $item) {
             if ($item->status) {
                 $item->change_count = $item->impressions == 0 ? 80: round((($item->change_impressions) * 100) / $item->impressions);
-                $item->change_share = ($item->change_impressions * $item->cpm) == 0 ? 70 : round(($item->change_revenue * 1000 * 100) / ($item->change_impressions * $item->cpm));
+                $item->change_share = empty($item->change_cpm) ? 70 : round(($item->cpm)*100/$item->change_cpm);
             } else {
                 $item->change_count = 80;
                 $item->change_share = 70;
