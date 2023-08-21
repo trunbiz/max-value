@@ -261,8 +261,12 @@
                 <div class="info__support">
 
                     @php
-                        $name = optional(auth()->user()->manager)->name ?? \App\Models\User::find(1)->name;
-                        $email = optional(auth()->user()->manager)->email ?? \App\Models\User::find(1)->email;
+//                        $name = optional(auth()->user()->manager)->name ?? \App\Models\User::find(1)->name;
+//                        $email = optional(auth()->user()->manager)->email ?? \App\Models\User::find(1)->email;
+
+                        $userAssign = auth()->user()->getFirstUserAssign();
+                        $name = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->name : (optional(auth()->user()->manager)->name ?? \App\Models\User::find(1)->name);
+                        $email = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->email : (optional(auth()->user()->manager)->email ?? \App\Models\User::find(1)->email);
                     @endphp
 
                     <div class="user__avatar">{{\App\Models\Formatter::getShortCharacter($name, 2)}}</div>

@@ -81,8 +81,7 @@ class WebsiteController extends Controller
                 if (empty($publisherInfo))
                     continue;
 
-                if ($publisherInfo->manager_id != auth()->user()->id && !empty($publisherInfo->getFirstUserAssign()->user_id)
-                    && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id) {
+                if (empty($publisherInfo->getFirstUserAssign()) || (!empty($publisherInfo->getFirstUserAssign()->user_id) && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id)) {
                     unset($items[$key]);
                 }
             }
