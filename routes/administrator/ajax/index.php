@@ -62,6 +62,13 @@ Route::prefix('ajax/administrator')->group(function () {
                 // Lấy thông tin người assign publisher được gán
 
                 $infoPublisher = User::where('api_publisher_id', $request->id_publisher)->first();
+                if (empty($infoPublisher))
+                {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Không tìm thấy publisher trong csdl',
+                    ]);
+                }
                 $assignUser = !empty($infoPublisher->getFirstUserAssign()->id) ? ($infoPublisher->getFirstUserAssign()->getInfoAssign()->id) : $infoPublisher->id;
 
 
