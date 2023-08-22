@@ -161,10 +161,10 @@
                                         <td>
                                         </td>
                                         <td>
-                                            {{$totalRequest}}
+                                            {{number_format($totalRequest)}}
                                         </td>
                                         <td>
-                                            {{$totalImp}}
+                                            {{number_format($totalImp)}}
                                         </td>
                                         <td class="rate">
                                             {{ round($aveRate/count($items)) }}%
@@ -181,7 +181,7 @@
                                         <td>
                                             {{round($aveShare/count($items), 3)}}
                                         </td>
-                                        <td class="pImp">{{$totalPIm}}</td>
+                                        <td class="pImp">{{number_format($totalPIm)}}</td>
                                         <td class="pCpm">{{$totalPCpm}}</td>
                                         <td class="pRevenue">{{$totalPReve}}</td>
                                         <td class="pProfit">{{$totalPProfit}}</td>
