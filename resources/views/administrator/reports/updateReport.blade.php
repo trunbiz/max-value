@@ -159,6 +159,8 @@
                                         <td>
                                         </td>
                                         <td>
+                                        </td>
+                                        <td>
                                             {{$totalRequest}}
                                         </td>
                                         <td>
