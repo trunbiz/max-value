@@ -136,6 +136,20 @@ class ReportController extends Controller
         {
             $query->where('date', '<=',$request['to']);
         }
+
+        // Publisher Manager chỉ được lấy các report do mình tự quản lý
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+
+            $listPublisherAssign = auth()->user()->getListUserAssign();
+            if (!empty($listPublisherAssign)) {
+
+                $listUserIdPublisher = User::whereIn('id', $listPublisherAssign)->pluck('api_publisher_id')->toArray();
+                $query->whereIn('publisher_id', $listUserIdPublisher);
+            } else {
+                $query->where('publisher_id', -1);
+            }
+        }
+
         $data['items'] = $query->orderBy('date', 'DESC')->paginate(25);
 
         if (isset($request->user_id) && !empty($request->user_id)) {

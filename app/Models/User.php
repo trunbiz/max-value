@@ -425,6 +425,13 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('type', AssignUserModel::TYPE['PUBLISHER'])
             ->where('is_delete', Common::NOT_DELETE)->pluck('user_id')->toArray();
     }
+
+    public function getListUserAssign()
+    {
+        return $this->hasOne(AssignUserModel::class, 'user_id', 'id')
+            ->where('type', AssignUserModel::TYPE['PUBLISHER'])
+            ->where('is_delete', Common::NOT_DELETE)->pluck('service_id')->toArray();
+    }
     public function getFirstUserAssign()
     {
         return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
