@@ -51,15 +51,11 @@
                                             {{!empty($listUserAssign[$item['id']]) ? $listUserAssign[$item['id']] : ''}}
                                         </td>
                                         <td>
-                                            @foreach($users as $itemUser)
-                                                @if($item['id'] == $itemUser->api_publisher_id)
-                                                    <form action="{{ route('administrator.imperrsonate') }}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="user_id" value="{{ $itemUser->id }}">
-                                                        <button class="btn btn-primary"> {{$item['email']}}</button>
-                                                    </form>
-                                                @endif
-                                            @endforeach
+                                            <form action="{{ route('administrator.imperrsonate') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="user_id" value="{{ $item['id'] }}">
+                                                <button class="btn btn-primary"> {{$item['email']}}</button>
+                                            </form>
                                         </td>
                                         <td>
                                             <ul>

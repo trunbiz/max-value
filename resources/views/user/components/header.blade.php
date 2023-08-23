@@ -282,7 +282,6 @@
             <div class="sidebvar__menu--main-info copyright">
                 <div class="info__support">
                     <div class="info__support--detail">System timezone UTC: {{ $date = date('Y-m-d H:i') }}</div>
-                    <div class="info__support--detail" style="display:none;">Copyright by © <a href="https://hazomedia.com/">Hazo</a></div>
                 </div>
             </div>
         </div>

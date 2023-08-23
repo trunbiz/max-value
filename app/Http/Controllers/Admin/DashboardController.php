@@ -19,6 +19,9 @@ class DashboardController extends Controller
     public function index(){
 
         if(auth()->check()){
+
+            return view('layouts.402');
+
             $totalRequest = $totalCPM = $totalCPMWeek = 0;
             $listSite = [];
             if(isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'week'){
