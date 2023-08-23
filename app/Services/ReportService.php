@@ -27,7 +27,6 @@ class ReportService
 
         $to = Carbon::now()->format('Y-m-d');
         $from = Carbon::now()->subDays(1)->format('Y-m-d');
-//        $from = '2023-01-01';
         foreach ($webIds['data'] as $web)
         {
             if (empty($web->zones))
@@ -39,6 +38,16 @@ class ReportService
                     continue;
 
                 foreach ($datas['data'] as $data) {
+
+                    $reportInfo = ReportModel::where('web_id', $web->id)
+                        ->where('zone_id', $zone->id)
+                        ->where('publisher_id', $web->publisher->id)
+                        ->where('date', $data->dimension)
+                        ->where('status', 1)->first();
+
+                    if (!empty($reportInfo))
+                        continue;
+
                     ReportModel::updateOrCreate([
                         'web_id' => $web->id,
                         'zone_id' => $zone->id,
