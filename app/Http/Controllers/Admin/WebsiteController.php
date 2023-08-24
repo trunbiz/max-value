@@ -44,24 +44,6 @@ class WebsiteController extends Controller
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=10000");
         }
 
-        $users = User::where('is_admin', 0)->get();
-
-        $itemsFilter = [];
-
-        foreach ($items as $item) {
-            $isHave = false;
-            foreach ($users as $itemUser){
-                if ($item['publisher']['id'] == $itemUser->api_publisher_id) {
-                    if (optional($itemUser->manager)->api_publisher_id == auth()->user()->api_publisher_id){
-                        $isHave = true;
-                    }
-                }
-            }
-            if ($isHave){
-                $itemsFilter[] = $item;
-            }
-        }
-
         // Comment tam phần này vì nó bị check quyền
 //        if (auth()->user()->is_admin != 2){
 //            $items = $itemsFilter;
@@ -75,6 +57,8 @@ class WebsiteController extends Controller
 
         // Lọc các website được ass mowis cho nhifn thaays
         if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+            $apiPublisherIdAssign = [];
+
             foreach ($items as $key=>$item)
             {
                 $publisherInfo = User::where('api_publisher_id', $item['publisher']['id'])->first();
@@ -83,9 +67,21 @@ class WebsiteController extends Controller
 
                 if (empty($publisherInfo->getFirstUserAssign()) || (!empty($publisherInfo->getFirstUserAssign()->user_id) && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id)) {
                     unset($items[$key]);
+                }else{
+                    $apiPublisherIdAssign[] = $item['publisher']['id'];
                 }
             }
+
+            if (!empty($apiPublisherIdAssign))
+            {
+                $users = User::where('is_admin', 0)->whereIn('api_publisher_id', $apiPublisherIdAssign)->get();
+            }
         }
+        else{
+            $users = User::where('is_admin', 0)->get();
+        }
+
+
         $items = Formatter::paginator($request,$items);
 
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4");

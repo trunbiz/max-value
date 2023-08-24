@@ -69,14 +69,13 @@ Route::prefix('ajax/administrator')->group(function () {
                         'message' => 'Không tìm thấy publisher trong csdl',
                     ]);
                 }
-                $assignUser = !empty($infoPublisher->getFirstUserAssign()->id) ? ($infoPublisher->getFirstUserAssign()->getInfoAssign()->id) : $infoPublisher->id;
 
 
                 $item = Helper::callPostHTTP("https://api.adsrv.net/v2/site", $params);
 
                 // Lưu dữ lieu vao database
                 \App\Models\Website::create([
-                    'user_id' => $assignUser,
+                    'user_id' => $infoPublisher->id ?? 0,
                     'name' => $item['name'] ?? '0',
                     'url' => $item['url'] ?? '0',
                     'category_website_id' => $item['category']['id'] ?? '0',
