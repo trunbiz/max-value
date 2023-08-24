@@ -77,7 +77,8 @@ class UserController extends Controller
             }
         }
 
-        $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
+//        $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
+        $users = User::whereIn('api_publisher_id', $listApiPublisherId)->get();
 
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
