@@ -81,7 +81,32 @@ class WebsiteController extends Controller
                 'message' => 'URL is had already',
             ]);
         }else{
-            $item = $this->model->storeByQuery($request);
+            $params = [
+                "url" => $request->url,
+                "idcategory" => $request->idcategory,
+                "idpublisher" => auth()->user()->api_publisher_id,
+                "idstatus" => 3520,
+            ];
+
+            $item = Helper::callPostHTTP("https://api.adsrv.net/v2/site", $params);
+
+            // Lưu dữ lieu vao database
+            Website::create([
+                'user_id' => auth()->user()->id ?? 0,
+                'name' => $item['name'] ?? '0',
+                'url' => $item['url'] ?? '0',
+                'category_website_id' => $item['category']['id'] ?? '0',
+                'description' => '0',
+                'status' => $item['status']['id'] ?? '0',
+                'api_site_id' => $item['id'] ?? '0',
+                'is_delete' => 0,
+                'created_by' => auth()->user()->id ?? '0',
+            ]);
+
+            if (Helper::isErrorAPIAdserver($item)){
+                return response()->json($item, 400);
+            }
+
             $status = $item['status']['name'];
             $category_name = $item['category']['iab'].': '.$item['category']['name'];
             return response()->json([
