@@ -51,11 +51,12 @@
                                             {{!empty($listUserAssign[$item['id']]) ? $listUserAssign[$item['id']] : ''}}
                                         </td>
                                         <td>
-                                            <form action="{{ route('administrator.imperrsonate') }}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="user_id" value="{{ $item['id'] }}">
-                                                <button class="btn btn-primary"> {{$item['email']}}</button>
-                                            </form>
+{{--                                            <form action="{{ route('administrator.imperrsonate') }}" method="post">--}}
+{{--                                                @csrf--}}
+{{--                                                <input type="hidden" name="user_id" value="{{ $item['id'] }}">--}}
+{{--                                                <button class="btn btn-primary"> {{$item['email']}}</button>--}}
+{{--                                            </form>--}}
+                                            {{$item['email'] ?? ''}}
                                         </td>
                                         <td>
                                             <ul>
