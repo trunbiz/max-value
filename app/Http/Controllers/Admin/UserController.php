@@ -110,10 +110,8 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
-            'manager_id' => 'required',
             'user_status_id' => 'required',
         ], [
-            'manager_id.required' => 'Please choose a option',
             'user_status_id.required' => 'Please choose a option',
         ]);
         if ($validator->fails()) {
