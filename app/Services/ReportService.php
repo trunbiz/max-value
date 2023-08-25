@@ -98,7 +98,10 @@ class ReportService
     {
         $url = $this->url . '/v2/site';
         $header = $this->getHeader();
-        $data = $this->callClientRequest('GET', $url, $header);
+        $params = [
+            'per-page' => 100000
+        ];
+        $data = $this->callClientRequest('GET', $url, $header, $params);
         return $data;
     }
 
