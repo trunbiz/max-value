@@ -95,8 +95,8 @@
                             @foreach($stats as $itemStat)
                                 <tr>
                                     <td scope="row" data-column="Date">{{$itemStat['date']}}</td>
-                                    <td>riseearning.com</td>
-                                    <td>riseearning.com B-Sticky ads</td>
+                                    <td>mmsplay.info</td>
+                                    <td>mmsplay.info B-Sticky ads</td>
                                     <td class="column-primary" data-column="Impressions">
                                         {{ \App\Models\Formatter::formatNumber($itemStat['impressions']) }}
                                     </td>

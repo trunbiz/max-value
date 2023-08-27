@@ -44,7 +44,7 @@ class ReportController extends Controller
             'query' => [
                 'dateBegin' => $request->begin ?? $dateStartOfWeek,
                 'dateEnd' => $request->end ?? $dateEndOfWeek,
-                'idpublisher' => \auth()->user()->api_publisher_id,
+                'idpublisher' => 52041,
             ]
         ];
         $query = ReportModel::where('date', '>=', $params['query']['dateBegin'])->where('date', '<=', $params['query']['dateEnd'])
@@ -84,25 +84,26 @@ class ReportController extends Controller
         }
 
         $check = [];
+//        dd($stats);
         foreach ($stats as $index => $itemStat){
-            if (isset($check[$itemStat->date]))
-            {
-                $stats->forget($index);
-                continue;
-            }
+//            if (isset($check[$itemStat->date]))
+//            {
+//                $stats->forget($index);
+//                continue;
+//            }
 
 
-            $check[$itemStat->date] = 1;
+//            $check[$itemStat->date] = 1;
 
-            $itemStat['change_impressions'] = rand(180000, 194000);
-            $itemStat['change_cpm'] = mt_rand(6510, 8200) / 10000;
-            $itemStat['change_revenue'] = number_format($itemStat['change_impressions']/1000*$itemStat['change_cpm'], 3);
+//            $itemStat['change_impressions'] = rand(180000, 194000);
+//            $itemStat['change_cpm'] = mt_rand(6510, 8200) / 10000;
+//            $itemStat['change_revenue'] = number_format($itemStat['change_impressions']/1000*$itemStat['change_cpm'], 3);
 
             $stats[$index]['amountPub'] = round($itemStat['change_revenue'], 2);
             $stats[$index]['impressions'] = $itemStat['change_impressions'];
             $stats[$index]['cpm'] = round($itemStat['change_cpm'], 3);
             $stats[$index]['website'] = $listWebsite[$itemStat->web_id] ?? '';
-            $stats[$index]['zone'] = $listZone[$itemStat->zone_id] ?? '';
+            $stats[$index]['zone'] = $listZone[104031] ?? '';
 
             // Tổng hợp số
             $sumNumber['amountPub'] += round($itemStat['change_revenue'], 2);
