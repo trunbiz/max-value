@@ -86,16 +86,20 @@ class RegisterController extends Controller
                 $userInfoNew = User::create($dataCreate);
 
                 // Sau khi user đăng ký thành công thì bắn mail về cho sale director và Admin
-                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE);
+                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
                 foreach ($userAdminAndSale as $adminSale)
                 {
+                    if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
+                        continue;
+                    }
+
                     $formEmail = [
                       'userAdmin' => $adminSale->name,
-                      'name' => $userInfoNew->name,
-                      'email' => $userInfoNew->email,
-                      'date' => $userInfoNew->created_at,
+                      'nameUser' => $userInfoNew->name,
+                      'emailUser' => $userInfoNew->email,
+                      'dateUser' => $userInfoNew->created_at,
                     ];
-                    Mail::to($adminSale->emai)->send(new MailNotiUserNew($formEmail));
+                    Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
                 }
 
                 $data['email'] = Helper::randomString();

@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Mail\MailNotiUserNew;
+use App\Models\User;
+use App\Services\Common;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
@@ -40,14 +42,22 @@ class testCommand extends Command
      */
     public function handle()
     {
-        $formEmail = [
-            'userAdmin' => 'trunbiz',
-            'nameUser' => 'abc',
-            'emailUser' => 'XXX',
-            'dateUser' => 'yyyy',
-        ];
+        $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
+        foreach ($userAdminAndSale as $adminSale)
+        {
+//            dd($adminSale);
+            if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
+                continue;
+            }
+            $formEmail = [
+                'userAdmin' => 'trunbiz',
+                'nameUser' => 'abc',
+                'emailUser' => 'XXX',
+                'dateUser' => 'yyyy',
+            ];
 //        $viewMail = View::make('commons.mailRegisterUserNew', $formEmail)->render();
-        Mail::to('trungtb@9pay.vn')->send(new MailNotiUserNew($formEmail));
-        return 0;
+            Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
+        }
+
     }
 }
