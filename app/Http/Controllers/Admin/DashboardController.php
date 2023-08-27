@@ -7,19 +7,23 @@ use App\Models\Contact;
 use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\User;
+use App\Services\DashboardService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Cache;
 use function auth;
 use function view;
 
 class DashboardController extends Controller
 {
     public function index(){
+
         if(auth()->check()){
+
+            return view('layouts.402');
 
             $totalRequest = $totalCPM = $totalCPMWeek = 0;
             $listSite = [];
-            $sites = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=10000") ?? [];
             if(isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'week'){
                 $startDate = Carbon::now()->subDays(7)->toDateString();
                 $endDate = Carbon::now()->toDateString();
@@ -27,7 +31,28 @@ class DashboardController extends Controller
                 $startDate = Carbon::now()->subMonth()->toDateString();
                 $endDate = Carbon::now()->toDateString();
             }
-            $api_stats = Helper::callGetHTTP("https://api.adsrv.net/v2/stats?dateBegin=".$startDate."&dateEnd=".$endDate."");
+
+            // Lây và lưu vào cache site
+            $cacheSite = Cache::get(DashboardService::CACHE_DASHBOARD . '_SITE_' . $startDate . '_' . $endDate);
+            if (!empty($cacheStats))
+            {
+                $sites = json_decode($cacheSite, true);
+            }else{
+                $sites = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=10000") ?? [];
+                Cache::put(DashboardService::CACHE_DASHBOARD . '_SITE_' . $startDate . '_' . $endDate, json_encode($sites), 86400);
+            }
+
+            // Lây và lưu vào cache stats
+            $cacheStats = Cache::get(DashboardService::CACHE_DASHBOARD . '_STATS_' . $startDate . '_' . $endDate);
+            if (!empty($cacheStats))
+            {
+                $api_stats = json_decode($cacheStats, true);
+            }else{
+                $api_stats = Helper::callGetHTTP("https://api.adsrv.net/v2/stats?dateBegin=".$startDate."&dateEnd=".$endDate."");
+                Cache::put(DashboardService::CACHE_DASHBOARD . '_STATS_' . $startDate . '_' . $endDate, json_encode($api_stats), 86400);
+            }
+
+
             $countCPM = count($api_stats);
             foreach($api_stats as $api_stat){
                 $totalRequest += $api_stat['impressions'];
@@ -42,7 +67,16 @@ class DashboardController extends Controller
 
             $numberSites = count($sites);
             $numberZones = 0;
-            $numberPublisher = count(Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4") ?? []);
+
+            // Lây và lưu vào cache numberPublisher
+            $cacheNumberPublisher = Cache::get(DashboardService::CACHE_DASHBOARD . '_NUMBERPUBLISHER_' . $startDate . '_' . $endDate);
+            if (!empty($cacheNumberPublisher))
+            {
+                $numberPublisher = json_decode($cacheNumberPublisher, true);
+            }else{
+                $numberPublisher = count(Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4") ?? []);
+                Cache::put(DashboardService::CACHE_DASHBOARD . '_NUMBERPUBLISHER_' . $startDate . '_' . $endDate, json_encode($numberPublisher), 86400);
+            }
 
             foreach ($sites as $key => $itemSite){
                 $numberZones += count($itemSite['zones']);
@@ -63,16 +97,9 @@ class DashboardController extends Controller
             $cpms = [];
             $requests = [];
 
-            $params = [
-                'query' => [
-                    'dateBegin' => $startDate,
-                    'dateEnd' => $endDate,
-                ]
-            ];
+            $stats = $api_stats;
+            $items = $api_stats;
 
-            $stats = Helper::callGetHTTP("https://api.adsrv.net/v2/stats", $params);
-
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/stats?dateBegin=".$startDate."&dateEnd=".$endDate."");
             $countCPMWeek = count($items);
             foreach($items as $item){
                 $totalCPMWeek += $item['cpm'];

@@ -48,23 +48,15 @@
                                         </td>
                                         <td>{{$item['id']}}</td>
                                         <td>
-                                            @foreach($users as $itemUser)
-                                                @if($item['id'] == $itemUser->api_publisher_id)
-                                                    {{optional($itemUser->manager)->name}}
-                                                    @break
-                                                @endif
-                                            @endforeach
+                                            {{!empty($listUserAssign[$item['id']]) ? $listUserAssign[$item['id']] : ''}}
                                         </td>
                                         <td>
-                                            @foreach($users as $itemUser)
-                                                @if($item['id'] == $itemUser->api_publisher_id)
-                                                    <form action="{{ route('administrator.imperrsonate') }}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="user_id" value="{{ $itemUser->id }}">
-                                                        <button class="btn btn-primary"> {{$item['email']}}</button>
-                                                    </form>
-                                                @endif
-                                            @endforeach
+{{--                                            <form action="{{ route('administrator.imperrsonate') }}" method="post">--}}
+{{--                                                @csrf--}}
+{{--                                                <input type="hidden" name="user_id" value="{{ $item['id'] }}">--}}
+{{--                                                <button class="btn btn-primary"> {{$item['email']}}</button>--}}
+{{--                                            </form>--}}
+                                            {{$item['email'] ?? ''}}
                                         </td>
                                         <td>
                                             <ul>
@@ -269,8 +261,8 @@
                 '{{route('administrator.users.update')}}'+ '?id='+id,
                 {
                     password: $this.find('input[name="password"]').val(),
-                    manager_id: $this.find('select[name="manager_id"]').val(),
                     user_status_id: $this.find('select[name="user_status_id"]').val(),
+                    assign_user: $this.find('select[name="assign_user"]').val(),
                 },
                 (response) => {
                     if(response.status == true){
@@ -282,6 +274,7 @@
                             }
                         );
                         $('.list__data').find('.item'+id).after(response.html).remove();
+                        location.reload();
                     }else{
                         Swal.fire(
                             {

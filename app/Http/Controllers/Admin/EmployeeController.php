@@ -126,13 +126,16 @@ class EmployeeController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'gender_id' => $request->gender_id ?? 1,
             'email_verified_at' => now(),
-            'password' => Hash::make($request->password),
             'manager_id' => $request->manager_id ?? 0,
             'api_publisher_id' => 0,
             'user_status_id' => $request->user_status_id ?? 1,
             'is_admin' => 1,
             'role_id' => $request->role_id,
         ];
+        if (!empty($request->password))
+        {
+            $dataInsert['password'] = Hash::make($request->password);
+        }
 
         $item = User::find($id)->update($dataInsert);
 

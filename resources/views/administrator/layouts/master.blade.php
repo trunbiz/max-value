@@ -344,6 +344,14 @@
 
 @yield('js')
 
+<style>
+    label {
+        font-weight: bold;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+</style>
 </body>
 
 

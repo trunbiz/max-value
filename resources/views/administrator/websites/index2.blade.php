@@ -52,7 +52,7 @@
 
 
                                                             <div
-                                                                class="category__site">{{$itemWebsite['publisher']['name'] ?? ''}}</span>
+                                                                class="category__site">{{$listAssign[$itemWebsite['id']] ?? ''}}</span>
                                                             </div>
                                                             <div class="category__site">
                                                                 <a onclick="oneditStatusModal('{{$itemWebsite['id']}}')"

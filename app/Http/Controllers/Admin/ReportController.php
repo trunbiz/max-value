@@ -125,6 +125,16 @@ class ReportController extends Controller
         $request = $request->all();
 
         $query = ReportModel::query();
+        if (!empty($request['from'])) {
+            $fromTo = explode(' to ', $request['from']);
+            $request['from'] = $fromTo[0];
+            if (!isset($fromTo[1])) {
+                $request['to'] = $fromTo[0];
+            } else {
+                $request['to'] = $fromTo[1];
+            }
+        }
+
         if (!empty($request['user_id']))
         {
             $query->where('publisher_id', $request['user_id']);
@@ -141,6 +151,25 @@ class ReportController extends Controller
         {
             $query->where('date', '<=',$request['to']);
         }
+
+        // Publisher Manager chỉ được lấy các report do mình tự quản lý
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+
+            $listPublisherAssign = auth()->user()->getListUserAssign();
+            if (!empty($listPublisherAssign)) {
+
+                $data['users'] = User::whereIn('id', $listPublisherAssign)->get();
+                $listUserIdPublisher = User::whereIn('id', $listPublisherAssign)->pluck('api_publisher_id')->toArray();
+                $query->whereIn('publisher_id', $listUserIdPublisher);
+            } else {
+                $data['users'] = [];
+                $query->where('publisher_id', -1);
+            }
+        }
+        else{
+            $data['users'] = User::where('is_admin', 0)->where('active', 1)->get();
+        }
+
         $data['items'] = $query->orderBy('date', 'DESC')->paginate(25);
 
         if (isset($request->user_id) && !empty($request->user_id)) {
@@ -150,17 +179,17 @@ class ReportController extends Controller
             $websites = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=1000");
         }
 
-        $zones = [];
-        if (isset($request->website_id) && !empty($request->website_id)) {
-            $query['idsite'] = !empty($request->website_id) ? $request->website_id : 1;
-
-            $zones = Helper::callGetHTTP("https://api.adsrv.net/v2/zone?idsite=" . $query['idsite']) ?? [];
-
-        }
+//        $zones = [];
+//        if (isset($request->website_id) && !empty($request->website_id)) {
+//            $query['idsite'] = !empty($request->website_id) ? $request->website_id : 1;
+//
+//            $zones = Helper::callGetHTTP("https://api.adsrv.net/v2/zone?idsite=" . $query['idsite']) ?? [];
+//
+//        }
         foreach ($data['items'] as $item) {
             if ($item->status) {
-                $item->change_count = $item->impressions == 0 ? 80: round((($item->change_impressions) * 100) / $item->impressions);
-                $item->change_share = ($item->change_impressions * $item->cpm) == 0 ? 70 : round(($item->change_revenue * 1000 * 100) / ($item->change_impressions * $item->cpm));
+                $item->change_count = $item->impressions == 0 ? 80 : round((($item->change_impressions) * 100) / $item->impressions);
+                $item->change_share = ($item->cpm * 1000) == 0 ? 70 : round(($item->change_cpm * 100) / $item->cpm);
             } else {
                 $item->change_count = 80;
                 $item->change_share = 70;
@@ -182,10 +211,11 @@ class ReportController extends Controller
         $data['title'] = "Report";
         $data['websites'] = $websites;
         $data['listZone'] = $listZone;
-        $data['zones'] = $zones;
-        $data['users'] = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
-        $data['adversier'] = Helper::callGetHTTP('https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3');
+//        $data['zones'] = $zones;
+//        $data['users'] = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
+//        $data['adversier'] = Helper::callGetHTTP('https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3');
 
+//        dd($data);
         return view('administrator.reports.updateReport', $data);
     }
 

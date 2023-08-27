@@ -27,36 +27,40 @@ class ReportService
 
         $to = Carbon::now()->format('Y-m-d');
         $from = Carbon::now()->subDays(1)->format('Y-m-d');
-//        $from = '2023-01-01';
         foreach ($webIds['data'] as $web)
         {
-            if (empty($web->zones))
+            $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
+            if (empty($datas['data']))
                 continue;
 
-            foreach ($web->zones as $zone) {
-                $datas = $this->getDataReportDailyByZone($zone->id, $from, $to);
-                if (empty($datas['data']))
+            foreach ($datas['data'] as $data) {
+
+                $reportInfo = ReportModel::where('web_id', $web->id)
+                    ->where('zone_id', $data->iddimension_2)
+                    ->where('publisher_id', $web->publisher->id)
+                    ->where('date', $data->dimension)
+                    ->where('status', 1)->first();
+
+                if (!empty($reportInfo))
                     continue;
 
-                foreach ($datas['data'] as $data) {
-                    ReportModel::updateOrCreate([
-                        'web_id' => $web->id,
-                        'zone_id' => $zone->id,
-                        'publisher_id' => $web->publisher->id,
-                        'date' => $data->dimension
-                    ], [
-                        'web_id' => $web->id,
-                        'zone_id' => $zone->id,
-                        'date' => $data->dimension,
-                        'publisher_id' => $web->publisher->id,
-                        'request' => $data->requests,
-                        'impressions' => $data->impressions,
-                        'ad_impressions' => $data->impressions,
-                        'cpm' => $data->cpm,
-                        'ad_cpm' => $data->cpm,
-                        'revenue' => round($data->impressions / 1000 * $data->cpm, 3),
-                    ]);
-                }
+                ReportModel::updateOrCreate([
+                    'web_id' => $web->id,
+                    'zone_id' => $data->iddimension_2,
+                    'publisher_id' => $web->publisher->id,
+                    'date' => $data->dimension
+                ], [
+                    'web_id' => $web->id,
+                    'zone_id' => $data->iddimension_2,
+                    'date' => $data->dimension,
+                    'publisher_id' => $web->publisher->id,
+                    'request' => $data->requests,
+                    'impressions' => $data->impressions,
+                    'ad_impressions' => $data->impressions,
+                    'cpm' => $data->cpm,
+                    'ad_cpm' => $data->cpm,
+                    'revenue' => round($data->impressions / 1000 * $data->cpm, 3),
+                ]);
             }
         }
         return true;
@@ -85,11 +89,28 @@ class ReportService
         return $this->callClientRequest('GET', $url, $header, $params);
     }
 
+    public function getDataReportDailyBySiteZone($siteId, $from, $to)
+    {
+        $url = $this->url . '/v2/stats';
+        $header = $this->getHeader();
+        $params = [
+            'dateBegin' => $from,
+            'dateEnd' => $to,
+            'idsite' => $siteId,
+            'group' => 'day',
+            'group2' => 'zone'
+        ];
+        return $this->callClientRequest('GET', $url, $header, $params);
+    }
+
     public function getAllWebSite()
     {
         $url = $this->url . '/v2/site';
         $header = $this->getHeader();
-        $data = $this->callClientRequest('GET', $url, $header);
+        $params = [
+            'per-page' => 100000
+        ];
+        $data = $this->callClientRequest('GET', $url, $header, $params);
         return $data;
     }
 

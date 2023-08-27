@@ -115,6 +115,30 @@
                                 </div>
                             </div>
                         </div>
+{{--                        <div class="row mt-3">--}}
+{{--                            <div class="col-3">--}}
+{{--                                Assign User--}}
+{{--                            </div>--}}
+{{--                            <div class="col-9">--}}
+{{--                                <select--}}
+{{--                                    class="form-control choose_value select2_init"--}}
+{{--                                    name="assign_user[]"--}}
+{{--                                    multiple data-live-search="true">--}}
+{{--                                    @foreach($listUserGroupAdmin as $value)--}}
+{{--                                        <option--}}
+{{--                                            value="{{$value->id}}" {{in_array($value->id, $zoneInfo->getArrayUserAssign() ?? []) ? 'selected' : ''}}>{{$value->name}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                Created by:
+                            </div>
+                            <div class="col-9">
+                                {{$zoneInfo->getUserCreated()->name ?? ''}}
+                            </div>
+                        </div>
 
                         <div class="row mt-3">
                             <div class="col-12">
@@ -218,7 +242,7 @@
                                                         required>
                                                         @foreach($injectionType as $key => $value)
                                                             <option
-                                                                value="{{$key}}" {{$campaignItem['campaign']['status'] == $key ? 'selected' : '' }}>{{$value}}</option>
+                                                                value="{{$key}}" {{$campaignItem['ads']['details']['idinjectiontype'] == $key ? 'selected' : '' }}>{{$value}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

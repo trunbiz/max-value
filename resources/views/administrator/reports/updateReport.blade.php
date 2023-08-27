@@ -118,7 +118,7 @@
                                                 <?php
 
                                                 $pImp = round(!empty($item->change_impressions) ? $item->change_impressions : ($item->impressions * ($item->change_count / 100)));
-                                                $pCpm = round($pImp == 0 ? 0 : ($item->cpm * ($item->change_share / 100)), 3);
+                                                $pCpm = round(!empty($item->change_cpm) ? $item->change_cpm : ($pImp == 0 ? 0 : ($item->cpm * ($item->change_share / 100))), 3);
                                                 $pRevenue = round(($pImp == 0 ? 0 : ($pImp / 1000 * $pCpm)), 2);
                                                 $pProfit = round($item->revenue - $pRevenue, 2);
 
@@ -159,10 +159,12 @@
                                         <td>
                                         </td>
                                         <td>
-                                            {{$totalRequest}}
                                         </td>
                                         <td>
-                                            {{$totalImp}}
+                                            {{number_format($totalRequest)}}
+                                        </td>
+                                        <td>
+                                            {{number_format($totalImp)}}
                                         </td>
                                         <td class="rate">
                                             {{ round($aveRate/count($items)) }}%
@@ -179,7 +181,7 @@
                                         <td>
                                             {{round($aveShare/count($items), 3)}}
                                         </td>
-                                        <td class="pImp">{{$totalPIm}}</td>
+                                        <td class="pImp">{{number_format($totalPIm)}}</td>
                                         <td class="pCpm">{{$totalPCpm}}</td>
                                         <td class="pRevenue">{{$totalPReve}}</td>
                                         <td class="pProfit">{{$totalPProfit}}</td>

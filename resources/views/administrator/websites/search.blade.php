@@ -1,35 +1,31 @@
+<div class="float-start">
+    <select name="limit" class="form-control select2_init">
+        @foreach(config('_my_config.items_show_in_table') as $itemShowInTable)
+            <option
+                value="{{$itemShowInTable}}" {{request('limit') == $itemShowInTable ? 'selected' : ''}}>{{$itemShowInTable}}</option>
+        @endforeach
+    </select>
+</div>
+
+<div class="float-start ms-4" style="width: 300px">
+    <select class="form-control" id="publisher_id" style="width: 200px;" name="publisher_id">
+        <option value="">-Publisher-</option>
+        @foreach($users as $user)
+            <option
+                value="{{ $user['api_publisher_id'] }}" {{ request('publisher_id') == $user['api_publisher_id'] ? 'selected' : ''}}>{{ $user['email'] }}</option>
+        @endforeach
+    </select>
+</div>
+
+
 <div>
-    <div>
-        <div class="float-start">
-            <select name="limit" class="form-control select2_init">
-                @foreach(config('_my_config.items_show_in_table') as $itemShowInTable)
-                    <option
-                        value="{{$itemShowInTable}}" {{request('limit') == $itemShowInTable ? 'selected' : ''}}>{{$itemShowInTable}}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="float-start ms-2">
-            <select class="form-control" id="publisher_id" style="width: 200px;" name="publisher_id">
-                <option value="">-Publisher-</option>
-                @foreach($users as $user)
-                    <option value="{{ $user['api_publisher_id'] }}" {{ request('publisher_id') == $user['api_publisher_id'] ? 'selected' : ''}}>{{ $user['email'] }}</option>
-                @endforeach
-            </select>
-        </div>
-
-    </div>
-
-    <div>
-        <a href="#" class="btn btn-outline-success float-end" data-bs-toggle="modal" data-bs-target="#createWebsiteModal"><i
-                class="fa-solid fa-plus"></i></a>
-    </div>
-
+    <a href="#" class="btn btn-outline-success float-end" data-bs-toggle="modal" data-bs-target="#createWebsiteModal"><i
+            class="fa-solid fa-plus"></i></a>
 </div>
 
 
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
         $("#publisher_id").select2({
             placeholder: "- Publisher -",
         });

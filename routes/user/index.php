@@ -27,6 +27,8 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+
+// Cái này dùng để login, đăng ký và verify
 Auth::routes(['verify' => true]);
 
 Route::get('/login', [UserController::class, 'login_user'])->name('login');
