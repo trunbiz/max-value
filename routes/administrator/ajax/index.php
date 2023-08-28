@@ -128,17 +128,25 @@ Route::prefix('ajax/administrator')->group(function () {
 
                 $item = Helper::callPutHTTP("https://api.adsrv.net/v2/site/" . $request->idsite, $params);
 
-                $users = User::where('is_admin', 0)->get();
-
                 if (Helper::isErrorAPIAdserver($item)){
                     return response()->json($item, 400);
                 }
 
-                $item['html_row'] = View::make('administrator.websites.row_edit', compact('item', 'users'))->render();
 
-                $send_to = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'. $request->idsite)['publisher']['email'];
+                // Lấy thông tin publisher rồi gửi mail cho họ
+                $dataMail = [
+                    'title' => 'Site change notice',
+                    'name' => $item['publisher']['email'] ?? '',
+                    'site' => $item['name'] ?? '',
+                    'status' => $item['status']['name'] ?? '',
+                    'update_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ];
+                try {
+                    Mail::to($item['publisher']['email'])->send(new \App\Mail\MailSiteUpdate($dataMail));
+                }catch (Exception $e)
+                {
 
-                Mail::to($send_to)->send(new \App\Mail\Mail($item));
+                }
 
                 return response()->json($item);
 
@@ -239,10 +247,21 @@ Route::prefix('ajax/administrator')->group(function () {
                     'updated_by' => auth()->user()->id ?? '0'
                 ]);
 
-//                $site_id  = Helper::callGetHTTP('https://api.adsrv.net/v2/zone/'. $request->zone_id)['site']['id'];
-//                $send_to = Helper::callGetHTTP('https://api.adsrv.net/v2/site/'. $site_id)['publisher']['email'];
-//
-//                Mail::to($send_to)->send(new \App\Mail\ZoneMail($item));
+                $siteInfo = Helper::callGetHTTP("https://api.adsrv.net/v2/site/" . $item['site']['id']);
+                $dataMail = [
+                    'title' => 'Zone change notice',
+                    'name' => $siteInfo['publisher']['email'] ?? '',
+                    'site' => $siteInfo['name'] ?? '',
+                    'zone' => $item['name'] ?? '',
+                    'status' => $item['status']['name'] ?? '',
+                    'update_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ];
+                try {
+                    Mail::to($siteInfo['publisher']['email'])->send(new \App\Mail\MailZoneUpdate($dataMail));
+                }catch (Exception $e)
+                {
+
+                }
 
                 return response()->json([
                     'html' => \view('administrator.advertises.add_table')->with(compact('item'))->render(),

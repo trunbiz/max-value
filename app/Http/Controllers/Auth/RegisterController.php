@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MailNotiUserNew;
 use App\Models\Helper;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Services\Common;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use Mews\Captcha\Facades\Captcha;
 
 class RegisterController extends Controller
@@ -54,8 +58,9 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $name = explode('@', $data['email'])[0] ?? 'publisher';
         $params = [
-            'name' => "Publisher",
+            'name' => $name,
             'email' => $data['email'],
             'idrole' => 4,
         ];
@@ -70,7 +75,7 @@ class RegisterController extends Controller
 
             if (empty($user)) {
                 $dataCreate = [
-                    'name' => 'Publisher',
+                    'name' => $name,
                     'role_id' => '0',
                     'api_publisher_id' => $response['id'],
                     'email' => $data['email'],
@@ -78,7 +83,24 @@ class RegisterController extends Controller
                     'ip_register' => request()->ip(),
                 ];
 
-                User::create($dataCreate);
+                $userInfoNew = User::create($dataCreate);
+
+                // Sau khi user đăng ký thành công thì bắn mail về cho sale director và Admin
+                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
+                foreach ($userAdminAndSale as $adminSale)
+                {
+                    if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
+                        continue;
+                    }
+
+                    $formEmail = [
+                      'userAdmin' => $adminSale->name,
+                      'nameUser' => $userInfoNew->name,
+                      'emailUser' => $userInfoNew->email,
+                      'dateUser' => $userInfoNew->created_at,
+                    ];
+                    Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
+                }
 
                 $data['email'] = Helper::randomString();
             }
