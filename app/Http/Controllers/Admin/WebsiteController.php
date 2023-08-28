@@ -110,6 +110,10 @@ class WebsiteController extends Controller
             'publishers' => $publishers,
             'listAssign' => $listAssign
         ];
+//        foreach ($items as $a)
+//        {
+//            dd($a);
+//        }
 //        dd($dataResult);
 
         return view('administrator.' . $this->prefixView . '.index2', $dataResult);

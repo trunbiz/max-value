@@ -46,7 +46,7 @@
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#editStatusModal"
                                                                 class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
-                                                                {{ $itemWebsite['status']['name'] }} <i
+                                                                {{ \App\Services\Common::STATUS_ADSERVER[$itemWebsite['status']['id']] ?? '' }} <i
                                                                     class="fa-solid fa-rotate"></i>
                                                             </div>
 
@@ -100,7 +100,7 @@
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#editZone"
                                                                 class="title__advs--status {{ strtolower($itemZone['status']['name']) }}">
-                                                                {{ $itemZone['status']['name'] }} <i
+                                                                {{ \App\Models\ZoneModel::STATUS_ADSERVER[$itemZone['status']['id']] ?? '' }} <i
                                                                     class="fa-solid fa-rotate"></i>
                                                             </div>
                                                             <span class="badge badge-danger"
@@ -367,7 +367,7 @@
                             <option value="3520">Pending</option>
                             <option value="3500">Approved</option>
                             <option value="3525">Verification</option>
-                            <option value="3510">Blocked</option>
+                            <option value="3510">Rejected</option>
                         </select>
                     </div>
                 </div>

@@ -293,6 +293,13 @@ class Common
 
     const ACTIVE = 1;
 
+    const STATUS_ADSERVER = [
+        3520 => 'Pending',
+        3500 => 'Approved',
+        3525 => 'Verification',
+        3510 => 'Rejected',
+    ];
+
     static function getNameDimension($height, $width)
     {
         foreach (self::DIMENSIONS as $key => $item)

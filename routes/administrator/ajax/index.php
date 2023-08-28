@@ -138,7 +138,7 @@ Route::prefix('ajax/administrator')->group(function () {
                     'title' => 'Site change notice',
                     'name' => $item['publisher']['email'] ?? '',
                     'site' => $item['name'] ?? '',
-                    'status' => $item['status']['name'] ?? '',
+                    'status' => \App\Services\Common::STATUS_ADSERVER[$item['status']['id']] ?? '',
                     'update_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ];
                 try {
@@ -253,7 +253,7 @@ Route::prefix('ajax/administrator')->group(function () {
                     'name' => $siteInfo['publisher']['email'] ?? '',
                     'site' => $siteInfo['name'] ?? '',
                     'zone' => $item['name'] ?? '',
-                    'status' => $item['status']['name'] ?? '',
+                    'status' => \App\Models\ZoneModel::STATUS_ADSERVER[$item['status']['id']] ?? '',
                     'update_at' => Carbon::now()->format('Y-m-d H:i:s')
                 ];
                 try {

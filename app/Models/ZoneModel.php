@@ -31,6 +31,12 @@ class ZoneModel extends Model
       2 => 'Not larger than',
     ];
 
+    const STATUS_ADSERVER = [
+        7010 => 'Pending',
+        7000 => 'Approved',
+        7020 => 'Rejected',
+    ];
+
     public function getInfoCampaign()
     {
         return $this->belongsToMany(CampaignModel::class, 'ads_campaign', 'zone_id', 'campaign_id');
