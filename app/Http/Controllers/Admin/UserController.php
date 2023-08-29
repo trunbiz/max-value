@@ -68,7 +68,7 @@ class UserController extends Controller
                 continue;
 
             // Lấy thông tin các publisher được assign
-            $listUserAssign[$item['id']] = !empty($publisherInfo->getFirstUserAssign()->id) ? ($publisherInfo->getFirstUserAssign()->getInfoAssign()->name) : (empty($publisherInfo->manager_id) ? '' : User::find($publisherInfo->manager_id)->name);
+            $listUserAssign[$item['id']] = !empty($publisherInfo->getFirstUserAssign()->id) ? ($publisherInfo->getFirstUserAssign()->getInfoAssign()->name ?? '') : (empty($publisherInfo->manager_id) ? '' : User::find($publisherInfo->manager_id)->name ?? '');
 
             if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
                 if ((!empty($publisherInfo->getFirstUserAssign()->user_id) && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id) || empty($publisherInfo->getFirstUserAssign())) {
