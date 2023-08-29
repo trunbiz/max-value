@@ -197,7 +197,6 @@ class UserController extends Controller
             'status' => true,
             'message' => 'Update successful',
         ]);
-        //return redirect()->route('administrator.users.index');
     }
 
     public function delete(Request $request, $id)
