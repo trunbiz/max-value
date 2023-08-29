@@ -30,6 +30,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('get:reportDaily')
             ->hourly();
+        $schedule->command('create:adstxt')
+            ->everyFiveMinutes();
 
 //        $schedule->command('revenue:publisher')
 //            ->everyMinute();
