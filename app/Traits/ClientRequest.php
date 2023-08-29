@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Helper;
 use GuzzleHttp\Client;
 
 trait ClientRequest
@@ -34,7 +35,8 @@ trait ClientRequest
             return [
                 'success' => true,
                 'message' => 'Request api success',
-                'data' => $data
+                'data' => $data,
+                'responseHeaders' => $response->getHeaders()
             ];
         }catch (\Exception $e)
         {
