@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Components\Recusive;
 use App\Services\Common;
+use App\Services\UserService;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use App\Traits\UserTrait;
@@ -16,6 +17,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use MongoDB\Driver\Session;
 
@@ -327,6 +329,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function updateByQuery($request, $id)
     {
+        $updateAdsTxt = false;
 
         $item = User::where('api_publisher_id', $id)->first();
 
@@ -389,6 +392,10 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         if(!empty($request->partner_code)){
+            // Nếu có sự thay đổi thì cập nhật lại ads.txt
+            if (strcmp($request->partner_code, $item->partner_code))
+                $updateAdsTxt = true;
+
             $dataUpdate['partner_code'] = $request->partner_code;
         }
 
@@ -398,6 +405,17 @@ class User extends Authenticatable implements MustVerifyEmail
             $item->roles()->sync($request->role_ids);
         }
 
+        // update file ads.txt
+        if ($updateAdsTxt)
+        {
+            try {
+                $userService = new UserService();
+                $userService->updateAdsTxt();
+            }catch (\Exception $e)
+            {
+                Log::error('error update ads.txt', $e->getMessage());
+            }
+        }
         return $item;
     }
 
