@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class Adstxt extends Command
@@ -38,9 +39,12 @@ class Adstxt extends Command
      */
     public function handle()
     {
+        $textStart =  '#maxvalue.media update - ' . Carbon::now()->format('m-d-y') . '\n';
+        $textEnd =  '#maxvalue.media update end - ' . Carbon::now()->format('m-d-y'). '\n';
         $users = User::whereNotNull('partner_code')->pluck('partner_code')->all();
 
         $adsTxtContent = implode("\n", $users);
+        $adsTxtContent = $textStart . $adsTxtContent . $textEnd;
 
         $filePath = public_path('../../public_html/ads.txt');
 
