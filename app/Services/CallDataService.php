@@ -124,14 +124,20 @@ class CallDataService
             $zoneInfo = ZoneModel::where('ad_zone_id', $zone->id)->first();
             if (empty($zoneInfo))
             {
+                $dataDimensions = [
+                    'width'=>$zone->width,
+                    'height' =>$zone->height,
+                    'iddimension' => $zone->dimension->id,
+                    'paramsIdDimension' =>Common::getNameDimension($zone->height, $zone->width)
+                ];
                 ZoneModel::create([
                     'ad_site_id' => $siteId,
                     'ad_zone_id' => $zone->id,
                     'name' => $zone->name,
                     'id_zone_format' => $zone->format->id,
                     'id_dimension_method' => 1,
-                    'dimensions' => Common::ACTIVE,
-                    'status' => $user->id,
+                    'dimensions' => json_encode($dataDimensions),
+                    'status' => $zone->status->id,
                     'is_delete' => Common::NOT_DELETE,
                     'extra_response' => $zone,
                 ]);
