@@ -310,8 +310,11 @@ class User extends Authenticatable implements MustVerifyEmail
             $dataInsert['partner_code'] = $request->partner_code;
         }
 
+        if(!empty($request->idcloudrole)){
+            $dataInsert['role_id'] = $request->idcloudrole ?? 0;
+        }
+
         if ($this->isAdmin()){
-            $dataInsert['role_id'] = $request->role_id ?? 0;
             $dataInsert['is_admin'] = $request->is_admin ?? 0;
             $dataInsert['user_status_id'] = 1;
             $dataInsert['url'] = $request->url;
@@ -327,7 +330,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->findById($item->id);
     }
 
-    public function updateByQuery($request, $id)
+    public function updateByQuery($request, $id, $isPartner = false)
     {
         $updateAdsTxt = false;
 
@@ -349,10 +352,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $manager = User::find($request->manager_id);
 
-        if (empty($manager)){
-            $params['idmanager'] = "";
-        }else{
-            $params['idmanager'] = $manager->api_publisher_id != 0 ? $manager->api_publisher_id : "";
+        if (!$isPartner)
+        {
+            if (empty($manager)){
+                $params['idmanager'] = "";
+            }else{
+                $params['idmanager'] = $manager->api_publisher_id != 0 ? $manager->api_publisher_id : "";
+            }
         }
 
         Helper::callPutHTTP("https://api.adsrv.net/v2/user/" . $id, $params);
@@ -391,14 +397,15 @@ class User extends Authenticatable implements MustVerifyEmail
             $dataUpdate['url'] = $request->url;
         }
 
-        if(isset($request->partner_code)){
+
+        if ($isPartner)
+        {
             // Nếu có sự thay đổi thì cập nhật lại ads.txt
             if (strcmp($request->partner_code, $item->partner_code))
                 $updateAdsTxt = true;
 
             $dataUpdate['partner_code'] = $request->partner_code;
         }
-
         $item = Helper::updateByQuery($this, $request, $item->id, $dataUpdate);
 
         if ($item->is_admin != 0 && isset($request->role_ids)){

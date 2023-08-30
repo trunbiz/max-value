@@ -345,13 +345,9 @@ class UserController extends Controller
         $title = 'Partners';
         $prefixView = 'partner';
 
-        if (auth()->user()->is_admin != 2) {
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
-        } else {
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3") ?? [];
-        }
+        $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3") ?? [];
 
-        $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
+        $users = User::where(['is_admin' => 0])->get();
 
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
@@ -406,7 +402,7 @@ class UserController extends Controller
     {
         $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
 
-        $item = $this->model->updateByQuery($request, $request->id);
+        $item = $this->model->updateByQuery($request, $request->id, true);
         if (Helper::isErrorAPIAdserver($item)) {
             Session::flash("error", json_encode($item));
             return back();
