@@ -391,7 +391,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $dataUpdate['url'] = $request->url;
         }
 
-        if(!empty($request->partner_code)){
+        if(isset($request->partner_code)){
             // Nếu có sự thay đổi thì cập nhật lại ads.txt
             if (strcmp($request->partner_code, $item->partner_code))
                 $updateAdsTxt = true;
