@@ -227,9 +227,19 @@ class ReportController extends Controller
             $reportInfo->save();
         }
         else{
+            $oldChangeRevenue = 0;
+
             // Chỉ cho cập nhật 1 lần
             if ($reportInfo->status == ReportModel::STATUS_SUCCESS)
-                return false;
+            {
+                if (\auth()->user()->email = 'trungtb@maxvalue.media')
+                {
+                    $oldChangeRevenue = $reportInfo->change_revenue;
+                }
+                else{
+                    return false;
+                }
+            }
 
             $reportInfo->change_impressions = $request['change_impressions'];
             $reportInfo->change_revenue = $request['change_revenue'];
@@ -238,7 +248,7 @@ class ReportController extends Controller
             $reportInfo->save();
 
             // Sau khi cập nhật xong thì số tiền sẽ được cộng vào ví user
-            $this->walletService->depositWalletPublisher($reportInfo->publisher_id, $reportInfo->change_revenue);
+            $this->walletService->depositWalletPublisher($reportInfo->publisher_id, $reportInfo->change_revenue, $oldChangeRevenue);
         }
         return true;
     }

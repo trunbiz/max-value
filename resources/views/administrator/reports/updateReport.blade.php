@@ -143,7 +143,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($item->status != 1)
+                                                @if($item->status != 1 || auth()->user()->email === 'trungtb@maxvalue.media')
                                                 <button type="button" class="btn btn-primary btn-change-revenue">Save
                                                 </button>
                                                 <button type="button" class="btn btn btn-info btn-edit">Edit

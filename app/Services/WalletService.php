@@ -33,12 +33,15 @@ class WalletService
 
     }
 
-    public function depositWalletPublisher($publisherId, $revenue)
+    public function depositWalletPublisher($publisherId, $revenue, $oldChangeRevenue = 0)
     {
         $user = User::where('api_publisher_id', $publisherId)->first();
         if (empty($user))
             return false;
-        $user->money += $revenue;
+        if ($user->money - $oldChangeRevenue < 0)
+            return false;
+
+        $user->money += $revenue - $oldChangeRevenue;
         $user->save();
         return true;
     }
