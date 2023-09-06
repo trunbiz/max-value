@@ -107,10 +107,13 @@
                                             @endforeach
                                             {{ '$'. $money }}
                                         </td>
-
                                         <td>{{$item['created_at']}}</td>
                                         <td>
-
+                                            <a
+                                               href="{{route('administrator.imperrsonate' , ['user_id'=> $item['id']])}}"
+                                               title="Impersonate">
+                                                <i class="fa-solid fa-user-ninja"></i>
+                                            </a>
                                             <a href="javascript:void(0)" onclick="edit({{ $item['id'] }})"
                                                title="Edit">
                                                 <i class="fa-solid fa-pen"></i>

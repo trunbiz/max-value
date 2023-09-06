@@ -242,19 +242,16 @@
                     <span class="content">Settings</span>
                 </a>
             </li>
-
-            @if (\Illuminate\Support\Facades\Session::get('hasClonedUser') == 1)
             <li style="cursor: pointer">
                 <a class="sidebar-menu-item text-primary" onclick="event.preventDefault(); document.getElementById('cloneuser-form').submit();">
                     <svg class="svg-icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M475 276V141.4c-12.1-56.3-58.2-22-58.2-22L96.6 395.9c-70.4 48.9-4.8 85.7-4.8 85.7l315.4 274.1c63.1 46.5 67.9-24.5 67.9-24.5V606.4C795.3 506 926.3 907.5 926.3 907.5c12.1 22 19.4 0 19.4 0C1069.4 305.4 475 276 475 276z"  /></svg>
                     <svg class="svg-icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M475 276V141.4c-12.1-56.3-58.2-22-58.2-22L96.6 395.9c-70.4 48.9-4.8 85.7-4.8 85.7l315.4 274.1c63.1 46.5 67.9-24.5 67.9-24.5V606.4C795.3 506 926.3 907.5 926.3 907.5c12.1 22 19.4 0 19.4 0C1069.4 305.4 475 276 475 276z"  /></svg>
                     <span class="content">Return Admin Panel</span>
                 </a>
-                <form id="cloneuser-form" action="{{ route('administrator.imperrsonate') }}" method="POST">
+                <form id="cloneuser-form" action="{{ route('administrator.returnImpersonateAdmin') }}" method="POST">
                     {{ csrf_field() }}
                 </form>
             </li>
-            @endif
         </ul>
         <div class="sidebar__menu--info">
             <div class="sidebvar__menu--main-info">

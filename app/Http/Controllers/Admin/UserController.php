@@ -324,18 +324,23 @@ class UserController extends Controller
     //access to user account
     public function imperrsonate(Request $request)
     {
+        $publisherId = $request->user_id;
 
-        $user_id = $request->user_id;
-//        if (session()->get('hasClonedUser') == 1) {
-//            auth()->loginUsingId(session()->remove('hasClonedUser'));
-//            session()->remove('hasClonedUser');
-//            return redirect()->route('administrator.users.index');
-//        }
+        $userInfo = User::where('api_publisher_id', $publisherId)->first();
+        if (empty($userInfo))
+            return abort(404);
 
         //only run for developer, clone selected user and create a cloned session
         session()->put('hasClonedUser', auth()->user()->id);
-        auth()->loginUsingId($user_id);
+        auth()->loginUsingId($userInfo->id);
         return redirect()->route('user.dashboard.index');
+    }
+
+    public function returnImpersonateAdmin(Request $request)
+    {
+        auth()->loginUsingId(session()->remove('hasClonedUser'));
+        session()->remove('hasClonedUser');
+        return redirect()->route('administrator.users.index');
     }
 
     //Partner
