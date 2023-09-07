@@ -20,6 +20,10 @@ class WithdrawUser extends Model implements Auditable
 
     protected $guarded = [];
 
+    const STATUS_PENDING = 1;
+    const STATUS_APPROVED = 2;
+    const STATUS_REJECT = 3;
+
     // begin
 
     public function user(){

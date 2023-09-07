@@ -40,13 +40,34 @@ class WalletController extends Controller
 //        $items = $this->model->searchByQuery($request, ['user_id' => \auth()->id()]);
         $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->orderBy('id', 'DESC')->get();
 
-        $amountAvailable = Formatter::formatMoney(auth()->user()->money);
-        $amountPending = Formatter::formatMoney(WithdrawUser::where('user_id', auth()->id())->where('withdraw_status_id', 1)->sum('amount'));
-        $amountTotalWithdraw = Formatter::formatMoney(WithdrawUser::where('user_id', auth()->id())->sum('amount'));
+        $amountAvailable = auth()->user()->money;
 
-        $transactions = WithdrawUser::where('user_id', \auth()->id())->latest()->get();
+        $amountPending = 0;
+        $amountReject = 0;
+        $amountTotalWithdraw = 0;
+        $transactions = WithdrawUser::where('user_id', \auth()->id())->orderBy('id', 'DESC')->get();
+        foreach ($transactions as $transaction)
+        {
+            if ($transaction->withdraw_status_id == WithdrawUser::STATUS_PENDING)
+            {
+                $amountPending +=$transaction->amount;
+            }
+            elseif ($transaction->withdraw_status_id == WithdrawUser::STATUS_APPROVED)
+            {
+                $amountTotalWithdraw += $transaction->amount;
+            }
+            elseif ($transaction->withdraw_status_id == WithdrawUser::STATUS_REJECT)
+            {
+                $amountReject += $transaction->amount;
+            }
+        }
+        $totalEarning = Formatter::formatMoney($amountAvailable + $amountPending + $amountTotalWithdraw);
+        $amountAvailable = Formatter::formatMoney($amountAvailable);
+        $amountPending = Formatter::formatMoney($amountPending);
+        $amountTotalWithdraw = Formatter::formatMoney($amountTotalWithdraw);
+        $amountReject = Formatter::formatMoney($amountReject);
 
-        return view('user.' . $this->prefixView . '.index', compact('items', 'banks','title', 'current_user','amountAvailable','amountPending','amountTotalWithdraw','transactions'));
+        return view('user.' . $this->prefixView . '.index', compact('items', 'banks','title', 'current_user','amountAvailable','amountPending','amountTotalWithdraw','transactions', 'amountReject', 'totalEarning'));
     }
 
     public function get(Request $request, $id)
