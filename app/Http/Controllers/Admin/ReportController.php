@@ -232,13 +232,14 @@ class ReportController extends Controller
             // Chỉ cho cập nhật 1 lần
             if ($reportInfo->status == ReportModel::STATUS_SUCCESS)
             {
-                if (\auth()->user()->email = 'trungtb@maxvalue.media')
-                {
-                    $oldChangeRevenue = $reportInfo->change_revenue;
-                }
-                else{
-                    return false;
-                }
+//                if (\auth()->user()->email = 'trungtb@maxvalue.media')
+//                {
+//                    $oldChangeRevenue = $reportInfo->change_revenue;
+//                }
+//                else{
+//                    return false;
+//                }
+                $oldChangeRevenue = $reportInfo->change_revenue;
             }
 
             $reportInfo->change_impressions = $request['change_impressions'];
