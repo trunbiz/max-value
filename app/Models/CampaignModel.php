@@ -12,6 +12,7 @@ class CampaignModel extends Model
         'ad_campaign_id',
         'name',
         'id_advertiser',
+        'id_status',
         'id_run_status',
         'extra_request',
         'extra_response',
@@ -24,6 +25,7 @@ class CampaignModel extends Model
         4020 => 'Paused',
         4030 => 'Finished',
     ];
+    const STATUS_PAUSED = 4020;
 
     public function getAds()
     {

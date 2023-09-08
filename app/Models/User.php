@@ -34,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
+    const IS_ADMIN = 1;
 
     protected $guarded = [
 //        'is_admin',
@@ -446,9 +447,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getArrayUserAssign()
     {
-        return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
+        return $this->hasOne(AssignUserModel::class, 'user_id', 'id')
             ->where('type', AssignUserModel::TYPE['PUBLISHER'])
-            ->where('is_delete', Common::NOT_DELETE)->pluck('user_id')->toArray();
+            ->where('is_delete', Common::NOT_DELETE)->pluck('service_id')->toArray();
     }
 
     public function getListUserAssign()

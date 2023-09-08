@@ -17,6 +17,7 @@ class Role extends Model implements Auditable
 
     protected $guarded = [];
 
+    const ROLE_PUBLISHER_MANAGERS = 5;
     public function permissions(){
         return $this->belongsToMany(Permission::class, 'permission_role' , 'role_id' , 'permission_id');
     }
