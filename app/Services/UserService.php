@@ -35,4 +35,32 @@ class UserService
     {
         return User::where('is_admin', '!=', User::IS_ADMIN)->count();
     }
+
+    public function listUserPublisher($params)
+    {
+        $query = User::where('is_admin', User::IS_PUBLISHER)->where('active', User::ACTIVE)
+            ->orderBy('id', 'DESC');
+        if (!empty($params['email']))
+        {
+            $query->where('email', $params['email']);
+        }
+        if (!empty($params['user_assign']))
+        {
+            $query->where('email', $params['email']);
+        }
+        if (!empty($params['website']))
+        {
+            $query->where('email', $params['email']);
+        }
+        if (isset($params['verify']) && $params['verify'] != null)
+        {
+            $query->where('email', $params['email']);
+        }
+        if (isset($params['active']) && $params['active'] != null)
+        {
+            $query->where('email', $params['email']);
+        }
+
+        return $query->paginate(25);
+    }
 }

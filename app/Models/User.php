@@ -35,6 +35,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     const IS_ADMIN = 1;
+    const IS_PUBLISHER = 0;
+
+    const ACTIVE = 1;
 
     protected $guarded = [
 //        'is_admin',
@@ -463,6 +466,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
             ->where('type', AssignUserModel::TYPE['PUBLISHER'])
             ->where('user_id', '<>', 0)
+            ->where('is_delete', Common::NOT_DELETE)
+            ->orderBy('id', 'DESC')->first();
+    }
+
+    public function getFirstAdminAssign()
+    {
+        return $this->hasOne(AssignUserModel::class, 'user_id', 'id')
+            ->where('type', AssignUserModel::TYPE['PUBLISHER'])
+            ->where('user_id', '<>', 0)
             ->where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->first();
+    }
+
+    public function getListSite()
+    {
+        return $this->hasMany(Website::class, 'user_id', 'id')->get();
     }
 }
