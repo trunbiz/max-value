@@ -30,4 +30,9 @@ class UserService
         file_put_contents($filePath, $adsTxtContent);
         return true;
     }
+
+    public function totalPublisher()
+    {
+        return User::where('is_admin', '!=', User::IS_ADMIN)->count();
+    }
 }

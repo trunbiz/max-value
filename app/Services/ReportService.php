@@ -122,4 +122,58 @@ class ReportService
             'Authorization' => 'Bearer '. Helper::getToken(),
         ];
     }
+
+    public function totalReportAccept($from, $to, $listPublisher = null)
+    {
+        $query = ReportModel::where('status', ReportModel::STATUS_SUCCESS)
+            ->where('date', '>=', $from)->where('date', '<=', $to)
+            ->selectRaw('SUM(request) AS totalRequests, SUM(change_revenue) AS totalRevenue, AVG(change_cpm) AS averageCpm');
+
+        if (!empty($listPublisher))
+        {
+            $query = $query->whereIn('publisher_id', $listPublisher);
+        }
+        return $query->first();
+    }
+
+    public function getDataDashboardByDate($from, $to, $listPublisher = null)
+    {
+        $query = ReportModel::where('status', ReportModel::STATUS_SUCCESS)
+            ->where('date', '>=', $from)->where('date', '<=', $to)
+            ->selectRaw('SUM(request) AS totalRequests, SUM(change_impressions) AS paidImpressions, SUM(revenue) AS totalRevenue, SUM(change_revenue) AS paidRevenue, AVG(change_cpm) AS paidCpm');
+        if (!empty($listPublisher))
+        {
+            $query = $query->whereIn('publisher_id', $listPublisher);
+        }
+        return $query->first();
+    }
+
+    public function getDataReportDashboard($from, $to, $listPublisher = null)
+    {
+        $query = ReportModel::where('status', ReportModel::STATUS_SUCCESS)
+            ->where('date', '>=', $from)->where('date', '<=', $to)
+            ->selectRaw('date, SUM(impressions) AS totalImpressions, SUM(change_impressions) AS paidImpressions, SUM(revenue) AS totalRevenue, SUM(change_revenue) AS paidRevenue')
+            ->groupby('date');
+        if (!empty($listPublisher))
+        {
+            $query = $query->whereIn('publisher_id', $listPublisher);
+        }
+        $data = $query->get();
+        return $this->convertDataReportDashboard($data);
+    }
+
+    public function convertDataReportDashboard($data)
+    {
+        $arrayResult = [];
+        foreach ($data as $item)
+        {
+            $arrayResult[$item->date] = [
+                'totalImpressions' => $item->totalImpressions,
+                'paidImpressions' => $item->paidImpressions,
+                'totalRevenue' => $item->totalRevenue,
+                'paidRevenue' => $item->paidRevenue,
+            ];
+        }
+        return $arrayResult;
+    }
 }

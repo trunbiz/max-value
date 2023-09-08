@@ -67,7 +67,8 @@ class CampaignService
             'ad_campaign_id' => $campaignInfo['id'],
             'name' => $params['campaign']['name'],
             'id_advertiser' => $campaignInfo['advertiser']['id'],
-            'id_run_status' => $campaignInfo['status']['id'],
+            'id_status' => $campaignInfo['status']['id'],
+            'id_run_status' => $campaignInfo['runstatus']['id'],
             'extra_request' => json_encode($params['campaign']),
             'extra_response' => json_encode($campaignInfo),
             'is_delete' => 0,
@@ -159,5 +160,15 @@ class CampaignService
     public function getInfoCampaignAdServer($id)
     {
         return Helper::callGetHTTP("https://api.adsrv.net/v2/campaign/" . $id);
+    }
+
+    public function totalCampaign($options = null)
+    {
+        $query = CampaignModel::query();
+        if (!empty($options['status']))
+        {
+            $query->where('id_run_status', $options['status']);
+        }
+        return $query->count();
     }
 }

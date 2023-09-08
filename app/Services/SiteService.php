@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Helper;
+use App\Models\Website;
 
 class SiteService
 {
@@ -23,5 +24,10 @@ class SiteService
     public function listSiteByPublisher($id)
     {
         return Helper::callGetHTTP("https://api.adsrv.net/v2/site?" . "filter[idpublisher]=" . $id . "&page=1&per-page=1000");
+    }
+
+    public function totalSite()
+    {
+        return Website::count();
     }
 }
