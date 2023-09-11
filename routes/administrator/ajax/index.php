@@ -244,6 +244,7 @@ Route::prefix('ajax/administrator')->group(function () {
                 $item = Helper::callPutHTTP("https://api.adsrv.net/v2/zone/" . $request->zone_id, $params);
 
                 \App\Models\ZoneModel::where('ad_zone_id', $request->zone_id)->update([
+                    'status' => $item['status']['id'],
                     'updated_by' => auth()->user()->id ?? '0'
                 ]);
 
