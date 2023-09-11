@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\CampaignModel;
 use App\Models\Helper;
+use App\Models\ZoneModel;
 
 class ZoneService
 {
@@ -41,6 +43,16 @@ class ZoneService
     public function getInfoZoneAdServer($id)
     {
         return Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
+    }
+
+    public function totalZone($options = null)
+    {
+        $query = ZoneModel::query();
+        if (!empty($options['status']))
+        {
+            $query->where('status', $options['status']);
+        }
+        return $query->count();
     }
 
 }

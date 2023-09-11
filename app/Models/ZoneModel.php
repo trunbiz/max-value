@@ -37,6 +37,8 @@ class ZoneModel extends Model
         7020 => 'Rejected',
     ];
 
+    const PENDING = 7010;
+
     public function getInfoCampaign()
     {
         return $this->belongsToMany(CampaignModel::class, 'ads_campaign', 'zone_id', 'campaign_id');

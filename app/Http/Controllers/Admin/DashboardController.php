@@ -9,11 +9,13 @@ use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\ZoneModel;
 use App\Services\CampaignService;
 use App\Services\DashboardService;
 use App\Services\ReportService;
 use App\Services\SiteService;
 use App\Services\UserService;
+use App\Services\ZoneService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Cache;
@@ -26,6 +28,7 @@ class DashboardController extends Controller
     protected $userService;
     protected $siteService;
     protected $campaignService;
+    protected $zoneService;
 
     public function __construct()
     {
@@ -33,6 +36,7 @@ class DashboardController extends Controller
         $this->userService = new UserService();
         $this->siteService = new SiteService();
         $this->campaignService = new CampaignService();
+        $this->zoneService = new ZoneService();
     }
 
     public function index()
@@ -80,8 +84,8 @@ class DashboardController extends Controller
         $data['totalSite'] = $this->siteService->totalSite();
 
         // Tổng campaign
-        $data['totalCampaign'] = $this->campaignService->totalCampaign();
-        $data['totalCampaignPending'] = $this->campaignService->totalCampaign(['status' => CampaignModel::STATUS_PAUSED]);
+        $data['totalZone'] = $this->zoneService->totalZone();
+        $data['totalZonePending'] = $this->zoneService->totalZone(['status' => ZoneModel::PENDING]);
 
         // Reports
 

@@ -150,8 +150,8 @@
                         <div class="card-body">
                             <div class="media static-widget">
                                 <div class="media-body">
-                                    <h6 class="font-roboto">Total Ads</h6>
-                                    <h4 class="mb-0 counter">{{number_format($totalCampaign)}}</h4>
+                                    <h6 class="font-roboto">Total Zones</h6>
+                                    <h4 class="mb-0 counter">{{number_format($totalZone)}}</h4>
                                 </div>
                                 <svg class="fill-success" width="45" height="39" viewBox="0 0 45 39" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -182,8 +182,8 @@
                         <div class="card-body">
                             <div class="media static-widget">
                                 <div class="media-body">
-                                    <h6 class="font-roboto">Pending Ads</h6>
-                                    <h4 class="mb-0 counter">{{number_format($totalCampaignPending)}}</h4>
+                                    <h6 class="font-roboto">Pending Zones</h6>
+                                    <h4 class="mb-0 counter">{{number_format($totalZonePending)}}</h4>
                                 </div>
                                 <svg class="fill-success" width="45" height="39" viewBox="0 0 45 39" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
