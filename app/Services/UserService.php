@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class UserService
 {
@@ -48,7 +49,7 @@ class UserService
         {
             $query->where('email', $params['email']);
         }
-        if (!empty($params['user_assign']))
+        if (!empty($params['user_assign']) && $params['user_assign'] != 'null')
         {
             $query->where('assign_user.user_id', $params['user_assign']);
             $query->where('assign_user.type', 'PUBLISHER');
@@ -57,7 +58,7 @@ class UserService
         {
             $query->where('websites.url', 'like', '%'. $params['website'] .'%');
         }
-        if (isset($params['verify']) && $params['verify'] != null)
+        if (isset($params['verify']) && $params['verify'] != 'null')
         {
             if ($params['verify'])
             {
@@ -67,7 +68,7 @@ class UserService
                 $query->whereNull('email_verified_at');
             }
         }
-        if (isset($params['active']) && $params['active'] != null)
+        if (isset($params['active']) && $params['active'] != 'null')
         {
             if ($params['active'])
             {
