@@ -342,6 +342,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $params = [];
 
+        if (isset($request->email)){
+            $params['email'] = $request->email;
+        }
+
         if (isset($request->name)){
             $params['name'] = $request->name;
         }
@@ -370,6 +374,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $dataUpdate = [
             'user_type_id' => $request->user_type_id ?? 1,
         ];
+
+        if (isset($request->email)){
+            $dataUpdate['email'] = $request->email;
+        }
 
         if (!empty($request->name)){
             $dataUpdate['name'] = $request->name;

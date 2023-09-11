@@ -46,12 +46,12 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $request = $request->all();
-
         $items = $this->userService->listUserPublisher($request);
         $data = [
             'items' => $items,
             'listUserGroupAdmin' => $this->commonService->listUserGroupAdmin()
         ];
+
         return view('administrator.' . $this->prefixView . '.index', $data);
     }
 

@@ -19,26 +19,27 @@
             <div class="col-sm-3">
                 <label>Manager</label>
                 <select name="user_assign" class="form-control">
-                    <option value=null>All</option>
+                    <option value=null>-All-</option>
                     @foreach($listUserGroupAdmin as $userAdmin)
-                        <option value="{{$userAdmin->id}}">{{$userAdmin->name}}</option>
+                        <option
+                            value="{{$userAdmin->id}}" {{request()->get('user_assign') == $userAdmin->id ?'selected' : ''}}>{{$userAdmin->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="col-sm-3">
                 <label>Email</label>
-                <input class="form-control" name="email" placeholder="Email">
+                <input class="form-control" name="email" placeholder="Email" value="{{request()->get('email')}}">
             </div>
             <div class="col-sm-3">
                 <label>Website</label>
-                <input class="form-control" name="website" placeholder="Website">
+                <input class="form-control" name="website" placeholder="Website" value="{{request()->get('website')}}">
             </div>
             <div class="col-sm-3">
                 <label>Verify</label>
                 <select name="verify" class="form-control">
-                    <option value=null>All</option>
-                    <option value=1>Verify</option>
-                    <option value=0>No verify</option>
+                    <option value=null>-All-</option>
+                    <option value=1 {{request()->get('verify') === '1' ? 'selected' : ''}}>Verify</option>
+                    <option value=0 {{request()->get('verify') === '0' ? 'selected' : ''}}>No verify</option>
                 </select>
             </div>
     </div>
@@ -47,9 +48,9 @@
         <div class="col-sm-3">
             <label>Status</label>
             <select name="active" class="form-control">
-                <option value=null>All</option>
-                <option value=1>Active</option>
-                <option value=0>No active</option>
+                <option value=null>-All-</option>
+                <option value=1 {{request()->get('active') === '1' ? 'selected' : ''}}>Active</option>
+                <option value=0 {{request()->get('active') === '0' ? 'selected' : ''}}>No active</option>
             </select>
         </div>
         <div class="col-sm-2">

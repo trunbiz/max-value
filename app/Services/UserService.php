@@ -39,26 +39,43 @@ class UserService
     public function listUserPublisher($params)
     {
         $query = User::where('is_admin', User::IS_PUBLISHER)->where('active', User::ACTIVE)
-            ->orderBy('id', 'DESC');
+            ->leftJoin('websites', 'users.id', '=', 'websites.user_id')
+            ->leftJoin('assign_user', 'users.id', '=', 'assign_user.service_id')
+            ->select('users.*')
+            ->orderBy('users.id', 'DESC');
+
         if (!empty($params['email']))
         {
             $query->where('email', $params['email']);
         }
         if (!empty($params['user_assign']))
         {
-            $query->where('email', $params['email']);
+            $query->where('assign_user.user_id', $params['user_assign']);
+            $query->where('assign_user.type', 'PUBLISHER');
         }
         if (!empty($params['website']))
         {
-            $query->where('email', $params['email']);
+            $query->where('websites.url', 'like', '%'. $params['website'] .'%');
         }
         if (isset($params['verify']) && $params['verify'] != null)
         {
-            $query->where('email', $params['email']);
+            if ($params['verify'])
+            {
+                $query->whereNotNull('email_verified_at');
+            }
+            else{
+                $query->whereNull('email_verified_at');
+            }
         }
         if (isset($params['active']) && $params['active'] != null)
         {
-            $query->where('email', $params['email']);
+            if ($params['active'])
+            {
+                $query->where('users.active', 1);
+            }
+            else{
+                $query->where('users.active', 0);
+            }
         }
 
         return $query->paginate(25);

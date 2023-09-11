@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label>Email<span class="text-danger">*</span></label>
-                    <input type="text" name="email" class="form-control" value="{{ $item->email }}" disabled>
+                    <input type="text" name="email" class="form-control" value="{{ $item->email }}">
                 </div>
                 <div class="mb-3">
                     <label>Mật khẩu<span class="text-danger">*</span></label>

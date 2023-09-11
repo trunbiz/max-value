@@ -94,6 +94,11 @@
                                         <td>{{$item->created_at}}</td>
                                         <td>
                                             <a
+                                                href="{{route('administrator.reports.index' , ['user_id'=> $item->api_publisher_id])}}"
+                                                title="report" target="_blank">
+                                                <i class="fa-solid fa-chart-line"></i>
+                                            </a>
+                                            <a
                                                 href="{{route('administrator.imperrsonate' , ['user_id'=> $item->api_publisher_id])}}"
                                                 title="Impersonate">
                                                 <i class="fa-solid fa-user-ninja"></i>
@@ -246,6 +251,7 @@
                 'PUT',
                 '{{route('administrator.users.update')}}' + '?id=' + id,
                 {
+                    email: $this.find('input[name="email"]').val(),
                     password: $this.find('input[name="password"]').val(),
                     user_status_id: $this.find('select[name="user_status_id"]').val(),
                     assign_user: $this.find('select[name="assign_user"]').val(),
