@@ -41,9 +41,14 @@ class CallDataService
         foreach ($data['data'] as $site)
         {
             $siteInfo = Website::where('api_site_id', $site->id)->first();
-            if (empty($siteInfo))
-            {
-                Website::create([
+//            if (empty($siteInfo))
+//            {
+            Website::updateOrCreate([
+                'user_id' => $site->publisher->id,
+                'url' => $site->url,
+                'api_site_id' => $site->id,
+            ],
+                [
                     'user_id' => $site->publisher->id,
                     'name' => $site->name,
                     'url' => $site->url,
@@ -52,7 +57,7 @@ class CallDataService
                     'api_site_id' => $site->id,
                     'is_delete' => Common::NOT_DELETE,
                 ]);
-            }
+//            }
 
             // Zone
             $this->callDataZone(1, $site->id);
@@ -66,7 +71,7 @@ class CallDataService
         $this->callDataSite($page);
     }
 
-    public function callDataPublisher($page=1)
+    public function callDataPublisher($page=1, &$userP)
     {
         $url = $this->url . '/v2/user';
         $header = $this->getHeader();
@@ -83,6 +88,7 @@ class CallDataService
 
         foreach ($data['data'] as $user)
         {
+            array_push($userP, $user->id);
             $userInfo = User::where('api_publisher_id', $user->id)->first();
             if (empty($userInfo))
             {
@@ -103,7 +109,7 @@ class CallDataService
             return true;
         }
         $page++;
-        $this->callDataPublisher($page);
+        $this->callDataPublisher($page, $userP);
     }
 
     public function callDataZone($page = 1, $siteId)
@@ -121,16 +127,20 @@ class CallDataService
 
         foreach ($data['data'] as $zone)
         {
-            $zoneInfo = ZoneModel::where('ad_zone_id', $zone->id)->first();
-            if (empty($zoneInfo))
-            {
+//            $zoneInfo = ZoneModel::where('ad_zone_id', $zone->id)->first();
+//            if (empty($zoneInfo))
+//            {
                 $dataDimensions = [
                     'width'=>$zone->width,
                     'height' =>$zone->height,
                     'iddimension' => $zone->dimension->id,
                     'paramsIdDimension' =>Common::getNameDimension($zone->height, $zone->width)
                 ];
-                ZoneModel::create([
+
+                ZoneModel::updateOrCreate([
+                    'ad_site_id' => $siteId,
+                    'ad_zone_id' => $zone->id,
+                ],[
                     'ad_site_id' => $siteId,
                     'ad_zone_id' => $zone->id,
                     'name' => $zone->name,
@@ -139,9 +149,9 @@ class CallDataService
                     'dimensions' => json_encode($dataDimensions),
                     'status' => $zone->status->id,
                     'is_delete' => Common::NOT_DELETE,
-                    'extra_response' => $zone,
+                    'extra_response' => json_encode($zone),
                 ]);
-            }
+//            }
         }
 
         if ($page >= $currentPage)
