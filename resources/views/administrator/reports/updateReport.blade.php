@@ -143,12 +143,12 @@
                                                 @endif
                                             </td>
                                             <td>
-{{--                                                @if($item->status != 1 || auth()->user()->email === 'trungtb@maxvalue.media')--}}
+                                                @if($item->status != 1 || auth()->user()->role_id === 1)
                                                 <button type="button" class="btn btn-primary btn-change-revenue">Save
                                                 </button>
                                                 <button type="button" class="btn btn btn-info btn-edit">Edit
                                                 </button>
-{{--                                                @endif--}}
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
