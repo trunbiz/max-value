@@ -43,13 +43,15 @@ class CallDataService
             $siteInfo = Website::where('api_site_id', $site->id)->first();
 //            if (empty($siteInfo))
 //            {
+            $userInfo = User::where('api_publisher_id', $site->publisher->id)->first();
+
             Website::updateOrCreate([
-                'user_id' => $site->publisher->id,
+                'user_id' => $userInfo->id ?? $site->publisher->id,
                 'url' => $site->url,
                 'api_site_id' => $site->id,
             ],
                 [
-                    'user_id' => $site->publisher->id,
+                    'user_id' => $userInfo->id ?? $site->publisher->id,
                     'name' => $site->name,
                     'url' => $site->url,
                     'category_website_id' => $site->category->id,
@@ -60,7 +62,7 @@ class CallDataService
 //            }
 
             // Zone
-            $this->callDataZone(1, $site->id);
+//            $this->callDataZone(1, $site->id);
         }
 
         if ($page >= $currentPage)
