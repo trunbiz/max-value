@@ -78,7 +78,7 @@ class UserService
                 $query->where('users.active', 0);
             }
         }
-
+        $query->distinct();
         return $query->paginate(25);
     }
 }

@@ -46,6 +46,12 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $request = $request->all();
+
+        // Nếu là Publisher manager thì chỉ được nhìn các publisher tạo được ass
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+            $request['user_assign'] = \auth()->user()->id;
+        }
+
         $items = $this->userService->listUserPublisher($request);
         $data = [
             'items' => $items,
