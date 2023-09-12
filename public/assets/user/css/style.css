@@ -1494,9 +1494,9 @@ section.payment {
 .getcode__end p{
     margin: 10px 0;
 }
-table tbody tr td:last-child {
-    display: none;
-}
+/*table tbody tr td:last-child {*/
+/*    display: none;*/
+/*}*/
 @media screen and (max-width: 1024px) {
     .list__advs{
         grid-template-columns: repeat(2, 1fr);
