@@ -33,8 +33,8 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('create:adstxt')
 //            ->everyFiveMinutes();
 
-        $schedule->command('callData:AdServer')
-            ->everyMinute();
+//        $schedule->command('callData:AdServer')
+//            ->everyMinute();
 
         // Backups (to Google Drive)
         $schedule->command('backup:clean --disable-notifications')->dailyAt('01:30');
