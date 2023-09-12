@@ -40,15 +40,17 @@ class CallDataAdServer extends Command
     public function handle()
     {
         $callDataAdServer = new CallDataService();
-        $callDataAdServer->callDataSite();
 
-//        $userP = [];
-//        $callDataAdServer->callDataPublisher(1, $userP);
-//        // Cập nhât trạng thái no active cho publihser
-//        if (!empty($userP))
-//        {
-//            User::where('is_admin', 0)->where('role_id', 4)->whereNotIn('api_publisher_id', $userP)
-//                ->update(['active' => 0]);
-//        }
+        $userP = [];
+        $callDataAdServer->callDataPublisher(1, $userP);
+        // Cập nhât trạng thái no active cho publihser
+        if (!empty($userP))
+        {
+            User::where('is_admin', 0)->where('role_id', 4)->whereNotIn('api_publisher_id', $userP)
+                ->update(['active' => 0]);
+        }
+
+//         Caapj nhat site
+        $callDataAdServer->callDataSite();
     }
 }

@@ -31,27 +31,35 @@ class CallDataService
         $url = $this->url . '/v2/site';
         $header = $this->getHeader();
         $params = [
-            'page' => $page
+            'page' => $page,
+            'per-page' => 10000
         ];
         $data = $this->callClientRequest('GET', $url, $header, $params);
         if (!$data['success'])
             return false;
-        $currentPage = $data['responseHeaders']['X-Pagination-Current-Page'][0] ?? 0;
+        $currentPage = $data['responseHeaders']['X-Pagination-Page-Count'][0] ?? 0;
+
+        if (empty($data['data']))
+            return true;
 
         foreach ($data['data'] as $site)
         {
-            $siteInfo = Website::where('api_site_id', $site->id)->first();
 //            if (empty($siteInfo))
 //            {
+
             $userInfo = User::where('api_publisher_id', $site->publisher->id)->first();
 
+//            if ($site->id == 26225)
+//            {
+//                dd($userInfo, $site);
+//            }
+
             Website::updateOrCreate([
-                'user_id' => $userInfo->id ?? $site->publisher->id,
                 'url' => $site->url,
                 'api_site_id' => $site->id,
             ],
                 [
-                    'user_id' => $userInfo->id ?? $site->publisher->id,
+                    'user_id' => $userInfo->id ?? 0,
                     'name' => $site->name,
                     'url' => $site->url,
                     'category_website_id' => $site->category->id,
@@ -62,7 +70,7 @@ class CallDataService
 //            }
 
             // Zone
-//            $this->callDataZone(1, $site->id);
+            $this->callDataZone(1, $site->id);
         }
 
         if ($page >= $currentPage)
@@ -79,6 +87,7 @@ class CallDataService
         $header = $this->getHeader();
         $params = [
             'page' => $page,
+            'per-page' => 10000,
             'filter' => [
                 'idrole' => 4
             ]
@@ -86,7 +95,11 @@ class CallDataService
         $data = $this->callClientRequest('GET', $url, $header, $params);
         if (!$data['success'])
             return false;
-        $currentPage = $data['responseHeaders']['X-Pagination-Current-Page'][0] ?? 0;
+
+        $currentPage = $data['responseHeaders']['X-Pagination-Page-Count'][0] ?? 0;
+
+        if (empty($data['data']))
+            return true;
 
         foreach ($data['data'] as $user)
         {
@@ -120,12 +133,17 @@ class CallDataService
         $header = $this->getHeader();
         $params = [
             'page' => $page,
-            'idsite' => $siteId
+            'idsite' => $siteId,
+            'per-page' => 10000
         ];
         $data = $this->callClientRequest('GET', $url, $header, $params);
         if (!$data['success'])
             return false;
-        $currentPage = $data['responseHeaders']['X-Pagination-Current-Page'][0] ?? 0;
+        $currentPage = $data['responseHeaders']['X-Pagination-Page-Count'][0] ?? 0;
+
+
+        if (empty($data['data']))
+            return true;
 
         foreach ($data['data'] as $zone)
         {
