@@ -16,6 +16,7 @@
 {{--            class="fa-solid fa-plus"></i></a>--}}
     <form action="{{route('administrator.users.index')}}" method="GET">
     <div class="row">
+        @if(auth()->user()->is_admin == 1 && auth()->user()->role->id != \App\Models\User::ROLE_PUBLISHER_MANAGER)
             <div class="col-sm-3">
                 <label>Manager</label>
                 <select name="user_assign" class="form-control">
@@ -26,6 +27,7 @@
                     @endforeach
                 </select>
             </div>
+        @endif
             <div class="col-sm-3">
                 <label>Email</label>
                 <input class="form-control" name="email" placeholder="Email" value="{{request()->get('email')}}">
