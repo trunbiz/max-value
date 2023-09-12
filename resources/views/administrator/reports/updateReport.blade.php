@@ -193,7 +193,7 @@
                             </table>
                         </div>
                         <div>
-                            {{ $items->links('pagination::bootstrap-4') }}
+                            @include('administrator.components.footer_table')
                         </div>
                     </div>
                 </div>
