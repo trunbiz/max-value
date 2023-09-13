@@ -42,13 +42,13 @@ class CallDataAdServer extends Command
         $callDataAdServer = new CallDataService();
 
         $userP = [];
-        $callDataAdServer->callDataPublisher(1, $userP);
-        // Cập nhât trạng thái no active cho publihser
-        if (!empty($userP))
-        {
-            User::where('is_admin', 0)->where('role_id', 4)->whereNotIn('api_publisher_id', $userP)
-                ->update(['active' => 0]);
-        }
+//        $callDataAdServer->callDataPublisher(1, $userP);
+//        // Cập nhât trạng thái no active cho publihser
+//        if (!empty($userP))
+//        {
+//            User::where('is_admin', 0)->where('role_id', 4)->whereNotIn('api_publisher_id', $userP)
+//                ->update(['active' => 0]);
+//        }
 
 //         Caapj nhat site
         $callDataAdServer->callDataSite();

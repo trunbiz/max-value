@@ -92,7 +92,7 @@ class WebsiteController extends Controller
 
             // Lưu dữ lieu vao database
             Website::create([
-                'user_id' => auth()->user()->api_publisher_id ?? 0,
+                'user_id' => auth()->user()->id ?? 0,
                 'name' => $item['name'] ?? '0',
                 'url' => $item['url'] ?? '0',
                 'category_website_id' => $item['category']['id'] ?? '0',
