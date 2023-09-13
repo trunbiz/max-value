@@ -488,6 +488,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getListSite()
     {
-        return $this->hasMany(Website::class, 'user_id', 'id')->get();
+        return $this->hasMany(Website::class, 'user_id', 'id')->where('is_delete', 0)->get();
     }
 }

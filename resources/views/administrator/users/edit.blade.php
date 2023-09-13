@@ -22,7 +22,7 @@
                             <option value='null'>-Select-</option>
                             @foreach($listUserGroupAdmin as $userAdmin)
                                 <option
-                                    value="{{$userAdmin->id}}" {{$userAdmin->id == $item->getFirstUserAssign()->user_id ? 'selected' : ''}}>{{$userAdmin->name}}</option>
+                                    value="{{$userAdmin->id}}" {{!empty($item->getFirstUserAssign()->user_id) ? (($userAdmin->id == ($item->getFirstUserAssign()->user_id ?? '') )? 'selected' : 'AA') : ''}}>{{$userAdmin->name}}</option>
                             @endforeach
                         </select>
                         {{--                    <input type="text" hidden name="manager_id" class="form-control" value="0">--}}
