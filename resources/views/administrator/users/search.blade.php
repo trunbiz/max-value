@@ -81,19 +81,19 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label>Email<span class="text-danger">*</span></label>
-                        <input type="text" name="email" class="form-control">
+                        <input type="text" name="email_store" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label>Mật khẩu<span class="text-danger">*</span></label>
-                        <input type="password" name="password" class="form-control">
+                        <input type="password" name="password_store" class="form-control">
                     </div>
                     @if(auth()->user()->role->id != \App\Models\User::ROLE_PUBLISHER_MANAGER)
                     <div class="mb-3">
-                        <input type="text" hidden name="manager_id" class="form-control" value="{{auth()->user()->id}}">
+                        <input type="text" hidden name="manager_id_store" class="form-control" value="{{auth()->user()->id}}">
 {{--                        @include('administrator.components.select_category' , ['label' => 'Manager','name' => 'manager_id_add' ,'html_category' => \App\Models\User::getCategory(isset($item) ? optional($item)->manger_id : '')])--}}
                         <label>Assign User</label>
                         <select id="assign_user" class="form-control choose_value select2_init" required
-                                name="assign_user">
+                                name="assign_user_store">
                             <option value='null'>-Select-</option>
                             @foreach($listUserGroupAdmin as $userAdmin)
                                 <option value="{{$userAdmin->id}}">{{$userAdmin->name}}</option>
@@ -104,7 +104,7 @@
                     @endif
                     <div class="mb-3">
                         <label>Active? @include('user.components.lable_require')</label>
-                        <select class="form-control choose_value select2_init" name="user_status_id_add">
+                        <select class="form-control choose_value select2_init" name="user_status_id_add_store">
                             @foreach(\App\Models\UserStatus::all() as $itemUserStatus)
                                 <option
                                     value="{{$itemUserStatus->id}}" {{$itemUserStatus->id == old('user_status_id') ? 'selected' : ''}}>{{$itemUserStatus->name}}</option>
@@ -158,11 +158,11 @@
             type: 'POST',
             url: '{{ route('administrator.users.store') }}',
             data: {
-                email: $('input[name="email"]').val(),
-                password: $('input[name="password"]').val(),
-                manager_id: $('input[name="manager_id"]').val(),
-                assign_user: $('select[name="assign_user"]').val(),
-                user_status_id: $('select[name="user_status_id_add"]').val(),
+                email: $('input[name="email_store"]').val(),
+                password: $('input[name="password_store"]').val(),
+                manager_id: $('input[name="manager_id_store"]').val(),
+                assign_user: $('select[name="assign_user_store"]').val(),
+                user_status_id: $('select[name="user_status_id_add_store"]').val(),
             },
             beforeSend: function() {
                 showLoading()
