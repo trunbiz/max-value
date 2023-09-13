@@ -72,8 +72,8 @@
                                         </span>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="9" class="list-zone">
+                                <tr class="list-zone" style="display: none">
+                                    <td colspan="9" >
                                         <div id="collapse{{ $itemWebsite['id'] }}" data-id="{{ $itemWebsite['id'] }}"
                                              aria-labelledby="heading{{ $itemWebsite['id'] }}"
                                              data-bs-parent="#accordionExample">
@@ -455,14 +455,11 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/select2.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/style.css')}}">
 @section('js')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $(".show-list-zone").click(function() {
-                console.log(1344)
-                console.log(jQuery.fn.jquery);
-
-                $(this).closest("tr").next(".list-zone").toggle();
+                $(this).closest("tr").next(".list-zone").toggle(1000);
+                // $(".list-zone").toggle();
             });
         });
     </script>

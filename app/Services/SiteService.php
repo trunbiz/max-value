@@ -30,4 +30,30 @@ class SiteService
     {
         return Website::count();
     }
+
+    public function listAll($params)
+    {
+        $query = Website::query();
+        if ($params['publisher_id'])
+        {
+            $query->where('user_id', $params['publisher_id']);
+        }
+        if ($params['website_id'])
+        {
+            $query->where('id', $params['website_id']);
+        }
+        if ($params['status'])
+        {
+            $query->where('status', $params['status']);
+        }
+        if ($params['manager_id'])
+        {
+            $query->where('status', $params['status']);
+        }
+        if ($params['zone_id'])
+        {
+            $query->where('status', $params['status']);
+        }
+        return $query->paginate(25);
+    }
 }

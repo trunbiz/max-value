@@ -35,7 +35,11 @@ class WebsiteController extends Controller
 
     public function index(Request $request)
     {
+        $params = $request->all();
         $categories = TypeCategory::all();
+
+        $items = $this->siteService->listAll($params);
+
 
         if (isset($request->publisher_id) && !empty($request->publisher_id)){
             $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?filter[idpublisher]=".$request->publisher_id."&page=1&per-page=10000");
