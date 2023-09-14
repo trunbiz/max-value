@@ -156,7 +156,6 @@ class CallDataService
                     'iddimension' => $zone->dimension->id,
                     'paramsIdDimension' =>Common::getNameDimension($zone->height, $zone->width)
                 ];
-
                 ZoneModel::updateOrCreate([
                     'ad_site_id' => $siteId,
                     'ad_zone_id' => $zone->id,
@@ -168,6 +167,7 @@ class CallDataService
                     'id_dimension_method' => 1,
                     'dimensions' => json_encode($dataDimensions),
                     'status' => $zone->status->id,
+                    'active' => $zone->is_active ? 1 : 0,
                     'is_delete' => Common::NOT_DELETE,
                     'extra_response' => json_encode($zone),
                 ]);

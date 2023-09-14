@@ -34,26 +34,30 @@ class SiteService
     public function listAll($params)
     {
         $query = Website::query();
-        if ($params['publisher_id'])
+        if (isset($params['publisher_id']))
         {
             $query->where('user_id', $params['publisher_id']);
         }
-        if ($params['website_id'])
+        if (isset($params['list_publisher_id']))
+        {
+            $query->whereIn('user_id', $params['list_publisher_id']);
+        }
+        if (isset($params['website_id']))
         {
             $query->where('id', $params['website_id']);
         }
-        if ($params['status'])
+        if (isset($params['status']))
         {
             $query->where('status', $params['status']);
         }
-        if ($params['manager_id'])
+        if (isset($params['manager_id']))
         {
             $query->where('status', $params['status']);
         }
-        if ($params['zone_id'])
+        if (isset($params['zone_id']))
         {
             $query->where('status', $params['status']);
         }
-        return $query->paginate(25);
+        return $query->orderBy('id', 'DESC')->paginate(25);
     }
 }

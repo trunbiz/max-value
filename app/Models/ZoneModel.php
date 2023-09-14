@@ -18,6 +18,7 @@ class ZoneModel extends Model
         'id_dimension_method',
         'dimensions',
         'status',
+        'active',
         'is_delete',
         'extra_response',
         'extra_response',

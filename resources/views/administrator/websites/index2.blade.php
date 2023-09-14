@@ -34,37 +34,38 @@
                             <tbody>
                             @foreach($items as $itemWebsite)
                                 <tr>
-                                    <th scope="row">{{$itemWebsite['id']}}</th>
-                                    <td>{{$listAssign[$itemWebsite['id']] ?? ''}}</td>
-                                    <td>{{$itemWebsite['url']}}</td>
+                                    <th scope="row">{{$itemWebsite->id}}</th>
+                                    <td>{{(!empty($itemWebsite->getInfoAssign()->name) ? $itemWebsite->getInfoAssign()->name : '') ?? 'Không xác định'}}</td>
+                                    <td>{{$itemWebsite->url}}</td>
                                     <td>
                                         <ul>
-                                            @foreach($itemWebsite['zones'] as $itemZone)
-                                                <li>{{$itemZone['name']}}</li>
+                                            @foreach($itemWebsite->zones as $itemZone)
+                                                <li>{{$itemZone->name}}</li>
                                             @endforeach
                                         </ul>
                                     </td>
                                     <td>
-                                        <div
-                                            onclick="oneditStatusModal({{$itemWebsite['id']}}, {{$itemWebsite['status']['id']}})"
+                                        <span
+                                            title="Change status zone"
+                                            onclick="oneditStatusModal({{$itemWebsite->api_site_id}}, {{$itemWebsite->status}})"
                                             data-bs-toggle="modal"
                                             data-bs-target="#editStatusModal"
-                                            class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
-                                            {{ \App\Services\Common::STATUS_ADSERVER[$itemWebsite['status']['id']] ?? '' }} <i
+                                            class="status__site {{ strtolower(\App\Models\Website::STATUS[$itemWebsite->status] ?? $itemWebsite->status) ?? $itemWebsite->status }}">
+                                            {{ \App\Models\Website::STATUS[$itemWebsite->status] ?? $itemWebsite->status }} <i
                                                 class="fa-solid fa-rotate"></i>
-                                        </div>
+                                        </span>
                                     </td>
                                     <td>
                                         <span title="List zone" class="show-list-zone">
                                             <i class="fa-solid fa-circle-info"></i>
                                         </span>
-                                        <span onclick="oneditStatusModal('{{$itemWebsite['id']}}')"
+                                        <span onclick="oneditStatusModal('{{$itemWebsite->api_site_id}}')"
                                            style="cursor: pointer;"
                                            title="Add zone" data-bs-toggle="modal"
                                            data-bs-target="#createZoneModal">
                                             <i class="fa-solid fa-circle-plus"></i>
                                         </span>
-                                        <span onclick="deleteSite('{{$itemWebsite['id']}}')"
+                                        <span onclick="deleteSite('{{$itemWebsite->api_site_id}}')"
                                            style="cursor: pointer;"
                                            title="Delete site">
                                                                     <span class="badge badge-danger"><i
@@ -74,36 +75,36 @@
                                 </tr>
                                 <tr class="list-zone" style="display: none">
                                     <td colspan="9" >
-                                        <div id="collapse{{ $itemWebsite['id'] }}" data-id="{{ $itemWebsite['id'] }}"
-                                             aria-labelledby="heading{{ $itemWebsite['id'] }}"
+                                        <div id="collapse{{ $itemWebsite->id }}" data-id="{{ $itemWebsite->id }}"
+                                             aria-labelledby="heading{{ $itemWebsite->id }}"
                                              data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
                                                 <div class="list__advs">
-                                                    @foreach($itemWebsite['zones'] as $itemZone)
+                                                    @foreach($itemWebsite->zones as $itemZone)
                                                         <div class="list__advs--item">
                                                             <div class="title__advs">
                                                                 <div class="title__advs--title">
-                                                                    <span>{{$itemZone['name']}}</span>
+                                                                    <span>{{$itemZone->name}}</span>
                                                                     <p>
-                                                                        @if($itemZone['is_active'])
+                                                                        @if($itemZone->active)
                                                                             <span class="badge badge-success">Active</span>
                                                                         @else
                                                                             <span class="badge badge-warning">Off</span>
                                                                         @endif
-                                                                        {{$itemZone['format']['name']}}
+                                                                        {{$itemZone->name}}
                                                                     </p>
                                                                 </div>
                                                                 <div
-                                                                    onclick="onEditZone({{$itemZone['id']}}, {{$itemZone['status']['id']}}, {{$itemZone['is_active']}})"
+                                                                    onclick="onEditZone({{$itemZone->id}}, {{$itemZone->status}}, {{$itemZone->active}})"
                                                                     style="cursor: pointer;display: flex;"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#editZone"
-                                                                    class="title__advs--status {{ strtolower($itemZone['status']['name']) }}">
-                                                                    {{ \App\Models\ZoneModel::STATUS_ADSERVER[$itemZone['status']['id']] ?? '' }} <i
+                                                                    class="title__advs--status {{ strtolower(\App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status]) }}">
+                                                                    {{ \App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status] ?? '' }} <i
                                                                         class="fa-solid fa-rotate"></i>
                                                                 </div>
                                                                 <span class="badge badge-danger"
-                                                                      onclick="removeZone({{$itemZone['id']}})"><i
+                                                                      onclick="removeZone({{$itemZone->id}})"><i
                                                                         class="fa-solid fa-xmark"></i></span>
                                                             </div>
                                                             <br>
@@ -111,8 +112,8 @@
                                                                 <div class="col-sm-6">
                                                                     <div class="info__advs">
                                                                         <div
-                                                                            style="{{ strtolower($itemZone['status']['name']) == "approved" ? "" : "cursor: no-drop;opacity: 0.5;"}}"
-                                                                            class="info__advs--get" {{ strtolower($itemZone['status']['name']) == "approved" ? 'onclick=getCode('. $itemZone["id"] . ')' : "cursor: no-drop;opacity: 0.5;"}}>
+                                                                            style="{{ strtolower(\App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status]) == "approved" ? "" : "cursor: no-drop;opacity: 0.5;"}}"
+                                                                            class="info__advs--get" {{ strtolower($itemZone->status) == "approved" ? 'onclick=getCode('. $itemZone->id . ')' : "cursor: no-drop;opacity: 0.5;"}}>
                                                                             <i class="fa-regular fa-clipboard"></i>
                                                                             GET CODE
                                                                         </div>
@@ -121,7 +122,7 @@
                                                                 <div class="col-sm-6">
                                                                     @can('advertises-config')
                                                                         <div class="info__advs">
-                                                                            <a href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone['id'] ])}}"
+                                                                            <a href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone->id ])}}"
                                                                                title="Edit">
                                                                                 <i class="fa-solid fa-circle-info"></i> CONFIG
                                                                             </a>
