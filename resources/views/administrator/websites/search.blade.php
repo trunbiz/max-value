@@ -12,7 +12,7 @@
                 <select class="form-control" id="website" name="website_id">
                     <option value="">-Website-</option>
                     @foreach($websites as $website)
-                        <option value="{{ $user['api_publisher_id'] }}" {{ request('publisher_id') == $user['api_publisher_id'] ? 'selected' : ''}}>{{ $user['email'] }}</option>
+                        <option value="{{ $website->id }}" {{ request('website_id') == $website->id ? 'selected' : ''}}>{{ $website->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -20,22 +20,27 @@
                 <select class="form-control" id="zone" name="zone_id">
                     <option value="">-Zone-</option>
                     @foreach($zones as $zone)
-                        <option value="{{ $user['api_publisher_id'] }}" {{ request('publisher_id') == $user['api_publisher_id'] ? 'selected' : ''}}>{{ $user['email'] }}</option>
+                        <option value="{{ $zone->id }}" {{ request('zone_id') == $zone->id ? 'selected' : ''}}>{{ $zone->name }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="col-sm-3">
                 <select class="form-control" id="status" name="status">
-                    <option value="">-Active-</option>
-                    <option value="1">Active</option>
-                    <option value="0">Inactive</option>
+                    <option value="">-All status-</option>
+                    <option value="3520" {{ request('status') == 3520 ? 'selected' : ''}}>Pending</option>
+                    <option value="3500" {{ request('status') == 3500 ? 'selected' : ''}}>Approved</option>
+                    <option value="3525" {{ request('status') == 3525 ? 'selected' : ''}}>Verification</option>
+                    <option value="3510" {{ request('status') == 3510 ? 'selected' : ''}}>Rejected</option>
                 </select>
             </div>
+        </div>
+    <br>
+    <div class="row">
             <div class="col-sm-3">
                 <select class="form-control" id="manager" name="manager_id">
                     <option value="">-manager-</option>
-                    @foreach($users as $user)
-                        <option value="{{ $user['api_publisher_id'] }}" {{ request('publisher_id') == $user['api_publisher_id'] ? 'selected' : ''}}>{{ $user['email'] }}</option>
+                    @foreach($listUserGroupAdmin as $am)
+                        <option value="{{ $am->id }}" {{ request('manager_id') == $am->id ? 'selected' : ''}}>{{ $am->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -51,7 +56,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        $("#publisher_id, #website").select2({});
+        $("#publisher_id, #website, #zone, #status, #manager").select2({});
     })
 
     $('select[name="limit"]').on('change', function () {

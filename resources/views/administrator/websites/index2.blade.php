@@ -33,9 +33,13 @@
                             </thead>
                             <tbody>
                             @foreach($items as $itemWebsite)
-                                <tr>
+                                <tr class="show-list-zone">
                                     <th scope="row">{{$itemWebsite->id}}</th>
-                                    <td>{{(!empty($itemWebsite->getInfoAssign()->name) ? $itemWebsite->getInfoAssign()->name : '') ?? 'Không xác định'}}</td>
+                                    <td>
+                                    @if(!empty($itemWebsite->getFirstUserAss()))
+                                        {{\App\Models\User::find($itemWebsite->getFirstUserAss()->user_id)->name ?? ''}}
+                                    @endif
+                                    </td>
                                     <td>{{$itemWebsite->url}}</td>
                                     <td>
                                         <ul>
@@ -56,7 +60,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span title="List zone" class="show-list-zone">
+                                        <span title="List zone">
                                             <i class="fa-solid fa-circle-info"></i>
                                         </span>
                                         <span onclick="oneditStatusModal('{{$itemWebsite->api_site_id}}')"
@@ -95,7 +99,7 @@
                                                                     </p>
                                                                 </div>
                                                                 <div
-                                                                    onclick="onEditZone({{$itemZone->id}}, {{$itemZone->status}}, {{$itemZone->active}})"
+                                                                    onclick="onEditZone({{$itemZone->ad_zone_id}}, {{$itemZone->status}}, {{$itemZone->active}})"
                                                                     style="cursor: pointer;display: flex;"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#editZone"
@@ -104,7 +108,7 @@
                                                                         class="fa-solid fa-rotate"></i>
                                                                 </div>
                                                                 <span class="badge badge-danger"
-                                                                      onclick="removeZone({{$itemZone->id}})"><i
+                                                                      onclick="removeZone({{$itemZone->ad_zone_id}})"><i
                                                                         class="fa-solid fa-xmark"></i></span>
                                                             </div>
                                                             <br>
@@ -113,7 +117,7 @@
                                                                     <div class="info__advs">
                                                                         <div
                                                                             style="{{ strtolower(\App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status]) == "approved" ? "" : "cursor: no-drop;opacity: 0.5;"}}"
-                                                                            class="info__advs--get" {{ strtolower($itemZone->status) == "approved" ? 'onclick=getCode('. $itemZone->id . ')' : "cursor: no-drop;opacity: 0.5;"}}>
+                                                                            class="info__advs--get" {{ strtolower($itemZone->status) == "approved" ? 'onclick=getCode('. $itemZone->ad_zone_id . ')' : "cursor: no-drop;opacity: 0.5;"}}>
                                                                             <i class="fa-regular fa-clipboard"></i>
                                                                             GET CODE
                                                                         </div>
@@ -122,13 +126,10 @@
                                                                 <div class="col-sm-6">
                                                                     @can('advertises-config')
                                                                         <div class="info__advs">
-                                                                            <a href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone->id ])}}"
+                                                                            <a href="{{route('administrator.advertises.detail.index' , ['id'=> $itemZone->ad_zone_id ])}}"
                                                                                title="Edit">
                                                                                 <i class="fa-solid fa-circle-info"></i> CONFIG
                                                                             </a>
-                                                                            {{--                                                                    <div title="Edit" class="info__advs--get" onclick="DetailZone({{$itemZone["id"]}})">--}}
-                                                                            {{--                                                                        <i class="fa-solid fa-circle-info"></i> CONFIG--}}
-                                                                            {{--                                                                    </div>--}}
                                                                         </div>
                                                                     @endcan
                                                                 </div>
@@ -143,6 +144,9 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div>
+                        @include('administrator.components.footer_table')
                     </div>
                 </div>
 
@@ -459,7 +463,7 @@
     <script>
         $(document).ready(function() {
             $(".show-list-zone").click(function() {
-                $(this).closest("tr").next(".list-zone").toggle(1000);
+                $(this).closest("tr").next(".list-zone").toggle();
                 // $(".list-zone").toggle();
             });
         });

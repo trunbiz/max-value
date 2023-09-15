@@ -31,6 +31,7 @@ class WebsiteController extends Controller
         $this->title = "Websites";
         $this->shareBaseModel($model);
         $this->siteService = new SiteService();
+        $this->commonService = new Common();
     }
 
     public function index(Request $request)
@@ -43,16 +44,15 @@ class WebsiteController extends Controller
         if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
             $params['list_publisher_id'] = auth()->user()->getListUserAssign();
             $users = User::whereIn('id', $params['list_publisher_id'])->get();
-            $websites = Website::whereIn('user_id', $params['list_publisher_id'])->get();
+            $websites = Website::whereIn('user_id', $params['list_publisher_id'])->where('is_delete', 0)->orderBy('id', 'DESC')->get();
 
         }
         else{
-            $websites = Website::all();
+            $websites = Website::where('is_delete', 0)->orderBy('id', 'DESC')->get();
         }
-        $adSiteId = $websites->pluck('id');
-        $zones = ZoneModel::whereIn('ad_site_id', $adSiteId)->get();
+        $adSiteId = $websites->pluck('api_site_id')->toArray();
 
-
+        $zones = ZoneModel::whereIn('ad_site_id', $adSiteId)->where('is_delete', 0)->orderBy('id', 'DESC')->get();
         $items = $this->siteService->listAll($params);
 
         // List danh sách Dimensions
@@ -72,6 +72,7 @@ class WebsiteController extends Controller
             'publishers' => $publishers,
             'websites' => $websites,
             'zones' => $zones,
+            'listUserGroupAdmin' => $this->commonService->listUserGroupAM()
         ];
 
         return view('administrator.' . $this->prefixView . '.index2', $dataResult);

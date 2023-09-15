@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Helper;
+use App\Models\User;
 use App\Models\Website;
 
 class SiteService
@@ -34,30 +35,35 @@ class SiteService
     public function listAll($params)
     {
         $query = Website::query();
-        if (isset($params['publisher_id']))
+        if (!empty($params['publisher_id']))
         {
-            $query->where('user_id', $params['publisher_id']);
+            $query->where('websites.user_id', $params['publisher_id']);
         }
-        if (isset($params['list_publisher_id']))
+        if (!empty($params['list_publisher_id']))
         {
-            $query->whereIn('user_id', $params['list_publisher_id']);
+            $query->whereIn('websites.user_id', $params['list_publisher_id']);
         }
-        if (isset($params['website_id']))
+        if (!empty($params['website_id']))
         {
-            $query->where('id', $params['website_id']);
+            $query->where('websites.id', $params['website_id']);
         }
         if (isset($params['status']))
         {
-            $query->where('status', $params['status']);
+            $query->where('websites.status', $params['status']);
         }
-        if (isset($params['manager_id']))
+        if (!empty($params['manager_id']))
         {
-            $query->where('status', $params['status']);
+            $listPublisherAss = User::where('id', $params['manager_id'])->first()->getListUserAssign();
+            $query->whereIn('websites.user_id', $listPublisherAss);
         }
-        if (isset($params['zone_id']))
+        if (!empty($params['zone_id']))
         {
-            $query->where('status', $params['status']);
+            $query->join('zones', function ($q) use ($params){
+               $q->on('zones.ad_site_id', '=', 'websites.api_site_id');
+                $q->where('zones.id', $params['zone_id']);
+            });
         }
-        return $query->orderBy('id', 'DESC')->paginate(25);
+        return $query->where('websites.is_delete', 0)->orderBy('websites.id', 'DESC')
+            ->select('websites.*')->distinct()->paginate(25);
     }
 }

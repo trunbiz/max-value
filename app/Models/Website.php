@@ -196,9 +196,15 @@ class Website extends Model implements Auditable
             ->first();
     }
 
+    public function getFirstUserAss()
+    {
+        return $this->hasOne(AssignUserModel::class, 'service_id', 'user_id')->where('is_delete', 0)->orderBy('id', 'DESC')
+            ->first();
+    }
+
     public function zones()
     {
-        return $this->hasMany(ZoneModel::class, 'ad_site_id', 'api_site_id');
+        return $this->hasMany(ZoneModel::class, 'ad_site_id', 'api_site_id')->where('zones.is_delete', 0);
     }
 
 }

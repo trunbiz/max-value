@@ -316,4 +316,9 @@ class Common
     {
         return User::where('is_admin', '<>', 0)->where('active', self::ACTIVE)->get();
     }
+
+    public function listUserGroupAM()
+    {
+        return User::where('is_admin', '<>', 0)->where('role_id', 5)->where('active', self::ACTIVE)->get();
+    }
 }
