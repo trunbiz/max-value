@@ -59,22 +59,23 @@
                                                 class="fa-solid fa-rotate"></i>
                                         </span>
                                     </td>
-                                    <td>
-                                        <span title="List zone">
+                                    <td class="options">
+                                        <a href="{{route('administrator.reports.index', ["website_id" => $itemWebsite->api_site_id])}}" target="_blank"><i class="fa-solid fa-chart-line"></i></a>
+                                        <a title="List zone">
                                             <i class="fa-solid fa-circle-info"></i>
-                                        </span>
-                                        <span onclick="oneditStatusModal('{{$itemWebsite->api_site_id}}')"
+                                        </a>
+                                        <a onclick="oneditStatusModal('{{$itemWebsite->api_site_id}}')"
                                            style="cursor: pointer;"
                                            title="Add zone" data-bs-toggle="modal"
                                            data-bs-target="#createZoneModal">
                                             <i class="fa-solid fa-circle-plus"></i>
-                                        </span>
-                                        <span onclick="deleteSite('{{$itemWebsite->api_site_id}}')"
+                                        </a>
+                                        <a onclick="deleteSite('{{$itemWebsite->api_site_id}}')"
                                            style="cursor: pointer;"
                                            title="Delete site">
                                                                     <span class="badge badge-danger"><i
                                                                             class="fa-solid fa-xmark"></i></span>
-                                        </span>
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr class="list-zone" style="display: none">
@@ -317,23 +318,28 @@
                             {{--                            <option value="18">VAST</option>--}}
                         </select>
                     </div>
-                    <div class="mt-3">
-                        <label class="bold">Dimensions matching method <span class="text-danger">*</span></label>
-                        <select
-                            class="form-control choose_value select2_init @error("iddimension") is-invalid @enderror"
-                            required name="idDimensionMethod" id="idDimensionMethod">
-                            @foreach($listDimensionsMethod as $key => $value)
-                                <option value="{{$key}}">{{$value}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+{{--                    <div class="mt-3">--}}
+{{--                        <label class="bold">Dimensions matching method <span class="text-danger">*</span></label>--}}
+{{--                        <select--}}
+{{--                            class="form-control choose_value select2_init @error("iddimension") is-invalid @enderror"--}}
+{{--                            required name="idDimensionMethod" id="idDimensionMethod">--}}
+{{--                            @foreach($listDimensionsMethod as $key => $value)--}}
+{{--                                <option value="{{$key}}">{{$value}}</option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
                     <div class="mt-3">
                         <label class="bold">Dimensions <span class="text-danger">*</span></label>
                         <select
                             class="form-control choose_value select2_init @error("iddimension") is-invalid @enderror"
                             required name="idDimension" id="idDimension">
                             @foreach($listDimensions as $key => $value)
-                                <option value="{{$key}}">{{$value['name']}}</option>
+                                <optgroup label="{{$key}}">
+                                    @foreach($value as $keyDimensions=>$itemDimensions)
+                                        <option value="{{$keyDimensions}}">{{$itemDimensions['name']}}</option>
+                                    @endforeach
+                                </optgroup>
+                                {{--                                <option value="{{$key}}">{{$value['name']}}</option>--}}
                             @endforeach
                         </select>
                     </div>
@@ -459,6 +465,11 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/swiper-bundle.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/select2.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/style.css')}}">
+<style>
+    .options a{
+        display: inline-block;
+    }
+</style>
 @section('js')
     <script>
         $(document).ready(function() {
@@ -660,7 +671,8 @@
                     name: $('input[name="ad_unit_name"]').val(),
                     namedimision: $('select[name="idDimension"] option:selected').text(),
                     iddimension: $('select[name="idDimension"]').val(),
-                    idDimensionMethod: $('select[name="idDimensionMethod"]').val(),
+                    // idDimensionMethod: $('select[name="idDimensionMethod"]').val(),
+                    idDimensionMethod: 1,
                     idzoneformat: $('select[name="idzoneformat"]').val(),
                     idsite: id_site,
                 },

@@ -39,11 +39,11 @@ class WebsiteController extends Controller
         $params = $request->all();
         $categories = TypeCategory::all();
 
-        $users = User::where('is_admin', 0)->get();
+        $users = User::where('is_admin', 0)->orderBy('id', 'DESC')->get();
         // Lọc các website được ass mowis cho nhifn thaays
         if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
             $params['list_publisher_id'] = auth()->user()->getListUserAssign();
-            $users = User::whereIn('id', $params['list_publisher_id'])->get();
+            $users = User::whereIn('id', $params['list_publisher_id'])->orderBy('id', 'DESC')->get();
             $websites = Website::whereIn('user_id', $params['list_publisher_id'])->where('is_delete', 0)->orderBy('id', 'DESC')->get();
 
         }
@@ -56,7 +56,7 @@ class WebsiteController extends Controller
         $items = $this->siteService->listAll($params);
 
         // List danh sách Dimensions
-        $listDimensions = Common::DIMENSIONS;
+        $listDimensions = Common::DIMENSIONS_GROUP;
 
         // list Dimensions Method
         $listDimensionsMethod = ZoneModel::DIMENSIONS_METHOD;

@@ -4,7 +4,7 @@
                 <select class="form-control" id="publisher_id" name="publisher_id">
                     <option value="">-Publisher-</option>
                     @foreach($users as $user)
-                        <option value="{{ $user['api_publisher_id'] }}" {{ request('publisher_id') == $user['api_publisher_id'] ? 'selected' : ''}}>{{ $user['email'] }}</option>
+                        <option value="{{ $user->id }}" {{ request('publisher_id') == $user->id ? 'selected' : ''}}>{{ $user->email }}</option>
                     @endforeach
                 </select>
             </div>
