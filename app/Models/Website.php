@@ -34,6 +34,13 @@ class Website extends Model implements Auditable
         'updated_by',
     ];
 
+    const STATUS = [
+        3520 => 'Pending',
+        3500 => 'Approved',
+        3525 => 'Verification',
+        3510 => 'Rejected',
+    ];
+
     // begin
 
     public function getStatFromAPI($dateBegin = null, $dateEnd = null, $idzone = null){
@@ -187,6 +194,17 @@ class Website extends Model implements Auditable
     {
         return $this->hasOne(User::class, 'id', 'user_id')
             ->first();
+    }
+
+    public function getFirstUserAss()
+    {
+        return $this->hasOne(AssignUserModel::class, 'service_id', 'user_id')->where('is_delete', 0)->orderBy('id', 'DESC')
+            ->first();
+    }
+
+    public function zones()
+    {
+        return $this->hasMany(ZoneModel::class, 'ad_site_id', 'api_site_id')->where('zones.is_delete', 0);
     }
 
 }

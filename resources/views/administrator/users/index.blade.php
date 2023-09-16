@@ -58,17 +58,17 @@
                                             <ul>
                                                 @foreach($item->getListSite() as $itemUrl)
                                                     @if($itemUrl->status == 3500)
-                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $item->api_publisher_id }}"
+                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
                                                            style="color: #41C866; display: block">
                                                             {{ $itemUrl->url}}
                                                         </a>
                                                     @elseif($itemUrl->status == 3525 || $itemUrl->status == 3510)
-                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $item->api_publisher_id }}"
+                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
                                                            style="color: #ff0000; display: block">
                                                             {{ $itemUrl->url}}
                                                         </a>
                                                     @else
-                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $item->api_publisher_id }}"
+                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
                                                            style="color: #ffc500; display: block">
                                                             {{ $itemUrl->url}}
                                                         </a>

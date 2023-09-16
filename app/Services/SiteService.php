@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Helper;
+use App\Models\User;
 use App\Models\Website;
 
 class SiteService
@@ -29,5 +30,40 @@ class SiteService
     public function totalSite()
     {
         return Website::count();
+    }
+
+    public function listAll($params)
+    {
+        $query = Website::query();
+        if (!empty($params['publisher_id']))
+        {
+            $query->where('websites.user_id', $params['publisher_id']);
+        }
+        if (!empty($params['list_publisher_id']))
+        {
+            $query->whereIn('websites.user_id', $params['list_publisher_id']);
+        }
+        if (!empty($params['website_id']))
+        {
+            $query->where('websites.id', $params['website_id']);
+        }
+        if (isset($params['status']))
+        {
+            $query->where('websites.status', $params['status']);
+        }
+        if (!empty($params['manager_id']))
+        {
+            $listPublisherAss = User::where('id', $params['manager_id'])->first()->getListUserAssign();
+            $query->whereIn('websites.user_id', $listPublisherAss);
+        }
+        if (!empty($params['zone_id']))
+        {
+            $query->join('zones', function ($q) use ($params){
+               $q->on('zones.ad_site_id', '=', 'websites.api_site_id');
+                $q->where('zones.id', $params['zone_id']);
+            });
+        }
+        return $query->where('websites.is_delete', 0)->orderBy('websites.id', 'DESC')
+            ->select('websites.*')->distinct()->paginate(25);
     }
 }

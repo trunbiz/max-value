@@ -100,33 +100,37 @@ Route::prefix('ajax/administrator')->group(function () {
             })->name('ajax.administrator.website.store');
 
             Route::put('/update', function (Request $request) {
-
                 $params = [];
-                if (isset($request->is_active)){
-                    $params['is_active'] = $request->is_active;
-                }
+//                if (isset($request->is_active)){
+//                    $params['is_active'] = $request->is_active;
+//                }
 
                 if (isset($request->idstatus)){
                     $params['idstatus'] = $request->idstatus;
                 }
 
-                if (isset($request->id_publisher)){
-                    $params['idpublisher'] = $request->id_publisher;
-                }
-
-                if (isset($request->id_category)){
-                    $params['idcategory'] = $request->id_category;
-                }
-
-                if (isset($request->url)){
-                    $params['url'] = $request->url;
-                }
-
-                if (isset($request->name)){
-                    $params['name'] = $request->name;
-                }
+//                if (isset($request->id_publisher)){
+//                    $params['idpublisher'] = $request->id_publisher;
+//                }
+//
+//                if (isset($request->id_category)){
+//                    $params['idcategory'] = $request->id_category;
+//                }
+//
+//                if (isset($request->url)){
+//                    $params['url'] = $request->url;
+//                }
+//
+//                if (isset($request->name)){
+//                    $params['name'] = $request->name;
+//                }
 
                 $item = Helper::callPutHTTP("https://api.adsrv.net/v2/site/" . $request->idsite, $params);
+
+                $siteInfo = \App\Models\Website::where('api_site_id', $request->idsite)->first();
+                $siteInfo->status = $item['status']['id'];
+                $siteInfo->save();
+
 
                 if (Helper::isErrorAPIAdserver($item)){
                     return response()->json($item, 400);
@@ -245,6 +249,7 @@ Route::prefix('ajax/administrator')->group(function () {
 
                 \App\Models\ZoneModel::where('ad_zone_id', $request->zone_id)->update([
                     'status' => $item['status']['id'],
+                    'active' => $params['is_active'],
                     'updated_by' => auth()->user()->id ?? '0'
                 ]);
 
