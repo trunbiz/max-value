@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
 use App\Exports\ModelExport;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
@@ -56,9 +57,10 @@ class AdvertiseController extends Controller
 //
 //        $items = Formatter::paginator($request, $items);
 
-        $items = User::where('partner_code', '!=', '')->get();
-
-        return view('user.' . $this->prefixView . '.index', compact('title','items'));
+//        $items = User::where('partner_code', '!=', '')->get();
+//        dd($items);
+        $adsTxt = File::get(public_path('../../public_html/ads.txt'));
+        return view('user.' . $this->prefixView . '.index', compact('title','adsTxt'));
     }
 
     public function get(Request $request, $id)

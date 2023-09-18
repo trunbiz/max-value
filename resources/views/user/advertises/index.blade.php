@@ -149,18 +149,15 @@
 {{--        </div>--}}
         <div class="col-md-12 col-xl-12 col-12">
             <div class="card">
-                <div class="card-header adv__txt">
+                <div class="card-header">
                     <h5>Ads.txt configuration</h5>
-                    <a href="" target="_blank">
-                        <svg width="16px" height="16px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.24343 4.25733H11.0363L3.28675 12.0069C3.21241 12.0813 3.16637 12.1732 3.14863 12.2693C3.14308 12.2994 3.1403 12.3299 3.1403 12.3605C3.1403 12.4884 3.18911 12.6164 3.28675 12.714C3.31115 12.7384 3.33746 12.7598 3.36518 12.7781C3.55926 12.9063 3.823 12.8849 3.99385 12.714L11.7435 4.96443V10.7573C11.7435 11.0335 11.9673 11.2573 12.2435 11.2573C12.5196 11.2573 12.7435 11.0335 12.7435 10.7573V3.75733C12.7435 3.48118 12.5196 3.25733 12.2435 3.25733H5.24343C4.96729 3.25733 4.74343 3.48118 4.74343 3.75733C4.74343 4.03347 4.96729 4.25733 5.24343 4.25733Z" fill="#3FAE3B"></path></svg>
-                        <span>Open file in new tab</span>
-                    </a>
+                    <p style="color: red">Update the ads.txt on your sites in order to keep them active and continue monetizing</p>
                 </div>
                 <div class="card-body card__ads pt-4">
                     <div class="row">
                         <div class="col-md-6 col-12 left__txt">
                             <div class="left__txt--content">
-                                <textarea name="" id="myInput" disabled cols="30" rows="10">@foreach($items as $item){{ $item->partner_code }}&#13;&#10;@endforeach</textarea>
+                                <textarea name="" id="myInput" disabled cols="30" rows="10">{{$adsTxt}}</textarea>
                             </div>
                         </div>
                         <div class="col-md-6 col-12 right__txt">
