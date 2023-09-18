@@ -39,7 +39,6 @@ class WebsiteController extends Controller
         $params = $request->all();
         $categories = TypeCategory::all();
 
-        $users = User::where('is_admin', 0)->orderBy('id', 'DESC')->get();
         // Lọc các website được ass mowis cho nhifn thaays
         if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
             $params['list_publisher_id'] = auth()->user()->getListUserAssign();
@@ -49,6 +48,7 @@ class WebsiteController extends Controller
         }
         else{
             $websites = Website::where('is_delete', 0)->orderBy('id', 'DESC')->get();
+            $users = User::where('is_admin', 0)->orderBy('id', 'DESC')->get();
         }
         $adSiteId = $websites->pluck('api_site_id')->toArray();
 
