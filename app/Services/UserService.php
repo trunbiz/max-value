@@ -49,6 +49,14 @@ class UserService
         {
             $query->where('email', $params['email']);
         }
+        if (!empty($params['publisher_id']))
+        {
+            $query->where('users.id', $params['publisher_id']);
+        }
+        if (!empty($params['website_id']))
+        {
+            $query->where('websites.id', $params['website_id']);
+        }
         if (!empty($params['user_assign']) && $params['user_assign'] != 'null')
         {
             $query->where('assign_user.user_id', $params['user_assign']);
