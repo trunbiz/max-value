@@ -30,21 +30,11 @@
         @endif
             <div class="col-sm-3">
                 <label>Email</label>
-                <select class="form-control" id="publisher_id" name="publisher_id">
-                    <option value="">-Publisher-</option>
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}" {{ request('publisher_id') == $user->id ? 'selected' : ''}}>{{ $user->email }}</option>
-                    @endforeach
-                </select>
+                <input class="form-control" name="email" placeholder="Email" value="{{request()->get('email')}}">
             </div>
             <div class="col-sm-3">
                 <label>Website</label>
-                <select class="form-control" id="website" name="website_id">
-                    <option value="">-Website-</option>
-                    @foreach($websites as $website)
-                        <option value="{{ $website->id }}" {{ request('website_id') == $website->id ? 'selected' : ''}}>{{ $website->name }}</option>
-                    @endforeach
-                </select>
+                <input class="form-control" name="website" placeholder="Website" value="{{request()->get('website')}}">
             </div>
             <div class="col-sm-3">
                 <label>Verify</label>
@@ -129,16 +119,6 @@
         </div>
     </div>
 </div>
-
-{{--<script>--}}
-{{--    $(document).ready(function() {--}}
-{{--        $('#publisher_id').select2({--}}
-{{--            maximumSelectionLength: 5,--}}
-{{--            placeholder: "-Publisher-",--}}
-{{--            allowClear: true--}}
-{{--        });--}}
-{{--    });--}}
-{{--</script>--}}
 
 <script>
 

@@ -107,7 +107,7 @@
                                                title="Edit">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
-                                            <a href="{{route('administrator.websites.index' , ['publisher_id'=> $item->api_publisher_id ])}}"
+                                            <a href="{{route('administrator.websites.index' , ['publisher_id'=> $item->id ])}}"
                                                title="Web">
                                                 <i class="fa-solid fa-globe"></i>
                                             </a>
