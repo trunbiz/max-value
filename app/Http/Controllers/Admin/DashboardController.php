@@ -160,8 +160,8 @@ class DashboardController extends Controller
         {
             $data['charts']['series']['totalImpressions'][] = $reportChart[$date]['totalImpressions'] ?? 0;
             $data['charts']['series']['paidImpressions'][] = $reportChart[$date]['paidImpressions'] ?? 0;
-            $data['charts']['series']['totalRevenue'][] = $reportChart[$date]['totalRevenue'] ?? 0;
-            $data['charts']['series']['paidRevenue'][] = $reportChart[$date]['paidRevenue'] ?? 0;
+            $data['charts']['series']['totalRevenue'][] = floor($reportChart[$date]['totalRevenue'] ?? 0);
+            $data['charts']['series']['paidRevenue'][] = floor($reportChart[$date]['paidRevenue'] ?? 0);
         }
         return view('administrator.dashboard.index', $data);
     }

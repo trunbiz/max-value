@@ -48,7 +48,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Revenue</h6>
-                                    <h4 class="mb-0">${{ number_format($totalReport->totalRevenue ?? 0, 3) }}</h4>
+                                    <h4 class="mb-0">${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h4>
                                 </div>
                                 <div class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
                                      <span class="badge bg-success"><i class="fa-solid fa-square-arrow-up-right"></i>
@@ -60,7 +60,7 @@
                             <div class="progress-widget">
                                 <div style="text-align: right">
                                     <div class="badge bg-primary">
-                                        Last: {{number_format($totalReportLastMonth->totalRevenue)}}
+                                        Last: {{number_format(floor($totalReportLastMonth->totalRevenue ?? 0))}}
                                     </div>
                                 </div>
                             </div>
