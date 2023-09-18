@@ -138,13 +138,13 @@ class AdvertiseController extends Controller
 
     public function downloadTxt(Request $request)
     {
+//
+//        $items = User::where('partner_code', '!=', '')->get();
+//        foreach($items as $key => $item){
+//            $ads_txt[$key] = $item->partner_code;
+//        }
 
-        $items = User::where('partner_code', '!=', '')->get();
-        foreach($items as $key => $item){
-            $ads_txt[$key] = $item->partner_code;
-        }
-
-        return response(implode("\n", $ads_txt))
+        return response(File::get(public_path('../../public_html/ads.txt')))
             ->withHeaders([
                 'Content-Type' => 'text/plain',
                 'Cache-Control' => 'no-store, no-cache',
