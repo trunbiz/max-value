@@ -67,7 +67,7 @@
         </div>
         <div class="col-sm-2">
             <label>Options</label>
-            <button class="form-control btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </div>
     </form>
@@ -141,6 +141,10 @@
 {{--</script>--}}
 
 <script>
+
+    $(document).ready(function () {
+        $("#publisher_id, #website").select2({});
+    })
 
     $('select[name="limit"]').on('change', function () {
         addUrlParameter('limit', this.value)
