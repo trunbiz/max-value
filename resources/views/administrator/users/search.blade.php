@@ -65,9 +65,9 @@
                     <option value=0 {{request()->get('active') === '0' ? 'selected' : ''}}>No active</option>
                 </select>
             </div>
-            <div class="col-sm-2">
-                <label>Options</label>
-                <button type="submit" class="btn btn-primary">Search</button>
+            <div class="col-sm-2 d-flex align-items-end">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary btn-block">Search</button>
             </div>
         </div>
     </form>
