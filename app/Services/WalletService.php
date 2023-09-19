@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\ReportModel;
 use App\Models\User;
 use App\Models\WalletRevenueModel;
+use App\Models\WithdrawUser;
 use Carbon\Carbon;
 
 class WalletService
@@ -96,5 +97,12 @@ class WalletService
             $user->save();
         }
         return true;
+    }
+
+    public function getInfoWithdrawUser($userId)
+    {
+        return WithdrawUser::where('user_id', $userId)
+            ->selectRaw('SUM(amount) AS totalAmount, withdraw_status_id AS withdrawStatus')
+            ->groupBy('withdraw_status_id')->get();
     }
 }
