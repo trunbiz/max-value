@@ -19,7 +19,7 @@
             @if(auth()->user()->role->id != \App\Models\User::ROLE_PUBLISHER_MANAGER)
                 <div class="col-sm-3">
                     <label>Manager</label>
-                    <select name="user_assign" class="form-control">
+                    <select name="user_assign" id="user_assign" class="form-control">
                         <option value=null>-All-</option>
                         @foreach($listUserGroupAdmin as $userAdmin)
                             <option
@@ -31,7 +31,7 @@
             <div class="col-sm-3">
                 <label>Email</label>
                 <select class="form-control" id="publisher_id" name="publisher_id">
-                    <option value="">-Publisher-</option>
+                    <option value="">-Email-</option>
                     @foreach($users as $user)
                         <option value="{{ $user->id }}" {{ request('publisher_id') == $user->id ? 'selected' : ''}}>{{ $user->email }}</option>
                     @endforeach
@@ -48,7 +48,7 @@
             </div>
             <div class="col-sm-3">
                 <label>Verify</label>
-                <select name="verify" class="form-control">
+                <select name="verify" id="verify" class="form-control">
                     <option value=null>-All-</option>
                     <option value=1 {{request()->get('verify') === '1' ? 'selected' : ''}}>Verify</option>
                     <option value=0 {{request()->get('verify') === '0' ? 'selected' : ''}}>No verify</option>
@@ -59,7 +59,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <label>Status</label>
-                <select name="active" class="form-control">
+                <select name="active" id="active" class="form-control">
                     <option value=null>-All-</option>
                     <option value=1 {{request()->get('active') === '1' ? 'selected' : ''}}>Active</option>
                     <option value=0 {{request()->get('active') === '0' ? 'selected' : ''}}>No active</option>
@@ -143,7 +143,7 @@
 <script>
 
     $(document).ready(function () {
-        $("#publisher_id, #website").select2({});
+        $("#publisher_id, #website, #user_assign, #verify, #active").select2({});
     })
 
     $('select[name="limit"]').on('change', function () {
