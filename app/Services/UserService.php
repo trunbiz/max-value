@@ -90,3 +90,4 @@ class UserService
         return $query->paginate(25);
     }
 }
+
