@@ -45,12 +45,16 @@ class ZoneService
         return Helper::callGetHTTP("https://api.adsrv.net/v2/zone/" . $id);
     }
 
-    public function totalZone($options = null)
+    public function totalZone($options = null, $listSiteId = null)
     {
         $query = ZoneModel::query();
         if (!empty($options['status']))
         {
             $query->where('status', $options['status']);
+        }
+        if (!empty($listSiteId))
+        {
+            $query->whereIn('ad_site_id', $listSiteId);
         }
         return $query->count();
     }

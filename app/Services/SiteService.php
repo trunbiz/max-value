@@ -27,9 +27,16 @@ class SiteService
         return Helper::callGetHTTP("https://api.adsrv.net/v2/site?" . "filter[idpublisher]=" . $id . "&page=1&per-page=1000");
     }
 
-    public function totalSite()
+    public function totalSite($listPublisherAssign = null, &$listSiteId = null)
     {
-        return Website::count();
+        $query = Website::query();
+        if (!empty($listPublisherAssign))
+        {
+            $listUser = User::whereIn('api_publisher_id', $listPublisherAssign)->pluck('id')->toArray();
+            $query->whereIn('user_id', $listUser);
+        }
+        $listSiteId = $query->pluck('api_site_id')->toArray();
+        return $query->count();
     }
 
     public function listAll($params)
