@@ -81,11 +81,11 @@ class DashboardController extends Controller
         }
 
         // Tổng Site
-        $data['totalSite'] = $this->siteService->totalSite();
+        $data['totalSite'] = $this->siteService->totalSite($listPublisherAssign, $listSiteId);
 
         // Tổng campaign
-        $data['totalZone'] = $this->zoneService->totalZone();
-        $data['totalZonePending'] = $this->zoneService->totalZone(['status' => ZoneModel::PENDING]);
+        $data['totalZone'] = $this->zoneService->totalZone(null, $listSiteId);
+        $data['totalZonePending'] = $this->zoneService->totalZone(['status' => ZoneModel::PENDING], $listSiteId);
 
         // Reports
 
