@@ -11,6 +11,7 @@ use App\Models\Helper;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserType;
+use App\Models\Website;
 use App\Services\AssignUserService;
 use App\Services\Common;
 use App\Services\UserService;
@@ -50,11 +51,20 @@ class UserController extends Controller
         // Nếu là Publisher manager thì chỉ được nhìn các publisher tạo được ass
         if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
             $request['user_assign'] = \auth()->user()->id;
+            $params['list_publisher_id'] = auth()->user()->getListUserAssign();
+            $users = User::whereIn('id', $params['list_publisher_id'])->orderBy('id', 'DESC')->get();
+            $websites = Website::whereIn('user_id', $params['list_publisher_id'])->where('is_delete', 0)->orderBy('id', 'DESC')->get();
+        }
+        else{
+            $websites = Website::where('is_delete', 0)->orderBy('id', 'DESC')->get();
+            $users = User::where('is_admin', 0)->orderBy('id', 'DESC')->get();
         }
 
         $items = $this->userService->listUserPublisher($request);
         $data = [
             'items' => $items,
+            'users' => $users,
+            'websites' => $websites,
             'listUserGroupAdmin' => $this->commonService->listUserGroupAdmin()
         ];
 
@@ -388,3 +398,4 @@ class UserController extends Controller
     }
 
 }
+
