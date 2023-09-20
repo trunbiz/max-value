@@ -38,38 +38,38 @@ class DashboardController extends Controller
         $request = $request->all();
 
         $dateOption = $request['date_option'] ?? null;
-
+        $sort = $request['sort'] ?? 'DESC';
         if(auth()->check()){
             $dateNow = Carbon::now()->format('Y-m-d');
-            $startOfMonth = null;
-            $endOfMonth = null;
+            $startDate = null;
+            $endDate = null;
             if (!empty($dateOption))
             {
                 switch ($dateOption)
                 {
                     case 'YESTERDAY':
-                        $startOfMonth = Carbon::now()->yesterday()->format('Y-m-d');
-                        $endOfMonth = Carbon::now()->yesterday()->format('Y-m-d');
+                        $startDate = Carbon::now()->yesterday()->format('Y-m-d');
+                        $endDate = Carbon::now()->yesterday()->format('Y-m-d');
                         break;
                     case 'SUB_2':
-                        $startOfMonth = Carbon::now()->subDays(2)->format('Y-m-d');
-                        $endOfMonth = $dateNow;
+                        $startDate = Carbon::now()->subDays(2)->format('Y-m-d');
+                        $endDate = $dateNow;
                         break;
                     case 'SUB_3':
-                        $startOfMonth = Carbon::now()->subDays(3)->format('Y-m-d');
-                        $endOfMonth = $dateNow;
+                        $startDate = Carbon::now()->subDays(3)->format('Y-m-d');
+                        $endDate = $dateNow;
                         break;
                     case 'SUB_7':
-                        $startOfMonth = Carbon::now()->subDays(7)->format('Y-m-d');
-                        $endOfMonth = $dateNow;
+                        $startDate = Carbon::now()->subDays(7)->format('Y-m-d');
+                        $endDate = $dateNow;
                         break;
                     case 'SUB_THIS_MONTH':
-                        $startOfMonth = Carbon::now()->startOfMonth()->format('Y-m-d');
-                        $endOfMonth = $dateNow;
+                        $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
+                        $endDate = $dateNow;
                         break;
                     case 'SUB_LAST_MONTH':
-                        $startOfMonth = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
-                        $endOfMonth = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
+                        $startDate = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
+                        $endDate = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
                         break;
                 }
             }
@@ -77,7 +77,7 @@ class DashboardController extends Controller
             $data = [
                 'title' => 'Dashboard',
             ];
-            $data['totalReport'] = $this->reportService->totalReportAccept($startOfMonth, $endOfMonth, [Auth::user()->id]);
+            $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
 
             // Lấy thông tin site và zone
 
@@ -108,10 +108,72 @@ class DashboardController extends Controller
                     $data['wallet']['rejected'] = $itemWithdraw->totalAmount ?? 0;
                 }
             }
-            // Lấy thông tin reports
-            $infoReportBySite = $this->reportService->getDataReportGroupSite($listSiteId, $startOfMonth, $endOfMonth);
 
-            dd($infoReportBySite, $listSiteId, $startOfMonth, $endOfMonth);
+            // Chuyển đổi chuỗi thành đối tượng Carbon
+            $startD = Carbon::parse($startDate);
+            $endD = Carbon::parse($endDate);
+            // Tạo một mảng để lưu trữ các ngày
+            $dateRange = [];
+            // Lặp qua từng ngày trong khoảng thời gian
+            $currentDate = $startD->copy();
+            while ($currentDate->lte($endD)) {
+                $dateRange[] = $currentDate->format('Y-m-d');
+                $currentDate->addDay();
+            }
+
+            $chart = [
+                'date' => $dateRange
+            ];
+
+            // Lấy thông tin show bảng
+            $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $startDate, $endDate, $sort);
+
+            // Lấy thông tin reports
+            $dataReport = [];
+            $infoReportBySite = $this->reportService->getDataReportGroupSite($listSiteId, $startDate, $endDate);
+            $revenueByDate = [];
+
+            foreach ($infoReportBySite as $report)
+            {
+                if (isset($revenueByDate[$report->date]))
+                {
+                    $revenueByDate[$report->date] += round($report->total_change_revenue ?? 0, 2);
+                }
+                else{
+                    $revenueByDate[$report->date] = round($report->total_change_revenue ?? 0, 2);
+                }
+                $dataReport[$report->name][$report->date] = round($report->total_change_revenue ?? 0, 2);
+            }
+
+            $dataReportDay = [];
+            // bieu do theo ngay
+            foreach ($dateRange as $date) {
+                $dataReportDay[$date] = round($revenueByDate[$date] ?? 0, 2);
+            }
+
+            $chartData = [];
+            // Convert sang bieu do
+            foreach ($dataReport as $url => $itemReport) {
+                $chartData[$url] = [
+                    'name' => $url,
+                    'type' => 'column',
+                    'data' => []
+                ];
+                foreach ($dateRange as $date) {
+                    $chartData[$url]['data'][$date] = round($itemReport[$date] ?? 0, 2);
+                }
+                $chartData[$url]['data'] = array_values($chartData[$url]['data']);
+            }
+            $chartData = array_values($chartData);
+
+            // Mer revenue line
+            array_push($chartData, [
+                'name' => 'Total revenue',
+                'type' => 'line',
+                'data' => array_values($dataReportDay)
+            ]);
+            $chart['data'] = $chartData;
+            $data['chart'] = $chart;
 
             return view('user.dashboard.index', $data);
         }
