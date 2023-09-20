@@ -19,7 +19,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
             ], true)) {
-                return redirect()->route('user.reports.index');
+                return redirect()->route('user.dashboard.index');
             }
         }
 
