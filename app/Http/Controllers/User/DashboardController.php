@@ -121,10 +121,6 @@ class DashboardController extends Controller
                 $currentDate->addDay();
             }
 
-            $chart = [
-                'date' => $dateRange
-            ];
-
             // Lấy thông tin show bảng
             $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $startDate, $endDate, $sort);
 
@@ -133,8 +129,13 @@ class DashboardController extends Controller
             $infoReportBySite = $this->reportService->getDataReportGroupSite($listSiteId, $startDate, $endDate);
             $revenueByDate = [];
 
+            $chart = [];
+            $dateShow = [];
             foreach ($infoReportBySite as $report)
             {
+                // Lấy các giá trị ngày
+                $dateShow[$report->date] = $report->date;
+
                 if (isset($revenueByDate[$report->date]))
                 {
                     $revenueByDate[$report->date] += round($report->total_change_revenue ?? 0, 2);
@@ -145,6 +146,11 @@ class DashboardController extends Controller
                 $dataReport[$report->name][$report->date] = round($report->total_change_revenue ?? 0, 2);
             }
 
+            // Nếu chọn all time thi lay date theo query
+            if (empty($dateOption))
+            {
+                $dateRange = array_values($dateShow);
+            }
             $dataReportDay = [];
             // bieu do theo ngay
             foreach ($dateRange as $date) {
@@ -173,6 +179,7 @@ class DashboardController extends Controller
                 'data' => array_values($dataReportDay)
             ]);
             $chart['data'] = $chartData;
+            $chart['date'] = $dateRange;
             $data['chart'] = $chart;
 
             return view('user.dashboard.index', $data);
