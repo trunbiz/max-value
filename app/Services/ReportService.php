@@ -123,17 +123,25 @@ class ReportService
         ];
     }
 
-    public function totalReportAccept($from, $to, $listPublisher = null)
+    public function totalReportAccept($from = null, $to = null, $listPublisher = null)
     {
-        $query = ReportModel::where('status', ReportModel::STATUS_SUCCESS)
-            ->where('date', '>=', $from)->where('date', '<=', $to)
-            ->selectRaw('SUM(request) AS totalRequests, SUM(change_revenue) AS totalRevenue, AVG(change_cpm) AS averageCpm');
+        $query = ReportModel::where('status', ReportModel::STATUS_SUCCESS);
+        if (!empty($from))
+        {
+            $query->where('date', '>=', $from);
+        }
+
+        if (!empty($to))
+        {
+            $query->where('date', '<=', $to);
+        }
+        $query->selectRaw('SUM(request) AS totalRequests, SUM(change_revenue) AS totalRevenue, AVG(change_cpm) AS averageCpm');
 
         if (!empty($listPublisher))
         {
             $query = $query->whereIn('publisher_id', $listPublisher);
         }
-        return $query->first();
+        return $query->where('status', 1)->first();
     }
 
     public function getDataDashboardByDate($from, $to, $listPublisher = null)
@@ -175,5 +183,44 @@ class ReportService
             ];
         }
         return $arrayResult;
+    }
+
+    public function getDataReportGroupSite($listSiteId = null, $from = null, $to = null)
+    {
+        $query = ReportModel::query()
+            ->join('websites', 'websites.api_site_id', '=', 'report.web_id');
+        if (!empty($listSiteId)) {
+            $query->whereIn('report.web_id', $listSiteId);
+        }
+
+        if (!empty($from)) {
+            $query->where('report.date', '>=', $from);
+        }
+
+        if (!empty($to)) {
+            $query->where('report.date', '<=', $to);
+        }
+        $query->selectRaw('websites.name, date, SUM(report.change_revenue) as total_change_revenue');
+        return $query->where('report.status', 1)->groupBy('report.web_id', 'date')->orderBy('date', 'ASC')->get();
+    }
+
+    public function getDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC')
+    {
+        $query = ReportModel::query()
+            ->join('websites', 'websites.api_site_id', '=', 'report.web_id');
+        if (!empty($listSiteId)) {
+            $query->whereIn('report.web_id', $listSiteId);
+        }
+
+        if (!empty($from)) {
+            $query->where('report.date', '>=', $from);
+        }
+
+        if (!empty($to)) {
+            $query->where('report.date', '<=', $to);
+        }
+
+        $query->selectRaw('websites.name, date, SUM(report.change_revenue) as total_change_revenue, SUM(report.change_impressions) as total_change_impressions, AVG(report.change_cpm) as ave_cpm');
+        return $query->where('report.status', 1)->groupBy('report.web_id', 'date')->orderBy('date', $orderBy)->paginate(25);
     }
 }
