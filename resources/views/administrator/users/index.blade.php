@@ -33,11 +33,11 @@
                                     <th>Manager</th>
                                     <th>Email</th>
                                     <th>Website</th>
+                                    <th>Action</th>
                                     <th class="text-center">Verified</th>
                                     <th>Active</th>
                                     <th>Money</th>
                                     <th>Created at</th>
-                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody class="list__data">
@@ -76,22 +76,6 @@
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td class="text-center">
-                                            <i class="fa fa-check-circle"
-                                               style="color: {{ (!empty($item->email_verified_at) ? '#41C866' : '#aaaaaa') }}"></i>
-                                        </td>
-                                        <td>
-                                            <a style="cursor: pointer;"
-                                               onclick="onEditActiveModal('{{$item['id']}}','{{$item['is_active'] ? 'true' : 'false'}}')"
-                                               data-bs-toggle="modal"
-                                               data-bs-target="#editActiveModal">
-                                                {{$item->active ? "Yes" : "No"}}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            {{ '$'. $item->money}}
-                                        </td>
-                                        <td>{{$item->created_at}}</td>
                                         <td>
                                             <a
                                                 href="{{route('administrator.reports.index' , ['user_id'=> $item->api_publisher_id])}}"
@@ -120,6 +104,22 @@
                                             </a>
 
                                         </td>
+                                        <td class="text-center">
+                                            <i class="fa fa-check-circle"
+                                               style="color: {{ (!empty($item->email_verified_at) ? '#41C866' : '#aaaaaa') }}"></i>
+                                        </td>
+                                        <td>
+                                            <a style="cursor: pointer;"
+                                               onclick="onEditActiveModal('{{$item['id']}}','{{$item['is_active'] ? 'true' : 'false'}}')"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#editActiveModal">
+                                                {{$item->active ? "Yes" : "No"}}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ '$'. $item->money}}
+                                        </td>
+                                        <td>{{$item->created_at}}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
