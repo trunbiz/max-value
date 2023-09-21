@@ -355,10 +355,11 @@ body.active .sidebar__menu{
     width: 88px;
 }
 .sidebar__menu--logo{
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 40px 40px 40px;
+    padding: 10px 40px 20px 40px;
 }
 body.active .sidebar__menu--logo{
     padding: 17px 0 40px;

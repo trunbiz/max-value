@@ -174,8 +174,8 @@
     <div class="sidebar__menu bg-white">
         <div class="sidebar__menu--logo">
             <a href="{{route('user.dashboard.index')}}">
-                <img src="{{\App\Models\Helper::logoImagePath()}}" alt="" class="all_logo" width="80px">
-                <img src="{{\App\Models\Helper::logoImagePath()}}" alt="" class="fav_logo" width="80px">
+                <img src="https://publisher.maxvalue.media/assets/single/1/1/original/tvGfOmbDbyXjU2VqXoIo.png" alt="" class="all_logo" width="80px">
+                <img src="https://publisher.maxvalue.media/assets/single/1/1/original/tvGfOmbDbyXjU2VqXoIo.png" alt="" class="fav_logo" width="80px">
             </a>
         </div>
         <ul class="sidebar__menu--main">
