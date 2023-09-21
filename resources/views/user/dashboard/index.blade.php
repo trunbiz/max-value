@@ -21,7 +21,7 @@
                                     <div class="search__date row">
                                         <div class="col-md-10 col-xl-10 col-sm-8 col-12 group__value">
                                             <a href="{{route('user.dashboard.index', ['date_option' => 'YESTERDAY'])}}" class="item__filter {{ (request('date_option') == 'YESTERDAY') ? 'active' : ''}}">
-                                                <span>YESTERDAY</span>
+                                                <span>Yesterday</span>
                                             </a>
                                             <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_3'])}}" class="item__filter {{ (request('date_option') == 'SUB_3') ? 'active' : ''}}">
                                                 <span>Last 3days</span>
@@ -262,7 +262,7 @@
                                     <td scope="row" data-column="Date">{{$itemReportSite->date}}</td>
                                     <td>{{$itemReportSite->name}}</td>
                                     <td>{{number_format($itemReportSite->total_change_impressions ?? 0)}}</td>
-                                    <td>{{$itemReportSite->ave_cpm}}</td>
+                                    <td>{{round($itemReportSite->ave_cpm, 3)}}</td>
                                     <td>{{number_format($itemReportSite->total_change_revenue ?? 0)}}</td>
                                 </tr>
                             @endforeach
