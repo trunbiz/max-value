@@ -24,7 +24,7 @@
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Assign</th>
+                                <th scope="col">Account Manager</th>
                                 <th scope="col">Url</th>
                                 <th scope="col">Zones</th>
                                 <th scope="col">Status</th>
@@ -61,9 +61,6 @@
                                     </td>
                                     <td class="options">
                                         <a href="{{route('administrator.reports.index', ["website_id" => $itemWebsite->api_site_id])}}" target="_blank"><i class="fa-solid fa-chart-line"></i></a>
-                                        <a title="List zone">
-                                            <i class="fa-solid fa-circle-info"></i>
-                                        </a>
                                         <a onclick="oneditStatusModal('{{$itemWebsite->api_site_id}}')"
                                            style="cursor: pointer;"
                                            title="Add zone" data-bs-toggle="modal"
