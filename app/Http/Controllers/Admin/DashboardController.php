@@ -18,6 +18,7 @@ use App\Services\UserService;
 use App\Services\ZoneService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use function auth;
 use function view;
@@ -39,21 +40,40 @@ class DashboardController extends Controller
         $this->zoneService = new ZoneService();
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $request = $request->all();
+        $type = $request['type'] ?? null;
+
+        $data = [];
+
         if (!auth()->check()) {
             return redirect()->to('/admin');
         }
-        $listPublisherAssign = null;
 
+        $listPublisherAssign = null;
+        $data['userPublisherManager'] = [];
         // Nếu user là Publisher Managers chỉ được xem chỉ số của publisher đó
         if (auth()->user()->role_id == Role::ROLE_PUBLISHER_MANAGERS)
         {
             $publisherAssign = auth()->user()->getArrayUserAssign();
             $listPublisherAssign = User::whereIn('id', $publisherAssign)->pluck('api_publisher_id')->toArray();
+            if (empty($listPublisherAssign))
+            {
+                $listPublisherAssign = [-1];
+            }
+        } else {
+            if (!empty($request['publisher_manager_id'])) {
+                $publisherAssign = User::find($request['publisher_manager_id'])->getArrayUserAssign();
+                $listPublisherAssign = User::whereIn('id', $publisherAssign)->pluck('api_publisher_id')->toArray();
+                if (empty($listPublisherAssign))
+                {
+                    $listPublisherAssign = [-1];
+                }
+            }
+            $data['userPublisherManager'] = User::where('role_id', Role::ROLE_PUBLISHER_MANAGERS)->orderBy('id', 'DESC')->get();
         }
 
-        $data = [];
         // Ngày bắt đầu và ngày kết thúc tháng trước
         $startOfLastMonth = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
         $endOfLastMonth = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
@@ -83,6 +103,10 @@ class DashboardController extends Controller
         // Tổng Site
         $data['totalSite'] = $this->siteService->totalSite($listPublisherAssign, $listSiteId);
 
+        if (empty($listSiteId))
+        {
+            $listSiteId = [-1];
+        }
         // Tổng campaign
         $data['totalZone'] = $this->zoneService->totalZone(null, $listSiteId);
         $data['totalZonePending'] = $this->zoneService->totalZone(['status' => ZoneModel::PENDING], $listSiteId);
@@ -143,19 +167,30 @@ class DashboardController extends Controller
         $endDate = Carbon::parse($dateNow);
         // Tạo một mảng để lưu trữ các ngày
         $dateRange = [];
-        // Lặp qua từng ngày trong khoảng thời gian
-        $currentDate = $startDate->copy();
-        while ($currentDate->lte($endDate)) {
-            $dateRange[] = $currentDate->format('Y-m-d');
-            $currentDate->addDay();
-        }
-        $data['charts']['options'] = $dateRange;
+
         $data['charts']['series']['totalImpressions'] = [];
         $data['charts']['series']['paidImpressions'] = [];
         $data['charts']['series']['totalRevenue'] = [];
         $data['charts']['series']['paidRevenue'] = [];
-        $reportChart = $this->reportService->getDataReportDashboard($startOfMonth, $dateNow, $listPublisherAssign);
 
+        if ($type == 'week')
+        {
+            $reportChart = $this->reportService->getDataReportByWeek($startOfMonth, $dateNow, $listPublisherAssign);
+            while ($startDate->lte($endDate)) {
+                $dateRange[] = $startDate->weekOfYear;
+                $startDate->addWeek();
+            }
+        }
+        else{
+            $currentDate = $startDate->copy();
+            while ($currentDate->lte($endDate)) {
+                $dateRange[] = $currentDate->format('Y-m-d');
+                $currentDate->addDay();
+            }
+            $reportChart = $this->reportService->getDataReportDashboard($startOfMonth, $dateNow, $listPublisherAssign);
+        }
+
+        $data['charts']['options'] = $dateRange;
         foreach ($dateRange as $date)
         {
             $data['charts']['series']['totalImpressions'][] = $reportChart[$date]['totalImpressions'] ?? 0;

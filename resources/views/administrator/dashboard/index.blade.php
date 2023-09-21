@@ -212,11 +212,22 @@
                 <div class="col-sm-12 col-xl-12 box-col-12">
                     <div class="card">
                         <div class="card-header pb-0" style="display: flex; justify-content: space-between; align-items: center">
-                            <h5 class="col-xl-10">Statistics</h5>
-                            <select  name="type" class="select2_init" onchange="onSearchQuery()">
-                                <option value="">--Select--</option>
+                            <h5 class="col-sm-8">Statistics</h5>
+
+                            <select name="publisher_manager_id" class="form-control col-sm-2" id="publisher_manager_id"
+                                    onchange="onSearchQuery()">
+                                <option value="">--Publisher Manager--</option>
+                                @foreach($userPublisherManager as $itemPublisherManager)
+                                    <option
+                                        value="{{$itemPublisherManager->id}}" {{ !empty($_GET['publisher_manager_id']) && $_GET['publisher_manager_id'] ==  $itemPublisherManager->id ? 'selected' : '' }}>
+                                        {{$itemPublisherManager->name}}
+                                    </option>
+                                @endforeach
+                            </select>&ensp;
+                            <select class="form-control col-sm-2" id="type" name="type" onchange="onSearchQuery()">
+                                <option value="">-- Time --</option>
                                 <option value="week" {{ isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'week' ? 'selected' : '' }}>Week</option>
-                                <option value="month" {{ isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'month' ? 'selected' : '' }}>Month</option>
+{{--                                <option value="month" {{ isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'month' ? 'selected' : '' }}>Month</option>--}}
                             </select>
                         </div>
                         <div id="chart_custom"></div>
@@ -291,9 +302,13 @@
 @section('js')
     <script src="{{ asset('/assets/administrator/js/chart/apex-chart/apex-chart.js') }}"></script>
     <script>
+        $(document).ready(function () {
+            $("#type, #publisher_manager_id").select2({});
+        });
         function onSearchQuery() {
             addUrlParameterObjects([
                 {name: "type", value: $('select[name="type"]').val()},
+                {name: "publisher_manager_id", value: $('select[name="publisher_manager_id"]').val()},
             ])
         }
     </script>
@@ -313,11 +328,11 @@
                 type: 'line',
                 data: @json($charts['series']['totalRevenue'])
             },
-                {
-                    name: 'Revenue',
-                    type: 'line',
-                    data: @json($charts['series']['paidRevenue'])
-                }
+            {
+                name: 'Revenue',
+                type: 'line',
+                data: @json($charts['series']['paidRevenue'])
+            }
             ],
             chart: {
                 height: 350,
@@ -327,7 +342,7 @@
                 enabled: false
             },
             stroke: {
-                width: [1, 1, 4]
+                width: [1, 1, 1, 1]
             },
             xaxis: {
                 categories: @json($charts['options']),
@@ -363,7 +378,6 @@
                 },
                 {
                     seriesName: 'Paid Impression',
-                    opposite: true,
                     axisTicks: {
                         show: true,
                     },
