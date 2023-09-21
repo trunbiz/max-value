@@ -58,6 +58,13 @@
         <br>
         <div class="row">
             <div class="col-sm-3">
+                <label>Balance</label>
+                <select name="balance" id="balance" class="form-control">
+                    <option value=0>-All-</option>
+                    <option value=1 {{request()->get('balance') == '1' ? 'selected' : ''}}> is money </option>
+                </select>
+            </div>
+            <div class="col-sm-3">
                 <label>Status</label>
                 <select name="active" id="active" class="form-control">
                     <option value=null>-All-</option>
