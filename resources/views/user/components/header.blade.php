@@ -151,10 +151,14 @@
     </div>
 
     <div class="sidebar__menu bg-white">
-        <div class="sidebar__menu--logo">
+        <div class="logo-wrapper" style="min-height: 80px;">
             <a href="{{route('user.dashboard.index')}}">
-                <img src="{{\App\Models\Helper::logoImagePath()}}" alt="" class="all_logo" width="80px">
-                <img src="{{\App\Models\Helper::logoImagePath()}}" alt="" class="fav_logo" width="80px">
+                <img class="img-fluid for-light"
+                     src="{{\App\Models\Helper::logoImagePath()}}"
+                     alt="">
+                <img class="img-fluid for-dark"
+                     src="{{\App\Models\Helper::logoImagePath()}}"
+                     alt=""></a>
             </a>
         </div>
         <ul class="sidebar__menu--main">
@@ -264,16 +268,30 @@
                         $userAssign = auth()->user()->getFirstUserAssign();
                         $name = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->name : (optional(auth()->user()->manager)->name ?? \App\Models\User::find(1)->name);
                         $email = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->email : (optional(auth()->user()->manager)->email ?? \App\Models\User::find(1)->email);
+                        $telegram = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->telegram : (optional(auth()->user()->manager)->telegram ?? \App\Models\User::find(1)->telegram);
+                        $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->skype : (optional(auth()->user()->manager)->skype ?? \App\Models\User::find(1)->skype);
                     @endphp
 
                     <div class="user__avatar">{{\App\Models\Formatter::getShortCharacter($name, 2)}}</div>
                     <div class="info__support--detail">
                         <span>Account Manager</span>
                         <p>{{$name}}</p>
-                        <a href="mailto:{{$email}}">
-                            <img src="{{ asset('/assets/user/images/gmail.png') }}" alt="" width="15%">
-                        </a>
                     </div>
+                </div>
+                <div class="social-bar">
+                    <a href="mailto:{{$email}}" title="mail">
+                        <img src="{{ asset('/assets/user/images/gmail.png') }}" alt="Gmail">
+                    </a>
+                    @if(!empty($email))
+                        <a href="{{$telegram}}" title="Telegram">
+                            <img src="{{ asset('/assets/user/images/telegram.png') }}" alt="Telegram">
+                        </a>
+                    @endif
+                    @if(!empty($skype))
+                    <a href="{{$skype}}" title="Skype">
+                        <img src="{{ asset('/assets/user/images/skype.png') }}" alt="Skype">
+                    </a>
+                    @endif
                 </div>
             </div>
             <div class="sidebvar__menu--main-info copyright">
@@ -283,4 +301,22 @@
             </div>
         </div>
     </div>
+    <style>
+        .social-bar {
+            display: flex;
+            justify-content: left;
+            padding: 10px;
+            background-color: transparent;
+        }
+
+        .social-bar a {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .social-bar a img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
 </header>
