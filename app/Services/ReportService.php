@@ -170,6 +170,21 @@ class ReportService
         return $this->convertDataReportDashboard($data);
     }
 
+    public function getDataReportByWeek($from, $to, $listPublisher = null)
+    {
+        $query = ReportModel::where('status', ReportModel::STATUS_SUCCESS)
+            ->where('date', '>=', $from)
+            ->where('date', '<=', $to)
+            ->selectRaw('WEEK(date) AS date, SUM(impressions) AS totalImpressions, SUM(change_impressions) AS paidImpressions, SUM(revenue) AS totalRevenue, SUM(change_revenue) AS paidRevenue')
+            ->groupBy('date');
+
+        if (!empty($listPublisher)) {
+            $query = $query->whereIn('publisher_id', $listPublisher);
+        }
+        $data = $query->get();
+        return $this->convertDataReportDashboard($data);
+    }
+
     public function convertDataReportDashboard($data)
     {
         $arrayResult = [];

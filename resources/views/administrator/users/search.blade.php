@@ -144,7 +144,7 @@
 
     $(document).ready(function () {
         $("#publisher_id, #website, #user_assign, #verify, #active").select2({});
-    })
+    });
 
     $('select[name="limit"]').on('change', function () {
         addUrlParameter('limit', this.value)
