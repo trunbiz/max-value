@@ -56,7 +56,7 @@
                                         </td>
                                         <td>
                                             <ul>
-                                                @foreach($item->getListSite() as $itemUrl)
+                                                @foreach($item->getListSite(request()->get('site_status') ?? []) as $itemUrl)
                                                     @if($itemUrl->status == 3500)
                                                         <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
                                                            style="color: #41C866; display: block">

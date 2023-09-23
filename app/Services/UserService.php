@@ -49,6 +49,10 @@ class UserService
         {
             $query->where('email', $params['email']);
         }
+        if (!empty($params['balance']))
+        {
+            $query->whereRaw('CAST(users.money AS UNSIGNED) > 0'); // Sửa thành `>` để loại bỏ các giá trị bằng 0
+        }
         if (!empty($params['publisher_id']))
         {
             $query->where('users.id', $params['publisher_id']);
@@ -56,6 +60,10 @@ class UserService
         if (!empty($params['website_id']))
         {
             $query->where('websites.id', $params['website_id']);
+        }
+        if (!empty($params['site_status']))
+        {
+            $query->whereIn('websites.status', $params['site_status']);
         }
         if (!empty($params['user_assign']) && $params['user_assign'] != 'null')
         {

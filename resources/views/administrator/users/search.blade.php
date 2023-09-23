@@ -58,11 +58,28 @@
         <br>
         <div class="row">
             <div class="col-sm-3">
+                <label>Balance</label>
+                <select name="balance" id="balance" class="form-control">
+                    <option value=0>-All-</option>
+                    <option value=1 {{request()->get('balance') == '1' ? 'selected' : ''}}> is money </option>
+                </select>
+            </div>
+            <div class="col-sm-3">
                 <label>Status</label>
                 <select name="active" id="active" class="form-control">
                     <option value=null>-All-</option>
                     <option value=1 {{request()->get('active') === '1' ? 'selected' : ''}}>Active</option>
                     <option value=0 {{request()->get('active') === '0' ? 'selected' : ''}}>No active</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label>Site status</label>
+                <select name="site_status[]" id="site_status" multiple class="form-control">
+                    <option value=null>-All-</option>
+                    <option value=3520 {{in_array(3520, request()->get('site_status') ?? []) ? 'selected' : ''}}>Pending</option>
+                    <option value=3500 {{in_array(3500, request()->get('site_status') ?? []) ? 'selected' : ''}}>Approved</option>
+                    <option value=3525 {{in_array(3525, request()->get('site_status') ?? []) ? 'selected' : ''}}>Verification</option>
+                    <option value=3510 {{in_array(3510, request()->get('site_status') ?? []) ? 'selected' : ''}}>Rejected</option>
                 </select>
             </div>
             <div class="col-sm-2 d-flex align-items-end">
@@ -143,7 +160,7 @@
 <script>
 
     $(document).ready(function () {
-        $("#publisher_id, #website, #user_assign, #verify, #active").select2({});
+        $("#publisher_id, #website, #user_assign, #verify, #active, #site_status").select2({});
     });
 
     $('select[name="limit"]').on('change', function () {
