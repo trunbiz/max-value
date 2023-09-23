@@ -214,16 +214,19 @@
                         <div class="card-header pb-0" style="display: flex; justify-content: space-between; align-items: center">
                             <h5 class="col-sm-8">Statistics</h5>
 
-                            <select name="publisher_manager_id" class="form-control col-sm-2" id="publisher_manager_id"
-                                    onchange="onSearchQuery()">
-                                <option value="">--Publisher Manager--</option>
-                                @foreach($userPublisherManager as $itemPublisherManager)
-                                    <option
-                                        value="{{$itemPublisherManager->id}}" {{ !empty($_GET['publisher_manager_id']) && $_GET['publisher_manager_id'] ==  $itemPublisherManager->id ? 'selected' : '' }}>
-                                        {{$itemPublisherManager->name}}
-                                    </option>
-                                @endforeach
-                            </select>&ensp;
+                            @if(auth()->user()->role->id != \App\Models\User::ROLE_PUBLISHER_MANAGER)
+                                <select name="publisher_manager_id" class="form-control col-sm-2"
+                                        id="publisher_manager_id"
+                                        onchange="onSearchQuery()">
+                                    <option value="">--Publisher Manager--</option>
+                                    @foreach($userPublisherManager as $itemPublisherManager)
+                                        <option
+                                            value="{{$itemPublisherManager->id}}" {{ !empty($_GET['publisher_manager_id']) && $_GET['publisher_manager_id'] ==  $itemPublisherManager->id ? 'selected' : '' }}>
+                                            {{$itemPublisherManager->name}}
+                                        </option>
+                                    @endforeach
+                                </select>&ensp;
+                            @endif
                             <select class="form-control col-sm-2" id="type" name="type" onchange="onSearchQuery()">
                                 <option value="">-- Time --</option>
                                 <option value="week" {{ isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'week' ? 'selected' : '' }}>Week</option>
