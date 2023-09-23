@@ -486,8 +486,14 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->first();
     }
 
-    public function getListSite()
+    public function getListSite($listStatus = [])
     {
-        return $this->hasMany(Website::class, 'user_id', 'id')->where('is_delete', 0)->get();
+        $query = $this->hasMany(Website::class, 'user_id', 'id')
+            ->where('is_delete', 0);
+        if (!empty($listStatus))
+        {
+            $query->whereIn('status', $listStatus);
+        }
+        return $query->get();
     }
 }

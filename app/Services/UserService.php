@@ -61,6 +61,10 @@ class UserService
         {
             $query->where('websites.id', $params['website_id']);
         }
+        if (!empty($params['site_status']))
+        {
+            $query->whereIn('websites.status', $params['site_status']);
+        }
         if (!empty($params['user_assign']) && $params['user_assign'] != 'null')
         {
             $query->where('assign_user.user_id', $params['user_assign']);
