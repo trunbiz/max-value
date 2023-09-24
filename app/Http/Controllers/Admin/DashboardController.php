@@ -190,14 +190,20 @@ class DashboardController extends Controller
             $reportChart = $this->reportService->getDataReportDashboard($startOfMonth, $dateNow, $listPublisherAssign);
         }
 
-        $data['charts']['options'] = $dateRange;
-        foreach ($dateRange as $date)
+        foreach ($dateRange as $keyDate =>$date)
         {
+            if (empty($reportChart[$date]))
+            {
+                unset($dateRange[$keyDate]);
+                continue;
+            }
+
             $data['charts']['series']['totalImpressions'][] = $reportChart[$date]['totalImpressions'] ?? 0;
             $data['charts']['series']['paidImpressions'][] = $reportChart[$date]['paidImpressions'] ?? 0;
             $data['charts']['series']['totalRevenue'][] = floor($reportChart[$date]['totalRevenue'] ?? 0);
             $data['charts']['series']['paidRevenue'][] = floor($reportChart[$date]['paidRevenue'] ?? 0);
         }
+        $data['charts']['options'] = $dateRange;
         return view('administrator.dashboard.index', $data);
     }
 

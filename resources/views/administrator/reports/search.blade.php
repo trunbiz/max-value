@@ -21,7 +21,30 @@
 
 {{--                </div>--}}
 {{--            </div>--}}
+            <div class="col-md-2">
+                <div class="mt-1">
+                    <select class="form-control" id="site_id" name="site_id">
+                        <option value="">-Site-</option>
+                        @foreach($websites as $value)
+                            <option
+                                value="{{ $value['id'] }}" {{ request('site_id') == $value['id'] ? 'selected' : ''}}>{{ $value['name'] }}</option>
+                        @endforeach
+                    </select>
 
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mt-1">
+                    <select class="form-control" id="zone_id" name="zone_id">
+                        <option value="">-Zone-</option>
+                        @foreach($listZone as $key=>$value)
+                            <option
+                                value="{{ $key }}" {{ request('zone_id') == $key ? 'selected' : ''}}>{{ $value }}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+            </div>
             <div class="col-md-2">
                 <div class="mt-1">
                     <select class="form-control" id="user_id" name="user_id">
@@ -93,6 +116,14 @@
 
         $("#user_id").select2({
             placeholder: "-Publisher-",
+            allowClear: true
+        });
+        $("#site_id").select2({
+            placeholder: "-Site-",
+            allowClear: true
+        });
+        $("#zone_id").select2({
+            placeholder: "-Zone-",
             allowClear: true
         });
     })

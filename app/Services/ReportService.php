@@ -160,6 +160,7 @@ class ReportService
     {
         $query = ReportModel::where('status', ReportModel::STATUS_SUCCESS)
             ->where('date', '>=', $from)->where('date', '<=', $to)
+            ->where('status', ReportModel::STATUS_SUCCESS)
             ->selectRaw('date, SUM(impressions) AS totalImpressions, SUM(change_impressions) AS paidImpressions, SUM(revenue) AS totalRevenue, SUM(change_revenue) AS paidRevenue')
             ->groupby('date');
         if (!empty($listPublisher))
@@ -175,6 +176,7 @@ class ReportService
         $query = ReportModel::where('status', ReportModel::STATUS_SUCCESS)
             ->where('date', '>=', $from)
             ->where('date', '<=', $to)
+            ->where('status', ReportModel::STATUS_SUCCESS)
             ->selectRaw('WEEK(date) AS date, SUM(impressions) AS totalImpressions, SUM(change_impressions) AS paidImpressions, SUM(revenue) AS totalRevenue, SUM(change_revenue) AS paidRevenue')
             ->groupBy('date');
 
