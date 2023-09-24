@@ -39,7 +39,7 @@ class UserService
 
     public function listUserPublisher($params)
     {
-        $query = User::where('is_admin', User::IS_PUBLISHER)->where('active', User::ACTIVE)
+        $query = User::where('is_admin', User::IS_PUBLISHER)
             ->leftJoin('websites', 'users.id', '=', 'websites.user_id')
             ->leftJoin('assign_user', 'users.id', '=', 'assign_user.service_id')
             ->select('users.*')
