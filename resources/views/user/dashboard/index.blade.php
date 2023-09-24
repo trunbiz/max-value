@@ -318,9 +318,6 @@
             title: {
                 text: 'Traffic Sources'
             },
-            dataLabels: {
-                enabled: true,
-            },
             xaxis: {
                 categories: @json($chart['date']),
             },
@@ -329,11 +326,6 @@
                     text: 'Revenue',
                 },
 
-            }, {
-                opposite: true,
-                title: {
-                    text: 'Total revenue'
-                }
             }]
         };
         var chart = new ApexCharts(document.querySelector("#chart_custom"), options);
