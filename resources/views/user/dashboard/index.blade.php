@@ -250,9 +250,10 @@
                             <tr>
                                 <th scope="col" class="date-sort {{ (request('sort') == 'ASC') ? 'ASC' : 'DESC'}}">Date <i class="fa-solid fa-sort"></i></th>
                                 <th scope="col">Website</th>
-                                <th scope="col">IMPRESSIONS</th>
-                                <th scope="col">CPM</th>
-                                <th scope="col">REVENUE</th>
+                                <th scope="col">Zone</th>
+                                <th scope="col">Impressions</th>
+                                <th scope="col">Cpm</th>
+                                <th scope="col">Revenue</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -261,9 +262,10 @@
                                 <tr>
                                     <td scope="row" data-column="Date">{{$itemReportSite->date}}</td>
                                     <td>{{$itemReportSite->name}}</td>
+                                    <td>{{$itemReportSite->zone_name}}</td>
                                     <td>{{number_format($itemReportSite->total_change_impressions ?? 0)}}</td>
                                     <td>{{round($itemReportSite->ave_cpm, 3)}}</td>
-                                    <td>{{number_format($itemReportSite->total_change_revenue ?? 0)}}</td>
+                                    <td>{{round($itemReportSite->total_change_revenue ?? 0, 2)}}</td>
                                 </tr>
                             @endforeach
                             </tbody>
