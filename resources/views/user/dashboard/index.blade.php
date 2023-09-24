@@ -265,7 +265,7 @@
                                     <td>{{$itemReportSite->zone_name}}</td>
                                     <td>{{number_format($itemReportSite->total_change_impressions ?? 0)}}</td>
                                     <td>{{round($itemReportSite->ave_cpm, 3)}}</td>
-                                    <td>{{round($itemReportSite->total_change_revenue ?? 0, 2)}}</td>
+                                    <td>{{round($itemReportSite->total_change_revenue ?? 0, 2)}} $</td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -320,7 +320,6 @@
             },
             dataLabels: {
                 enabled: true,
-                enabledOnSeries: [1]
             },
             xaxis: {
                 categories: @json($chart['date']),

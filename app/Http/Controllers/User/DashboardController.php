@@ -157,7 +157,11 @@ class DashboardController extends Controller
             }
             $dataReportDay = [];
             // bieu do theo ngay
-            foreach ($dateRange as $date) {
+            foreach ($dateRange as $keyDate => $date) {
+                if (empty($revenueByDate[$date])) {
+                    unset($dateRange[$keyDate]);
+                    continue;
+                }
                 $dataReportDay[$date] = round($revenueByDate[$date] ?? 0, 2);
             }
 
