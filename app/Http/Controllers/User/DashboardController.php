@@ -84,6 +84,10 @@ class DashboardController extends Controller
             // Tổng Site
             $data['totalSite'] = $this->siteService->totalSite(null, $listSiteId, [Auth::user()->id]);
 
+            if (empty($listSiteId))
+            {
+                $listSiteId = [-1];
+            }
             // Tổng zone
             $data['totalZone'] = $this->zoneService->totalZone(null, $listSiteId);
             $data['totalZonePending'] = $this->zoneService->totalZone(['status' => ZoneModel::PENDING], $listSiteId);
