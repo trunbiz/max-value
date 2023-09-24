@@ -363,6 +363,8 @@
                         </a>
                     @endif
                 </div>
+                <p>We thought no self-service platform could<br>
+                    optimize revenue, so we're here to help.</p>
             </div>
             <div class="sidebvar__menu--main-info copyright">
                 <div class="info__support">
