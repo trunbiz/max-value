@@ -238,7 +238,7 @@ class ReportService
             $query->where('report.date', '<=', $to);
         }
 
-        $query->selectRaw('websites.name, zones.name as zone_name, date, SUM(report.change_revenue) as total_change_revenue, SUM(report.change_impressions) as total_change_impressions, AVG(report.change_cpm) as ave_cpm');
+        $query->selectRaw('websites.name, zones.name as zone_name, date, report.change_revenue as total_change_revenue, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm');
         return $query->where('report.status', 1)->groupBy('report.web_id', 'date', 'zone_name')->orderBy('date', $orderBy)->paginate(25);
     }
 }
