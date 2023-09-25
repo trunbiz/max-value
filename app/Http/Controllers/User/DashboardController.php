@@ -128,6 +128,7 @@ class DashboardController extends Controller
             // Lấy thông tin show bảng
             $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $startDate, $endDate, $sort);
 
+//            dd($data['items']);
             // Lấy thông tin reports
             $dataReport = [];
             $infoReportBySite = $this->reportService->getDataReportGroupSite($listSiteId, $startDate, $endDate);

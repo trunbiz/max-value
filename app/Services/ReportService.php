@@ -225,7 +225,7 @@ class ReportService
     {
         $query = ReportModel::query()
             ->join('websites', 'websites.api_site_id', '=', 'report.web_id')
-            ->join('zones', 'websites.api_site_id', '=', 'zones.ad_site_id');
+            ->join('zones', 'report.zone_id', '=', 'zones.ad_zone_id');
         if (!empty($listSiteId)) {
             $query->whereIn('report.web_id', $listSiteId);
         }
@@ -238,7 +238,8 @@ class ReportService
             $query->where('report.date', '<=', $to);
         }
 
-        $query->selectRaw('websites.name, zones.name as zone_name, date, report.change_revenue as total_change_revenue, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm');
-        return $query->where('report.status', 1)->groupBy('report.web_id', 'date', 'zone_name')->orderBy('date', $orderBy)->paginate(25);
+        $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_revenue as total_change_revenue, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm');
+        return $query->where('report.status', 1)
+            ->orderBy('date', $orderBy)->paginate(25);
     }
 }
