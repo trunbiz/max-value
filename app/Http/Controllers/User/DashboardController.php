@@ -36,7 +36,6 @@ class DashboardController extends Controller
 
     public function index(Request $request){
         $request = $request->all();
-
         $dateOption = $request['date_option'] ?? null;
         $sort = $request['sort'] ?? 'DESC';
         if(auth()->check()){
@@ -126,7 +125,7 @@ class DashboardController extends Controller
             }
 
             // Lấy thông tin show bảng
-            $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $startDate, $endDate, $sort);
+            $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $startDate, $endDate, $sort, $request);
 
 //            dd($data['items']);
             // Lấy thông tin reports

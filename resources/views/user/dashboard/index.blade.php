@@ -242,6 +242,7 @@
                     <div id="chart_custom"></div>
                 </div>
             </div>
+            <b>Statistics</b>
             <div class="col-sm-12 col-xl-12 box-col-12">
                 <div class="card-footer bg-white">
                     <div class="table-responsive">
@@ -251,9 +252,9 @@
                                 <th scope="col" class="date-sort {{ (request('sort') == 'ASC') ? 'ASC' : 'DESC'}}">Date <i class="fa-solid fa-sort"></i></th>
                                 <th scope="col">Website</th>
                                 <th scope="col">Zone</th>
-                                <th scope="col">Impressions</th>
-                                <th scope="col">Cpm</th>
-                                <th scope="col">Revenue</th>
+                                <th scope="col" class="impressions_sort {{ (request('impressions_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Impressions <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col" class="cpm_sort {{ (request('cpm_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Cpm <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col" class="revenue_sort {{ (request('revenue_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Revenue <i class="fa-solid fa-sort"></i></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -300,6 +301,51 @@
                 // Chuyển hướng đến URL mới để load lại trang với tham số sort
                 window.location.href = url.href;
             });
+            $('.impressions_sort').click(function() {
+                var $this = $(this);
+                var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
+                var currentUrl = window.location.href;
+                var url = new URL(currentUrl);
+                url.searchParams.set('impressions_sort', sort);
+
+                // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
+                $('.impressions_sort').removeClass('asc desc');
+                // Thêm class mới tương ứng với trạng thái sort
+                $this.addClass(sort);
+
+                // Chuyển hướng đến URL mới để load lại trang với tham số sort
+                window.location.href = url.href;
+            });
+            $('.cpm_sort').click(function() {
+                var $this = $(this);
+                var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
+                var currentUrl = window.location.href;
+                var url = new URL(currentUrl);
+                url.searchParams.set('cpm_sort', sort);
+
+                // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
+                $('.cpm_sort').removeClass('asc desc');
+                // Thêm class mới tương ứng với trạng thái sort
+                $this.addClass(sort);
+
+                // Chuyển hướng đến URL mới để load lại trang với tham số sort
+                window.location.href = url.href;
+            });
+            $('.revenue_sort').click(function() {
+                var $this = $(this);
+                var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
+                var currentUrl = window.location.href;
+                var url = new URL(currentUrl);
+                url.searchParams.set('revenue_sort', sort);
+
+                // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
+                $('.revenue_sort').removeClass('asc desc');
+                // Thêm class mới tương ứng với trạng thái sort
+                $this.addClass(sort);
+
+                // Chuyển hướng đến URL mới để load lại trang với tham số sort
+                window.location.href = url.href;
+            });
         });
 
         $(document).ready(function () {
@@ -316,7 +362,7 @@
                 width: [0, 4]
             },
             title: {
-                text: 'Traffic Sources'
+                text: 'Revenue Chart'
             },
             xaxis: {
                 categories: @json($chart['date']),
