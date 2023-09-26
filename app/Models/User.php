@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Components\Recusive;
 use App\Services\Common;
+use App\Services\UserService;
 use App\Traits\DeleteModelTrait;
 use App\Traits\StorageImageTrait;
 use App\Traits\UserTrait;
@@ -16,6 +17,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use MongoDB\Driver\Session;
 
@@ -32,6 +34,10 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
+    const IS_ADMIN = 1;
+    const IS_PUBLISHER = 0;
+
+    const ACTIVE = 1;
 
     protected $guarded = [
 //        'is_admin',
@@ -308,8 +314,11 @@ class User extends Authenticatable implements MustVerifyEmail
             $dataInsert['partner_code'] = $request->partner_code;
         }
 
+        if(!empty($request->idcloudrole)){
+            $dataInsert['role_id'] = $request->idcloudrole ?? 0;
+        }
+
         if ($this->isAdmin()){
-            $dataInsert['role_id'] = $request->role_id ?? 0;
             $dataInsert['is_admin'] = $request->is_admin ?? 0;
             $dataInsert['user_status_id'] = 1;
             $dataInsert['url'] = $request->url;
@@ -325,12 +334,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->findById($item->id);
     }
 
-    public function updateByQuery($request, $id)
+    public function updateByQuery($request, $id, $isPartner = false)
     {
+        $updateAdsTxt = false;
 
         $item = User::where('api_publisher_id', $id)->first();
 
         $params = [];
+
+        if (isset($request->email)){
+            $params['email'] = $request->email;
+        }
 
         if (isset($request->name)){
             $params['name'] = $request->name;
@@ -346,10 +360,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $manager = User::find($request->manager_id);
 
-        if (empty($manager)){
-            $params['idmanager'] = "";
-        }else{
-            $params['idmanager'] = $manager->api_publisher_id != 0 ? $manager->api_publisher_id : "";
+        if (!$isPartner)
+        {
+            if (empty($manager)){
+                $params['idmanager'] = "";
+            }else{
+                $params['idmanager'] = $manager->api_publisher_id != 0 ? $manager->api_publisher_id : "";
+            }
         }
 
         Helper::callPutHTTP("https://api.adsrv.net/v2/user/" . $id, $params);
@@ -357,6 +374,10 @@ class User extends Authenticatable implements MustVerifyEmail
         $dataUpdate = [
             'user_type_id' => $request->user_type_id ?? 1,
         ];
+
+        if (isset($request->email)){
+            $dataUpdate['email'] = $request->email;
+        }
 
         if (!empty($request->name)){
             $dataUpdate['name'] = $request->name;
@@ -388,16 +409,32 @@ class User extends Authenticatable implements MustVerifyEmail
             $dataUpdate['url'] = $request->url;
         }
 
-        if(!empty($request->partner_code)){
+
+        if ($isPartner)
+        {
+            // Nếu có sự thay đổi thì cập nhật lại ads.txt
+            if (strcmp($request->partner_code, $item->partner_code))
+                $updateAdsTxt = true;
+
             $dataUpdate['partner_code'] = $request->partner_code;
         }
-
         $item = Helper::updateByQuery($this, $request, $item->id, $dataUpdate);
 
         if ($item->is_admin != 0 && isset($request->role_ids)){
             $item->roles()->sync($request->role_ids);
         }
 
+        // update file ads.txt
+        if ($updateAdsTxt)
+        {
+            try {
+                $userService = new UserService();
+                $userService->updateAdsTxt();
+            }catch (\Exception $e)
+            {
+                Log::error('error update ads.txt', $e->getMessage());
+            }
+        }
         return $item;
     }
 
@@ -421,9 +458,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getArrayUserAssign()
     {
-        return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
+        return $this->hasOne(AssignUserModel::class, 'user_id', 'id')
             ->where('type', AssignUserModel::TYPE['PUBLISHER'])
-            ->where('is_delete', Common::NOT_DELETE)->pluck('user_id')->toArray();
+            ->where('is_delete', Common::NOT_DELETE)->pluck('service_id')->toArray();
     }
 
     public function getListUserAssign()
@@ -437,6 +474,26 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
             ->where('type', AssignUserModel::TYPE['PUBLISHER'])
             ->where('user_id', '<>', 0)
+            ->where('is_delete', Common::NOT_DELETE)
+            ->orderBy('id', 'DESC')->first();
+    }
+
+    public function getFirstAdminAssign()
+    {
+        return $this->hasOne(AssignUserModel::class, 'user_id', 'id')
+            ->where('type', AssignUserModel::TYPE['PUBLISHER'])
+            ->where('user_id', '<>', 0)
             ->where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->first();
+    }
+
+    public function getListSite($listStatus = [])
+    {
+        $query = $this->hasMany(Website::class, 'user_id', 'id')
+            ->where('is_delete', 0);
+        if (!empty($listStatus))
+        {
+            $query->whereIn('status', $listStatus);
+        }
+        return $query->get();
     }
 }

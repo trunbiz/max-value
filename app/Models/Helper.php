@@ -332,7 +332,6 @@ class Helper extends Model
         } else {
             $table = $logo->getTableName();
         }
-
         return optional(SingleImage::where('relate_id', Helper::getNextIdTable($table))->where('table', $table)->first())->image_path;
     }
 

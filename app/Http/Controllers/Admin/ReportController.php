@@ -118,6 +118,7 @@ class ReportController extends Controller
     public function updateReport(Request $request)
     {
         $request = $request->all();
+        $sort = $request['sort'] ??'DESC';
 
         $query = ReportModel::query();
         if (!empty($request['from'])) {
@@ -134,9 +135,13 @@ class ReportController extends Controller
         {
             $query->where('publisher_id', $request['user_id']);
         }
-        if (!empty($request['website_id']))
+        if (!empty($request['zone_id']))
         {
-            $query->where('web_id', $request['website_id']);
+            $query->where('zone_id', $request['zone_id']);
+        }
+        if (!empty($request['site_id']))
+        {
+            $query->where('web_id', $request['site_id']);
         }
         if (!empty($request['from']))
         {
@@ -165,7 +170,7 @@ class ReportController extends Controller
             $data['users'] = User::where('is_admin', 0)->where('active', 1)->get();
         }
 
-        $data['items'] = $query->orderBy('date', 'DESC')->paginate(25);
+        $data['items'] = $query->orderBy('date', 'DESC')->orderBy('request', $sort)->orderBy('web_id', 'ASC')->paginate(100);
 
         if (isset($request->user_id) && !empty($request->user_id)) {
             $query['idpublisher'] = $request->user_id;
@@ -183,11 +188,11 @@ class ReportController extends Controller
 //        }
         foreach ($data['items'] as $item) {
             if ($item->status) {
-                $item->change_count = $item->impressions == 0 ? 80 : round((($item->change_impressions) * 100) / $item->impressions);
-                $item->change_share = ($item->cpm * 1000) == 0 ? 70 : round(($item->change_cpm * 100) / $item->cpm);
+                $item->change_count = $item->impressions == 0 ? 90 : round((($item->change_impressions) * 100) / $item->impressions);
+                $item->change_share = ($item->cpm * 1000) == 0 ? 90 : round(($item->change_cpm * 100) / $item->cpm);
             } else {
-                $item->change_count = 80;
-                $item->change_share = 70;
+                $item->change_count = 90;
+                $item->change_share = 90;
             }
             $item->revenue = round($item->revenue, 2);
         }
@@ -206,11 +211,7 @@ class ReportController extends Controller
         $data['title'] = "Report";
         $data['websites'] = $websites;
         $data['listZone'] = $listZone;
-//        $data['zones'] = $zones;
-//        $data['users'] = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
-//        $data['adversier'] = Helper::callGetHTTP('https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3');
 
-//        dd($data);
         return view('administrator.reports.updateReport', $data);
     }
 
@@ -227,9 +228,20 @@ class ReportController extends Controller
             $reportInfo->save();
         }
         else{
+            $oldChangeRevenue = 0;
+
             // Chỉ cho cập nhật 1 lần
             if ($reportInfo->status == ReportModel::STATUS_SUCCESS)
-                return false;
+            {
+                if (\auth()->user()->role_id == 1)
+                {
+                    $oldChangeRevenue = $reportInfo->change_revenue;
+                }
+                else{
+                    return false;
+                }
+//                $oldChangeRevenue = $reportInfo->change_revenue;
+            }
 
             $reportInfo->change_impressions = $request['change_impressions'];
             $reportInfo->change_revenue = $request['change_revenue'];
@@ -238,7 +250,7 @@ class ReportController extends Controller
             $reportInfo->save();
 
             // Sau khi cập nhật xong thì số tiền sẽ được cộng vào ví user
-            $this->walletService->depositWalletPublisher($reportInfo->publisher_id, $reportInfo->change_revenue);
+            $this->walletService->depositWalletPublisher($reportInfo->publisher_id, $reportInfo->change_revenue, $oldChangeRevenue);
         }
         return true;
     }

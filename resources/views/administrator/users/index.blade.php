@@ -27,16 +27,17 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>
+                                    <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent"
+                                               onclick="onSelectCheckboxDeleteItem()"></th>
                                     <th>ID</th>
                                     <th>Manager</th>
                                     <th>Email</th>
                                     <th>Website</th>
+                                    <th>Action</th>
                                     <th class="text-center">Verified</th>
                                     <th>Active</th>
                                     <th>Money</th>
                                     <th>Created at</th>
-                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody class="list__data">
@@ -44,90 +45,81 @@
                                 @foreach($items as $item)
                                     <tr class="item{{ $item['id'] }}">
                                         <td class="text-center">
-                                            <input type="checkbox" class="checkbox-delete-item" value="{{$item['id']}}">
+                                            <input type="checkbox" class="checkbox-delete-item" value="{{$item->id}}">
                                         </td>
-                                        <td>{{$item['id']}}</td>
+                                        <td>{{$item->api_publisher_id}}</td>
                                         <td>
-                                            {{!empty($listUserAssign[$item['id']]) ? $listUserAssign[$item['id']] : ''}}
+                                            {{!empty($item->getFirstUserAssign()) ? $item->getFirstUserAssign()->getInfoAssign()->name ?? '' : ''}}
                                         </td>
                                         <td>
-{{--                                            <form action="{{ route('administrator.imperrsonate') }}" method="post">--}}
-{{--                                                @csrf--}}
-{{--                                                <input type="hidden" name="user_id" value="{{ $item['id'] }}">--}}
-{{--                                                <button class="btn btn-primary"> {{$item['email']}}</button>--}}
-{{--                                            </form>--}}
-                                            {{$item['email'] ?? ''}}
+                                            {{$item->email ?? ''}}
                                         </td>
                                         <td>
                                             <ul>
-                                                @foreach($urls as $url)
-                                                    @if($item['id'] == $url['publisher']['id'])
-                                                        @if($url['status']['id'] == 3500)
-                                                            <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $item['id'] }}" style="color: #41C866; display: block">
-                                                                {{ $url['url'] }}
-                                                            </a>
-                                                        @elseif($url['status']['id'] == 3525 || $url['status']['id'] == 3510)
-                                                            <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $item['id'] }}" style="color: #ff0000; display: block">
-                                                                {{ $url['url'] }}
-                                                            </a>
-                                                        @else
-                                                            <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $item['id'] }}" style="color: #ffc500; display: block">
-                                                                {{ $url['url'] }}
-                                                            </a>
-                                                        @endif
+                                                @foreach($item->getListSite(request()->get('site_status') ?? []) as $itemUrl)
+                                                    @if($itemUrl->status == 3500)
+                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
+                                                           style="color: #41C866; display: block">
+                                                            {{ $itemUrl->url}}
+                                                        </a>
+                                                    @elseif($itemUrl->status == 3525 || $itemUrl->status == 3510)
+                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
+                                                           style="color: #ff0000; display: block">
+                                                            {{ $itemUrl->url}}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
+                                                           style="color: #ffc500; display: block">
+                                                            {{ $itemUrl->url}}
+                                                        </a>
                                                     @endif
                                                 @endforeach
                                             </ul>
                                         </td>
-                                        <td class="text-center">
-                                            @foreach($users as $itemUser)
-                                                @if($item['id'] == $itemUser->api_publisher_id)
-                                                    <i class="fa fa-check-circle" style="color: {{ (isset($itemUser['email_verified_at']) && !empty($itemUser['email_verified_at']) ? '#41C866' : '#aaaaaa') }}"></i>
-                                                    @break
-                                                @endif
-                                            @endforeach
-                                        </td>
                                         <td>
-                                            <a style="cursor: pointer;" onclick="onEditActiveModal('{{$item['id']}}','{{$item['is_active'] ? 'true' : 'false'}}')" data-bs-toggle="modal"
-                                               data-bs-target="#editActiveModal">
-                                                {{$item['is_active'] ? "Yes" : "No"}}
+                                            <a
+                                                href="{{route('administrator.reports.index' , ['user_id'=> $item->api_publisher_id])}}"
+                                                title="report" target="_blank">
+                                                <i class="fa-solid fa-chart-line"></i>
                                             </a>
-                                        </td>
-                                        <td>
-                                            @php
-                                                $money = 0;
-                                            @endphp
-                                            @foreach($users as $itemUser)
-                                                @if($item['id'] == $itemUser->api_publisher_id)
-                                                    @php
-                                                        $money = $itemUser->money;
-                                                    @endphp
-                                                    @break
-                                                @endif
-                                            @endforeach
-                                            {{ '$'. $money }}
-                                        </td>
-
-                                        <td>{{$item['created_at']}}</td>
-                                        <td>
-
-                                            <a href="javascript:void(0)" onclick="edit({{ $item['id'] }})"
+                                            <a
+                                                href="{{route('administrator.imperrsonate' , ['user_id'=> $item->api_publisher_id])}}"
+                                                title="Impersonate">
+                                                <i class="fa-solid fa-user-ninja"></i>
+                                            </a>
+                                            <a href="javascript:void(0)" onclick="edit({{ $item->api_publisher_id }})"
                                                title="Edit">
                                                 <i class="fa-solid fa-pen"></i>
                                             </a>
-                                            <a href="{{route('administrator.websites.index' , ['publisher_id'=> $item['id'] ])}}"
+                                            <a href="{{route('administrator.websites.index' , ['publisher_id'=> $item->id ])}}"
                                                title="Web">
                                                 <i class="fa-solid fa-globe"></i>
                                             </a>
 
                                             <a class="delete action_delete"
-                                               href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item['id'] ])}}"
-                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item['id'] ])}}"
+                                               href="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->api_publisher_id ])}}"
+                                               data-url="{{route('administrator.'.$prefixView.'.delete' , ['id'=> $item->api_publisher_id ])}}"
                                                title="Delete">
                                                 <i class="fa-solid fa-x text-danger"></i>
                                             </a>
 
                                         </td>
+                                        <td class="text-center">
+                                            <i class="fa fa-check-circle"
+                                               style="color: {{ (!empty($item->email_verified_at) ? '#41C866' : '#aaaaaa') }}"></i>
+                                        </td>
+                                        <td>
+                                            <a style="cursor: pointer;"
+                                               onclick="onEditActiveModal('{{$item['id']}}','{{$item['is_active'] ? 'true' : 'false'}}')"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#editActiveModal">
+                                                {{$item->active ? "Yes" : "No"}}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ '$'. $item->money}}
+                                        </td>
+                                        <td>{{$item->created_at}}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -200,21 +192,21 @@
                 data: {
                     is_active: $('select[name="active_id"]').val() == "true" ? 1 : 0,
                 },
-                url: "{{route('administrator.users.update.active')}}"+ '?id='+id_user,
+                url: "{{route('administrator.users.update.active')}}" + '?id=' + id_user,
                 beforeSend: function () {
                     showLoading()
                 },
                 success: function (response) {
-                    if(response.status == true){
+                    if (response.status == true) {
                         $('#editActiveModal').modal('hide');
-                        $('.list__data').find('.item'+id_user).find('td:nth-child(6)').html('<a style="cursor: pointer;" onclick="onEditActiveModal('+id_user+','+response.is_active+')" data-bs-toggle="modal" data-bs-target="#editActiveModal" data-bs-original-title="" title="">'+response.is_active+'</a>');
+                        $('.list__data').find('.item' + id_user).find('td:nth-child(6)').html('<a style="cursor: pointer;" onclick="onEditActiveModal(' + id_user + ',' + response.is_active + ')" data-bs-toggle="modal" data-bs-target="#editActiveModal" data-bs-original-title="" title="">' + response.is_active + '</a>');
                         Swal.fire(
                             {
                                 icon: 'success',
                                 title: response.message,
                             }
                         );
-                    }else{
+                    } else {
                         Swal.fire(
                             {
                                 icon: 'error',
@@ -240,13 +232,12 @@
             var $this = $('#editPulisher');
             callAjax(
                 'GET',
-                '{{route('administrator.users.edit')}}'+ '?id='+id,
+                '{{route('administrator.users.edit')}}' + '?id=' + id,
                 {},
                 (response) => {
-                    if(!response.status)
-                    {
+                    if (!response.status) {
                         alert(response.message)
-                    }else{
+                    } else {
                         $this.html(response.html);
                         $this.modal('show');
                     }
@@ -258,14 +249,15 @@
             var $this = $('#editPulisher');
             callAjax(
                 'PUT',
-                '{{route('administrator.users.update')}}'+ '?id='+id,
+                '{{route('administrator.users.update')}}' + '?id=' + id,
                 {
+                    email: $this.find('input[name="email"]').val(),
                     password: $this.find('input[name="password"]').val(),
                     user_status_id: $this.find('select[name="user_status_id"]').val(),
                     assign_user: $this.find('select[name="assign_user"]').val(),
                 },
                 (response) => {
-                    if(response.status == true){
+                    if (response.status == true) {
                         $this.modal('hide');
                         Swal.fire(
                             {
@@ -273,9 +265,9 @@
                                 title: response.message,
                             }
                         );
-                        $('.list__data').find('.item'+id).after(response.html).remove();
+                        $('.list__data').find('.item' + id).after(response.html).remove();
                         location.reload();
-                    }else{
+                    } else {
                         Swal.fire(
                             {
                                 icon: 'error',

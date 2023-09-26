@@ -146,7 +146,7 @@
                                     {{$itemWebsite['url']}}
                                 </div>
                                 <div class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
-                                    {{ $itemWebsite['status']['name'] }}
+                                    {{ \App\Services\Common::STATUS_ADSERVER[$itemWebsite['status']['id']] ?? '' }}
                                 </div>
                                 <div class="category__site">
                                     <i class="fa-regular fa-folder"></i>
@@ -172,7 +172,7 @@
                                                 <p>{{$itemZone['format']['name']}}</p>
                                             </div>
                                             <div class="title__advs--status {{ strtolower($itemZone['status']['name']) }}">
-                                                {{ $itemZone['status']['name'] }}
+                                                {{ \App\Models\ZoneModel::STATUS_ADSERVER[$itemZone['status']['id']] ?? '' }}
                                             </div>
                                         </div>
                                         <div class="info__advs">

@@ -18,6 +18,7 @@ class ZoneModel extends Model
         'id_dimension_method',
         'dimensions',
         'status',
+        'active',
         'is_delete',
         'extra_response',
         'extra_response',
@@ -30,6 +31,14 @@ class ZoneModel extends Model
       4 => 'Not higher than',
       2 => 'Not larger than',
     ];
+
+    const STATUS_ADSERVER = [
+        7010 => 'Pending',
+        7000 => 'Approved',
+        7020 => 'Rejected',
+    ];
+
+    const PENDING = 7010;
 
     public function getInfoCampaign()
     {

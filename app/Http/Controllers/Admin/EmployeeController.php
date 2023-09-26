@@ -58,9 +58,6 @@ class EmployeeController extends Controller
         DB::beginTransaction();
 
         try {
-
-
-
             $params = [
                 'name' => $request->name == '' ? $request->email : $request->name,
                 'email' => $request->email,
@@ -69,8 +66,6 @@ class EmployeeController extends Controller
             ];
 
             $itemApi = Helper::callPostHTTP("https://api.adsrv.net/v2/user", $params);
-
-
             if (Helper::isErrorAPIAdserver($itemApi)){
                 DB::rollback();
                 return $itemApi;
@@ -90,6 +85,8 @@ class EmployeeController extends Controller
                 'user_status_id' => $request->user_status_id ?? 1,
                 'is_admin' => 1,
                 'role_id' => $request->role_id,
+                'telegram' => $request->telegram ?? null,
+                'skype' => $request->skype ?? null
             ];
 
             $item = User::firstOrCreate($dataInsert);
@@ -131,6 +128,8 @@ class EmployeeController extends Controller
             'user_status_id' => $request->user_status_id ?? 1,
             'is_admin' => 1,
             'role_id' => $request->role_id,
+            'telegram' => $request->telegram ?? null,
+            'skype' => $request->skype ?? null
         ];
         if (!empty($request->password))
         {

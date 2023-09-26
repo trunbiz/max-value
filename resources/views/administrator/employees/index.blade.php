@@ -103,9 +103,16 @@
                             <label class="col-form-label">Email<span class="text-danger">*</span></label>
                             <input id="input_email" class="form-control" type="text"/>
                         </div>
-
-                        <div class="col-md-6 form-group mt-3">
-                            <label>Vai trò</label>
+                        <div class="col-md-3">
+                            <label class="col-form-label">Telegram</label>
+                            <input id="input_telegram" class="form-control" type="text"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-form-label">Skype</label>
+                            <input id="input_skype" class="form-control" type="text"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-form-label">Vai trò</label>
                             <select id="select_role_id" class="form-select" aria-label="Default select example">
                                 @foreach($roles as $item)
                                     <option value="{{$item->id}}">{{$item->name}}</option>
@@ -150,9 +157,16 @@
                             <label class="col-form-label">Email<span class="text-danger">*</span></label>
                             <input id="input_email_edit" class="form-control" type="text"/>
                         </div>
-
-                        <div class="col-md-6 form-group mt-3">
-                            <label>Vai trò</label>
+                        <div class="col-md-3">
+                            <label class="col-form-label">Telegram</label>
+                            <input id="input_telegram_edit" class="form-control" type="text"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-form-label">Skype</label>
+                            <input id="input_skype_edit" class="form-control" type="text"/>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-form-label">Vai trò</label>
                             <select id="select_role_id_edit" class="form-select" aria-label="Default select example">
                                 @foreach($roles as $item)
                                     <option value="{{$item->id}}">{{$item->name}}</option>
@@ -195,6 +209,8 @@
                         phone: $("#input_phone").val(),
                         password: $("#input_password").val(),
                         email: $("#input_email").val(),
+                        telegram: $("#input_telegram").val(),
+                        skype: $("#input_skype").val(),
                         date_of_birth: $("#input_date_of_birth").val(),
                         role_id: $("#select_role_id").val(),
                         is_admin: 1,
@@ -245,6 +261,8 @@
                         phone: $("#input_phone_edit").val(),
                         password: $("#input_password_edit").val(),
                         email: $("#input_email_edit").val(),
+                        telegram: $("#input_telegram_edit").val(),
+                        skype: $("#input_skype_edit").val(),
                         role_id: $("#select_role_id_edit").val(),
                         date_of_birth: $("#input_date_of_birth_edit").val(),
                         gender_id: isCheckedInput("input_gender_edit") ? 1 : 2,
@@ -296,12 +314,13 @@
                 {},
                 (response) => {
                     showModal("modal_edit_user")
-                    console.log(response)
 
                     $('#input_name_edit').val(response.name)
                     $('#input_phone_edit').val(response.phone)
                     $('#input_email_edit').val(response.email)
                     $('#input_date_of_birth_edit').val(response.date_of_birth)
+                    $('#input_telegram_edit').val(response.telegram)
+                    $('#input_skype_edit').val(response.skype)
                     $('#select_role_id_edit').val(response.role_id)
 
                     if (response.gender_id == 2) {

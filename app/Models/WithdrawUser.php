@@ -20,6 +20,10 @@ class WithdrawUser extends Model implements Auditable
 
     protected $guarded = [];
 
+    const STATUS_PENDING = 1;
+    const STATUS_APPROVED = 2;
+    const STATUS_REJECT = 3;
+
     // begin
 
     public function user(){
@@ -75,12 +79,6 @@ class WithdrawUser extends Model implements Auditable
 
     public function storeByQuery($request)
     {
-        if(Carbon::now()->format('d') > 15){
-            $updated_at = Carbon::now()->day(15)->addMonth();
-        }else{
-            $updated_at = Carbon::now()->day(15);
-        }
-
         $walletUser = WalletUser::find($request->wallet_id);
 
         $min = $walletUser->withdrawType->min;
@@ -95,7 +93,7 @@ class WithdrawUser extends Model implements Auditable
             'amount' => $request->amount - $walletUser->withdrawType->fee,
             'wallet_id' => $request->wallet_id,
             'user_id' => auth()->id(),
-            'updated_at' => $updated_at
+            'updated_at' => Carbon::now()->day(15)->addMonth()
         ];
 
         DB::beginTransaction();

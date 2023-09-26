@@ -26,7 +26,12 @@ class WithdrawStatus extends Model implements Auditable
             return '<span class="btn__see show_status" style="color: #ffff11;background-color: #a78f00;">'.$name.'</span>';
         }else if ($name == "Approved"){
             return '<span class="btn__see show_status">'.$name.'</span>';
-        }else{
+        }
+        else if ($name == "Reject"){
+            return '<span class="btn__see show_status" style="color: #cb5454;background-color: #e9beb5;"> Rejected</span>';
+        }
+        else{
+            dd($name);
             return '<span class="btn__see show_status" style="color: #cb5454;background-color: #e9beb5;">'.$name.'</span>';
         }
     }

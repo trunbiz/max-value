@@ -30,8 +30,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('get:reportDaily')
             ->hourly();
+//        $schedule->command('create:adstxt')
+//            ->everyFiveMinutes();
 
-//        $schedule->command('revenue:publisher')
+//        $schedule->command('callData:AdServer')
 //            ->everyMinute();
 
         // Backups (to Google Drive)

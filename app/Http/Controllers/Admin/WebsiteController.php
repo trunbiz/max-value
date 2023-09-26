@@ -31,75 +31,37 @@ class WebsiteController extends Controller
         $this->title = "Websites";
         $this->shareBaseModel($model);
         $this->siteService = new SiteService();
+        $this->commonService = new Common();
     }
 
     public function index(Request $request)
     {
+        $params = $request->all();
         $categories = TypeCategory::all();
 
-        if (isset($request->publisher_id) && !empty($request->publisher_id)){
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?filter[idpublisher]=".$request->publisher_id."&page=1&per-page=10000");
-        }else{
+        $users = User::where('is_admin', 0)->orderBy('id', 'DESC')->get();
+        // Lọc các website được ass mowis cho nhifn thaays
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+            $params['list_publisher_id'] = auth()->user()->getListUserAssign();
+            $users = User::whereIn('id', $params['list_publisher_id'])->orderBy('id', 'DESC')->get();
+            $websites = Website::whereIn('user_id', $params['list_publisher_id'])->where('is_delete', 0)->orderBy('id', 'DESC')->get();
 
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?page=1&per-page=10000");
         }
+        else{
+            $websites = Website::where('is_delete', 0)->orderBy('id', 'DESC')->get();
+        }
+        $adSiteId = $websites->pluck('api_site_id')->toArray();
 
-        // Comment tam phần này vì nó bị check quyền
-//        if (auth()->user()->is_admin != 2){
-//            $items = $itemsFilter;
-//        }
+        $zones = ZoneModel::whereIn('ad_site_id', $adSiteId)->where('is_delete', 0)->orderBy('id', 'DESC')->get();
+        $items = $this->siteService->listAll($params);
 
         // List danh sách Dimensions
-        $listDimensions = Common::DIMENSIONS;
+        $listDimensions = Common::DIMENSIONS_GROUP;
 
         // list Dimensions Method
         $listDimensionsMethod = ZoneModel::DIMENSIONS_METHOD;
 
-        // Lọc các website được ass mowis cho nhifn thaays
-        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
-            $apiPublisherIdAssign = [];
-
-            foreach ($items as $key=>$item)
-            {
-                $publisherInfo = User::where('api_publisher_id', $item['publisher']['id'])->first();
-                if (empty($publisherInfo))
-                    continue;
-
-                if (empty($publisherInfo->getFirstUserAssign()) || (!empty($publisherInfo->getFirstUserAssign()->user_id) && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id)) {
-                    unset($items[$key]);
-                }else{
-                    $apiPublisherIdAssign[] = $item['publisher']['id'];
-                }
-            }
-
-            if (!empty($apiPublisherIdAssign))
-            {
-                $users = User::where('is_admin', 0)->whereIn('api_publisher_id', $apiPublisherIdAssign)->get();
-            }
-        }
-        else{
-            $users = User::where('is_admin', 0)->get();
-        }
-
-
-        $items = Formatter::paginator($request,$items);
-
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4");
-
-        $listAssign = [];
-        // Lấy danh sách được assign
-        foreach ($items as $item)
-        {
-            $webSiteInfo = Website::where('api_site_id', $item['id'])->first();
-            if (!empty($webSiteInfo))
-            {
-                $listAssign[$item['id']] = !empty($webSiteInfo->getInfoAssign()->name) ? $webSiteInfo->getInfoAssign()->name :  'chưa xác định';
-            }
-            else{
-                $listAssign[$item['id']] = '';
-            }
-
-        }
 
         $dataResult = [
             'items' => $items,
@@ -108,9 +70,10 @@ class WebsiteController extends Controller
             'listDimensions' => $listDimensions,
             'listDimensionsMethod' => $listDimensionsMethod,
             'publishers' => $publishers,
-            'listAssign' => $listAssign
+            'websites' => $websites,
+            'zones' => $zones,
+            'listUserGroupAdmin' => $this->commonService->listUserGroupAM()
         ];
-//        dd($dataResult);
 
         return view('administrator.' . $this->prefixView . '.index2', $dataResult);
     }

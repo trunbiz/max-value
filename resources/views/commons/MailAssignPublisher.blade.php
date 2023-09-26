@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Publisher.maxvalue.media There's a new subscriber</title>
+    <title>Publisher.maxvalue.media You have been assigned to a website</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -14,16 +14,16 @@
                  alt="Logo công ty">
         </div>
         <div class="card-body">
-            <h2 class="card-title">Publisher.maxvalue.media There's a new subscriber</h2>
-            <p>Hello {{$userAdmin}},</p>
+            <h2 class="card-title">Publisher.maxvalue.media You have been assigned to a website</h2>
+            <p>Hello {{$username}},</p>
 
-            <p>There is a new registered user on Publisher.maxvalue.media. Here are the details:</p>
+            <p>You have just been assigned by {{$admin}} to take care of a publisher {{$publisherInfo->name}}. Here are the details:</p>
 
             <ul class="list-group">
-                <li class="list-group-item"><strong>Name:</strong> {{$nameUser}}</li>
-                <li class="list-group-item"><strong>Email:</strong> {{$emailUser}}</li>
+                <li class="list-group-item"><strong>Name:</strong> {{$publisherInfo->name}}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{$publisherInfo->email}}</li>
                 <li class="list-group-item"><strong>Link:</strong> <a href="https://publisher.maxvalue.media/administrator/publishers">Link</a> </li>
-                <li class="list-group-item"><strong>Created at:</strong> {{$dateUser}}</li>
+                <li class="list-group-item"><strong>Created at:</strong> {{$created_at}}</li>
             </ul>
         </div>
     </div>

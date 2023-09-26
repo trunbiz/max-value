@@ -6,175 +6,562 @@ use App\Models\User;
 
 class Common
 {
-
 //    const DIMENSIONS = [
-//        28 => '120x60 / Button 2',
-//        46 => '120x600 / Skyscrape',
-//        29 => '120x240 / Vertical Banner',
-//        25 => '120x90 / Button 1',
-//        32 => '125x125 / Square Button',
-//        11 => '160x600 / Wide Skyscraper',
-//        10 => '180x150 / Rectangle',
-//        36 => '200x200 / Small Square',
-//        19 => '234x60 / Half Banner',
-//        5 => '240x400 / Vertical Rectangle',
-//        37 => '250x250 / Square Pop-Up',
-//        40 => '300x100 / 3:1 Rectangle',
-//        9 => '300x250 / Medium Rectangle',
-//        47 => '300x600 / Half-page Ad',
-//        52 => '315x300',
-//        35 => '320x100 / Large Mobile Banner',
-//        34 => '320x50 / Mobile Banner',
-//        48 => '320x480 / Mobile Interstitial',
-//        38 => '336x280 / Large Rectangle',
-//        1 => '468x60 / Full Banner',
-//        49 => '480x320',
-//        42 => '580x400 / Netboard',
-//        50 => '600x400',
-//        41 => '720x300 / Pop-Under',
-//        6 => '728x90 / Leaderboard',
-//        33 => '88x31 / Micro Bar',
-//        51 => '930x180 / Top Banner',
-//        20 => '970x90 / Large Leaderboard',
-//        21 => '970x250 / Billboard',
-//        24 => '980x120 / Panorama',
-//        666 => 'Custom'
+//        "B-970x250" => [
+//            'name' => 'B-970x250',
+//            'size' => [
+//                970,
+//                250
+//            ]
+//        ],
+//        "B-Stickyads" => [
+//            'name' => 'B-Sticky ads',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "B-750x100" => [
+//            'name' => 'B-750x100',
+//            'size' => [
+//                750,
+//                100
+//            ]
+//        ],
+//        "B-300x250" => [
+//            'name' => 'B-300x250',
+//            'size' => [
+//                300,
+//                250
+//            ]
+//        ],
+//        "B-728x280" => [
+//            'name' => 'B-728x280',
+//            'size' => [
+//                728,
+//                280
+//            ]
+//        ],
+//        "B-970x9" => [
+//            'name' => 'B-970x90',
+//            'size' => [
+//                970,
+//                90
+//            ]
+//        ],
+//        "B-160x640" => [
+//            'name' => 'B-160x640',
+//            'size' => [
+//                160,
+//                640
+//            ]
+//        ],
+//        "B-100%x100%" => [
+//            'name' => 'B-100%x100%',
+//            'size' => [
+//                '100%',
+//                '100%'
+//            ]
+//        ],
+//        "B/M-320x100" => [
+//            'name' => 'B/M-320x100',
+//            'size' => [
+//                320,
+//                100
+//            ]
+//        ],
+//        "B/M-320x50" => [
+//            'name' => 'B/M-320x50',
+//            'size' => [
+//                320,
+//                50
+//            ]
+//        ],
+//        "Native-4x1" => [
+//            'name' => 'Native-4x1',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "Native-4x2" => [
+//            'name' => 'Native-4x2',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "Native-3x1" => [
+//            'name' => 'Native-3x1',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "Native-3x2" => [
+//            'name' => 'Native-3x2',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "Native-2x1" => [
+//            'name' => 'Native-2x1',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "Native-2x2" => [
+//            'name' => 'Native-2x2',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "Native-1x1" => [
+//            'name' => 'Native-1x1',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "Video-498x280" => [
+//            'name' => 'Video-498x280',
+//            'size' => [
+//                498,
+//                280
+//            ]
+//        ],
+//        "Video-1x1" => [
+//            'name' => 'Video-1x1',
+//            'size' => [
+//                1,
+//                1
+//            ]
+//        ],
+//        "Video-600x400" => [
+//            'name' => 'Video-600x400',
+//            'size' => [
+//                600,
+//                400
+//            ]
+//        ],
+//        "Video-500x300" => [
+//            'name' => 'Video-500x300',
+//            'size' => [
+//                500,
+//                300
+//            ]
+//        ],
+//
 //    ];
-
     const DIMENSIONS = [
-        "B-970x250" =>[
-            'name' => 'B-970x250',
-            'size' => [
-                970,
-                250
-            ]
-        ],
-        "B-Stickyads" =>[
+        "B-Stickyads" => [
             'name' => 'B-Sticky ads',
             'size' => [
                 1,
                 1
             ]
         ],
-        "B-750x100" =>[
-            'name' => 'B-750x100',
-            'size' => [
-                750,
-                100
-            ]
-        ],
-        "B-300x250" =>[
-            'name' => 'B-300x250',
+        "Medium-Rectangle" => [
+            'name' => 'Medium Rectangle',
             'size' => [
                 300,
                 250
             ]
         ],
-        "B-728x280" =>[
-            'name' => 'B-728x280',
+        "Large-Rectangle" => [
+            'name' => 'Large Rectangle',
             'size' => [
-                728,
+                366,
                 280
             ]
         ],
-        "B-970x9" =>[
-            'name' => 'B-970x90',
+        "Leaderboard" => [
+            'name' => 'Leaderboard',
+            'size' => [
+                728,
+                90
+            ]
+        ],
+        "Large-Leaderboard" => [
+            'name' => 'Large Leaderboard',
+            'size' => [
+                750,
+                100
+            ]
+        ],
+        "Super-Leaderboard" => [
+            'name' => 'Super Leaderboard',
             'size' => [
                 970,
                 90
             ]
         ],
-        "B-160x640" =>[
-            'name' => 'B-160x640',
-            'size' => [
-                160,
-                640
-            ]
-        ],
-        "B-100%x100%" =>[
-            'name' => 'B-100%x100%',
-            'size' => [
-                '100%',
-                '100%'
-            ]
-        ],
-        "B-970x250" =>[
-            'name' => 'B-970x250',
+        "Billboard" => [
+            'name' => 'Billboard',
             'size' => [
                 970,
                 250
             ]
         ],
-        "B/M-320x100" =>[
-            'name' => 'B/M-320x100',
+        "Wide-Skycraper" => [
+            'name' => 'Wide Skycraper',
             'size' => [
-                320,
-                100
+                160,
+                600
             ]
         ],
-        "B/M-320x50" =>[
-            'name' => 'B/M-320x50',
+        "Half-page" => [
+            'name' => 'Half page',
             'size' => [
-                320,
-                50
+                300,
+                600
             ]
         ],
-        "Native-4x1,4x2" =>[
-            'name' => 'Native-4x1, 4x2',
+        "Flexible" => [
+            'name' => 'Flexible',
             'size' => [
-                1,
-                1
+                'auto',
+                'auto'
             ]
         ],
-        "Native-3x1,3x2" =>[
-            'name' => 'Native-3x1, 3x2',
+        "Video-Freesize" => [
+            'name' => 'Video Freesize',
             'size' => [
-                1,
-                1
+                '100%',
+                '100%'
             ]
         ],
-        "Native-2x12x2" =>[
-            'name' => 'Native-2x1, 2x2',
-            'size' => [
-                1,
-                1
-            ]
-        ],
-        "Native-1x1" =>[
-            'name' => 'Native-1x1',
-            'size' => [
-                1,
-                1
-            ]
-        ],
-        "Video-498x280" =>[
-            'name' => 'Video-498x280',
+        "Video-Large-498x280" => [
+            'name' => 'Video Large (498x280)',
             'size' => [
                 498,
                 280
             ]
         ],
-        "Video-1x1" =>[
-            'name' => 'Video-1x1',
-            'size' => [
-                1,
-                1
-            ]
-        ],
-        "Video-600x400" =>[
-            'name' => 'Video-600x400',
-            'size' => [
-                600,
-                400
-            ]
-        ],
-        "Video-500x300" =>[
-            'name' => 'Video-500x300',
+        "Video-Large-500x300" => [
+            'name' => 'Video Large (500x300)',
             'size' => [
                 500,
                 300
             ]
         ],
+        "Video-Large-600x400" => [
+            'name' => 'Video Large (600x400)',
+            'size' => [
+                600,
+                400
+            ]
+        ],
+        "Smart-Feed" => [
+            'name' => 'Smart Feed',
+            'size' => [
+                '100%',
+                'auto'
+            ]
+        ],
+        "Native-1x2" => [
+            'name' => 'Native (1x2)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Native-1x3" => [
+            'name' => 'Native (1x3)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Native-1x4" => [
+            'name' => 'Native (1x4)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Native-2x1" => [
+            'name' => 'Native (2x1)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Native-2x2" => [
+            'name' => 'Native (2x2)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Native-3x1" => [
+            'name' => 'Native (3x1)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Native-3x2" => [
+            'name' => 'Native (3x2)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Native-4x1" => [
+            'name' => 'Native (4x1)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Native-4x2" => [
+            'name' => 'Native (4x2)',
+            'size' => [
+                1,
+                1
+            ]
+        ],
+        "Mobile-320x50" => [
+            'name' => 'Mobile (320x50)',
+            'size' => [
+                320,
+                50
+            ]
+        ],
+        "Mobile-320x100" => [
+            'name' => 'Mobile (320x100)',
+            'size' => [
+                320,
+                100
+            ]
+        ],
+    ];
+
+    const DIMENSIONS_GROUP = [
+        'Best Performance' => [
+            "B-Stickyads" => [
+                'name' => 'B-Sticky ads',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Medium-Rectangle" => [
+                'name' => 'Medium Rectangle',
+                'size' => [
+                    300,
+                    250
+                ]
+            ],
+            "Video-Freesize" => [
+                'name' => 'Medium Rectangle',
+                'size' => [
+                    '100%',
+                    '100%'
+                ]
+            ],
+            "Flexible" => [
+                'name' => 'Flexible',
+                'size' => [
+                    '100%',
+                    '100%'
+                ]
+            ],
+        ],
+        'Dimension Banner' => [
+            "B-Stickyads" => [
+                'name' => 'B-Sticky ads',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Medium-Rectangle" => [
+                'name' => 'Medium Rectangle',
+                'size' => [
+                    300,
+                    250
+                ]
+            ],
+            "Large-Rectangle" => [
+                'name' => 'Large Rectangle',
+                'size' => [
+                    366,
+                    280
+                ]
+            ],
+            "Leaderboard" => [
+                'name' => 'Leaderboard',
+                'size' => [
+                    728,
+                    90
+                ]
+            ],
+            "Large-Leaderboard" => [
+                'name' => 'Large Leaderboard',
+                'size' => [
+                    750,
+                    100
+                ]
+            ],
+            "Super-Leaderboard" => [
+                'name' => 'Super Leaderboard',
+                'size' => [
+                    970,
+                    90
+                ]
+            ],
+            "Billboard" => [
+                'name' => 'Billboard',
+                'size' => [
+                    970,
+                    250
+                ]
+            ],
+            "Wide-Skycraper" => [
+                'name' => 'Wide Skycraper',
+                'size' => [
+                    160,
+                    600
+                ]
+            ],
+            "Half-page" => [
+                'name' => 'Half page',
+                'size' => [
+                    300,
+                    600
+                ]
+            ],
+            "Flexible" => [
+                'name' => 'Flexible',
+                'size' => [
+                    'auto',
+                    'auto'
+                ]
+            ],
+        ],
+        'Dimension Video' => [
+            "Video-Freesize" => [
+                'name' => 'Video Freesize',
+                'size' => [
+                    '100%',
+                    '100%'
+                ]
+            ],
+            "Video-Large-498x280" => [
+                'name' => 'Video Large (498x280)',
+                'size' => [
+                    498,
+                    280
+                ]
+            ],
+            "Video-Large-500x300" => [
+                'name' => 'Video Large (500x300)',
+                'size' => [
+                    500,
+                    300
+                ]
+            ],
+            "Video-Large-600x400" => [
+                'name' => 'Video Large (600x400)',
+                'size' => [
+                    600,
+                    400
+                ]
+            ],
+        ],
+        'Dimension Native' => [
+            "Smart-Feed" => [
+                'name' => 'Smart Feed',
+                'size' => [
+                    '100%',
+                    'auto'
+                ]
+            ],
+            "Native-1x2" => [
+                'name' => 'Native (1x2)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Native-1x3" => [
+                'name' => 'Native (1x3)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Native-1x4" => [
+                'name' => 'Native (1x4)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Native-2x1" => [
+                'name' => 'Native (2x1)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Native-2x2" => [
+                'name' => 'Native (2x2)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Native-3x1" => [
+                'name' => 'Native (3x1)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Native-3x2" => [
+                'name' => 'Native (3x2)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Native-4x1" => [
+                'name' => 'Native (4x1)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Native-4x2" => [
+                'name' => 'Native (4x2)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+        ],
+        'Dimension Mobile' => [
+            "Mobile-320x50" => [
+                'name' => 'Mobile (320x50)',
+                'size' => [
+                    320,
+                    50
+                ]
+            ],
+            "Mobile-320x100" => [
+                'name' => 'Mobile (320x100)',
+                'size' => [
+                    320,
+                    100
+                ]
+            ],
+        ]
 
     ];
     const DIMENSION_METHOD = [
@@ -274,7 +661,7 @@ class Common
         5 => 'Bottom Right',
     ];
     const ID_AD_FORMAT = [
-      'HTML_JS' => 3
+        'HTML_JS' => 3
     ];
 
     const LIST_GEOS = [
@@ -293,12 +680,17 @@ class Common
 
     const ACTIVE = 1;
 
+    const STATUS_ADSERVER = [
+        3520 => 'Pending',
+        3500 => 'Approved',
+        3525 => 'Verification',
+        3510 => 'Rejected',
+    ];
+
     static function getNameDimension($height, $width)
     {
-        foreach (self::DIMENSIONS as $key => $item)
-        {
-            if ($item['size'][0] == $height && $item['size'][1] == $width)
-            {
+        foreach (self::DIMENSIONS as $key => $item) {
+            if ($item['size'][0] == $height && $item['size'][1] == $width) {
                 return $key;
             }
         }
@@ -308,5 +700,10 @@ class Common
     public function listUserGroupAdmin()
     {
         return User::where('is_admin', '<>', 0)->where('active', self::ACTIVE)->get();
+    }
+
+    public function listUserGroupAM()
+    {
+        return User::where('is_admin', '<>', 0)->where('role_id', 5)->where('active', self::ACTIVE)->get();
     }
 }

@@ -42,7 +42,7 @@
                                     <th>Date</th>
                                     <th>Web</th>
                                     <th>Zone</th>
-                                    <th>Requests</th>
+                                    <th class="sort {{ (request('sort') == 'ASC') ? 'ASC' : 'DESC'}}">Requests <i class="fa-solid fa-sort"></i></th>
                                     <th>Impressions</th>
                                     <th>Fill Rate %</th>
                                     <th>CPM</th>
@@ -68,7 +68,7 @@
                                         $aveCount = 0;
                                         $aveShare = 0;
                                         $totalPIm = 0;
-                                        $totalPCpm = 0;
+                                        $avePCpm = 0;
                                         $totalPReve = 0;
                                         $totalPProfit = 0;
 
@@ -130,7 +130,7 @@
                                                 $aveCount += $item->change_count;
                                                 $aveShare += $item->change_share;
                                                 $totalPIm += $pImp;
-                                                $totalPCpm += $pCpm;
+                                                $avePCpm += $pCpm;
                                                 $totalPReve += $pRevenue;
                                                 $totalPProfit += $pProfit;
                                                 ?>
@@ -143,7 +143,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if($item->status != 1)
+                                                @if($item->status != 1 || auth()->user()->role_id == 1)
                                                 <button type="button" class="btn btn-primary btn-change-revenue">Save
                                                 </button>
                                                 <button type="button" class="btn btn btn-info btn-edit">Edit
@@ -182,7 +182,7 @@
                                             {{round($aveShare/count($items), 3)}}
                                         </td>
                                         <td class="pImp">{{number_format($totalPIm)}}</td>
-                                        <td class="pCpm">{{$totalPCpm}}</td>
+                                        <td class="pCpm">{{round($avePCpm/count($items), 3)}}</td>
                                         <td class="pRevenue">{{$totalPReve}}</td>
                                         <td class="pProfit">{{$totalPProfit}}</td>
                                         <td></td>
@@ -193,7 +193,7 @@
                             </table>
                         </div>
                         <div>
-                            {{ $items->links('pagination::bootstrap-4') }}
+                            @include('administrator.components.footer_table')
                         </div>
                     </div>
                 </div>
@@ -245,6 +245,21 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('.sort').click(function() {
+            var $this = $(this);
+            var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
+            var currentUrl = window.location.href;
+            var url = new URL(currentUrl);
+            url.searchParams.set('sort', sort);
+
+            // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
+            $('.sort').removeClass('asc desc');
+            // Thêm class mới tương ứng với trạng thái sort
+            $this.addClass(sort);
+
+            // Chuyển hướng đến URL mới để load lại trang với tham số sort
+            window.location.href = url.href;
+        });
         $('input[name="change_count"], input[name="change_share"]').on('input', function () {
             var $row = $(this).closest('tr'); // Tìm hàng gần nhất chứa các phần tử input
             var change_count = parseFloat($row.find('input[name="change_count"]').val()) || 0;

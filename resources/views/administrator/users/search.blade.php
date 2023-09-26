@@ -1,39 +1,100 @@
 <div>
-{{--    @include('administrator.components.search')--}}
+    {{--    @include('administrator.components.search')--}}
 
-    <div>
-        <div class="float-start">
-            <select name="limit" class="form-control select2_init">
-                @foreach(config('_my_config.items_show_in_table') as $itemShowInTable)
-                    <option
-                        value="{{$itemShowInTable}}" {{request('limit') == $itemShowInTable ? 'selected' : ''}}>{{$itemShowInTable}}</option>
-                @endforeach
-            </select>
+    {{--    <div>--}}
+    {{--        <div class="float-start">--}}
+    {{--            <select name="limit" class="form-control select2_init">--}}
+    {{--                @foreach(config('_my_config.items_show_in_table') as $itemShowInTable)--}}
+    {{--                    <option--}}
+    {{--                        value="{{$itemShowInTable}}" {{request('limit') == $itemShowInTable ? 'selected' : ''}}>{{$itemShowInTable}}</option>--}}
+    {{--                @endforeach--}}
+    {{--            </select>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+
+    {{--    <a href="{{route('administrator.'.$prefixView.'.create')}}" class="btn btn-outline-success float-end"><i--}}
+    {{--            class="fa-solid fa-plus"></i></a>--}}
+    <form action="{{route('administrator.users.index')}}" method="GET">
+        <div class="row">
+            @if(auth()->user()->role->id != \App\Models\User::ROLE_PUBLISHER_MANAGER)
+                <div class="col-sm-3">
+                    <label>Manager</label>
+                    <select name="user_assign" id="user_assign" class="form-control">
+                        <option value=null>-All-</option>
+                        @foreach($listUserGroupAdmin as $userAdmin)
+                            <option
+                                value="{{$userAdmin->id}}" {{request()->get('user_assign') == $userAdmin->id ?'selected' : ''}}>{{$userAdmin->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
+            <div class="col-sm-3">
+                <label>Email</label>
+                <select class="form-control" id="publisher_id" name="publisher_id">
+                    <option value="">-Email-</option>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ request('publisher_id') == $user->id ? 'selected' : ''}}>{{ $user->email }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label>Website</label>
+                <select class="form-control" id="website" name="website_id">
+                    <option value="">-Website-</option>
+                    @foreach($websites as $website)
+                        <option value="{{ $website->id }}" {{ request('website_id') == $website->id ? 'selected' : ''}}>{{ $website->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label>Verify</label>
+                <select name="verify" id="verify" class="form-control">
+                    <option value=null>-All-</option>
+                    <option value=1 {{request()->get('verify') === '1' ? 'selected' : ''}}>Verify</option>
+                    <option value=0 {{request()->get('verify') === '0' ? 'selected' : ''}}>No verify</option>
+                </select>
+            </div>
         </div>
-    </div>
-
-{{--    <a href="{{route('administrator.'.$prefixView.'.create')}}" class="btn btn-outline-success float-end"><i--}}
-{{--            class="fa-solid fa-plus"></i></a>--}}
-    <a href="javascript:void(0)" class="btn btn-outline-success float-end" data-bs-toggle="modal" data-bs-target="#addPulisher"><i
+        <br>
+        <div class="row">
+            <div class="col-sm-3">
+                <label>Balance</label>
+                <select name="balance" id="balance" class="form-control">
+                    <option value=0>-All-</option>
+                    <option value=1 {{request()->get('balance') == '1' ? 'selected' : ''}}> is money </option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label>Status</label>
+                <select name="active" id="active" class="form-control">
+                    <option value=null>-All-</option>
+                    <option value=1 {{request()->get('active') === '1' ? 'selected' : ''}}>Active</option>
+                    <option value=0 {{request()->get('active') === '0' ? 'selected' : ''}}>No active</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label>Site status</label>
+                <select name="site_status[]" id="site_status" multiple class="form-control">
+                    <option value=null>-All-</option>
+                    <option value=3520 {{in_array(3520, request()->get('site_status') ?? []) ? 'selected' : ''}}>Pending</option>
+                    <option value=3500 {{in_array(3500, request()->get('site_status') ?? []) ? 'selected' : ''}}>Approved</option>
+                    <option value=3525 {{in_array(3525, request()->get('site_status') ?? []) ? 'selected' : ''}}>Verification</option>
+                    <option value=3510 {{in_array(3510, request()->get('site_status') ?? []) ? 'selected' : ''}}>Rejected</option>
+                </select>
+            </div>
+            <div class="col-sm-2 d-flex align-items-end">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primary btn-block">Search</button>
+            </div>
+        </div>
+    </form>
+    <a href="javascript:void(0)" class="btn btn-outline-success float-end" data-bs-toggle="modal"
+       data-bs-target="#addPulisher"><i
             class="fa-solid fa-plus"></i></a>
 
-{{--    <a href="{{route('administrator.'.$prefixView.'.export')}}" class="btn btn-outline-primary float-end me-2" data-bs-original-title="" title="Excel"><i class="fa-sharp fa-solid fa-file-excel"></i></i></a>--}}
+    {{--    <a href="{{route('administrator.'.$prefixView.'.export')}}" class="btn btn-outline-primary float-end me-2" data-bs-original-title="" title="Excel"><i class="fa-sharp fa-solid fa-file-excel"></i></i></a>--}}
 
     <div class="clearfix"></div>
-
-{{--    <div class="row">--}}
-{{--        <div class="col-md-3">--}}
-{{--            <div class="mt-3">--}}
-{{--                <label>Lọại khách hàng</label>--}}
-{{--                <select name="user_type_id" class="form-control select2_init_allow_clear">--}}
-{{--                    @foreach($userTypes as $userTypeItem)--}}
-{{--                        <option value="{{$userTypeItem->id}}" {{request('user_type_id') == $userTypeItem->id ? 'selected' : ''}}>{{$userTypeItem->name}}</option>--}}
-{{--                    @endforeach--}}
-{{--                </select>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
-{{--    </div>--}}
 </div>
 
 <div class="modal fade" id="addPulisher" role="dialog" aria-labelledby="addPulisher" aria-hidden="true">
@@ -47,30 +108,30 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label>Email<span class="text-danger">*</span></label>
-                        <input type="text" name="email" class="form-control">
+                        <input type="text" name="email_store" class="form-control">
                     </div>
                     <div class="mb-3">
                         <label>Mật khẩu<span class="text-danger">*</span></label>
-                        <input type="password" name="password" class="form-control">
+                        <input type="password" name="password_store" class="form-control">
                     </div>
                     @if(auth()->user()->role->id != \App\Models\User::ROLE_PUBLISHER_MANAGER)
-                    <div class="mb-3">
-                        <input type="text" hidden name="manager_id" class="form-control" value="{{auth()->user()->id}}">
-{{--                        @include('administrator.components.select_category' , ['label' => 'Manager','name' => 'manager_id_add' ,'html_category' => \App\Models\User::getCategory(isset($item) ? optional($item)->manger_id : '')])--}}
-                        <label>Assign User</label>
-                        <select id="assign_user" class="form-control choose_value select2_init" required
-                                name="assign_user">
-                            <option value='null'>-Select-</option>
-                            @foreach($listUserGroupAdmin as $userAdmin)
-                                <option value="{{$userAdmin->id}}">{{$userAdmin->name}}</option>
-                            @endforeach
-                        </select>
+                        <div class="mb-3">
+                            <input type="text" hidden name="manager_id_store" class="form-control" value="{{auth()->user()->id}}">
+                            {{--                        @include('administrator.components.select_category' , ['label' => 'Manager','name' => 'manager_id_add' ,'html_category' => \App\Models\User::getCategory(isset($item) ? optional($item)->manger_id : '')])--}}
+                            <label>Assign User</label>
+                            <select id="assign_user" class="form-control choose_value select2_init" required
+                                    name="assign_user_store">
+                                <option value='null'>-Select-</option>
+                                @foreach($listUserGroupAdmin as $userAdmin)
+                                    <option value="{{$userAdmin->id}}">{{$userAdmin->name}}</option>
+                                @endforeach
+                            </select>
 
-                    </div>
+                        </div>
                     @endif
                     <div class="mb-3">
                         <label>Active? @include('user.components.lable_require')</label>
-                        <select class="form-control choose_value select2_init" name="user_status_id_add">
+                        <select class="form-control choose_value select2_init" name="user_status_id_add_store">
                             @foreach(\App\Models\UserStatus::all() as $itemUserStatus)
                                 <option
                                     value="{{$itemUserStatus->id}}" {{$itemUserStatus->id == old('user_status_id') ? 'selected' : ''}}>{{$itemUserStatus->name}}</option>
@@ -86,7 +147,21 @@
     </div>
 </div>
 
+{{--<script>--}}
+{{--    $(document).ready(function() {--}}
+{{--        $('#publisher_id').select2({--}}
+{{--            maximumSelectionLength: 5,--}}
+{{--            placeholder: "-Publisher-",--}}
+{{--            allowClear: true--}}
+{{--        });--}}
+{{--    });--}}
+{{--</script>--}}
+
 <script>
+
+    $(document).ready(function () {
+        $("#publisher_id, #website, #user_assign, #verify, #active, #site_status").select2({});
+    });
 
     $('select[name="limit"]').on('change', function () {
         addUrlParameter('limit', this.value)
@@ -124,11 +199,11 @@
             type: 'POST',
             url: '{{ route('administrator.users.store') }}',
             data: {
-                email: $('input[name="email"]').val(),
-                password: $('input[name="password"]').val(),
-                manager_id: $('input[name="manager_id"]').val(),
-                assign_user: $('select[name="assign_user"]').val(),
-                user_status_id: $('select[name="user_status_id_add"]').val(),
+                email: $('input[name="email_store"]').val(),
+                password: $('input[name="password_store"]').val(),
+                manager_id: $('input[name="manager_id_store"]').val(),
+                assign_user: $('select[name="assign_user_store"]').val(),
+                user_status_id: $('select[name="user_status_id_add_store"]').val(),
             },
             beforeSend: function() {
                 showLoading()

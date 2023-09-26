@@ -23,37 +23,20 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Request</h6>
-                                    <h4 class="mb-0 counter">{{ number_format($totalRequest) }}</h4>
+                                    <h4 class="mb-0 counter">{{ number_format($totalReport->totalRequests ?? 0) }}</h4>
                                 </div>
-                                <svg class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.73709 35.2337C6.17884 31.58 4.00316 26.8452 3.49802 21.7377C1.60687 24.237 0.581465 27.3024 0.586192 30.5195C0.589372 32.612 1.03986 34.692 1.89348 36.5729L0.1333 41.9282C-0.169286 42.8488 0.0517454 43.8484 0.7102 44.5369C1.17358 45.0213 1.78451 45.2794 2.4128 45.2794C2.67714 45.2794 2.94458 45.2337 3.2054 45.14L8.32806 43.2997C10.1272 44.1922 12.1167 44.6631 14.1182 44.6665C17.2557 44.6709 20.2418 43.558 22.657 41.5068C17.8005 41.0474 13.2702 38.8615 9.73709 35.2337Z"></path>
-                                    <path d="M43.8418 35.7427L41.2863 27.9674C42.5181 25.3348 43.1691 22.407 43.1735 19.4611C43.181 14.3388 41.2854 9.49561 37.8357 5.82369C34.3853 2.15096 29.7875 0.0836476 24.889 0.00251856C19.8097 -0.0814855 15.0354 1.93839 11.446 5.69081C7.85665 9.44332 5.92425 14.4346 6.00469 19.7451C6.08229 24.8661 8.05972 29.673 11.5726 33.2803C15.078 36.8798 19.6988 38.861 24.5879 38.8608C24.5975 38.8608 24.6077 38.8608 24.6171 38.8608C27.435 38.8563 30.2356 38.1757 32.7537 36.8879L40.1911 39.5596C40.501 39.671 40.8188 39.7252 41.1329 39.7252C41.8795 39.7252 42.6055 39.4187 43.1563 38.8428C43.9388 38.0247 44.2014 36.8369 43.8418 35.7427ZM26.3834 26.1731H16.7865C16.0633 26.1731 15.477 25.5601 15.477 24.804C15.477 24.0479 16.0633 23.435 16.7865 23.435H26.3833C27.1066 23.435 27.6929 24.048 27.6929 24.804C27.6929 25.5602 27.1067 26.1731 26.3834 26.1731ZM32.3894 20.5426H16.7866C16.0633 20.5426 15.4771 19.9296 15.4771 19.1736C15.4771 18.4176 16.0634 17.8046 16.7866 17.8046H32.3894C33.1127 17.8046 33.6989 18.4176 33.6989 19.1736C33.6989 19.9296 33.1127 20.5426 32.3894 20.5426ZM32.3894 14.912H16.7866C16.0633 14.912 15.4771 14.299 15.4771 13.543C15.4771 12.7869 16.0634 12.1739 16.7866 12.1739H32.3894C33.1127 12.1739 33.6989 12.787 33.6989 13.543C33.6989 14.299 33.1127 14.912 32.3894 14.912Z"></path>
-                                </svg>
+                                <div class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
+                                     <span class="badge bg-success"><i class="fa-solid fa-square-arrow-up-right"></i>
+                                        {{$totalReportLastMonth->totalRequests != 0 ? number_format((($totalReport->totalRequests) / ($totalReportLastMonth->totalRequests)) * 100, 3) : ''}}
+                                        %
+                                        </span>
+                                </div>
                             </div>
                             <div class="progress-widget">
-                                <div class="progress sm-progress-bar progress-animate">
-                                    <div class="progress-gradient-primary" role="progressbar" style="width: 48%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span class="animate-circle"></span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-4 col-lg-6">
-                    <div class="card o-hidden">
-                        <div class="card-body">
-                            <div class="media static-widget">
-                                <div class="media-body">
-                                    <h6 class="font-roboto">CPM trung bình</h6>
-                                    <h4 class="mb-0">${{ number_format($averageCPM, 3) }}</h4>
-                                </div>
-                                <svg class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.73709 35.2337C6.17884 31.58 4.00316 26.8452 3.49802 21.7377C1.60687 24.237 0.581465 27.3024 0.586192 30.5195C0.589372 32.612 1.03986 34.692 1.89348 36.5729L0.1333 41.9282C-0.169286 42.8488 0.0517454 43.8484 0.7102 44.5369C1.17358 45.0213 1.78451 45.2794 2.4128 45.2794C2.67714 45.2794 2.94458 45.2337 3.2054 45.14L8.32806 43.2997C10.1272 44.1922 12.1167 44.6631 14.1182 44.6665C17.2557 44.6709 20.2418 43.558 22.657 41.5068C17.8005 41.0474 13.2702 38.8615 9.73709 35.2337Z"></path>
-                                    <path d="M43.8418 35.7427L41.2863 27.9674C42.5181 25.3348 43.1691 22.407 43.1735 19.4611C43.181 14.3388 41.2854 9.49561 37.8357 5.82369C34.3853 2.15096 29.7875 0.0836476 24.889 0.00251856C19.8097 -0.0814855 15.0354 1.93839 11.446 5.69081C7.85665 9.44332 5.92425 14.4346 6.00469 19.7451C6.08229 24.8661 8.05972 29.673 11.5726 33.2803C15.078 36.8798 19.6988 38.861 24.5879 38.8608C24.5975 38.8608 24.6077 38.8608 24.6171 38.8608C27.435 38.8563 30.2356 38.1757 32.7537 36.8879L40.1911 39.5596C40.501 39.671 40.8188 39.7252 41.1329 39.7252C41.8795 39.7252 42.6055 39.4187 43.1563 38.8428C43.9388 38.0247 44.2014 36.8369 43.8418 35.7427ZM26.3834 26.1731H16.7865C16.0633 26.1731 15.477 25.5601 15.477 24.804C15.477 24.0479 16.0633 23.435 16.7865 23.435H26.3833C27.1066 23.435 27.6929 24.048 27.6929 24.804C27.6929 25.5602 27.1067 26.1731 26.3834 26.1731ZM32.3894 20.5426H16.7866C16.0633 20.5426 15.4771 19.9296 15.4771 19.1736C15.4771 18.4176 16.0634 17.8046 16.7866 17.8046H32.3894C33.1127 17.8046 33.6989 18.4176 33.6989 19.1736C33.6989 19.9296 33.1127 20.5426 32.3894 20.5426ZM32.3894 14.912H16.7866C16.0633 14.912 15.4771 14.299 15.4771 13.543C15.4771 12.7869 16.0634 12.1739 16.7866 12.1739H32.3894C33.1127 12.1739 33.6989 12.787 33.6989 13.543C33.6989 14.299 33.1127 14.912 32.3894 14.912Z"></path>
-                                </svg>
-                            </div>
-                            <div class="progress-widget">
-                                <div class="progress sm-progress-bar progress-animate">
-                                    <div class="progress-gradient-primary" role="progressbar" style="width: 48%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span class="animate-circle"></span></div>
+                                <div style="text-align: right">
+                                    <div class="badge bg-primary">
+                                        Last: {{number_format($totalReportLastMonth->totalRequests)}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -65,16 +48,45 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Revenue</h6>
-                                    <h4 class="mb-0">${{ number_format($revenue, 2) }}</h4>
+                                    <h4 class="mb-0">${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h4>
                                 </div>
-                                <svg class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9.73709 35.2337C6.17884 31.58 4.00316 26.8452 3.49802 21.7377C1.60687 24.237 0.581465 27.3024 0.586192 30.5195C0.589372 32.612 1.03986 34.692 1.89348 36.5729L0.1333 41.9282C-0.169286 42.8488 0.0517454 43.8484 0.7102 44.5369C1.17358 45.0213 1.78451 45.2794 2.4128 45.2794C2.67714 45.2794 2.94458 45.2337 3.2054 45.14L8.32806 43.2997C10.1272 44.1922 12.1167 44.6631 14.1182 44.6665C17.2557 44.6709 20.2418 43.558 22.657 41.5068C17.8005 41.0474 13.2702 38.8615 9.73709 35.2337Z"></path>
-                                    <path d="M43.8418 35.7427L41.2863 27.9674C42.5181 25.3348 43.1691 22.407 43.1735 19.4611C43.181 14.3388 41.2854 9.49561 37.8357 5.82369C34.3853 2.15096 29.7875 0.0836476 24.889 0.00251856C19.8097 -0.0814855 15.0354 1.93839 11.446 5.69081C7.85665 9.44332 5.92425 14.4346 6.00469 19.7451C6.08229 24.8661 8.05972 29.673 11.5726 33.2803C15.078 36.8798 19.6988 38.861 24.5879 38.8608C24.5975 38.8608 24.6077 38.8608 24.6171 38.8608C27.435 38.8563 30.2356 38.1757 32.7537 36.8879L40.1911 39.5596C40.501 39.671 40.8188 39.7252 41.1329 39.7252C41.8795 39.7252 42.6055 39.4187 43.1563 38.8428C43.9388 38.0247 44.2014 36.8369 43.8418 35.7427ZM26.3834 26.1731H16.7865C16.0633 26.1731 15.477 25.5601 15.477 24.804C15.477 24.0479 16.0633 23.435 16.7865 23.435H26.3833C27.1066 23.435 27.6929 24.048 27.6929 24.804C27.6929 25.5602 27.1067 26.1731 26.3834 26.1731ZM32.3894 20.5426H16.7866C16.0633 20.5426 15.4771 19.9296 15.4771 19.1736C15.4771 18.4176 16.0634 17.8046 16.7866 17.8046H32.3894C33.1127 17.8046 33.6989 18.4176 33.6989 19.1736C33.6989 19.9296 33.1127 20.5426 32.3894 20.5426ZM32.3894 14.912H16.7866C16.0633 14.912 15.4771 14.299 15.4771 13.543C15.4771 12.7869 16.0634 12.1739 16.7866 12.1739H32.3894C33.1127 12.1739 33.6989 12.787 33.6989 13.543C33.6989 14.299 33.1127 14.912 32.3894 14.912Z"></path>
-                                </svg>
+                                <div class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
+                                     <span class="badge bg-success"><i class="fa-solid fa-square-arrow-up-right"></i>
+                                        {{$totalReportLastMonth->totalRevenue != 0 ? number_format((($totalReport->totalRevenue) / ($totalReportLastMonth->totalRevenue)) * 100, 3) : ''}}
+                                        %
+                                        </span>
+                                </div>
                             </div>
                             <div class="progress-widget">
-                                <div class="progress sm-progress-bar progress-animate">
-                                    <div class="progress-gradient-primary" role="progressbar" style="width: 48%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span class="animate-circle"></span></div>
+                                <div style="text-align: right">
+                                    <div class="badge bg-primary">
+                                        Last: {{number_format(floor($totalReportLastMonth->totalRevenue ?? 0))}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-4 col-lg-6">
+                    <div class="card o-hidden">
+                        <div class="card-body">
+                            <div class="media static-widget">
+                                <div class="media-body">
+                                    <h6 class="font-roboto">CPM</h6>
+                                    <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
+                                </div>
+                                <div class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
+                                     <span class="badge bg-success"><i class="fa-solid fa-square-arrow-up-right"></i>
+                                        {{$totalReportLastMonth->averageCpm !=0 ? number_format((($totalReport->averageCpm) / ($totalReportLastMonth->averageCpm)) * 100, 3) : ''}}
+                                        %
+                                        </span>
+                                </div>
+                            </div>
+                            <div class="progress-widget">
+                                <div style="text-align: right">
+                                    <div class="badge bg-primary">
+                                        Last: {{number_format($totalReportLastMonth->averageCpm)}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +98,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Total Publisher</h6>
-                                    <h4 class="mb-0">{{number_format($numberPublisher)}}</h4>
+                                    <h4 class="mb-0">{{number_format($totalPublisher)}}</h4>
                                 </div>
                                 <svg class="fill-danger" width="41" height="46" viewBox="0 0 41 46"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -114,19 +126,14 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Total Websites</h6>
-                                    <h4 class="mb-0 counter">{{ number_format($numberSites) }}</h4>
+                                    <h4 class="mb-0 counter">{{ number_format($totalSite) }}</h4>
                                 </div>
-                                <svg class="fill-secondary" width="48" height="48" viewBox="0 0 48 48" fill="none"
+                                <svg class="fill-success" width="45" height="39" viewBox="0 0 45 39" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M22.5938 14.1562V17.2278C20.9604 17.8102 19.7812 19.3566 19.7812 21.1875C19.7812 23.5138 21.6737 25.4062 24 25.4062C24.7759 25.4062 25.4062 26.0366 25.4062 26.8125C25.4062 27.5884 24.7759 28.2188 24 28.2188C23.2241 28.2188 22.5938 27.5884 22.5938 26.8125H19.7812C19.7812 28.6434 20.9604 30.1898 22.5938 30.7722V33.8438H25.4062V30.7722C27.0396 30.1898 28.2188 28.6434 28.2188 26.8125C28.2188 24.4862 26.3263 22.5938 24 22.5938C23.2241 22.5938 22.5938 21.9634 22.5938 21.1875C22.5938 20.4116 23.2241 19.7812 24 19.7812C24.7759 19.7812 25.4062 20.4116 25.4062 21.1875H28.2188C28.2188 19.3566 27.0396 17.8102 25.4062 17.2278V14.1562H22.5938Z"></path>
-                                    <path
-                                        d="M25.4062 0V11.4859C31.2498 12.1433 35.8642 16.7579 36.5232 22.5938H48C47.2954 10.5189 37.4829 0.704531 25.4062 0Z"></path>
-                                    <path
-                                        d="M14.1556 31.8558C12.4237 29.6903 11.3438 26.9823 11.3438 24C11.3438 17.5025 16.283 12.1958 22.5938 11.4859V0C10.0492 0.731813 0 11.2718 0 24C0 30.0952 2.39381 35.6398 6.14897 39.8624L14.1556 31.8558Z"></path>
-                                    <path
-                                        d="M47.9977 25.4062H36.5143C35.8044 31.717 30.4977 36.6562 24.0002 36.6562C21.0179 36.6562 18.3099 35.5763 16.1444 33.8444L8.13779 41.851C12.3604 45.6062 17.905 48 24.0002 48C36.7284 48 47.2659 37.9508 47.9977 25.4062Z"></path>
+                                   <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z"/>
+
                                 </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="fill-secondary" height="39" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z"/></svg>
                             </div>
                             <div class="progress-widget">
                                 <div class="progress sm-progress-bar progress-animate">
@@ -144,7 +151,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Total Zones</h6>
-                                    <h4 class="mb-0 counter">{{number_format($numberZones)}}</h4>
+                                    <h4 class="mb-0 counter">{{number_format($totalZone)}}</h4>
                                 </div>
                                 <svg class="fill-success" width="45" height="39" viewBox="0 0 45 39" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -176,7 +183,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">Pending Zones</h6>
-                                    <h4 class="mb-0 counter">{{number_format($pendingZones)}}</h4>
+                                    <h4 class="mb-0 counter">{{number_format($totalZonePending)}}</h4>
                                 </div>
                                 <svg class="fill-success" width="45" height="39" viewBox="0 0 45 39" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -205,11 +212,25 @@
                 <div class="col-sm-12 col-xl-12 box-col-12">
                     <div class="card">
                         <div class="card-header pb-0" style="display: flex; justify-content: space-between; align-items: center">
-                            <h5 class="col-xl-10">Statistics</h5>
-                            <select  name="type" class="select2_init" onchange="onSearchQuery()">
-                                <option value="">--Select--</option>
+                            <h5 class="col-sm-8">Statistics</h5>
+
+                            @if(auth()->user()->role->id != \App\Models\User::ROLE_PUBLISHER_MANAGER)
+                                <select name="publisher_manager_id" class="form-control col-sm-2"
+                                        id="publisher_manager_id"
+                                        onchange="onSearchQuery()">
+                                    <option value="">--Publisher Manager--</option>
+                                    @foreach($userPublisherManager as $itemPublisherManager)
+                                        <option
+                                            value="{{$itemPublisherManager->id}}" {{ !empty($_GET['publisher_manager_id']) && $_GET['publisher_manager_id'] ==  $itemPublisherManager->id ? 'selected' : '' }}>
+                                            {{$itemPublisherManager->name}}
+                                        </option>
+                                    @endforeach
+                                </select>&ensp;
+                            @endif
+                            <select class="form-control col-sm-2" id="type" name="type" onchange="onSearchQuery()">
+                                <option value="">-- Time --</option>
                                 <option value="week" {{ isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'week' ? 'selected' : '' }}>Week</option>
-                                <option value="month" {{ isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'month' ? 'selected' : '' }}>Month</option>
+{{--                                <option value="month" {{ isset($_GET['type']) && !empty($_GET['type']) && $_GET['type'] == 'month' ? 'selected' : '' }}>Month</option>--}}
                             </select>
                         </div>
                         <div id="chart_custom"></div>
@@ -229,10 +250,12 @@
                                     <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th width="20%" class="text-center">IMP</th>
-                                        <th width="20%" class="text-center">Paid Impressions</th>
-                                        <th width="20%" class="text-center">Paid CPM</th>
-                                        <th width="20%" class="text-center">Paid Revenue</th>
+                                        <th class="text-center">Request</th>
+                                        <th class="text-center">Paid Impressions</th>
+                                        <th class="text-center">Revenue</th>
+                                        <th class="text-center">Paid Revenue</th>
+                                        <th class="text-center">Profit</th>
+                                        <th class="text-center">Paid CPM</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -240,19 +263,25 @@
                                     @foreach($items as $item)
                                         <tr>
                                             <td>
-                                                {{$item['dimension']}}
+                                                {{$item['date']}}
                                             </td>
                                             <td class="text-center">
-                                                {{number_format($item['requests'])}}
+                                                {{number_format($item['totalRequests'])}}
                                             </td>
                                             <td class="text-center">
-                                                {{number_format($item['requests'] * 80 / 100)}}
+                                                {{number_format($item['paidImpressions'])}}
                                             </td>
                                             <td class="text-center">
-                                                {{ number_format($averageCPMWeek, 3) }}
+                                                {{number_format($item['totalRevenue'])}}
                                             </td>
                                             <td class="text-center">
-                                                {{ number_format(($item['requests'] * 80 / 100) / 1000 * $averageCPMWeek, 1) }}
+                                                {{number_format($item['paidRevenue'])}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{number_format($item['totalRevenue'] - $item['paidRevenue'])}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{number_format($item['paidCpm'], 3)}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -276,9 +305,13 @@
 @section('js')
     <script src="{{ asset('/assets/administrator/js/chart/apex-chart/apex-chart.js') }}"></script>
     <script>
+        $(document).ready(function () {
+            $("#type, #publisher_manager_id").select2({});
+        });
         function onSearchQuery() {
             addUrlParameterObjects([
                 {name: "type", value: $('select[name="type"]').val()},
+                {name: "publisher_manager_id", value: $('select[name="publisher_manager_id"]').val()},
             ])
         }
     </script>
@@ -286,18 +319,24 @@
         // column chart
         var options = {
             series: [{
-                name: 'Request',
+                name: 'Total Impression',
                 type: 'column',
-                data: @json($requests)
+                data: @json($charts['series']['totalImpressions'])
             }, {
-                name: 'Impression',
+                name: 'Paid Impression',
                 type: 'column',
-                data: @json($impressions)
+                data: @json($charts['series']['paidImpressions'])
             }, {
-                name: 'CPM',
+                name: 'Total Revenue',
                 type: 'line',
-                data: @json($cpms)
-            }],
+                data: @json($charts['series']['totalRevenue'])
+            },
+            {
+                name: 'Revenue',
+                type: 'line',
+                data: @json($charts['series']['paidRevenue'])
+            }
+            ],
             chart: {
                 height: 350,
                 type: 'line',
@@ -306,10 +345,10 @@
                 enabled: false
             },
             stroke: {
-                width: [1, 1, 4]
+                width: [1, 1, 1, 1]
             },
             xaxis: {
-                categories: @json($days),
+                categories: @json($charts['options']),
             },
             yaxis: [
                 {
@@ -334,15 +373,14 @@
                         }
                     },
                     title: {
-                        text: "Request",
+                        text: "Total Impression",
                         style: {
                             color: '#008FFB',
                         }
                     },
                 },
                 {
-                    seriesName: 'Request',
-                    opposite: true,
+                    seriesName: 'Paid Impression',
                     axisTicks: {
                         show: true,
                     },
@@ -364,14 +402,14 @@
                         }
                     },
                     title: {
-                        text: "Impression",
+                        text: "Paid Impression",
                         style: {
                             color: '#00E396',
                         }
                     },
                 },
                 {
-                    seriesName: 'CPM',
+                    seriesName: 'Total Revenue',
                     opposite: true,
                     axisTicks: {
                         show: true,
@@ -386,9 +424,31 @@
                         },
                     },
                     title: {
-                        text: "CPM",
+                        text: "Total Revenue",
                         style: {
                             color: '#FEB019',
+                        }
+                    }
+                },
+                {
+                    seriesName: 'Revenue',
+                    opposite: true,
+                    axisTicks: {
+                        show: true,
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: 'rgb(255, 69, 96)'
+                    },
+                    labels: {
+                        style: {
+                            colors: 'rgb(255, 69, 96)',
+                        },
+                    },
+                    title: {
+                        text: "Revenue",
+                        style: {
+                            color: 'rgb(255, 69, 96)',
                         }
                     }
                 },

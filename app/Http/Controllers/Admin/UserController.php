@@ -11,6 +11,7 @@ use App\Models\Helper;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserType;
+use App\Models\Website;
 use App\Services\AssignUserService;
 use App\Services\Common;
 use App\Services\UserService;
@@ -45,52 +46,28 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $listApiPublisherId = [];
-        $listUserAssign = [];
-
-//        if (!Gate::check('register-product-list')){
-//            return redirect()->route('administrator.dashboard.index');
-//        }
-//        if (auth()->user()->is_admin == 2 || optional(auth()->user()->role)->name == "Admin") {
-        $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4") ?? [];
-//        } else {
-//            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=4&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
-//        }
-        foreach ($items as $item)
-        {
-            $listApiPublisherId[] = $item['id'];
-        }
+        $request = $request->all();
 
         // Nếu là Publisher manager thì chỉ được nhìn các publisher tạo được ass
-        foreach ($items as $key => $item) {
-            $publisherInfo = User::where('api_publisher_id', $item['id'])->first();
-            if (empty($publisherInfo))
-                continue;
-
-            // Lấy thông tin các publisher được assign
-            $listUserAssign[$item['id']] = !empty($publisherInfo->getFirstUserAssign()->id) ? ($publisherInfo->getFirstUserAssign()->getInfoAssign()->name) : (empty($publisherInfo->manager_id) ? '' : User::find($publisherInfo->manager_id)->name);
-
-            if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
-                if ((!empty($publisherInfo->getFirstUserAssign()->user_id) && $publisherInfo->getFirstUserAssign()->user_id != auth()->user()->id) || empty($publisherInfo->getFirstUserAssign())) {
-                    unset($items[$key]);
-                }
-            }
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+            $request['user_assign'] = \auth()->user()->id;
+            $params['list_publisher_id'] = auth()->user()->getListUserAssign();
+            $users = User::whereIn('id', $params['list_publisher_id'])->orderBy('id', 'DESC')->get();
+            $websites = Website::whereIn('user_id', $params['list_publisher_id'])->where('is_delete', 0)->orderBy('id', 'DESC')->get();
         }
-
-//        $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
-        $users = User::whereIn('api_publisher_id', $listApiPublisherId)->get();
-
-        $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
-
-        $items = Formatter::paginator($request, $items);
-
+        else{
+            $websites = Website::where('is_delete', 0)->orderBy('id', 'DESC')->get();
+            $users = User::where('is_admin', 0)->orderBy('id', 'DESC')->get();
+        }
+        
+        $items = $this->userService->listUserPublisher($request);
         $data = [
             'items' => $items,
             'users' => $users,
-            'urls' => $urls,
-            'listUserAssign' => $listUserAssign,
+            'websites' => $websites,
             'listUserGroupAdmin' => $this->commonService->listUserGroupAdmin()
         ];
+
         return view('administrator.' . $this->prefixView . '.index', $data);
     }
 
@@ -197,7 +174,6 @@ class UserController extends Controller
             'status' => true,
             'message' => 'Update successful',
         ]);
-        //return redirect()->route('administrator.users.index');
     }
 
     public function delete(Request $request, $id)
@@ -325,18 +301,23 @@ class UserController extends Controller
     //access to user account
     public function imperrsonate(Request $request)
     {
+        $publisherId = $request->user_id;
 
-        $user_id = $request->user_id;
-//        if (session()->get('hasClonedUser') == 1) {
-//            auth()->loginUsingId(session()->remove('hasClonedUser'));
-//            session()->remove('hasClonedUser');
-//            return redirect()->route('administrator.users.index');
-//        }
+        $userInfo = User::where('api_publisher_id', $publisherId)->first();
+        if (empty($userInfo))
+            return abort(404);
 
         //only run for developer, clone selected user and create a cloned session
         session()->put('hasClonedUser', auth()->user()->id);
-        auth()->loginUsingId($user_id);
+        auth()->loginUsingId($userInfo->id);
         return redirect()->route('user.dashboard.index');
+    }
+
+    public function returnImpersonateAdmin(Request $request)
+    {
+        auth()->loginUsingId(session()->remove('hasClonedUser'));
+        session()->remove('hasClonedUser');
+        return redirect()->route('administrator.users.index');
     }
 
     //Partner
@@ -346,13 +327,9 @@ class UserController extends Controller
         $title = 'Partners';
         $prefixView = 'partner';
 
-        if (auth()->user()->is_admin != 2) {
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3&filter[idmanager]=" . auth()->user()->api_publisher_id) ?? [];
-        } else {
-            $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3") ?? [];
-        }
+        $items = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idrole]=3") ?? [];
 
-        $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
+        $users = User::where(['is_admin' => 0])->get();
 
         $urls = Helper::callGetHTTP('https://api.adsrv.net/v2/site?per-page=10000000');
 
@@ -407,7 +384,7 @@ class UserController extends Controller
     {
         $users = $this->model->searchByQuery($request, ['is_admin' => 0]);
 
-        $item = $this->model->updateByQuery($request, $request->id);
+        $item = $this->model->updateByQuery($request, $request->id, true);
         if (Helper::isErrorAPIAdserver($item)) {
             Session::flash("error", json_encode($item));
             return back();
@@ -421,3 +398,4 @@ class UserController extends Controller
     }
 
 }
+

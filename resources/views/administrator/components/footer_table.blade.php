@@ -5,7 +5,8 @@
         </div>
     @else
         <div style="padding: 20px;">
-            {{ $items->links('pagination::bootstrap-4') }}
+{{--            {{ $items->links('pagination::bootstrap-4') }}--}}
+            {{ $items->appends(request()->query())->links('pagination::bootstrap-4') }}
         </div>
 
     @endif

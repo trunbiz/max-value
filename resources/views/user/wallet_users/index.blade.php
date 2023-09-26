@@ -73,10 +73,10 @@
 {{--            <img src="{{ asset('assets/user/images/order.svg') }}" alt="">--}}
 {{--            Payment Orders--}}
 {{--        </a>--}}
-        <a href="{{ route('user.transection_users.index') }}" class="list__payment--item">
-            <img src="{{ asset('assets/user/images/transaction.svg') }}" alt="">
-            Transactions
-        </a>
+{{--        <a href="{{ route('user.transection_users.index') }}" class="list__payment--item">--}}
+{{--            <img src="{{ asset('assets/user/images/transaction.svg') }}" alt="">--}}
+{{--            Transactions--}}
+{{--        </a>--}}
 {{--        <a href="{{ route('user.preferences_users.index') }}" class="list__payment--item">--}}
 {{--            <img src="{{ asset('assets/user/images/payment.svg') }}" alt="">--}}
 {{--            Payment Preferences--}}
@@ -88,40 +88,40 @@
                 <div class="card-header wallet__template">
                     <h5>Balance Info</h5>
                 </div>
-                <div class="card-body general__info" style="min-height: 175px;">
-                    <div class="general__info--item text-primary">
+                <div class="card-body row" style="min-height: 175px;">
+                    <div class="col-sm-3 text-primary">
                         <p class="general__info--item_name">Available</p>
                         <p class="general__info--item_desc">
                             $
                             <span class="value_item">{{$amountAvailable}}</span>
                         </p>
                     </div>
-{{--                    <div class="general__info--item text-success">--}}
-{{--                        <p class="general__info--item_name">Unpaid</p>--}}
-{{--                        <p class="general__info--item_desc">--}}
-{{--                            $--}}
-{{--                            <span class="value_item">0</span>--}}
-{{--                        </p>--}}
-{{--                    </div>--}}
-                    <div class="general__info--item text-warning">
+                    <div class="col-sm-3 text-warning">
                         <p class="general__info--item_name">Pending</p>
                         <p class="general__info--item_desc">
                             $
                             <span class="value_item">{{$amountPending}}</span>
                         </p>
                     </div>
-{{--                    <div class="general__info--item text-info">--}}
-{{--                        <p class="general__info--item_name">Total Balance</p>--}}
-{{--                        <p class="general__info--item_desc">--}}
-{{--                            $--}}
-{{--                            <span class="value_item">0</span>--}}
-{{--                        </p>--}}
-{{--                    </div>--}}
-                    <div class="general__info--item text-danger">
-                        <p class="general__info--item_name">Total Withdraw</p>
+                    <div class="col-sm-3 text-danger">
+                        <p class="general__info--item_name">Rejected</p>
+                        <p class="general__info--item_desc">
+                            $
+                            <span class="value_item">{{$amountReject}}</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-3 text-success">
+                        <p class="general__info--item_name">Total withdrawn</p>
                         <p class="general__info--item_desc">
                             $
                             <span class="value_item">{{$amountTotalWithdraw}}</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-3 text-info">
+                        <p class="general__info--item_name">Total Earning</p>
+                        <p class="general__info--item_desc">
+                            $
+                            <span class="value_item">{{$totalEarning}}</span>
                         </p>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                         <div class="see-full">
                             <a href="javascript:void(0)" data-bs-toggle="modal" onclick="openOrder()" class="btn__see">
                                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.668 7.00014C13.668 10.6821 10.6832 13.6668 7.00133 13.6668C3.3194 13.6668 0.334625 10.6821 0.334625 7.00014C0.334625 3.31827 3.3194 0.333496 7.00133 0.333496C10.6832 0.333496 13.668 3.31827 13.668 7.00014ZM8.46086 6.5002L7.00119 5.04057C6.80599 4.8453 6.80599 4.52872 7.00119 4.33346C7.19646 4.1382 7.51306 4.1382 7.70833 4.33346L10.0215 6.64667C10.2168 6.84194 10.2168 7.15847 10.0215 7.35373L7.70846 9.6668C7.51326 9.86207 7.19666 9.86207 7.00139 9.6668C6.80613 9.47154 6.80613 9.15493 7.00139 8.95967L8.46086 7.5002H4.16796C3.89182 7.5002 3.66796 7.27634 3.66796 7.0002C3.66796 6.72407 3.89182 6.5002 4.16796 6.5002H8.46086Z" fill="#3FAE3B"></path></svg>
-                                Add
+                                New Request
                             </a>
                         </div>
                     </div>
@@ -222,8 +222,11 @@
 {{--                                        <p>12:00 AM</p>--}}
                                     </th>
                                     <th data-column="Payment Time">
-                                        <p>{{$itemTransaction->updated_at != $itemTransaction->created_at ? $itemTransaction->updated_at : ''}}</p>
-{{--                                        <p>11:59 PM</p>--}}
+                                        @if($itemTransaction->withdraw_status_id != \App\Models\WithdrawUser::STATUS_REJECT)
+                                            <p>{{$itemTransaction->updated_at != $itemTransaction->created_at ? $itemTransaction->updated_at : ''}}</p>
+                                            {{--                                        <p>11:59 PM</p>--}}
+                                        @endif
+
                                     </th>
                                 </tr>
                             @endforeach
@@ -592,6 +595,21 @@
         //    console.log($('select[name="method"]').val());
         // })
     </script>
+    <style>
+        .general__info--item_desc{
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 48px;
+            margin-top: 0;
+
+        }
+        .general__info--item_name{
+            font-weight: 300;
+            font-size: 12px;
+            line-height: 16px;
+        }
+
+    </style>
 
 @endsection
 

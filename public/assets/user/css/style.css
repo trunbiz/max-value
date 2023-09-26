@@ -355,10 +355,11 @@ body.active .sidebar__menu{
     width: 88px;
 }
 .sidebar__menu--logo{
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 40px 40px 40px;
+    padding: 10px 40px 20px 40px;
 }
 body.active .sidebar__menu--logo{
     padding: 17px 0 40px;
@@ -1494,9 +1495,9 @@ section.payment {
 .getcode__end p{
     margin: 10px 0;
 }
-table tbody tr td:last-child {
-    display: none;
-}
+/*table tbody tr td:last-child {*/
+/*    display: none;*/
+/*}*/
 @media screen and (max-width: 1024px) {
     .list__advs{
         grid-template-columns: repeat(2, 1fr);

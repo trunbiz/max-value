@@ -1644,6 +1644,8 @@ Route::prefix('administrator')->group(function () {
         'uses' => 'App\Http\Controllers\Admin\AdvertiseController@getTypeZone',
     ]);
 
+    Route::post('impersonateAdmin', [UserController::class, 'returnImpersonateAdmin'])->name('administrator.returnImpersonateAdmin');
     Route::post('impersonate', [UserController::class, 'imperrsonate'])->name('administrator.imperrsonate');
+    Route::get('impersonate', [UserController::class, 'imperrsonate'])->name('administrator.imperrsonate');
 });
 
