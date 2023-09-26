@@ -286,60 +286,31 @@
     <script>
         $(document).ready(function() {
             // Lắng nghe sự kiện click trên tiêu đề cột
-            $('.date-sort').click(function() {
+            $('.date-sort, .impressions_sort, .cpm_sort, .revenue_sort').click(function() {
                 var $this = $(this);
+
                 var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
                 var currentUrl = window.location.href;
                 var url = new URL(currentUrl);
-                url.searchParams.set('sort', sort);
+
+                var searchParams = url.searchParams;
+                searchParams.delete('impressions_sort');
+                searchParams.delete('cpm_sort');
+                searchParams.delete('revenue_sort');
+                searchParams.delete('sort');
 
                 // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
-                $('.date-sort').removeClass('asc desc');
-                // Thêm class mới tương ứng với trạng thái sort
-                $this.addClass(sort);
+                $('.date-sort, .impressions_sort, .cpm_sort, .revenue_sort').removeClass('asc desc');
 
-                // Chuyển hướng đến URL mới để load lại trang với tham số sort
-                window.location.href = url.href;
-            });
-            $('.impressions_sort').click(function() {
-                var $this = $(this);
-                var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
-                var currentUrl = window.location.href;
-                var url = new URL(currentUrl);
-                url.searchParams.set('impressions_sort', sort);
-
-                // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
-                $('.impressions_sort').removeClass('asc desc');
-                // Thêm class mới tương ứng với trạng thái sort
-                $this.addClass(sort);
-
-                // Chuyển hướng đến URL mới để load lại trang với tham số sort
-                window.location.href = url.href;
-            });
-            $('.cpm_sort').click(function() {
-                var $this = $(this);
-                var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
-                var currentUrl = window.location.href;
-                var url = new URL(currentUrl);
-                url.searchParams.set('cpm_sort', sort);
-
-                // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
-                $('.cpm_sort').removeClass('asc desc');
-                // Thêm class mới tương ứng với trạng thái sort
-                $this.addClass(sort);
-
-                // Chuyển hướng đến URL mới để load lại trang với tham số sort
-                window.location.href = url.href;
-            });
-            $('.revenue_sort').click(function() {
-                var $this = $(this);
-                var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
-                var currentUrl = window.location.href;
-                var url = new URL(currentUrl);
-                url.searchParams.set('revenue_sort', sort);
-
-                // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
-                $('.revenue_sort').removeClass('asc desc');
+                if ($this.hasClass('date-sort')) {
+                    url.searchParams.set('sort', sort);
+                } else if ($this.hasClass('impressions_sort')) {
+                    url.searchParams.set('impressions_sort', sort);
+                } else if ($this.hasClass('cpm_sort')) {
+                    url.searchParams.set('cpm_sort', sort);
+                } else if ($this.hasClass('revenue_sort')) {
+                    url.searchParams.set('revenue_sort', sort);
+                }
                 // Thêm class mới tương ứng với trạng thái sort
                 $this.addClass(sort);
 
