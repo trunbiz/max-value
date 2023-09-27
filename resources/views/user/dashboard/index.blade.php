@@ -324,6 +324,7 @@
         })
 
         var options = {
+            colors: ['#FF4081', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#FFC107', '#03A9F4', '#E91E63', '#00BCD4', '#8BC34A', '#673AB7', '#FF5722', '#607D8B', '#9E9E9E', '#795548', '#F44336', '#FFEB3B', '#9C27B0', '#009688', '#FF5722'],
             series: @json($chart['data']),
             chart: {
                 height: 350,

@@ -11,6 +11,7 @@ use App\Models\Website;
 use App\Models\WithdrawUser;
 use App\Models\ZoneModel;
 use App\Services\CampaignService;
+use App\Services\Common;
 use App\Services\ReportService;
 use App\Services\SiteService;
 use App\Services\WalletService;
@@ -26,12 +27,14 @@ class DashboardController extends Controller
     protected $siteService;
     protected $zoneService;
     protected $walletService;
+    protected $commonService;
     public function __construct()
     {
         $this->reportService = new ReportService();
         $this->siteService = new SiteService();
         $this->zoneService = new ZoneService();
         $this->walletService = new WalletService();
+        $this->commonService = new Common();
     }
 
     public function index(Request $request){
@@ -187,7 +190,7 @@ class DashboardController extends Controller
                 'data' => array_values($dataReportDay)
             ]);
             $chart['data'] = $chartData;
-            $chart['date'] = $dateRange;
+            $chart['date'] = array_values($dateRange);
             $data['chart'] = $chart;
 
             return view('user.dashboard.index', $data);
