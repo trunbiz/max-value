@@ -379,6 +379,8 @@
             justify-content: left;
             padding: 10px;
             background-color: transparent;
+            padding-left: 30px;
+        ;
         }
 
         .social-bar a {
