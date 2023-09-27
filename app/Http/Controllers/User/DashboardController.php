@@ -130,7 +130,6 @@ class DashboardController extends Controller
             // Lấy thông tin show bảng
             $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $startDate, $endDate, $sort, $request);
 
-//            dd($data['items']);
             // Lấy thông tin reports
             $dataReport = [];
             $infoReportBySite = $this->reportService->getDataReportGroupSite($listSiteId, $startDate, $endDate);
@@ -153,15 +152,17 @@ class DashboardController extends Controller
                 $dataReport[$report->name][$report->date] = round($report->total_change_revenue ?? 0, 2);
             }
 
+
             // Nếu chọn all time thi lay date theo query
             if (empty($dateOption))
             {
                 $dateRange = array_values($dateShow);
             }
             $dataReportDay = [];
+
             // bieu do theo ngay
             foreach ($dateRange as $keyDate => $date) {
-                if (empty($revenueByDate[$date])) {
+                if (!isset($revenueByDate[$date])) {
                     unset($dateRange[$keyDate]);
                     continue;
                 }

@@ -55,96 +55,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-xl-4 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Request</h6>
-                                <h4 class="mb-0 counter">{{ number_format($totalReport->totalRequests ?? 0) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-4 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Revenue</h6>
-                                <h4 class="mb-0">${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-4 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">CPM</h6>
-                                <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{--            _____________--}}
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Withdrawn</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['withdrawn'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Available</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['available'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Pending</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['pending'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Rejected</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['rejected'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             {{--            _______________________--}}
             <div class="col-sm-6 col-xl-4 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
-                        <div class="media static-widget">
+                        <div class="media ">
                             <div class="media-body">
                                 <h6 class="font-roboto">Total Websites</h6>
                                 <h4 class="mb-0 counter">{{ number_format($totalSite) }}</h4>
@@ -176,7 +91,7 @@
             <div class="col-sm-6 col-xl-4 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
-                        <div class="media static-widget">
+                        <div class="media ">
                             <div class="media-body">
                                 <h6 class="font-roboto">Total Zones</h6>
                                 <h4 class="mb-0 counter">{{number_format($totalZone)}}</h4>
@@ -208,7 +123,7 @@
             <div class="col-sm-6 col-xl-4 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
-                        <div class="media static-widget">
+                        <div class="media">
                             <div class="media-body">
                                 <h6 class="font-roboto">Pending Zones</h6>
                                 <h4 class="mb-0 counter">{{number_format($totalZonePending)}}</h4>
@@ -232,6 +147,93 @@
                                 <div class="progress-gradient-success" role="progressbar" style="width: 60%"
                                      aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span
                                         class="animate-circle"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{--            _____________--}}
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Withdrawn</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['withdrawn'] ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Available</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['available'] ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Pending</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['pending'] ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Rejected</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['rejected'] ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{{--            ------------------------------------}}
+            <div class="col-sm-6 col-xl-4 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Request</h6>
+                                <h4 class="mb-0 counter">{{ number_format($totalReport->totalRequests ?? 0) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-4 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Revenue</h6>
+                                <h4 class="mb-0">${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-4 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">CPM</h6>
+                                <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
                             </div>
                         </div>
                     </div>
