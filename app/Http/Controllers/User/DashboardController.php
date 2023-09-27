@@ -39,41 +39,39 @@ class DashboardController extends Controller
 
     public function index(Request $request){
         $request = $request->all();
-        $dateOption = $request['date_option'] ?? null;
+        $dateOption = $request['date_option'] ?? 'SUB_7';
         $sort = $request['sort'] ?? 'DESC';
         if(auth()->check()){
             $dateNow = Carbon::now()->format('Y-m-d');
-            $startDate = null;
-            $endDate = null;
-            if (!empty($dateOption))
-            {
-                switch ($dateOption)
-                {
-                    case 'YESTERDAY':
-                        $startDate = Carbon::now()->yesterday()->format('Y-m-d');
-                        $endDate = Carbon::now()->yesterday()->format('Y-m-d');
-                        break;
-                    case 'SUB_2':
-                        $startDate = Carbon::now()->subDays(2)->format('Y-m-d');
-                        $endDate = $dateNow;
-                        break;
-                    case 'SUB_3':
-                        $startDate = Carbon::now()->subDays(3)->format('Y-m-d');
-                        $endDate = $dateNow;
-                        break;
-                    case 'SUB_7':
-                        $startDate = Carbon::now()->subDays(7)->format('Y-m-d');
-                        $endDate = $dateNow;
-                        break;
-                    case 'SUB_THIS_MONTH':
-                        $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
-                        $endDate = $dateNow;
-                        break;
-                    case 'SUB_LAST_MONTH':
-                        $startDate = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
-                        $endDate = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
-                        break;
-                }
+            switch ($dateOption) {
+                case 'YESTERDAY':
+                    $startDate = Carbon::now()->yesterday()->format('Y-m-d');
+                    $endDate = Carbon::now()->yesterday()->format('Y-m-d');
+                    break;
+                case 'SUB_2':
+                    $startDate = Carbon::now()->subDays(2)->format('Y-m-d');
+                    $endDate = $dateNow;
+                    break;
+                case 'SUB_3':
+                    $startDate = Carbon::now()->subDays(3)->format('Y-m-d');
+                    $endDate = $dateNow;
+                    break;
+                case 'SUB_7':
+                    $startDate = Carbon::now()->subDays(7)->format('Y-m-d');
+                    $endDate = $dateNow;
+                    break;
+                case 'SUB_THIS_MONTH':
+                    $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
+                    $endDate = $dateNow;
+                    break;
+                case 'SUB_LAST_MONTH':
+                    $startDate = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
+                    $endDate = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
+                    break;
+                case 'ALL':
+                    $startDate = null;
+                    $endDate = null;
+                    break;
             }
 
             $data = [
@@ -154,7 +152,7 @@ class DashboardController extends Controller
 
 
             // Nếu chọn all time thi lay date theo query
-            if (empty($dateOption))
+            if (empty($startDate) && empty($endDate))
             {
                 $dateRange = array_values($dateShow);
             }

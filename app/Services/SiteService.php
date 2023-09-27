@@ -40,7 +40,7 @@ class SiteService
         {
             $query->whereIn('user_id', $listUserId);
         }
-        $listSiteId = $query->pluck('api_site_id')->toArray();
+        $listSiteId = $query->where('is_delete', 0)->pluck('api_site_id')->toArray();
         return $query->count();
     }
 

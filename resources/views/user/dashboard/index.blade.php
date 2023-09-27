@@ -35,7 +35,7 @@
                                             <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_LAST_MONTH'])}}" class="item__filter {{ (request('date_option') == 'SUB_LAST_MONTH') ? 'active' : ''}}">
                                                 <span>Last month</span>
                                             </a>
-                                            <a href="{{route('user.dashboard.index', ['date_option' => null])}}" class="item__filter {{ (request('date_option') == null) ? 'active' : ''}}">
+                                            <a href="{{route('user.dashboard.index', ['date_option' => 'ALL'])}}" class="item__filter {{ (request('date_option') == 'ALL') ? 'active' : ''}}">
                                                 <span>All the time</span>
                                             </a>
                                         </div>
