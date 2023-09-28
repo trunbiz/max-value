@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\User;
 
 use App\Exports\ModelExport;
+use App\Mail\MailNotiUserNew;
+use App\Mail\UserSiteNew;
 use App\Models\Formatter;
 use App\Models\Helper;
 use App\Models\User;
 use App\Models\Website;
 use App\Http\Controllers\Controller;
+use App\Services\Common;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
@@ -75,6 +79,28 @@ class WebsiteController extends Controller
                 'is_delete' => 0,
                 'created_by' => auth()->user()->id ?? '0',
             ]);
+
+            // Sau khi user tạo 1 siet mới thì bắn mail về cho sale director và Admin
+            $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
+            foreach ($userAdminAndSale as $adminSale)
+            {
+                if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
+                    continue;
+                }
+
+                $formEmail = [
+                    'userAdmin' => $adminSale->name,
+                    'name' => $item['name'] ?? '0',
+                    'url' => $item['url'] ?? '0',
+                    'created_at' => Carbon::now()->format('Y-m-d hH:i:s'),
+                ];
+                try {
+                    Mail::to($adminSale->email)->send(new UserSiteNew($formEmail));
+                }catch (\Exception $e)
+                {
+
+                }
+            }
 
             if (Helper::isErrorAPIAdserver($item)){
                 return response()->json($item, 400);
