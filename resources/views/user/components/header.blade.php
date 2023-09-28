@@ -379,7 +379,7 @@
             justify-content: left;
             padding: 10px;
             background-color: transparent;
-            padding-left: 30px;
+            padding-left: 45px;
         ;
         }
 
