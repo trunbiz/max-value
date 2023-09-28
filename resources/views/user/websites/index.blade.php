@@ -7,126 +7,8 @@
 @endsection
 
 @section('content')
-
-{{--    <div class="container-fluid list-products">--}}
-{{--        <div class="row">--}}
-{{--            <div class="col-12">--}}
-
-{{--                <div class="card">--}}
-
-{{--                    <div class="card-header">--}}
-{{--                        @include('user.'.$prefixView.'.search')--}}
-{{--                    </div>--}}
-
-{{--                    <div class="card-body">--}}
-
-{{--                        @include('user.components.checkbox_delete_table')--}}
-
-{{--                        <div class="table-responsive product-table">--}}
-{{--                            <table class="table table-hover ">--}}
-{{--                                <thead>--}}
-{{--                                <tr>--}}
-{{--                                    <th><input id="check_box_delete_all" type="checkbox" class="checkbox-parent" onclick="onSelectCheckboxDeleteItem()"></th>--}}
-{{--                                    <th>ID</th>--}}
-{{--                                    <th>Name</th>--}}
-{{--                                    <th>Url</th>--}}
-{{--                                    <th>Category</th>--}}
-{{--                                    <th>Status</th>--}}
-{{--                                    <th>Zones</th>--}}
-{{--                                    <th>Created at</th>--}}
-{{--                                    <th>Action</th>--}}
-{{--                                </tr>--}}
-{{--                                </thead>--}}
-{{--                                <tbody>--}}
-{{--                                @foreach($items as $item)--}}
-{{--                                    <tr>--}}
-{{--                                        <td class="text-center">--}}
-{{--                                            <input type="checkbox" class="checkbox-delete-item" value="{{$item['id']}}">--}}
-{{--                                        </td>--}}
-{{--                                        <td>{{ $item['id'] }}</td>--}}
-{{--                                        <td>--}}
-{{--                                            {{ $item['name'] }}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <a class="text-underline" target="_blank" href="{{ $item['url'] }}">{{ $item['url'] }}</a>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{ $item['category']['name'] }}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{$item['status']['name']}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            @if(count($item['zones']) == 0)--}}
-{{--                                                <a href="{{route('user.advertises.create' , ['website_id'=> $item['id'] ])}}">Create Zone</a>--}}
-{{--                                            @else--}}
-{{--                                                @foreach($item['zones'] as $itemZone)--}}
-{{--                                                    <a class="text-underline" href="{{route('user.advertises.edit' , ['id'=> $itemZone['id'] ])}}">{{$itemZone['name']}}</a>--}}
-{{--                                                @endforeach--}}
-{{--                                            @endif--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            {{$item['created_at']}}--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <a target="_blank" href="{{route('user.advertises.index' , ['website_id'=> $item['id'] ])}}" title="Zones">--}}
-{{--                                                <i class="fa-solid fa-cloud"></i>--}}
-{{--                                            </a>--}}
-
-{{--                                            <a target="_blank" href="{{route('user.reports.index' , ['website_id'=> $item['id'] ])}}" title="Report">--}}
-{{--                                                <i class="fa-solid fa-chart-simple"></i>--}}
-{{--                                            </a>--}}
-
-{{--                                            <a href="{{route('user.advertises.create' , ['website_id'=> $item['id'] ])}}" title="Add zone">--}}
-{{--                                                <i class="fa-solid fa-plus"></i>--}}
-{{--                                            </a>--}}
-
-{{--                                            <a class="delete action_delete" href="{{route('user.websites.delete' , ['id'=> $item['id'] ])}}"--}}
-{{--                                               data-url="{{route('user.websites.delete' , ['id'=> $item['id'] ])}}"--}}
-{{--                                               title="Delete Website">--}}
-{{--                                                <i class="fa-solid fa-x text-danger"></i>--}}
-{{--                                            </a>--}}
-
-{{--                                        </td>--}}
-{{--                                    </tr>--}}
-{{--                                @endforeach--}}
-
-{{--                                </tbody>--}}
-{{--                            </table>--}}
-{{--                        </div>--}}
-{{--                        <div>--}}
-{{--                            @include('user.components.footer_table')--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-{{--            </div>--}}
-
-{{--        </div>--}}
-{{--    </div>--}}
-
-{{--    <style>--}}
-{{--        .product-table span, .product-table p {--}}
-{{--            color: #fff;--}}
-{{--        }--}}
-{{--    </style>--}}
-
 <div class="content-main">
     <div class="ads-wrapper__select-site bg-white websites-wrapper">
-{{--        <div class="select__site">--}}
-{{--            <select class="selectSite" style="width: 50%">--}}
-{{--                <option value="">Website</option>--}}
-{{--                @foreach($items as $itemWebsite)--}}
-{{--                <option value="{{ $itemWebsite['id'] }}">{{ $itemWebsite['url'] }}</option>--}}
-{{--                @endforeach--}}
-{{--            </select>--}}
-{{--            <select class="chooseStatus" style="width: 45%">--}}
-{{--                <option value="">Status</option>--}}
-{{--                <option value="1">Pending</option>--}}
-{{--                <option value="2">Approved</option>--}}
-{{--                <option value="3">Reject</option>--}}
-{{--            </select>--}}
-{{--        </div>--}}
         <div class="add__site">
             <button class="filter__button" data-bs-toggle="modal" data-bs-target="#addWebsite">
                 ADD WEBSITE
@@ -136,51 +18,45 @@
     <div class="row">
         <div class="accordion" id="accordionExample">
             @foreach($items as $itemWebsite)
-                <div class="accordion-item" id="item{{ $itemWebsite['id'] }}">
-                    <h2 class="accordion-header" id="heading{{ $itemWebsite['id'] }}">
-                        @if($itemWebsite['status']['name'] == 'Approved')
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $itemWebsite['id'] }}" aria-expanded="true" aria-controls="collapse{{ $itemWebsite['id'] }}">
+                <div class="accordion-item" id="item{{ $itemWebsite->api_site_id }}">
+                    <h2 class="accordion-header" id="heading{{ $itemWebsite->api_site_id }}">
+                        @if($itemWebsite->status == 3500)
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $itemWebsite->api_site_id }}" aria-expanded="true" aria-controls="collapse{{ $itemWebsite->api_site_id }}">
                         @else <button class="accordion-button" type="button" style="cursor:auto;">@endif
                             <div class="info__site">
                                 <div class="name__site">
                                     {{$itemWebsite['url']}}
                                 </div>
-                                <div class="status__site {{ strtolower($itemWebsite['status']['name']) }}">
-                                    {{ \App\Services\Common::STATUS_ADSERVER[$itemWebsite['status']['id']] ?? '' }}
+                                <div class="status__site {{ strtolower(\App\Models\Website::STATUS[$itemWebsite->status] ?? '') }}">
+                                    {{ \App\Services\Common::STATUS_ADSERVER[$itemWebsite->status] ?? '' }}
                                 </div>
                                 <div class="category__site">
                                     <i class="fa-regular fa-folder"></i>
-                                    <span>{{$itemWebsite['category']['iab'] ?? null}}: {{$itemWebsite['category']['name'] ?? null}}</span>
+                                    <span>: {{\App\Models\Website::CATEGORY[$itemWebsite->category_website_id] ?? ''}}</span>
                                 </div>
                             </div>
-                            @if($itemWebsite['status']['name'] == 'Approved')
+                            @if($itemWebsite->status == 3500)
                                 <div class="action__site">
-    {{--                                <a href="javascript:void(0)" class="action__site--item edit" onclick="getSite({{ $itemWebsite['id'] }})">Edit</a>--}}
-    {{--                                <a href="javascript:void(0)" class="action__site--item add" onclick="openPopup({{ $itemWebsite['id'] }})">Create Ad unit</a>--}}
                                 </div>
                             @endif
                         </button>
                     </h2>
-                    <div id="collapse{{ $itemWebsite['id'] }}" data-id="{{ $itemWebsite['id'] }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $itemWebsite['id'] }}" data-bs-parent="#accordionExample">
+                    <div id="collapse{{ $itemWebsite->api_site_id }}" data-id="{{ $itemWebsite->api_site_id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $itemWebsite->api_site_id }}" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <div class="list__advs">
-                                @foreach($itemWebsite['zones'] as $itemZone)
+                                @foreach($itemWebsite->zones as $itemZone)
                                     <div class="list__advs--item">
                                         <div class="title__advs">
                                             <div class="title__advs--title">
-                                                <span>{{$itemZone['name']}}</span>
-                                                <p>{{$itemZone['format']['name']}}</p>
+                                                <span>{{$itemZone->name}}</span>
+                                                <p>{{\App\Models\ZoneModel::ID_ZONE_FORMAT[$itemZone->id_zone_format] ?? ''}}</p>
                                             </div>
-                                            <div class="title__advs--status {{ strtolower($itemZone['status']['name']) }}">
-                                                {{ \App\Models\ZoneModel::STATUS_ADSERVER[$itemZone['status']['id']] ?? '' }}
+                                            <div class="title__advs--status {{ strtolower(\App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status] ?? '') }}">
+                                                {{ \App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status] ?? '' }}
                                             </div>
                                         </div>
                                         <div class="info__advs">
-{{--                                            <div class="info__advs--edit">--}}
-{{--                                                <i class="fa-solid fa-pen-to-square"></i>--}}
-{{--                                                EDIT--}}
-{{--                                            </div>--}}
-                                            <div style="{{ strtolower($itemZone['status']['name']) == "approved" ? "" : "cursor: no-drop;opacity: 0.5;"}}" class="info__advs--get" {{ strtolower($itemZone['status']['name']) == "approved" ? 'onclick=getCode('. $itemZone["id"] . ')' : "cursor: no-drop;opacity: 0.5;"}}>
+                                            <div style="{{ strtolower(\App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status] ?? '') == "approved" ? "" : "cursor: no-drop;opacity: 0.5;"}}" class="info__advs--get" {{ strtolower(\App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status] ?? '') == "approved" ? 'onclick=getCode('. $itemZone->ad_zone_id . ')' : "cursor: no-drop;opacity: 0.5;"}}>
                                                 <i class="fa-regular fa-clipboard"></i>
                                                 GET CODE
                                             </div>
@@ -551,43 +427,6 @@
             }
             return url.protocol === "http:" || url.protocol === "https:";
         }
-
-        //add Ad
-        {{--function addAd() {--}}
-        {{--    var $this = $('#addUnit');--}}
-        {{--    var id = $this.find('form').data('id');--}}
-        {{--    if($this.find('input[name="name"]').val() == ''){--}}
-        {{--        swal("Erorr!", 'Name is required', "error");--}}
-        {{--    }else if($this.find('select[name="idzoneformat"]').val() == ''){--}}
-        {{--        swal("Erorr!", 'Please choose a type', "error");--}}
-        {{--    }else if($this.find('select[name="iddimension"]').val() == '' && $this.find('select[name="idzoneformat"]').val() == 6){--}}
-        {{--        swal("Erorr!", 'Please choose a size', "error");--}}
-        {{--    } else {--}}
-        {{--        callAjax(--}}
-        {{--            "POST",--}}
-        {{--            "{{ route('user.ajax.addzone') }}" + "?site_id="+id,--}}
-        {{--            {--}}
-        {{--                'name' : $this.find('input[name="name"]').val(),--}}
-        {{--                'idzoneformat' : $this.find('select[name="idzoneformat"]').val(),--}}
-        {{--                'iddimension' : $this.find('select[name="iddimension"]').val(),--}}
-        {{--            },--}}
-        {{--            (response) => {--}}
-        {{--                $this.modal('hide');--}}
-        {{--                swal("Success!", 'Add successful', "success");--}}
-        {{--                $('.list__advs').prepend(response.html);--}}
-        {{--            }--}}
-        {{--        )--}}
-        {{--    }--}}
-        {{--}--}}
-
-        {{--function changeValue() {--}}
-        {{--    if($('select[name="idzoneformat"]').val() == 6){--}}
-        {{--        $('.size__banner').show();--}}
-        {{--    }else{--}}
-        {{--        $('.size__banner').hide();--}}
-        {{--    }--}}
-        {{--}--}}
-
         //get code
         function getCode(id) {
             var $this = $('#getCode');
