@@ -41,6 +41,32 @@ class Website extends Model implements Auditable
         3510 => 'Rejected',
     ];
 
+    const CATEGORY = [
+        13 => 'Arts & Entertainment',
+        33 => 'Automotive',
+        34 => 'Business',
+        35 => 'Careers',
+        36 => 'Education',
+        37 => 'Family &amp; Parenting',
+        39 => 'Food & Drink',
+        28 => 'Health & fitness',
+        10 => 'Hobbies & Interests',
+        41 => 'Home & Garden',
+        42 => 'Law, Government, & Politics',
+        11 => 'News &amp; Media',
+        7 => 'Personal Finance',
+        47 => 'Pets',
+        52 => 'Real Estate',
+        46 => 'Science',
+        23 => 'Shopping',
+        8 => 'Society',
+        5 => 'Sports',
+        49 => 'Style & Fashion',
+        6 => 'Technology & Computing',
+        51 => 'Travel',
+        31 => 'Uncategorized'
+    ];
+
     // begin
 
     public function getStatFromAPI($dateBegin = null, $dateEnd = null, $idzone = null){

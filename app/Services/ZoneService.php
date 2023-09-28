@@ -56,7 +56,7 @@ class ZoneService
         {
             $query->whereIn('ad_site_id', $listSiteId);
         }
-        return $query->count();
+        return $query->where('is_delete', 0)->count();
     }
 
 }

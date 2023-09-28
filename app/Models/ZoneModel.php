@@ -38,6 +38,10 @@ class ZoneModel extends Model
         7020 => 'Rejected',
     ];
 
+    const ID_ZONE_FORMAT = [
+      6 => 'Banner'
+    ];
+
     const PENDING = 7010;
 
     public function getInfoCampaign()

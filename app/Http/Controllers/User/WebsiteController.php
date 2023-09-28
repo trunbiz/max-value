@@ -30,34 +30,7 @@ class WebsiteController extends Controller
     {
         $title = "Websites";
         $current_user = User::where('id', Auth::id())->first();
-//        $query = $this->model->where('user_id', Auth::id());
-//
-//        if (isset($_GET['search_query']) && !empty($_GET['search_query'])) {
-//            $query = $query->where('name', 'LIKE', '%' . $_GET['search_query'] . '%');
-//        }
-//
-//        if (isset($_GET['from']) && !empty($_GET['from'])) {
-//            $query = $query->where('created_at', '>=', $_GET['from']);
-//        }
-//
-//        if (isset($_GET['to']) && !empty($_GET['to'])) {
-//            $query = $query->where('created_at', '<=', $_GET['to']);
-//        }
-//
-//        if (isset($_GET['status']) && !empty($_GET['status'])) {
-//            $query = $query->where('status', $_GET['status']);
-//        }
-//
-//        $items = $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
-//
-//        foreach ($items as $item) {
-//            $item['stats'] = $item->getStatFromAPI(date("Y-m-d", Carbon::now()->startOfMonth()->timestamp), date("Y-m-d", Carbon::now()->endOfMonth()->timestamp));
-//        }
-
-        $items = Helper::callGetHTTP("https://api.adsrv.net/v2/site?" . "filter[idpublisher]=".auth()->user()->api_publisher_id."&page=1&per-page=1000");
-
-        $items = Formatter::paginator($request,$items);
-
+        $items = Website::where('user_id', auth()->user()->id)->where('is_delete', 0)->get();
         return view('user.' . $this->prefixView . '.index', compact('items','title', 'current_user'));
     }
 
