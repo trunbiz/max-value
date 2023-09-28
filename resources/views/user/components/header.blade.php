@@ -352,7 +352,7 @@
                     <a href="mailto:{{$email}}" title="mail">
                         <img src="{{ asset('/assets/user/images/gmail.png') }}" alt="Gmail">
                     </a>
-                    @if(!empty($email))
+                    @if(!empty($telegram))
                         <a href="{{$telegram}}" title="Telegram">
                             <img src="{{ asset('/assets/user/images/telegram.png') }}" alt="Telegram">
                         </a>
@@ -379,6 +379,8 @@
             justify-content: left;
             padding: 10px;
             background-color: transparent;
+            padding-left: 30px;
+        ;
         }
 
         .social-bar a {

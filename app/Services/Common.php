@@ -358,7 +358,7 @@ class Common
                 ]
             ],
             "Video-Freesize" => [
-                'name' => 'Medium Rectangle',
+                'name' => 'Video-Freesize',
                 'size' => [
                     '100%',
                     '100%'
