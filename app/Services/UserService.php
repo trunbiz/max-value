@@ -2,8 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\AssignUserModel;
 use App\Models\User;
+use App\Models\Website;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Log;
 
 class UserService
@@ -40,8 +44,6 @@ class UserService
     public function listUserPublisher($params)
     {
         $query = User::where('is_admin', User::IS_PUBLISHER)
-            ->leftJoin('websites', 'users.id', '=', 'websites.user_id')
-            ->leftJoin('assign_user', 'users.id', '=', 'assign_user.service_id')
             ->select('users.*')
             ->orderBy('users.id', 'DESC');
 
@@ -57,18 +59,33 @@ class UserService
         {
             $query->where('users.id', $params['publisher_id']);
         }
-        if (!empty($params['website_id']))
+        if (!empty($params['website_id']) || !empty($params['site_status']))
         {
-            $query->where('websites.id', $params['website_id']);
-        }
-        if (!empty($params['site_status']))
-        {
-            $query->whereIn('websites.status', $params['site_status']);
+            $listUserSite = Website::query();
+            if (!empty($params['website_id']))
+            {
+                $listUserSite->where('id', $params['website_id']);
+            }
+            if (!empty($params['site_status']))
+            {
+                $listUserSite->where('status', $params['site_status']);
+            }
+            $listUserSite = $listUserSite->pluck('user_id')->toArray();
+
+            if (empty($listUserSite))
+            {
+                $listUserSite = [-1];
+            }
+            $query->whereIn('id', $listUserSite);
         }
         if (!empty($params['user_assign']) && $params['user_assign'] != 'null')
         {
-            $query->where('assign_user.user_id', $params['user_assign']);
-            $query->where('assign_user.type', 'PUBLISHER');
+            $userListPublisher = AssignUserModel::where('user_id', $params['user_assign'])->where('type', 'PUBLISHER')->pluck('service_id')->toArray();
+            if (empty($userListPublisher))
+            {
+                $userListPublisher = [-1];
+            }
+            $query->whereIn('id', $userListPublisher);
         }
         if (!empty($params['website']))
         {
@@ -94,7 +111,6 @@ class UserService
                 $query->where('users.active', 0);
             }
         }
-        $query->distinct();
         return $query->paginate(25);
     }
 }
