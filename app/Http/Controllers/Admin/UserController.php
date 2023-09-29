@@ -59,7 +59,7 @@ class UserController extends Controller
             $websites = Website::where('is_delete', 0)->orderBy('id', 'DESC')->get();
             $users = User::where('is_admin', 0)->orderBy('id', 'DESC')->get();
         }
-        
+
         $items = $this->userService->listUserPublisher($request);
         $data = [
             'items' => $items,
