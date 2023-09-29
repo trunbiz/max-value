@@ -221,7 +221,7 @@ class ReportService
         return $query->where('report.status', 1)->groupBy('report.web_id', 'date')->orderBy('date', 'ASC')->get();
     }
 
-    public function getDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC')
+    public function getDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
     {
         $query = ReportModel::query()
             ->join('websites', 'websites.api_site_id', '=', 'report.web_id')
@@ -239,7 +239,22 @@ class ReportService
         }
 
         $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_revenue as total_change_revenue, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm');
-        return $query->where('report.status', 1)
-            ->orderBy('date', $orderBy)->paginate(25);
+        $query->where('report.status', 1)
+            ->orderBy('date', $orderBy);
+
+        if (!empty($params['impressions_sort']))
+        {
+            $query->orderBy('report.change_impressions', $params['impressions_sort']);
+        }
+        if (!empty($params['cpm_sort']))
+        {
+            $query->orderBy('report.change_cpm', $params['cpm_sort']);
+        }
+        if (!empty($params['revenue_sort']))
+        {
+            $query->orderBy('report.change_revenue', $params['revenue_sort']);
+        }
+
+        return $query->paginate(25);
     }
 }

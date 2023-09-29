@@ -35,7 +35,7 @@
                                             <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_LAST_MONTH'])}}" class="item__filter {{ (request('date_option') == 'SUB_LAST_MONTH') ? 'active' : ''}}">
                                                 <span>Last month</span>
                                             </a>
-                                            <a href="{{route('user.dashboard.index', ['date_option' => null])}}" class="item__filter {{ (request('date_option') == null) ? 'active' : ''}}">
+                                            <a href="{{route('user.dashboard.index', ['date_option' => 'ALL'])}}" class="item__filter {{ (request('date_option') == 'ALL') ? 'active' : ''}}">
                                                 <span>All the time</span>
                                             </a>
                                         </div>
@@ -55,96 +55,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-xl-4 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Request</h6>
-                                <h4 class="mb-0 counter">{{ number_format($totalReport->totalRequests ?? 0) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-4 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Revenue</h6>
-                                <h4 class="mb-0">${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-4 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">CPM</h6>
-                                <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{--            _____________--}}
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Withdrawn</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['withdrawn'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Available</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['available'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Pending</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['pending'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media static-widget">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Rejected</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['rejected'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             {{--            _______________________--}}
             <div class="col-sm-6 col-xl-4 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
-                        <div class="media static-widget">
+                        <div class="media ">
                             <div class="media-body">
                                 <h6 class="font-roboto">Total Websites</h6>
                                 <h4 class="mb-0 counter">{{ number_format($totalSite) }}</h4>
@@ -176,7 +91,7 @@
             <div class="col-sm-6 col-xl-4 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
-                        <div class="media static-widget">
+                        <div class="media ">
                             <div class="media-body">
                                 <h6 class="font-roboto">Total Zones</h6>
                                 <h4 class="mb-0 counter">{{number_format($totalZone)}}</h4>
@@ -208,7 +123,7 @@
             <div class="col-sm-6 col-xl-4 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
-                        <div class="media static-widget">
+                        <div class="media">
                             <div class="media-body">
                                 <h6 class="font-roboto">Pending Zones</h6>
                                 <h4 class="mb-0 counter">{{number_format($totalZonePending)}}</h4>
@@ -237,11 +152,99 @@
                     </div>
                 </div>
             </div>
+            {{--            _____________--}}
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Withdrawn</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['withdrawn'] ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Available</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['available'] ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Pending</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['pending'] ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Rejected</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['rejected'] ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+{{--            ------------------------------------}}
+            <div class="col-sm-6 col-xl-4 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Request</h6>
+                                <h4 class="mb-0 counter">{{ number_format($totalReport->totalRequests ?? 0) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-4 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Revenue</h6>
+                                <h4 class="mb-0">${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-4 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">CPM</h6>
+                                <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-sm-12 col-xl-12 box-col-12">
                 <div class="card">
                     <div id="chart_custom"></div>
                 </div>
             </div>
+            <b>Statistics</b>
             <div class="col-sm-12 col-xl-12 box-col-12">
                 <div class="card-footer bg-white">
                     <div class="table-responsive">
@@ -251,9 +254,9 @@
                                 <th scope="col" class="date-sort {{ (request('sort') == 'ASC') ? 'ASC' : 'DESC'}}">Date <i class="fa-solid fa-sort"></i></th>
                                 <th scope="col">Website</th>
                                 <th scope="col">Zone</th>
-                                <th scope="col">Impressions</th>
-                                <th scope="col">Cpm</th>
-                                <th scope="col">Revenue</th>
+                                <th scope="col" class="impressions_sort {{ (request('impressions_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Impressions <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col" class="cpm_sort {{ (request('cpm_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Cpm <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col" class="revenue_sort {{ (request('revenue_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Revenue <i class="fa-solid fa-sort"></i></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -285,15 +288,31 @@
     <script>
         $(document).ready(function() {
             // Lắng nghe sự kiện click trên tiêu đề cột
-            $('.date-sort').click(function() {
+            $('.date-sort, .impressions_sort, .cpm_sort, .revenue_sort').click(function() {
                 var $this = $(this);
+
                 var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
                 var currentUrl = window.location.href;
                 var url = new URL(currentUrl);
-                url.searchParams.set('sort', sort);
+
+                var searchParams = url.searchParams;
+                searchParams.delete('impressions_sort');
+                searchParams.delete('cpm_sort');
+                searchParams.delete('revenue_sort');
+                searchParams.delete('sort');
 
                 // Xóa class "asc" và "desc" khỏi tất cả các tiêu đề cột
-                $('.date-sort').removeClass('asc desc');
+                $('.date-sort, .impressions_sort, .cpm_sort, .revenue_sort').removeClass('asc desc');
+
+                if ($this.hasClass('date-sort')) {
+                    url.searchParams.set('sort', sort);
+                } else if ($this.hasClass('impressions_sort')) {
+                    url.searchParams.set('impressions_sort', sort);
+                } else if ($this.hasClass('cpm_sort')) {
+                    url.searchParams.set('cpm_sort', sort);
+                } else if ($this.hasClass('revenue_sort')) {
+                    url.searchParams.set('revenue_sort', sort);
+                }
                 // Thêm class mới tương ứng với trạng thái sort
                 $this.addClass(sort);
 
@@ -307,6 +326,7 @@
         })
 
         var options = {
+            colors: ['#FF4081', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#FFC107', '#03A9F4', '#E91E63', '#00BCD4', '#8BC34A', '#673AB7', '#FF5722', '#607D8B', '#9E9E9E', '#795548', '#F44336', '#FFEB3B', '#9C27B0', '#009688', '#FF5722'],
             series: @json($chart['data']),
             chart: {
                 height: 350,
@@ -316,7 +336,7 @@
                 width: [0, 4]
             },
             title: {
-                text: 'Traffic Sources'
+                text: 'Revenue Chart'
             },
             xaxis: {
                 categories: @json($chart['date']),

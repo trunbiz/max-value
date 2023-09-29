@@ -358,7 +358,7 @@ class Common
                 ]
             ],
             "Video-Freesize" => [
-                'name' => 'Medium Rectangle',
+                'name' => 'Video-Freesize',
                 'size' => [
                     '100%',
                     '100%'
@@ -705,5 +705,29 @@ class Common
     public function listUserGroupAM()
     {
         return User::where('is_admin', '<>', 0)->where('role_id', 5)->where('active', self::ACTIVE)->get();
+    }
+
+    private $previousHue = null; // Biến để lưu giá trị Hue của màu trước đó
+
+    public function generateRandomColor() {
+        $hueMin = 0; // Giá trị Hue tối thiểu
+        $hueMax = 360; // Giá trị Hue tối đa
+        $saturation = mt_rand(70, 100); // Chọn ngẫu nhiên giá trị Saturation từ 70 đến 100
+        $lightness = mt_rand(50, 80); // Chọn ngẫu nhiên giá trị Lightness từ 50 đến 80
+
+        // Kiểm tra xem đã có giá trị Hue trước đó hay chưa
+        if ($this->previousHue !== null) {
+            $hueMin = $this->previousHue + 30; // Đặt giá trị Hue tối thiểu là giá trị Hue trước đó + 30
+            if ($hueMin > 360) {
+                $hueMin -= 360; // Nếu giá trị Hue tối thiểu vượt quá 360, trừ đi 360 để giữ nó trong khoảng 0-360
+            }
+        }
+
+        $hue = mt_rand($hueMin, $hueMax); // Chọn ngẫu nhiên giá trị Hue từ Hue tối thiểu đến Hue tối đa
+
+        $this->previousHue = $hue; // Lưu giá trị Hue cho lần sử dụng tiếp theo
+
+        $color = "hsl($hue, $saturation%, $lightness%)";
+        return $color;
     }
 }

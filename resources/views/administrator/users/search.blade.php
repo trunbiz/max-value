@@ -82,8 +82,7 @@
                     <option value=3510 {{in_array(3510, request()->get('site_status') ?? []) ? 'selected' : ''}}>Rejected</option>
                 </select>
             </div>
-            <div class="col-sm-2 d-flex align-items-end">
-                <label>&nbsp;</label>
+            <div class="col-sm-2 d-flex align-items-end" style="margin-bottom: 9px">
                 <button type="submit" class="btn btn-primary btn-block">Search</button>
             </div>
         </div>

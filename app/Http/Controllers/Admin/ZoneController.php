@@ -46,6 +46,7 @@ class ZoneController extends Controller
             'match_algo' => $request->idDimensionMethod,
             'revenue_rate' => optional(Setting::first())->percent ?? 100,
             'idrevenuemodel' => 2,
+            'is_active' => 0,
             'height' => (string)$dimensionInfo['size'][0],
             'width' => (string)$dimensionInfo['size'][1],
         ];
@@ -64,6 +65,7 @@ class ZoneController extends Controller
                'width' => (string)$dimensionInfo['size'][1],
                'height' => (string)$dimensionInfo['size'][0],
            ]),
+           'active' => $item['is_active'] ? 1 : 0,
            'status' => $item['status']['id'],
            'extra_params' => json_encode($params),
            'extra_response' => json_encode($item),
