@@ -306,6 +306,10 @@
         var options = {
             colors: ['rgb(0, 143, 251)', 'rgb(0, 227, 150)', 'rgb(254, 176, 25)', 'rgb(255, 69, 96)', 'rgb(119, 93, 208)', '#FF4081', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#FFC107', '#03A9F4', '#E91E63', '#00BCD4', '#8BC34A', '#673AB7', '#FF5722', '#607D8B', '#9E9E9E', '#795548', '#F44336', '#FFEB3B', '#9C27B0', '#009688', '#FF5722'],
             series: @json($chart['data']),
+            dataLabels: {
+                enabled: true,
+                enabledOnSeries: [0]
+            },
             chart: {
                 height: 350,
                 type: 'line',
