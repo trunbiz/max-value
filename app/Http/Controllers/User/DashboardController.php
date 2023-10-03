@@ -41,32 +41,39 @@ class DashboardController extends Controller
         $request = $request->all();
         $dateOption = $request['date_option'] ?? 'SUB_7';
         $sort = $request['sort'] ?? 'DESC';
+        $titleFilter = '';
         if(auth()->check()){
             $dateNow = Carbon::now()->format('Y-m-d');
             switch ($dateOption) {
                 case 'YESTERDAY':
                     $startDate = Carbon::now()->yesterday()->format('Y-m-d');
                     $endDate = Carbon::now()->yesterday()->format('Y-m-d');
+                    $titleFilter = 'yesterday';
                     break;
                 case 'SUB_2':
                     $startDate = Carbon::now()->subDays(2)->format('Y-m-d');
                     $endDate = $dateNow;
+                    $titleFilter = 'last 2 day';
                     break;
                 case 'SUB_3':
                     $startDate = Carbon::now()->subDays(3)->format('Y-m-d');
                     $endDate = $dateNow;
+                    $titleFilter = 'last 3 day';
                     break;
                 case 'SUB_7':
                     $startDate = Carbon::now()->subDays(7)->format('Y-m-d');
                     $endDate = $dateNow;
+                    $titleFilter = 'last 7 day';
                     break;
                 case 'SUB_THIS_MONTH':
                     $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
                     $endDate = $dateNow;
+                    $titleFilter = 'this month';
                     break;
                 case 'SUB_LAST_MONTH':
                     $startDate = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
                     $endDate = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
+                    $titleFilter = 'last month';
                     break;
                 case 'ALL':
                     $startDate = null;
@@ -76,6 +83,8 @@ class DashboardController extends Controller
 
             $data = [
                 'title' => 'Dashboard',
+                'titleFilter' => $titleFilter,
+                'fileNameExport' => 'Maxvalue_' . date_format(new \DateTime($startDate), 'm-d-Y') . '_' . date_format(new \DateTime($endDate), 'm-d-Y')
             ];
             $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
 
@@ -112,6 +121,8 @@ class DashboardController extends Controller
                     $data['wallet']['rejected'] = $itemWithdraw->totalAmount ?? 0;
                 }
             }
+
+            $data['wallet']['totalEarning'] = $data['wallet']['Withdrawn'] + $data['wallet']['available'] + $data['wallet']['pending'] + $data['wallet']['rejected'];
 
             // Chuyển đổi chuỗi thành đối tượng Carbon
             $startD = Carbon::parse($startDate);
