@@ -83,7 +83,8 @@ class DashboardController extends Controller
 
             $data = [
                 'title' => 'Dashboard',
-                'titleFilter' => $titleFilter
+                'titleFilter' => $titleFilter,
+                'fileNameExport' => 'Maxvalue_' . date_format(new \DateTime($startDate), 'm-d-Y') . '_' . date_format(new \DateTime($endDate), 'm-d-Y')
             ];
             $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
 

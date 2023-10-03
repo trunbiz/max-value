@@ -246,11 +246,6 @@
         </div>
     </div>
     <style>
-        .apexcharts-menu-icon::before {
-            content: "\f019"; /* Ký tự Unicode tương ứng với biểu tượng download trong FontAwesome */
-            font-family: "Font Awesome 6 Solid"; /* Font chữ FontAwesome */
-            /* Các thuộc tính khác tùy chỉnh khác */
-        }
         .group__value {
             display: flex;
             justify-content: flex-end;
@@ -309,6 +304,26 @@
             chart: {
                 height: 350,
                 type: 'line',
+                toolbar: {
+                    show: true,
+                    offsetX: 0,
+                    offsetY: 0,
+                    tools: {
+                        download: true
+                    },
+                    export: {
+                        csv: {
+                            filename: @json($fileNameExport),
+                        },
+                        svg: {
+                            filename: @json($fileNameExport),
+                        },
+                        png: {
+                            filename: @json($fileNameExport),
+                        }
+                    },
+                    autoSelected: 'zoom'
+                },
             },
             stroke: {
                 width: [0, 4]
