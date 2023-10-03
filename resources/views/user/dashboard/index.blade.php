@@ -11,52 +11,31 @@
 @section('content')
     <div class="container-fluid general-widget">
         <div class="row">
-            <div class="col-md-12 col-xl-12 col-12">
-                <div class="card">
-                    <form action="" method="get" autocomplete="off">
-                        <div class="filter__value">
-                            <h5 class="filter__title">Filter</h5>
-                            <div class="card-header filter__value--content">
-                                <div class="filter__content">
-                                    <div class="search__date row">
-                                        <div class="col-md-10 col-xl-10 col-sm-8 col-12 group__value">
-                                            <a href="{{route('user.dashboard.index', ['date_option' => 'YESTERDAY'])}}" class="item__filter {{ (request('date_option') == 'YESTERDAY') ? 'active' : ''}}">
-                                                <span>Yesterday</span>
-                                            </a>
-                                            <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_3'])}}" class="item__filter {{ (request('date_option') == 'SUB_3') ? 'active' : ''}}">
-                                                <span>Last 3days</span>
-                                            </a>
-                                            <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_7'])}}" class="item__filter {{ (request('date_option') == 'SUB_7') ? 'active' : ''}}">
-                                                <span>Last 7 days</span>
-                                            </a>
-                                            <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_THIS_MONTH'])}}" class="item__filter {{ (request('date_option') == 'SUB_THIS_MONTH') ? 'active' : ''}}">
-                                                <span>This month</span>
-                                            </a>
-                                            <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_LAST_MONTH'])}}" class="item__filter {{ (request('date_option') == 'SUB_LAST_MONTH') ? 'active' : ''}}">
-                                                <span>Last month</span>
-                                            </a>
-                                            <a href="{{route('user.dashboard.index', ['date_option' => 'ALL'])}}" class="item__filter {{ (request('date_option') == 'ALL') ? 'active' : ''}}">
-                                                <span>All the time</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+            {{--            _______________________--}}
+            <div class="col-sm-6 col-xl-3 col-lg-6">
+                <div class="card o-hidden">
+                    <div class="card-body">
+                        <div class="media ">
+                            <div class="media-body">
+                                <h6 class="font-roboto">Total Earning</h6>
+                                <h4 class="mb-0">${{ number_format($wallet['totalEarning'] ?? 0, 2) }}</h4>
                             </div>
-                            <div class="divider"></div>
-                            {{--                        <div class="card-body divider">--}}
-                            {{--                            <button class="filter__button">--}}
-                            {{--                                <i class="fa-solid fa-filter" style="color: #ffffff;"></i>--}}
-                            {{--                                Generate Report--}}
-                            {{--                            </button>--}}
-                            {{--                        </div>--}}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="fill-success" height="39" viewBox="0 0 320 512">
+                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path d="M160 0c17.7 0 32 14.3 32 32V67.7c1.6 .2 3.1 .4 4.7 .7c.4 .1 .7 .1 1.1 .2l48 8.8c17.4 3.2 28.9 19.9 25.7 37.2s-19.9 28.9-37.2 25.7l-47.5-8.7c-31.3-4.6-58.9-1.5-78.3 6.2s-27.2 18.3-29 28.1c-2 10.7-.5 16.7 1.2 20.4c1.8 3.9 5.5 8.3 12.8 13.2c16.3 10.7 41.3 17.7 73.7 26.3l2.9 .8c28.6 7.6 63.6 16.8 89.6 33.8c14.2 9.3 27.6 21.9 35.9 39.5c8.5 17.9 10.3 37.9 6.4 59.2c-6.9 38-33.1 63.4-65.6 76.7c-13.7 5.6-28.6 9.2-44.4 11V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V445.1c-.4-.1-.9-.1-1.3-.2l-.2 0 0 0c-24.4-3.8-64.5-14.3-91.5-26.3c-16.1-7.2-23.4-26.1-16.2-42.2s26.1-23.4 42.2-16.2c20.9 9.3 55.3 18.5 75.2 21.6c31.9 4.7 58.2 2 76-5.3c16.9-6.9 24.6-16.9 26.8-28.9c1.9-10.6 .4-16.7-1.3-20.4c-1.9-4-5.6-8.4-13-13.3c-16.4-10.7-41.5-17.7-74-26.3l-2.8-.7 0 0C119.4 279.3 84.4 270 58.4 253c-14.2-9.3-27.5-22-35.8-39.6c-8.4-17.9-10.1-37.9-6.1-59.2C23.7 116 52.3 91.2 84.8 78.3c13.3-5.3 27.9-8.9 43.2-11V32c0-17.7 14.3-32 32-32z"/>
+                            </svg>
                         </div>
-                    </form>
+                        <div class="progress-widget">
+                            <div class="progress sm-progress-bar progress-animate">
+                                <div class="progress-gradient-success" role="progressbar" style="width: 75%"
+                                     aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span
+                                        class="animate-circle"></span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            {{--            _______________________--}}
-            <div class="col-sm-6 col-xl-4 col-lg-6">
+            <div class="col-sm-6 col-xl-3 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
                         <div class="media ">
@@ -88,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-xl-4 col-lg-6">
+            <div class="col-sm-6 col-xl-3 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
                         <div class="media ">
@@ -120,7 +99,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-xl-4 col-lg-6">
+            <div class="col-sm-6 col-xl-3 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
                         <div class="media">
@@ -152,63 +131,13 @@
                     </div>
                 </div>
             </div>
-            {{--            _____________--}}
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media ">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Withdrawn</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['withdrawn'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media ">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Available</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['available'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media ">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Pending</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['pending'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 col-xl-3 col-lg-6">
-                <div class="card o-hidden">
-                    <div class="card-body">
-                        <div class="media ">
-                            <div class="media-body">
-                                <h6 class="font-roboto">Rejected</h6>
-                                <h4 class="mb-0">${{ number_format($wallet['rejected'] ?? 0, 2) }}</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-{{--            ------------------------------------}}
+            {{--            ------------------------------------}}
             <div class="col-sm-6 col-xl-4 col-lg-6">
                 <div class="card o-hidden">
                     <div class="card-body">
                         <div class="media ">
                             <div class="media-body">
-                                <h6 class="font-roboto">Request</h6>
+                                <h6 class="font-roboto">Total request {{$titleFilter}}</h6>
                                 <h4 class="mb-0 counter">{{ number_format($totalReport->totalRequests ?? 0) }}</h4>
                             </div>
                         </div>
@@ -220,7 +149,7 @@
                     <div class="card-body">
                         <div class="media ">
                             <div class="media-body">
-                                <h6 class="font-roboto">Revenue</h6>
+                                <h6 class="font-roboto">Total revenue {{$titleFilter}}</h6>
                                 <h4 class="mb-0">${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h4>
                             </div>
                         </div>
@@ -232,13 +161,42 @@
                     <div class="card-body">
                         <div class="media ">
                             <div class="media-body">
-                                <h6 class="font-roboto">CPM</h6>
+                                <h6 class="font-roboto">Average CPM {{$titleFilter}}</h6>
                                 <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+            <div class="col-md-12 col-xl-12 col-sm-12 col-lg-12 group__value" style="padding: 10px">
+                <a href="{{route('user.dashboard.index', ['date_option' => 'YESTERDAY'])}}"
+                   class="item__filter {{ (request('date_option') == 'YESTERDAY') ? 'active' : ''}}">
+                    <span>Yesterday</span>
+                </a>
+                <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_3'])}}"
+                   class="item__filter {{ (request('date_option') == 'SUB_3') ? 'active' : ''}}">
+                    <span>Last 3days</span>
+                </a>
+                <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_7'])}}"
+                   class="item__filter {{ (request('date_option') == 'SUB_7') ? 'active' : ''}}">
+                    <span>Last 7 days</span>
+                </a>
+                <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_THIS_MONTH'])}}"
+                   class="item__filter {{ (request('date_option') == 'SUB_THIS_MONTH') ? 'active' : ''}}">
+                    <span>This month</span>
+                </a>
+                <a href="{{route('user.dashboard.index', ['date_option' => 'SUB_LAST_MONTH'])}}"
+                   class="item__filter {{ (request('date_option') == 'SUB_LAST_MONTH') ? 'active' : ''}}">
+                    <span>Last month</span>
+                </a>
+                <a href="{{route('user.dashboard.index', ['date_option' => 'ALL'])}}"
+                   class="item__filter {{ (request('date_option') == 'ALL') ? 'active' : ''}}">
+                    <span>All the time</span>
+                </a>
+            </div>
+
             <div class="col-sm-12 col-xl-12 box-col-12">
                 <div class="card">
                     <div id="chart_custom"></div>
@@ -251,12 +209,18 @@
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th scope="col" class="date-sort {{ (request('sort') == 'ASC') ? 'ASC' : 'DESC'}}">Date <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col" class="date-sort {{ (request('sort') == 'ASC') ? 'ASC' : 'DESC'}}">Date
+                                    <i class="fa-solid fa-sort"></i></th>
                                 <th scope="col">Website</th>
                                 <th scope="col">Zone</th>
-                                <th scope="col" class="impressions_sort {{ (request('impressions_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Impressions <i class="fa-solid fa-sort"></i></th>
-                                <th scope="col" class="cpm_sort {{ (request('cpm_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Cpm <i class="fa-solid fa-sort"></i></th>
-                                <th scope="col" class="revenue_sort {{ (request('revenue_sort') == 'ASC') ? 'ASC' : 'DESC'}}">Revenue <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col"
+                                    class="impressions_sort {{ (request('impressions_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
+                                    Impressions <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col" class="cpm_sort {{ (request('cpm_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
+                                    Cpm <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col"
+                                    class="revenue_sort {{ (request('revenue_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
+                                    Revenue <i class="fa-solid fa-sort"></i></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -281,14 +245,28 @@
             </div>
         </div>
     </div>
+    <style>
+        .apexcharts-menu-icon::before {
+            content: "\f019"; /* Ký tự Unicode tương ứng với biểu tượng download trong FontAwesome */
+            font-family: "Font Awesome 6 Solid"; /* Font chữ FontAwesome */
+            /* Các thuộc tính khác tùy chỉnh khác */
+        }
+        .group__value {
+            display: flex;
+            justify-content: flex-end;
+        }
 
+        .group__value .item__filter {
+            margin-left: 10px;
+        }
+    </style>
 @endsection
 
 @section('js')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Lắng nghe sự kiện click trên tiêu đề cột
-            $('.date-sort, .impressions_sort, .cpm_sort, .revenue_sort').click(function() {
+            $('.date-sort, .impressions_sort, .cpm_sort, .revenue_sort').click(function () {
                 var $this = $(this);
 
                 var sort = $this.hasClass('ASC') ? 'DESC' : 'ASC';
@@ -326,7 +304,7 @@
         })
 
         var options = {
-            colors: ['rgb(0, 143, 251)', 'rgb(0, 227, 150)', 'rgb(254, 176, 25)', 'rgb(255, 69, 96)', 'rgb(119, 93, 208)','#FF4081', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#FFC107', '#03A9F4', '#E91E63', '#00BCD4', '#8BC34A', '#673AB7', '#FF5722', '#607D8B', '#9E9E9E', '#795548', '#F44336', '#FFEB3B', '#9C27B0', '#009688', '#FF5722'],
+            colors: ['rgb(0, 143, 251)', 'rgb(0, 227, 150)', 'rgb(254, 176, 25)', 'rgb(255, 69, 96)', 'rgb(119, 93, 208)', '#FF4081', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#FFC107', '#03A9F4', '#E91E63', '#00BCD4', '#8BC34A', '#673AB7', '#FF5722', '#607D8B', '#9E9E9E', '#795548', '#F44336', '#FFEB3B', '#9C27B0', '#009688', '#FF5722'],
             series: @json($chart['data']),
             chart: {
                 height: 350,
