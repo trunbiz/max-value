@@ -20,9 +20,11 @@
                                 <h6 class="font-roboto">Total Earning</h6>
                                 <h4 class="mb-0">${{ number_format($wallet['totalEarning'] ?? 0, 2) }}</h4>
                             </div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="fill-success" height="39" viewBox="0 0 320 512">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="fill-success" height="39"
+                                 viewBox="0 0 320 512">
                                 <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                                <path d="M160 0c17.7 0 32 14.3 32 32V67.7c1.6 .2 3.1 .4 4.7 .7c.4 .1 .7 .1 1.1 .2l48 8.8c17.4 3.2 28.9 19.9 25.7 37.2s-19.9 28.9-37.2 25.7l-47.5-8.7c-31.3-4.6-58.9-1.5-78.3 6.2s-27.2 18.3-29 28.1c-2 10.7-.5 16.7 1.2 20.4c1.8 3.9 5.5 8.3 12.8 13.2c16.3 10.7 41.3 17.7 73.7 26.3l2.9 .8c28.6 7.6 63.6 16.8 89.6 33.8c14.2 9.3 27.6 21.9 35.9 39.5c8.5 17.9 10.3 37.9 6.4 59.2c-6.9 38-33.1 63.4-65.6 76.7c-13.7 5.6-28.6 9.2-44.4 11V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V445.1c-.4-.1-.9-.1-1.3-.2l-.2 0 0 0c-24.4-3.8-64.5-14.3-91.5-26.3c-16.1-7.2-23.4-26.1-16.2-42.2s26.1-23.4 42.2-16.2c20.9 9.3 55.3 18.5 75.2 21.6c31.9 4.7 58.2 2 76-5.3c16.9-6.9 24.6-16.9 26.8-28.9c1.9-10.6 .4-16.7-1.3-20.4c-1.9-4-5.6-8.4-13-13.3c-16.4-10.7-41.5-17.7-74-26.3l-2.8-.7 0 0C119.4 279.3 84.4 270 58.4 253c-14.2-9.3-27.5-22-35.8-39.6c-8.4-17.9-10.1-37.9-6.1-59.2C23.7 116 52.3 91.2 84.8 78.3c13.3-5.3 27.9-8.9 43.2-11V32c0-17.7 14.3-32 32-32z"/>
+                                <path
+                                    d="M160 0c17.7 0 32 14.3 32 32V67.7c1.6 .2 3.1 .4 4.7 .7c.4 .1 .7 .1 1.1 .2l48 8.8c17.4 3.2 28.9 19.9 25.7 37.2s-19.9 28.9-37.2 25.7l-47.5-8.7c-31.3-4.6-58.9-1.5-78.3 6.2s-27.2 18.3-29 28.1c-2 10.7-.5 16.7 1.2 20.4c1.8 3.9 5.5 8.3 12.8 13.2c16.3 10.7 41.3 17.7 73.7 26.3l2.9 .8c28.6 7.6 63.6 16.8 89.6 33.8c14.2 9.3 27.6 21.9 35.9 39.5c8.5 17.9 10.3 37.9 6.4 59.2c-6.9 38-33.1 63.4-65.6 76.7c-13.7 5.6-28.6 9.2-44.4 11V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V445.1c-.4-.1-.9-.1-1.3-.2l-.2 0 0 0c-24.4-3.8-64.5-14.3-91.5-26.3c-16.1-7.2-23.4-26.1-16.2-42.2s26.1-23.4 42.2-16.2c20.9 9.3 55.3 18.5 75.2 21.6c31.9 4.7 58.2 2 76-5.3c16.9-6.9 24.6-16.9 26.8-28.9c1.9-10.6 .4-16.7-1.3-20.4c-1.9-4-5.6-8.4-13-13.3c-16.4-10.7-41.5-17.7-74-26.3l-2.8-.7 0 0C119.4 279.3 84.4 270 58.4 253c-14.2-9.3-27.5-22-35.8-39.6c-8.4-17.9-10.1-37.9-6.1-59.2C23.7 116 52.3 91.2 84.8 78.3c13.3-5.3 27.9-8.9 43.2-11V32c0-17.7 14.3-32 32-32z"/>
                             </svg>
                         </div>
                         <div class="progress-widget">
@@ -203,81 +205,96 @@
                 </div>
             </div>
             <div class="col-sm-12 col-xl-12 box-col-12">
-                <form action="" method="GET">
+                <form action="{{route('user.dashboard.index')}}" id="searchReport" method="GET">
+                    <!-- Các trường form khác ở đây -->
+                    <input type="hidden" name="date_option" value="{{ request('date_option')}}">
                     <div class="row">
-                        <div class="col-sm-1">
-                            <label>Filter: </label>
+                        <div class="col-sm-3">
                         </div>
-                        <div class="col-sm-2">
-                            <div class="input-group">
-                                <input type="text" name="daterange" class="form-control" value="" placeholder="-Range date-"/>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input type="text" name="date_range" class="form-control"
+                                       value="{{request('date_range')}}" placeholder="-Range date-"
+                                       style="height: 30px"/>
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <div class="input-group">
-                                <select class="form-control" id="website" name="website_id">
+                            <div class="form-group">
+                                <select class="form-control" id="website" name="website_id" style="height: 30px">
                                     <option value="">-Website-</option>
                                     @foreach($websites as $website)
-                                        <option value="{{ $website->id }}" {{ request('website_id') == $website->id ? 'selected' : ''}}>{{ $website->name }}</option>
+                                        <option
+                                            value="{{ $website->id }}" {{ request('website_id') == $website->id ? 'selected' : ''}}>{{ $website->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <div class="input-group">
-                                <select class="form-control" id="website" name="website_id">
+                            <div class="form-group">
+                                <select class="form-control" id="zone" name="zone_id" style="height: 30px">
                                     <option value="">-Zone-</option>
-                                    @foreach($websites as $website)
-                                        <option value="{{ $website->id }}" {{ request('website_id') == $website->id ? 'selected' : ''}}>{{ $website->name }}</option>
+                                    @foreach($zones as $zone)
+                                        <option
+                                            value="{{ $zone->id }}" {{ request('zone_id') == $zone->id ? 'selected' : ''}}>{{ $zone->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline-primary generate"
+                                        onclick="clickSearchReport()"><i class="fa-brands fa-searchengin"></i> Generate
+                                </button>
+                                <button type="button" class="btn btn-outline-success download" onclick="clickDownloadReport()"><i
+                                        class="fa-solid fa-download"></i> Download
+                                </button>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-        <b>Custom Report</b>
-        <div class="col-sm-12 col-xl-12 box-col-12">
-            <div class="card-footer bg-white">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col" class="date-sort {{ (request('sort') == 'ASC') ? 'ASC' : 'DESC'}}">Date
-                                <i class="fa-solid fa-sort"></i></th>
-                            <th scope="col">Website</th>
-                            <th scope="col">Zone</th>
-                            <th scope="col"
-                                class="impressions_sort {{ (request('impressions_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
-                                Impressions <i class="fa-solid fa-sort"></i></th>
-                            <th scope="col" class="cpm_sort {{ (request('cpm_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
-                                Cpm <i class="fa-solid fa-sort"></i></th>
-                            <th scope="col"
-                                class="revenue_sort {{ (request('revenue_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
-                                Revenue <i class="fa-solid fa-sort"></i></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        @foreach($items as $itemReportSite)
+            <b>Custom Report</b>
+            <div class="col-sm-12 col-xl-12 box-col-12">
+                <div class="card-footer bg-white">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
                             <tr>
-                                <td scope="row" data-column="Date">{{$itemReportSite->date}}</td>
-                                <td>{{$itemReportSite->name}}</td>
-                                <td>{{$itemReportSite->zone_name}}</td>
-                                <td>{{number_format($itemReportSite->total_change_impressions ?? 0)}}</td>
-                                <td>{{round($itemReportSite->ave_cpm, 3)}}</td>
-                                <td>{{round($itemReportSite->total_change_revenue ?? 0, 2)}} $</td>
+                                <th scope="col" class="date-sort {{ (request('sort') == 'ASC') ? 'ASC' : 'DESC'}}">Date
+                                    <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col">Website</th>
+                                <th scope="col">Zone</th>
+                                <th scope="col"
+                                    class="impressions_sort {{ (request('impressions_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
+                                    Impressions <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col" class="cpm_sort {{ (request('cpm_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
+                                    Cpm <i class="fa-solid fa-sort"></i></th>
+                                <th scope="col"
+                                    class="revenue_sort {{ (request('revenue_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
+                                    Revenue <i class="fa-solid fa-sort"></i></th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div>
-                    @include('user.components.footer_table')
+                            </thead>
+                            <tbody>
+
+                            @foreach($items as $itemReportSite)
+                                <tr>
+                                    <td scope="row" data-column="Date">{{$itemReportSite->date}}</td>
+                                    <td>{{$itemReportSite->name}}</td>
+                                    <td>{{$itemReportSite->zone_name}}</td>
+                                    <td>{{number_format($itemReportSite->total_change_impressions ?? 0)}}</td>
+                                    <td>{{round($itemReportSite->ave_cpm, 3)}}</td>
+                                    <td>{{round($itemReportSite->total_change_revenue ?? 0, 2)}} $</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        @include('user.components.footer_table')
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <style>
         .apexcharts-menu-icon::before {
@@ -285,6 +302,7 @@
             font-family: "Font Awesome 6 Solid"; /* Font chữ FontAwesome */
             /* Các thuộc tính khác tùy chỉnh khác */
         }
+
         .group__value {
             display: flex;
             justify-content: flex-end;
@@ -298,14 +316,38 @@
 
 @section('js')
     <script>
-        $(document).ready(function () {
-            $(".daterange").select2({});
-        });
+        function clickSearchReport() {
+            var url = new URL(window.location.href); // Lấy URL hiện tại
+            var dateOption = url.searchParams.get("date_option"); // Lấy giá trị của tham số "date_option"
 
-        $(function() {
-            $('input[name="daterange"]').daterangepicker({
-                timePicker: true,
-                timePickerIncrement: 30,
+            // Thêm tham số "dashboard?date_option" vào URL khi kích vào nút form
+            var form = document.getElementById("searchReport"); // Thay thế "your-form-id" bằng ID của form
+
+            // Gán giá trị của "date_option" vào trường ẩn trong form
+            var dateOptionInput = form.elements["date_option"];
+            dateOptionInput.value = dateOption;
+            form.action = url + "?date_option=" + dateOption;
+            // Gửi form
+            form.submit();
+        }
+        function clickDownloadReport()
+        {
+            // Lấy giá trị các trường input và select trong form
+            var dateRange = document.querySelector('input[name="date_range"]').value;
+            var dateArray = dateRange.split(" - ");
+            var fromDate = dateArray[0]; // Giá trị "from"
+            var toDate = dateArray[1]; // Giá trị "to"
+
+            var websiteId = document.querySelector('select[name="website_id"]').value;
+            var zoneId = document.querySelector('select[name="zone_id"]').value;
+            var exportUrl = "{{route('user.reports.export')}}" + "?website_id=" + websiteId + "&zone_id=" + zoneId + "&from=" + fromDate + "&to=" + toDate;
+            window.open(exportUrl, '_blank');
+        }
+
+
+        $(function () {
+            $('input[name="date_range"]').daterangepicker({
+                timePicker: false,
                 locale: {
                     format: 'YYYY-MM-DD'
                 }

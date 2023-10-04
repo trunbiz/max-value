@@ -17,6 +17,7 @@ use App\Services\SiteService;
 use App\Services\WalletService;
 use App\Services\ZoneService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -96,6 +97,11 @@ class DashboardController extends Controller
             {
                 $listSiteId = [-1];
             }
+
+            // Lấy danh sách site và zone hiện thị ở filter
+            $data['websites'] = $this->siteService->listSiteByApiSiteId($listSiteId);
+            $data['zones'] = $this->zoneService->listZoneByApiSiteId($listSiteId);
+
             // Tổng zone
             $data['totalZone'] = $this->zoneService->totalZone(null, $listSiteId);
             $data['totalZonePending'] = $this->zoneService->totalZone(['status' => ZoneModel::PENDING], $listSiteId);
@@ -135,8 +141,15 @@ class DashboardController extends Controller
                 $currentDate->addDay();
             }
 
-            // Lấy thông tin show bảng
-            $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $startDate, $endDate, $sort, $request);
+            if (!empty($request['date_range']) || !empty($request['website_id']) || !empty($request['zone_id']))
+            {
+                $dateSearch = explode(" - ", $request['date_range']);
+                // Lấy thông tin show bảng
+                $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
+            }
+            else{
+                $data['items'] = new Collection();;
+            }
 
             // Lấy thông tin reports
             $dataReport = [];

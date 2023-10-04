@@ -59,4 +59,9 @@ class ZoneService
         return $query->where('is_delete', 0)->count();
     }
 
+    public function listZoneByApiSiteId($listSiteId)
+    {
+        return ZoneModel::whereIn('ad_site_id', $listSiteId)->get();
+    }
+
 }
