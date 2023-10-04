@@ -1,5 +1,4 @@
 <?php
-var_dump(1111);die();
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
