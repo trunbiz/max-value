@@ -7,6 +7,7 @@ use App\Models\Helper;
 use App\Models\ReportModel;
 use App\Traits\ClientRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ReportService
 {
@@ -226,13 +227,18 @@ class ReportService
         $query = $this->queryDataReport($listSiteId, $from, $to, $orderBy, $params);
         return $query->paginate(25);
     }
-    public function queryDataReport($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
+    public function queryDataReport($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null, $isPublisher = false)
     {
         $query = ReportModel::query()
             ->join('websites', 'websites.api_site_id', '=', 'report.web_id')
             ->join('zones', 'report.zone_id', '=', 'zones.ad_zone_id');
         if (!empty($listSiteId)) {
             $query->whereIn('report.web_id', $listSiteId);
+        }
+
+        if ($isPublisher)
+        {
+            $query->where('websites.user_id', Auth::user()->id);
         }
 
         if (!empty($params['website_id']))
