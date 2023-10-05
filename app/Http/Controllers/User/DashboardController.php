@@ -147,10 +147,13 @@ class DashboardController extends Controller
                 $dateSearch = explode(" - ", $request['date_range']);
                 // Lấy thông tin show bảng
                 $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
+                $data['countItem'] = $this->reportService->countDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
             }
             else{
-                $data['items'] = new Collection();;
+                $data['items'] = new Collection();
+                $data['countItem'] = new Collection();
             }
+
 
             // Lấy thông tin reports
             $dataReport = [];

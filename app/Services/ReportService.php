@@ -268,7 +268,15 @@ class ReportService
     public function getDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
     {
         $query = $this->queryDataReport($listSiteId, $from, $to, $orderBy, $params);
+        $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm, report.change_revenue as total_change_revenue' );
         return $query->paginate(25);
+    }
+
+    public function countDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
+    {
+        $query = $this->queryDataReport($listSiteId, $from, $to, $orderBy, $params);
+        return $query->selectRaw('SUM(change_impressions) AS totalImpressions, SUM(change_revenue) AS totalRevenue, AVG(change_cpm) AS averageCpm')->first();
+
     }
     public function queryDataReport($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null, $isPublisher = false)
     {
@@ -301,8 +309,6 @@ class ReportService
         if (!empty($to)) {
             $query->where('report.date', '<=', $to);
         }
-
-        $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm, report.change_revenue as total_change_revenue' );
         $query->where('report.status', 1)
             ->orderBy('date', $orderBy);
 
