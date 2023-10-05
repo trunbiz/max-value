@@ -13,10 +13,10 @@ class AddIsStatusToZonesTable extends Migration
      */
     public function up()
     {
-        Schema::table('zones', function (Blueprint $table) {
-            //
-            $table->integer('active')->nullable()->after('status');
-        });
+//        Schema::table('zones', function (Blueprint $table) {
+//            //
+////            $table->integer('active')->nullable()->after('status');
+//        });
     }
 
     /**

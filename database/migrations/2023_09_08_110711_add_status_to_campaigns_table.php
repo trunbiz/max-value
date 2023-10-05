@@ -13,10 +13,10 @@ class AddStatusToCampaignsTable extends Migration
      */
     public function up()
     {
-        Schema::table('campaigns', function (Blueprint $table) {
-            //
-            $table->integer('id_status')->nullable()->after('id_advertiser');
-        });
+//        Schema::table('campaigns', function (Blueprint $table) {
+//            //
+////            $table->integer('id_status')->nullable()->after('id_advertiser');
+//        });
     }
 
     /**
