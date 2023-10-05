@@ -223,7 +223,7 @@
                                     </th>
                                     <th data-column="Payment Time">
                                         @if($itemTransaction->withdraw_status_id != \App\Models\WithdrawUser::STATUS_REJECT)
-                                            <p>{{$itemTransaction->updated_at != $itemTransaction->created_at ? $itemTransaction->updated_at : ''}}</p>
+                                            <p>{{$itemTransaction->updated_at != $itemTransaction->created_at ? $itemTransaction->updated_at->format('Y-m-d') : ''}}</p>
                                             {{--                                        <p>11:59 PM</p>--}}
                                         @endif
 

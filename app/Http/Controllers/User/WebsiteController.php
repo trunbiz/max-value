@@ -32,7 +32,7 @@ class WebsiteController extends Controller
 
     public function index(Request $request)
     {
-        $title = "Websites";
+        $title = "Websites & Zones";
         $current_user = User::where('id', Auth::id())->first();
         $items = Website::where('user_id', auth()->user()->id)->where('is_delete', 0)->get();
         return view('user.' . $this->prefixView . '.index', compact('items','title', 'current_user'));
