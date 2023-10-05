@@ -162,7 +162,7 @@
                         <div class="media ">
                             <div class="media-body">
                                 <h6 class="font-roboto">Average CPM {{$titleFilter}}</h6>
-                                <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
+                                <h4 class="mb-0">{{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
                             </div>
                         </div>
                     </div>
