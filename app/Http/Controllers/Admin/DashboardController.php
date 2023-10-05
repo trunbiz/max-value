@@ -203,6 +203,7 @@ class DashboardController extends Controller
             $data['charts']['series']['totalRevenue'][] = floor($reportChart[$date]['totalRevenue'] ?? 0);
             $data['charts']['series']['paidRevenue'][] = floor($reportChart[$date]['paidRevenue'] ?? 0);
         }
+        $data['charts']['options'] = $dateRange;
         return view('administrator.dashboard.index', $data);
     }
 

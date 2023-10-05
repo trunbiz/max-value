@@ -84,7 +84,8 @@ class DashboardController extends Controller
 
             $data = [
                 'title' => 'Dashboard',
-                'titleFilter' => $titleFilter
+                'titleFilter' => $titleFilter,
+                'fileNameExport' => 'Maxvalue_' . date_format(new \DateTime($startDate), 'm-d-Y') . '_' . date_format(new \DateTime($endDate), 'm-d-Y')
             ];
             $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
 
@@ -206,7 +207,7 @@ class DashboardController extends Controller
             $chartData = array_values($chartData);
 
             // Mer revenue line
-            array_push($chartData, [
+            array_unshift($chartData, [
                 'name' => 'Total revenue',
                 'type' => 'line',
                 'data' => array_values($dataReportDay)
