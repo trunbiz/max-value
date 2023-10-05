@@ -13,12 +13,12 @@ class AddColWebsitesTable extends Migration
      */
     public function up()
     {
-        Schema::table('websites', function (Blueprint $table) {
-            //
-            $table->integer('is_delete')->nullable()->default(0)->after('api_site_id');
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
-        });
+//        Schema::table('websites', function (Blueprint $table) {
+//            //
+////            $table->integer('is_delete')->nullable()->default(0)->after('api_site_id');
+////            $table->integer('created_by')->nullable();
+////            $table->integer('updated_by')->nullable();
+//        });
     }
 
     /**

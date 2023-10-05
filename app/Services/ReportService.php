@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ChangeReportModel;
 use App\Models\Helper;
+use App\Models\ReportDetailModel;
 use App\Models\ReportModel;
 use App\Traits\ClientRequest;
 use Carbon\Carbon;
@@ -26,13 +27,16 @@ class ReportService
         if (empty($webIds['data']))
             return false;
 
-        $to = Carbon::now()->format('Y-m-d');
-        $from = Carbon::now()->subDays(1)->format('Y-m-d');
+        $to = Carbon::now()->subHours(2)->format('Y-m-d');
+        $from = Carbon::now()->subHours(2)->format('Y-m-d');
         foreach ($webIds['data'] as $web)
         {
             $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
             if (empty($datas['data']))
                 continue;
+
+            // Lấy thông tin chi tiết zone
+            $dataDetail = $this->getReportDetailCountry($from, $web->id);
 
             foreach ($datas['data'] as $data) {
 
@@ -45,7 +49,7 @@ class ReportService
                 if (!empty($reportInfo))
                     continue;
 
-                ReportModel::updateOrCreate([
+                $reportInfo = ReportModel::updateOrCreate([
                     'web_id' => $web->id,
                     'zone_id' => $data->iddimension_2,
                     'publisher_id' => $web->publisher->id,
@@ -62,9 +66,48 @@ class ReportService
                     'ad_cpm' => $data->cpm,
                     'revenue' => round($data->impressions / 1000 * $data->cpm, 3),
                 ]);
+
+                // Lấy thông tin chi tiết và lưu thông tin chi tiết zone :))
+                if (empty($dataDetail[$data->iddimension_2]))
+                    continue;
+
+                foreach ($dataDetail[$data->iddimension_2] as $itemDetail)
+                {
+                    ReportDetailModel::create([
+                        'report_id' => $reportInfo->id,
+                        'geo_id' => $itemDetail['iddimension'] ?? null,
+                        'request' => $itemDetail['requests'] ?? null,
+                        'impressions' => $itemDetail['impressions'] ?? null,
+                        'extra' => json_encode($itemDetail ?? [])
+                    ]);
+                }
             }
         }
         return true;
+    }
+
+    public function getReportDetailCountry($date, $siteId)
+    {
+        $url = $this->url . '/v2/stats';
+        $header = $this->getHeader();
+        $params = [
+            'dateBegin' => $date,
+            'dateEnd' => $date,
+            'idsite' => $siteId,
+            'group' => 'country',
+            'group2' => 'zone'
+        ];
+        $data = $this->callClientRequest('GET', $url, $header, $params);
+
+        if (empty($data['data']))
+            return false;
+
+        $arrayResult = [];
+        foreach ($data['data'] as $item)
+        {
+            $arrayResult[$item->iddimension_2][]= (array)$item;
+        }
+        return $arrayResult;
     }
     public function getDataReportDailyByWebId($webId, $from, $to)
     {

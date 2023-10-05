@@ -13,11 +13,11 @@ class AddColCampaignsTable extends Migration
      */
     public function up()
     {
-        Schema::table('campaigns', function (Blueprint $table) {
-            //
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
-        });
+//        Schema::table('campaigns', function (Blueprint $table) {
+//            //
+////            $table->integer('created_by')->nullable();
+////            $table->integer('updated_by')->nullable();
+//        });
     }
 
     /**

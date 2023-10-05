@@ -13,11 +13,11 @@ class AddEmailTelegramToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->string('telegram')->nullable()->after('email');
-            $table->string('skype')->nullable()->after('email');
-        });
+//        Schema::table('users', function (Blueprint $table) {
+//            //
+////            $table->string('telegram')->nullable()->after('email');
+////            $table->string('skype')->nullable()->after('email');
+//        });
     }
 
     /**
