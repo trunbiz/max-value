@@ -44,6 +44,11 @@ class SiteService
         return $query->count();
     }
 
+    public function listSiteByApiSiteId($listSiteId)
+    {
+        return Website::whereIn('api_site_id', $listSiteId)->get();
+    }
+
     public function listAll($params)
     {
         $query = Website::query();

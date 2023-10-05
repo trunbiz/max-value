@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Exports\ReportExport;
 use App\Models\Advertise;
 use App\Http\Controllers\Controller;
 use App\Models\Formatter;
@@ -146,6 +147,7 @@ class ReportController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+        $request = $request->all();
+        return Excel::download(new ReportExport($request), $this->prefixView. '_' . time() . '.xlsx');
     }
 }
