@@ -21,6 +21,8 @@ class CreateReportDetailTable extends Migration
             $table->integer('impressions')->nullable();
             $table->json('extra')->nullable();
             $table->timestamps();
+            $table->index('report_id');
+            $table->index('geo_id');
         });
     }
 

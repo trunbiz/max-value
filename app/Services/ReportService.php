@@ -70,15 +70,16 @@ class ReportService
                 if (empty($dataDetail[$data->iddimension_2]))
                     continue;
 
-                ReportDetailModel::updateOrCreate([
-                    'report_id' => $reportInfo->id
-                ], [
-                    'report_id' => $reportInfo->id,
-                    'geo_id' => $dataDetail[$data->iddimension_2]['iddimension'] ?? null,
-                    'request' => $dataDetail[$data->iddimension_2]['requests'] ?? null,
-                    'impressions' => $dataDetail[$data->iddimension_2]['impressions'] ?? null,
-                    'extra' => json_encode($dataDetail[$data->iddimension_2] ?? [])
-                ]);
+                foreach ($dataDetail[$data->iddimension_2] as $itemDetail)
+                {
+                    ReportDetailModel::create([
+                        'report_id' => $reportInfo->id,
+                        'geo_id' => $itemDetail['iddimension'] ?? null,
+                        'request' => $itemDetail['requests'] ?? null,
+                        'impressions' => $itemDetail['impressions'] ?? null,
+                        'extra' => json_encode($itemDetail ?? [])
+                    ]);
+                }
             }
         }
         return true;
@@ -103,7 +104,7 @@ class ReportService
         $arrayResult = [];
         foreach ($data['data'] as $item)
         {
-            $arrayResult[$item->iddimension_2] = (array)$item;
+            $arrayResult[$item->iddimension_2][]= (array)$item;
         }
         return $arrayResult;
     }
