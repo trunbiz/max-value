@@ -13,19 +13,19 @@ class CreateCampaignsTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaigns', function (Blueprint $table) {
-            $table->id();
-            $table->integer('ad_campaign_id')->nullable();
-            $table->string('name')->nullable();
-            $table->integer('id_advertiser')->nullable();
-            $table->integer('id_run_status')->nullable();
-            $table->json('extra_request')->nullable();
-            $table->json('extra_response')->nullable();
-            $table->integer('is_delete')->default(0);
-            $table->timestamps();
-            $table->index('ad_campaign_id');
-            $table->index('id_advertiser');
-        });
+//        Schema::create('campaigns', function (Blueprint $table) {
+////            $table->id();
+////            $table->integer('ad_campaign_id')->nullable();
+////            $table->string('name')->nullable();
+////            $table->integer('id_advertiser')->nullable();
+////            $table->integer('id_run_status')->nullable();
+////            $table->json('extra_request')->nullable();
+////            $table->json('extra_response')->nullable();
+////            $table->integer('is_delete')->default(0);
+////            $table->timestamps();
+////            $table->index('ad_campaign_id');
+////            $table->index('id_advertiser');
+//        });
     }
 
     /**
