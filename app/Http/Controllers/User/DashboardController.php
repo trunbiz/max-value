@@ -194,7 +194,7 @@ class DashboardController extends Controller
             $chartData = array_values($chartData);
 
             // Mer revenue line
-            array_unshift($chartData, [
+            array_push($chartData, [
                 'name' => 'Total revenue',
                 'type' => 'line',
                 'data' => array_values($dataReportDay)
