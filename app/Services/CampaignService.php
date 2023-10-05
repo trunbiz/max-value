@@ -124,8 +124,14 @@ class CampaignService
 
     public function listCampaignByParams($params)
     {
-        $paramsCampaign['filter']['name'] = $params['name'];
-        return Helper::callGetHTTP("https://api.adsrv.net/v2/campaign", $paramsCampaign);
+        $paramsCampaign = [
+            'query' => [
+                'filter' => [
+                    'name' => $params['name']
+                ]
+            ]
+        ];
+        return Helper::callGetHTTP("https://api.adsrv.net/v2/campaign", $paramsCampaign, true);
     }
 
     public function updateCampaignAdServer($id, $params)
