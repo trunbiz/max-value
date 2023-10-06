@@ -286,14 +286,17 @@
                                     <td>{{round($itemReportSite->total_change_revenue ?? 0, 2)}} $</td>
                                 </tr>
                             @endforeach
-                            <tr style="font-weight: bold">
-                                <td scope="row" data-column="Date">Total</td>
-                                <td></td>
-                                <td></td>
-                                <td>{{number_format($countItem->totalImpressions ?? 0)}}</td>
-                                <td>{{round($countItem->averageCpm, 3)}}</td>
-                                <td>{{round($countItem->totalRevenue ?? 0, 2)}} $</td>
-                            </tr>
+                            @if($countItem->isNotEmpty())
+                                <tr style="font-weight: bold">
+                                    {{dd(($countItem))}}
+                                    <td scope="row" data-column="Date">Total</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{number_format($countItem->totalImpressions)}}</td>
+                                    <td>{{round($countItem->averageCpm, 3)}}</td>
+                                    <td>{{round($countItem->totalRevenue ?? 0, 2)}} $</td>
+                                </tr>
+                            @endif
                             </tbody>
                         </table>
                     </div>
