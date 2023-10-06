@@ -197,10 +197,26 @@
                 </a>
             </div>
 
-            <div class="col-sm-12 col-xl-12 box-col-12">
+            <div class="col-sm-8 col-xl-8 box-col-8">
                 <div class="card">
                     <div id="chart_custom"></div>
                 </div>
+            </div>
+            <div class="col-sm-4 col-xl-4 box-col-14">
+                <table class="table table-hover" style="height: 350px">
+                    <tbody>
+                    @foreach($listCountryTraffic as $itemTraffic)
+                        <tr>
+                            <td scope="row" data-column="Date">
+                                <span class="flag-icon flag-icon-{{$itemTraffic->code}} flag-icon-{{$itemTraffic->code}}"></span>
+
+                                {{$itemTraffic->name}}
+                            </td>
+                            <td>{{number_format($itemTraffic->total_impressions ?? 0)}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
             <b>Statistics</b>
             <div class="col-sm-12 col-xl-12 box-col-12">
