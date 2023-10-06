@@ -301,8 +301,36 @@
                     </div>
                     <div>
                         @include('user.components.footer_table')
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                            Open modal
+                        </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Modal body..
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <input type="checkbox" value="">
+                    <label class="checkbox-inline">
+                        Hide
+                    </label>
+                </div>
+
             </div>
         </div>
     </div>
@@ -326,6 +354,10 @@
 
 @section('js')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#myModal').modal('show');
+        });
+
         function clickSearchReport() {
             var url = new URL(window.location.href); // Lấy URL hiện tại
             var dateOption = url.searchParams.get("date_option"); // Lấy giá trị của tham số "date_option"
