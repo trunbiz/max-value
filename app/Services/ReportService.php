@@ -72,7 +72,10 @@ class ReportService
 
                 foreach ($dataDetail[$data->iddimension_2] as $itemDetail)
                 {
-                    ReportDetailModel::create([
+                    ReportDetailModel::updateOrCreate([
+                        'report_id' => $reportInfo->id,
+                        'geo_id' => $itemDetail['iddimension'] ?? null
+                    ],[
                         'report_id' => $reportInfo->id,
                         'geo_id' => $itemDetail['iddimension'] ?? null,
                         'request' => $itemDetail['requests'] ?? null,
