@@ -167,8 +167,8 @@
 <script src="{{asset('/assets/user/js/select2.full.min.js')}}"></script>
 <script src="{{asset('/assets/user/js/select2-custom.js')}}"></script>
 <script src="{{asset('/assets/user/js/main.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
 <script>
-
     function viewBirthOfDay() {
 
         const searchParams = new URLSearchParams(window.location.search)

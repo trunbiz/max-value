@@ -301,31 +301,28 @@
                     </div>
                     <div>
                         @include('user.components.footer_table')
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                            Open modal
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- The Modal -->
-    <div class="modal fade" id="myModal">
+    <div class="modal fade" id="bannerPopupModal">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="clickCloseBannerPopup()">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    Modal body..
+                    <img src="{{ asset('/assets/user/images/banner_popup_dashboard.png') }}" alt="Skype">
                 </div>
 
                 <!-- Modal footer -->
-                <div class="modal-footer">
-                    <input type="checkbox" value="">
+                <div class="modal-footer" style="justify-content: left;">
+                    <input type="checkbox" value="1" name="showBannerPopup" id="showBannerCheckbox">
                     <label class="checkbox-inline">
                         Hide
                     </label>
@@ -354,10 +351,11 @@
 
 @section('js')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            $('#myModal').modal('show');
-        });
 
+        function clickCloseBannerPopup()
+        {
+            $('#bannerPopupModal').modal('hide');
+        }
         function clickSearchReport() {
             var url = new URL(window.location.href); // Lấy URL hiện tại
             var dateOption = url.searchParams.get("date_option"); // Lấy giá trị của tham số "date_option"
@@ -397,6 +395,20 @@
         });
 
         $(document).ready(function () {
+           // kích hide vào lưu giá trị này vào cooki
+            $('#showBannerCheckbox').change(function() {
+                if ($(this).is(':checked')) {
+                    setCookie('hideBannerPopupDasboard', true);
+                }
+            });
+
+            var hideBannerPopupDasboard = getCookie('hideBannerPopupDasboard');
+            // Hiện popup banner
+            if (!hideBannerPopupDasboard)
+            {
+                $('#bannerPopupModal').modal('show');
+            }
+
             // Lắng nghe sự kiện click trên tiêu đề cột
             $('.date-sort, .impressions_sort, .cpm_sort, .revenue_sort').click(function () {
                 var $this = $(this);
