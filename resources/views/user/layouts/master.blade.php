@@ -27,6 +27,12 @@
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
         rel="stylesheet">
 
+    {{--    Bootstrap 3--}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- fontAwesome Css -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -86,6 +92,7 @@
     <script src="{{asset('/vendor/masknumber/jquery.masknumber.js')}}"></script>
 
     <script src="{{asset('/assets/user/js/jquery.min.js')}}"></script>
+
     @include('user.components.helper')
 
     <style>
@@ -129,6 +136,9 @@
         .simplebar-offset{
             height: 100% !important;
         }
+        .form-control{
+            height: 34px;
+        }
 
     </style>
 
@@ -160,8 +170,8 @@
 <script src="{{asset('/assets/user/js/select2.full.min.js')}}"></script>
 <script src="{{asset('/assets/user/js/select2-custom.js')}}"></script>
 <script src="{{asset('/assets/user/js/main.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
 <script>
-
     function viewBirthOfDay() {
 
         const searchParams = new URLSearchParams(window.location.search)

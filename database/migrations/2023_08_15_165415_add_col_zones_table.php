@@ -13,11 +13,11 @@ class AddColZonesTable extends Migration
      */
     public function up()
     {
-        Schema::table('zones', function (Blueprint $table) {
-            //
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
-        });
+//        Schema::table('zones', function (Blueprint $table) {
+//            //
+////            $table->integer('created_by')->nullable();
+////            $table->integer('updated_by')->nullable();
+//        });
     }
 
     /**

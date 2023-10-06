@@ -4,9 +4,11 @@ namespace App\Services;
 
 use App\Models\ChangeReportModel;
 use App\Models\Helper;
+use App\Models\ReportDetailModel;
 use App\Models\ReportModel;
 use App\Traits\ClientRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ReportService
 {
@@ -25,13 +27,16 @@ class ReportService
         if (empty($webIds['data']))
             return false;
 
-        $to = Carbon::now()->format('Y-m-d');
-        $from = Carbon::now()->subDays(1)->format('Y-m-d');
+        $to = Carbon::now()->subHours(2)->format('Y-m-d');
+        $from = Carbon::now()->subHours(2)->format('Y-m-d');
         foreach ($webIds['data'] as $web)
         {
             $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
             if (empty($datas['data']))
                 continue;
+
+            // Lấy thông tin chi tiết zone
+            $dataDetail = $this->getReportDetailCountry($from, $web->id);
 
             foreach ($datas['data'] as $data) {
 
@@ -44,7 +49,7 @@ class ReportService
                 if (!empty($reportInfo))
                     continue;
 
-                ReportModel::updateOrCreate([
+                $reportInfo = ReportModel::updateOrCreate([
                     'web_id' => $web->id,
                     'zone_id' => $data->iddimension_2,
                     'publisher_id' => $web->publisher->id,
@@ -61,9 +66,48 @@ class ReportService
                     'ad_cpm' => $data->cpm,
                     'revenue' => round($data->impressions / 1000 * $data->cpm, 3),
                 ]);
+
+                // Lấy thông tin chi tiết và lưu thông tin chi tiết zone :))
+                if (empty($dataDetail[$data->iddimension_2]))
+                    continue;
+
+                foreach ($dataDetail[$data->iddimension_2] as $itemDetail)
+                {
+                    ReportDetailModel::create([
+                        'report_id' => $reportInfo->id,
+                        'geo_id' => $itemDetail['iddimension'] ?? null,
+                        'request' => $itemDetail['requests'] ?? null,
+                        'impressions' => $itemDetail['impressions'] ?? null,
+                        'extra' => json_encode($itemDetail ?? [])
+                    ]);
+                }
             }
         }
         return true;
+    }
+
+    public function getReportDetailCountry($date, $siteId)
+    {
+        $url = $this->url . '/v2/stats';
+        $header = $this->getHeader();
+        $params = [
+            'dateBegin' => $date,
+            'dateEnd' => $date,
+            'idsite' => $siteId,
+            'group' => 'country',
+            'group2' => 'zone'
+        ];
+        $data = $this->callClientRequest('GET', $url, $header, $params);
+
+        if (empty($data['data']))
+            return false;
+
+        $arrayResult = [];
+        foreach ($data['data'] as $item)
+        {
+            $arrayResult[$item->iddimension_2][]= (array)$item;
+        }
+        return $arrayResult;
     }
     public function getDataReportDailyByWebId($webId, $from, $to)
     {
@@ -223,11 +267,39 @@ class ReportService
 
     public function getDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
     {
+        $query = $this->queryDataReport($listSiteId, $from, $to, $orderBy, $params);
+        $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm, report.change_revenue as total_change_revenue' );
+        return $query->paginate(25);
+    }
+
+    public function countDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
+    {
+        $query = $this->queryDataReport($listSiteId, $from, $to, $orderBy, $params);
+        return $query->selectRaw('SUM(change_impressions) AS totalImpressions, SUM(change_revenue) AS totalRevenue, AVG(change_cpm) AS averageCpm')->first();
+
+    }
+    public function queryDataReport($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null, $isPublisher = false)
+    {
         $query = ReportModel::query()
             ->join('websites', 'websites.api_site_id', '=', 'report.web_id')
             ->join('zones', 'report.zone_id', '=', 'zones.ad_zone_id');
         if (!empty($listSiteId)) {
             $query->whereIn('report.web_id', $listSiteId);
+        }
+
+        if ($isPublisher)
+        {
+            $query->where('websites.user_id', Auth::user()->id);
+        }
+
+        if (!empty($params['website_id']))
+        {
+            $query->where('websites.id', $params['website_id']);
+        }
+
+        if (!empty($params['zone_id']))
+        {
+            $query->where('zones.id', $params['zone_id']);
         }
 
         if (!empty($from)) {
@@ -237,8 +309,6 @@ class ReportService
         if (!empty($to)) {
             $query->where('report.date', '<=', $to);
         }
-
-        $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_revenue as total_change_revenue, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm');
         $query->where('report.status', 1)
             ->orderBy('date', $orderBy);
 
@@ -254,7 +324,6 @@ class ReportService
         {
             $query->orderBy('report.change_revenue', $params['revenue_sort']);
         }
-
-        return $query->paginate(25);
+        return $query;
     }
 }

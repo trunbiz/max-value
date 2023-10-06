@@ -570,6 +570,16 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
             'as' => 'user.ajax.editmethod',
             'uses' => 'App\Http\Controllers\User\AjaxController@editMethod',
         ]);
+
+        // Lấy thông tin reports
+        Route::get('reports', [
+            'as' => 'user.ajax.reports.list',
+            'uses' => 'App\Http\Controllers\User\ReportController@apiListReport',
+        ]);
+        Route::get('reports/export', [
+            'as' => 'user.ajax.reports.list',
+            'uses' => 'App\Http\Controllers\User\ReportController@apiListReport',
+        ]);
     });
 
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');

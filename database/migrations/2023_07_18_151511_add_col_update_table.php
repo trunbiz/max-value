@@ -13,11 +13,11 @@ class AddColUpdateTable extends Migration
      */
     public function up()
     {
-        Schema::table('report', function (Blueprint $table) {
-            //
-            $table->integer('ad_impressions')->after('impressions')->nullable()->comment('impressions lấy từ adServer');
-            $table->double('ad_cpm', 15, 3)->after('cpm')->nullable()->comment('cpm lấy từ adServer');
-        });
+//        Schema::table('report', function (Blueprint $table) {
+//            //
+////            $table->integer('ad_impressions')->after('impressions')->nullable()->comment('impressions lấy từ adServer');
+////            $table->double('ad_cpm', 15, 3)->after('cpm')->nullable()->comment('cpm lấy từ adServer');
+//        });
     }
 
     /**
