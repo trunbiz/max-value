@@ -129,6 +129,9 @@
         .simplebar-offset{
             height: 100% !important;
         }
+        .form-control{
+            height: 34px;
+        }
 
     </style>
 
