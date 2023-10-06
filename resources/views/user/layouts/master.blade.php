@@ -92,7 +92,7 @@
     <script src="{{asset('/vendor/masknumber/jquery.masknumber.js')}}"></script>
 
     <script src="{{asset('/assets/user/js/jquery.min.js')}}"></script>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flag-icon-css@3.5.0/css/flag-icon.min.css">
     @include('user.components.helper')
 
     <style>

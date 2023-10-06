@@ -155,6 +155,10 @@ class DashboardController extends Controller
             }
 
 
+            // Lấy thông tin geo traffic
+            $data['listCountryTraffic'] = $this->reportService->getDataTrafficCountry($listSiteId, $startDate, $endDate);
+            $data['totalCountryTraffic'] = $this->reportService->countTrafficCountry($listSiteId, $startDate, $endDate)->total_impressions ?? 0;
+
             // Lấy thông tin reports
             $dataReport = [];
             $infoReportBySite = $this->reportService->getDataReportGroupSite($listSiteId, $startDate, $endDate);
