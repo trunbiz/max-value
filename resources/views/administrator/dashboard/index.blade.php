@@ -73,7 +73,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">CPM</h6>
-                                    <h4 class="mb-0">${{ round($totalReport->averageCpm ?? 0, 3) }}</h4>
+                                    <h4 class="mb-0">{{ round($totalReport->averageCpm ?? 0, 3) }}</h4>
                                 </div>
                                 <div class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
                                      <span class="badge bg-success"><i class="fa-solid fa-square-arrow-up-right"></i>
