@@ -8,6 +8,7 @@ use App\Models\ReportDetailModel;
 use App\Models\ReportModel;
 use App\Traits\ClientRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class ReportService
 {
@@ -269,11 +270,39 @@ class ReportService
 
     public function getDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
     {
+        $query = $this->queryDataReport($listSiteId, $from, $to, $orderBy, $params);
+        $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm, report.change_revenue as total_change_revenue' );
+        return $query->paginate(25);
+    }
+
+    public function countDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
+    {
+        $query = $this->queryDataReport($listSiteId, $from, $to, $orderBy, $params);
+        return $query->selectRaw('SUM(change_impressions) AS totalImpressions, SUM(change_revenue) AS totalRevenue, AVG(change_cpm) AS averageCpm')->first();
+
+    }
+    public function queryDataReport($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null, $isPublisher = false)
+    {
         $query = ReportModel::query()
             ->join('websites', 'websites.api_site_id', '=', 'report.web_id')
             ->join('zones', 'report.zone_id', '=', 'zones.ad_zone_id');
         if (!empty($listSiteId)) {
             $query->whereIn('report.web_id', $listSiteId);
+        }
+
+        if ($isPublisher)
+        {
+            $query->where('websites.user_id', Auth::user()->id);
+        }
+
+        if (!empty($params['website_id']))
+        {
+            $query->where('websites.id', $params['website_id']);
+        }
+
+        if (!empty($params['zone_id']))
+        {
+            $query->where('zones.id', $params['zone_id']);
         }
 
         if (!empty($from)) {
@@ -283,8 +312,6 @@ class ReportService
         if (!empty($to)) {
             $query->where('report.date', '<=', $to);
         }
-
-        $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_revenue as total_change_revenue, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm');
         $query->where('report.status', 1)
             ->orderBy('date', $orderBy);
 
@@ -300,7 +327,6 @@ class ReportService
         {
             $query->orderBy('report.change_revenue', $params['revenue_sort']);
         }
-
-        return $query->paginate(25);
+        return $query;
     }
 }
