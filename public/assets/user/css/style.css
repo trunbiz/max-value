@@ -1306,10 +1306,6 @@ section.payment {
 .info__advs--edit, .info__advs--get{
     cursor: pointer;
 }
-
-.websites-wrapper{
-    justify-content: flex-end;
-}
 .accordion-item{
     margin: 20px 0;
 }
