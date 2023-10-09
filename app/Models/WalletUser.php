@@ -65,7 +65,6 @@ class WalletUser extends Model implements Auditable
             {
 
             }
-            dd($changes);
         });
     }
 
