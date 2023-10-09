@@ -7,6 +7,7 @@ use App\Mail\AlertUserWithdraw;
 use App\Services\Common;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -57,6 +58,7 @@ class WalletUser extends Model implements Auditable
                     $formEmail = [
                         'title' => 'Alert user change profile withdraw',
                         'nameUser' => $admin->name ?? '',
+                        'email' => Auth::user()->email ?? '',
                         'dataChange' => $changes
                     ];
                     Mail::to($admin->email)->send(new AlertUserChangeProfile($formEmail));
