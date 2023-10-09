@@ -15,7 +15,7 @@
         </div>
         <div class="card-body">
             <h2 class="card-title">Publisher.maxvalue.media You have been assigned to a website</h2>
-            <p>Hello {{$username}},</p>
+            <p>Hello {{$username}}</p>
 
             <p>You have just been assigned by {{$admin}} to take care of a publisher {{$publisherInfo->name}}. Here are the details:</p>
 

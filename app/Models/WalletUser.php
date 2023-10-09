@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use App\Mail\AlertUserChangeProfile;
+use App\Mail\AlertUserWithdraw;
+use App\Services\Common;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 use OwenIt\Auditing\Contracts\Auditable;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\DeleteModelTrait;
@@ -18,7 +24,51 @@ class WalletUser extends Model implements Auditable
 
     protected $guarded = [];
 
+    protected $fillable=[
+        'default',
+        'email'
+    ];
+
     // begin
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($model) {
+            $changes = [];
+            foreach ($model->getDirty() as $attribute => $value) {
+                $originalValue = $model->getOriginal($attribute);
+                $changes[$attribute] = [
+                    'old' => $originalValue,
+                    'new' => $value,
+                ];
+            }
+
+            // Bắn mail khi user thay đổi khoản vay
+            try {
+                // Send mail when user withdraw
+                $userAdminAndSale = User::where('role_id', [1])->where('active', Common::ACTIVE)->get();
+                foreach ($userAdminAndSale as $admin)
+                {
+                    if (!filter_var($admin->email, FILTER_VALIDATE_EMAIL)) {
+                        continue;
+                    }
+
+                    $formEmail = [
+                        'title' => 'Alert user change profile withdraw',
+                        'nameUser' => $admin->name ?? '',
+                        'email' => Auth::user()->email ?? '',
+                        'dataChange' => $changes
+                    ];
+                    Mail::to($admin->email)->send(new AlertUserChangeProfile($formEmail));
+                }
+            }catch (\Exception $e)
+            {
+
+            }
+        });
+    }
 
     public function withdrawType(){
         return $this->belongsTo(WithdrawType::class);
