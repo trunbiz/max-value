@@ -7,7 +7,7 @@
   width: 100%;
   padding: $input-padding-y $input-padding-x;
   font-family: $input-font-family;
-  @include font-size($input-font-size);
+  font-size: 16px;
   font-weight: $input-font-weight;
   line-height: $input-line-height;
   color: $input-color;
@@ -57,7 +57,7 @@
     // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
     opacity: 1;
   }
-  
+
 
   // Disabled and read-only inputs
   //
