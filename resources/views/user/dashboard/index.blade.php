@@ -203,6 +203,7 @@
                 </div>
             </div>
             <div class="col-sm-4 col-xl-4 box-col-14">
+                <label><b>Top 5 traffic</b></label>
                 <table class="table table-hover" style="height: 350px">
                     <tbody>
                     @foreach($listCountryTraffic as $itemTraffic)
@@ -212,7 +213,7 @@
 
                                 {{$itemTraffic->name}}
                             </td>
-                            <td>{{number_format($itemTraffic->total_impressions ?? 0)}}</td>
+                            <td>{{round(($itemTraffic->total_impressions/$totalCountryTraffic) * 100, 2)}} %</td>
                         </tr>
                     @endforeach
                     </tbody>
