@@ -73,7 +73,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">CPM</h6>
-                                    <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
+                                    <h4 class="mb-0">${{ round($totalReport->averageCpm ?? 0, 3) }}</h4>
                                 </div>
                                 <div class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
                                      <span class="badge bg-success"><i class="fa-solid fa-square-arrow-up-right"></i>
@@ -85,7 +85,7 @@
                             <div class="progress-widget">
                                 <div style="text-align: right">
                                     <div class="badge bg-primary">
-                                        Last: {{number_format($totalReportLastMonth->averageCpm)}}
+                                        Last: {{round($totalReportLastMonth->averageCpm, 3)}}
                                     </div>
                                 </div>
                             </div>
