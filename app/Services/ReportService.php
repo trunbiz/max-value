@@ -9,6 +9,7 @@ use App\Models\ReportModel;
 use App\Traits\ClientRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ReportService
 {
@@ -103,7 +104,12 @@ class ReportService
         $data = $this->callClientRequest('GET', $url, $header, $params);
 
         if (empty($data['data']))
+        {
+            Log::error('call ' . $url, [
+                'data' => $data
+            ]);
             return false;
+        }
 
         $arrayResult = [];
         foreach ($data['data'] as $item)
