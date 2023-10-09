@@ -15,7 +15,7 @@
         </div>
         <div class="card-body">
             <h2 class="card-title">Publisher.maxvalue.media Publihser a has just been added a new website, let's check it</h2>
-            <p>Hello {{$userAdmin}},</p>
+            <p>Hello {{$userAdmin}}</p>
 
             <p>Publihser a has just been added a new website, let's check it:</p>
 

@@ -15,7 +15,7 @@
         </div>
         <div class="card-body">
             <h2 class="card-title">Publisher.maxvalue.media {{$title}}</h2>
-            <p>Hello {{$name}},</p>
+            <p>Hello {{$name}}</p>
             <ul class="list-group">
                 <li class="list-group-item"><strong>Website:</strong> {{$site}}</li>
                 <li class="list-group-item"><strong>Zone:</strong> {{$site}}</li>
