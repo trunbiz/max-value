@@ -48,20 +48,29 @@ class WalletUser extends Model implements Auditable
             // Bắn mail khi user thay đổi khoản vay
             try {
                 // Send mail when user withdraw
-                $userAdminAndSale = User::where('role_id', [1])->where('active', Common::ACTIVE)->get();
-                foreach ($userAdminAndSale as $admin)
+                $userAdminAndSale = User::where('role_id', [1,6, 4])->where('active', Common::ACTIVE);
+
+                // Lấy giá trị thông tin AM quản lý
+                $userAM = AssignUserModel::where('type', AssignUserModel::TYPE['PUBLISHER'])->where('is_delete', 0)->where('service_id', Auth::user()->id)->first();
+                if (!empty($userAM))
                 {
-                    if (!filter_var($admin->email, FILTER_VALIDATE_EMAIL)) {
+                    $userAdminAndSale->orWhere('id', $userAM->user_id);
+                }
+
+                $userAdminAndSale = $userAdminAndSale->pluck('name', 'email')->toArray();
+                foreach ($userAdminAndSale as $email => $name)
+                {
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                         continue;
                     }
 
                     $formEmail = [
                         'title' => 'Alert user change profile withdraw',
-                        'nameUser' => $admin->name ?? '',
+                        'nameUser' => $name ?? '',
                         'email' => Auth::user()->email ?? '',
                         'dataChange' => $changes
                     ];
-                    Mail::to($admin->email)->send(new AlertUserChangeProfile($formEmail));
+                    Mail::to($email)->send(new AlertUserChangeProfile($formEmail));
                 }
             }catch (\Exception $e)
             {
