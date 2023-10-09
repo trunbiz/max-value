@@ -15,11 +15,11 @@
         </div>
         <div class="card-body">
             <h2 class="card-title">Publisher.maxvalue.media {{$title}}</h2>
-            <p>Hello {{$name}}</p>
+            <p>Hello {{$nameUser}}</p>
             <ul class="list-group">
-                <li class="list-group-item"><strong>Website:</strong> {{$site}}</li>
-                <li class="list-group-item"><strong>Status:</strong> {{$status}}</li>
-                <li class="list-group-item"><strong>Update at:</strong> {{$update_at}}</li>
+                <li class="list-group-item"><strong>User mail:</strong> {{$emailWithdraw}}</li>
+                <li class="list-group-item"><strong>Amount:</strong> {{$amount}}$</li>
+                <li class="list-group-item"><strong>Estimate Payment Time:</strong> {{$estimatePaymentTime}}</li>
             </ul>
         </div>
     </div>
