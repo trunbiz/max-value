@@ -61,11 +61,11 @@ class WalletController extends Controller
                 $amountReject += $transaction->amount;
             }
         }
-        $totalEarning = Formatter::formatMoney($amountAvailable + $amountPending + $amountTotalWithdraw);
-        $amountAvailable = Formatter::formatMoney($amountAvailable);
-        $amountPending = Formatter::formatMoney($amountPending);
-        $amountTotalWithdraw = Formatter::formatMoney($amountTotalWithdraw);
-        $amountReject = Formatter::formatMoney($amountReject);
+        $totalEarning = ($amountAvailable + $amountPending + $amountTotalWithdraw + $amountReject);
+//        $amountAvailable = Formatter::formatMoney($amountAvailable);
+//        $amountPending = Formatter::formatMoney($amountPending);
+//        $amountTotalWithdraw = Formatter::formatMoney($amountTotalWithdraw);
+//        $amountReject = Formatter::formatMoney($amountReject);
 
         return view('user.' . $this->prefixView . '.index', compact('items', 'banks','title', 'current_user','amountAvailable','amountPending','amountTotalWithdraw','transactions', 'amountReject', 'totalEarning'));
     }
