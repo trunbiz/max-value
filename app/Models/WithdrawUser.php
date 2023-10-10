@@ -172,9 +172,9 @@ class WithdrawUser extends Model implements Auditable
             ]);
         }elseif ($request->withdraw_status_id == 3){
             // Nếu từ chối rút tiền thì hoàn tiền cho user
-            $userWithDraw = User::find($item->user_id);
-            $userWithDraw->money = $userWithDraw->money + $item->amount;
-            $userWithDraw->save();
+//            $userWithDraw = User::find($item->user_id);
+//            $userWithDraw->money = $userWithDraw->money + $item->amount;
+//            $userWithDraw->save();
 
             NotificationCustom::create([
                 'user_id' => $item->user_id,
