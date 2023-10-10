@@ -58,7 +58,7 @@
                 </div>
                 <div id="infoMethod"></div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="justify-content: center;">
                 <button type="button" class="btn-cancel" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn-cancel filter__button" id="submit" onclick="storeMethod()">Add now</button>
             </div>

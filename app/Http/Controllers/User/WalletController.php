@@ -175,7 +175,7 @@ class WalletController extends Controller
                 'message' => $validator->errors()->first(),
             ]);
         }else{
-            $item = $this->model->updateByQuery($request, $request->id);
+            $this->model->updateByQuery($request, $request->id);
             $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->orderBy('id', 'DESC')->get();
             return response()->json([
                 'html' => view('user.wallet_users.add_method', compact('items'))->render(),

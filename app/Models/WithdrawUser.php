@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+use App\Mail\AlertUserWithdraw;
+use App\Mail\MailNotiUserNew;
+use App\Services\Common;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 use OwenIt\Auditing\Contracts\Auditable;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\DeleteModelTrait;
@@ -95,6 +100,29 @@ class WithdrawUser extends Model implements Auditable
             'user_id' => auth()->id(),
             'updated_at' => Carbon::now()->day(15)->addMonth()
         ];
+
+        try {
+            // Send mail when user withdraw
+            $userAdminAndSale = User::where('role_id', [1])->where('active', Common::ACTIVE)->get();
+            foreach ($userAdminAndSale as $admin)
+            {
+                if (!filter_var($admin->email, FILTER_VALIDATE_EMAIL)) {
+                    continue;
+                }
+
+                $formEmail = [
+                    'title' => 'Alert user withdraw',
+                    'nameUser' => $admin->name ?? '',
+                    'amount' => $dataInsert['amount'],
+                    'emailWithdraw' => auth()->user()->email ?? '',
+                    'estimatePaymentTime' => $dataInsert['updated_at']->format('Y-m-d')
+                ];
+                Mail::to($admin->email)->send(new AlertUserWithdraw($formEmail));
+            }
+        }catch (\Exception $e)
+        {
+
+        }
 
         DB::beginTransaction();
 

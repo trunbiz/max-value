@@ -15,11 +15,12 @@
         </div>
         <div class="card-body">
             <h2 class="card-title">Publisher.maxvalue.media {{$title}}</h2>
-            <p>Hello {{$name}}</p>
+            <p>Hello {{$nameUser}}</p>
+            <b>User {{$email}} change profile withdraw with data: </b>
             <ul class="list-group">
-                <li class="list-group-item"><strong>Website:</strong> {{$site}}</li>
-                <li class="list-group-item"><strong>Status:</strong> {{$status}}</li>
-                <li class="list-group-item"><strong>Update at:</strong> {{$update_at}}</li>
+                @foreach($dataChange as $key => $value)
+                    <li class="list-group-item"><strong>{{$key}}: </strong> {{$value['old'] ?? ''}} changed {{$value['new'] ?? ''}}</li>
+                @endforeach
             </ul>
         </div>
     </div>
