@@ -110,7 +110,7 @@ class DashboardController extends Controller
             // Lấy thông tin withdraw user
             $withdrawInfo = $this->walletService->getInfoWithdrawUser(Auth::user()->id);
 
-            $data['wallet']['Withdrawn'] = 0;
+            $data['wallet']['withdrawn'] = 0;
             $data['wallet']['available'] = Auth::user()->money;
             $data['wallet']['pending'] = 0;
             $data['wallet']['rejected'] = 0;
@@ -118,17 +118,17 @@ class DashboardController extends Controller
             {
                 if ($itemWithdraw->withdrawStatus == WithdrawUser::STATUS_PENDING)
                 {
-                    $data['wallet']['pending'] = $itemWithdraw->totalAmount ?? 0;
+                    $data['wallet']['pending'] += $itemWithdraw->totalAmount ?? 0;
                 }
                 elseif ($itemWithdraw->withdrawStatus == WithdrawUser::STATUS_APPROVED){
-                    $data['wallet']['withdrawn'] = $itemWithdraw->totalAmount ?? 0;
+                    $data['wallet']['withdrawn'] += $itemWithdraw->totalAmount ?? 0;
                 }
                 elseif ($itemWithdraw->withdrawStatus == WithdrawUser::STATUS_REJECT){
-                    $data['wallet']['rejected'] = $itemWithdraw->totalAmount ?? 0;
+                    $data['wallet']['rejected'] += $itemWithdraw->totalAmount ?? 0;
                 }
             }
 
-            $data['wallet']['totalEarning'] = $data['wallet']['Withdrawn'] + $data['wallet']['available'] + $data['wallet']['pending'] + $data['wallet']['rejected'];
+            $data['wallet']['totalEarning'] = $data['wallet']['withdrawn'] + $data['wallet']['available'] + $data['wallet']['pending'] + $data['wallet']['rejected'];
 
             // Chuyển đổi chuỗi thành đối tượng Carbon
             $startD = Carbon::parse($startDate);
