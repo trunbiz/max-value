@@ -25,6 +25,19 @@ class WalletUser extends Model implements Auditable
     protected $guarded = [];
 
     protected $fillable=[
+        'user_id',
+        'withdraw_type_id',
+        'created_at',
+        'updated_at',
+        'method_id',
+        'network',
+        'network_address',
+        'beneficiary_name',
+        'account_number',
+        'bank_name',
+        'swift',
+        'bank_address',
+        'routing_number',
         'default',
         'email'
     ];
