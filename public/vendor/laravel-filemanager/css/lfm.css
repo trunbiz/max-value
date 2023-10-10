@@ -309,7 +309,7 @@ time {
 
 .list .mime-icon .ico:before {
   top: calc(45% - .5rem);
-  font-size: 1rem;
+  font-size: 16px;
 }
 
 .mime-icon .ico {

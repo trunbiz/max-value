@@ -53,11 +53,11 @@ $badge-light-color in (primary, $primary-color),
 .profile-greeting{
   position: relative;
   background-color: var(--theme-deafult);
-  color: $white ; 
-  height: 245px;   
+  color: $white ;
+  height: 245px;
   .card-body{
     padding: 40px;
-  }  
+  }
   .greeting-user {
     h1 {
        margin-bottom: 12px;
@@ -87,7 +87,7 @@ $badge-light-color in (primary, $primary-color),
         background-color: $white !important;
         color: var(--theme-deafult);
       }
-    }    
+    }
   }
   .cartoon-img {
     position: absolute;
@@ -120,18 +120,18 @@ $badge-light-color in (primary, $primary-color),
       margin-bottom: 10px;
     }
     h4 {
-      color: $dark; 
+      color: $dark;
       font-size: 18px;
       font-weight: 500;
-      margin-bottom: 5px;    
+      margin-bottom: 5px;
     }
-    span {           
+    span {
       color: $light-1;
       font-size:12px;
       display: block;
       margin-bottom:5px;
     }
-    h6 {           
+    h6 {
       font-size: 14px;
       color: $dark;
       font-weight: 700;
@@ -151,7 +151,7 @@ $badge-light-color in (primary, $primary-color),
   justify-content: space-between;
   align-items: center;
 }
-.news-update { 
+.news-update {
   h5 {
     color: $dark;
     margin-bottom: 9px;
@@ -163,7 +163,7 @@ $badge-light-color in (primary, $primary-color),
     color: $light-1;
     margin-bottom: -2px;
     display: block;
-  }    
+  }
   .table{
     tbody{
       tr{
@@ -206,33 +206,33 @@ $badge-light-color in (primary, $primary-color),
     max-width: 100%;
   }
 }
-.ongoing-project { 
+.ongoing-project {
   table{
     thead{
       background-color: $light-2;
       border-radius: 5px;
       tr{
-        th{         
-          color: $dark;       
+        th{
+          color: $dark;
           &:last-child{
             text-align: right;
-          }           
+          }
         }
-        
+
       }
     }
     tbody {
       tr {
-              
-        td {  
-          vertical-align: middle;         
+
+        td {
+          vertical-align: middle;
           &:first-child{
             padding-left:0 ;
             padding-top:19px;
           }
           &:last-child{
-            padding-right: 0 ;            
-            text-align:right;            
+            padding-right: 0 ;
+            text-align:right;
           }
           .media {
             .square-box{
@@ -240,7 +240,7 @@ $badge-light-color in (primary, $primary-color),
               height: 40px;
             }
           }
-          h6{            
+          h6{
             font-weight: 500;
             color: rgba($dark, 0.8);
             margin-bottom: 5px;
@@ -252,7 +252,7 @@ $badge-light-color in (primary, $primary-color),
             margin-bottom: 0;
             display: inline-block;
           }
-          .badge{            
+          .badge{
             text-transform: capitalize;
           }
         }
@@ -288,12 +288,12 @@ $badge-light-color in (primary, $primary-color),
       margin-bottom: 0;
       padding: 0;
     }
-  } 
+  }
 }
 
 // recent activity
-.recent-activity { 
-    
+.recent-activity {
+
     table{
       tr{
         &:first-child{
@@ -303,7 +303,7 @@ $badge-light-color in (primary, $primary-color),
         }
         &:last-child{
           td{
-            padding-bottom: 0;           
+            padding-bottom: 0;
           }
         }
         td{
@@ -314,22 +314,22 @@ $badge-light-color in (primary, $primary-color),
           &:last-child{
             text-align:right;
           }
-          .media {            
+          .media {
             >img {
               padding: 5px;
               background-color: $light-2;
               border-radius: 5px;
             }
             .media-body {
-              h5 {               
+              h5 {
                 color: $dark;
                 margin-bottom: 9px;
               }
-              p {      
-                color: $light-1;  
-                text-transform: capitalize;   
-                line-height: 1.2; 
-                font-size: 12px;   
+              p {
+                color: $light-1;
+                text-transform: capitalize;
+                line-height: 1.2;
+                font-size: 12px;
                 margin-bottom: 0.5rem;
                 span {
                   font-size: 10px;
@@ -344,14 +344,14 @@ $badge-light-color in (primary, $primary-color),
               }
               .activity-msg {
                 background-color: $light-2;
-                border-radius: 5px;         
+                border-radius: 5px;
                 font-size: 13px;
                 color: $light-1;
                 padding: 10px;
                 width: 90%;
               }
             }
-          } 
+          }
         }
       }
     }
@@ -375,7 +375,7 @@ $badge-light-color in (primary, $primary-color),
     }
     .report-main {
       border-right: 1px solid rgba($dark, 0.1);
-      
+
     }
     .report-content {
       h5{
@@ -405,7 +405,7 @@ $badge-light-color in (primary, $primary-color),
   p{
     margin-bottom: .5rem;
     line-height: 1.2;
-  } 
+  }
 }
 .icon-box {
   width: 45px;
@@ -437,7 +437,7 @@ $badge-light-color in (primary, $primary-color),
         background: $white;
         font-family: $font-roboto;
 
-        &:last-child {  
+        &:last-child {
           border: none;
         }
 
@@ -471,11 +471,11 @@ $badge-light-color in (primary, $primary-color),
 
 
 // premium access
-.premium-access{ 
+.premium-access{
   background-image: url(../images/dashboard/premium-ace.png);
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: bottom right -35px;   
+  background-position: bottom right -35px;
   height: 255px;
   h6{
     font-weight: 500;
@@ -490,7 +490,7 @@ $badge-light-color in (primary, $primary-color),
     margin-bottom: 0;
   }
   .btn{
-    margin-top: 30px;       
+    margin-top: 30px;
   }
 }
 
@@ -498,12 +498,12 @@ $badge-light-color in (primary, $primary-color),
 
 
 // default dash
-.default-dash,.ecommerce-dash,.crypto-dash{  
+.default-dash,.ecommerce-dash,.crypto-dash{
   .badge{
-    padding: 8px 10px;   
+    padding: 8px 10px;
     font-size: 10px;
   }
-  .btn-outline-white_color{   
+  .btn-outline-white_color{
     padding: 10px 15px;
     font-size: 12px;
     border-radius: 5px;
@@ -527,7 +527,7 @@ $badge-light-color in (primary, $primary-color),
       height: auto;
       margin-bottom: 20px;
     }
-  }  
+  }
 
   h3{
     color: $semi-dark;
@@ -541,7 +541,7 @@ $badge-light-color in (primary, $primary-color),
   }
   ul{
     display:flex;
-    align-items:center;   
+    align-items:center;
     border-top: 1px solid  $light-gray;
     margin-top: 25px ;
     li {
@@ -561,7 +561,7 @@ $badge-light-color in (primary, $primary-color),
         border-left: 1px solid $light-gray;
       }
     }
-  }  
+  }
 }
 .modal-header , .modal-footer, .modal-content {
 	.btn-close {
@@ -611,7 +611,7 @@ $badge-light-color in (primary, $primary-color),
 
 
 // custom profile
-.custom-profile{ 
+.custom-profile{
   > div {
     padding: 30px;
   }
@@ -620,7 +620,7 @@ $badge-light-color in (primary, $primary-color),
     width: fit-content;
     margin-right: auto;
     margin-left: auto;
-    img{     
+    img{
       background-color: transparent;
     }
   }
@@ -628,7 +628,7 @@ $badge-light-color in (primary, $primary-color),
     margin-top: 20px;
     h4{
       font-size: 20px;
-    }    
+    }
     h6{
       font-size: 16px;
       color: $light-1;
@@ -655,15 +655,15 @@ $badge-light-color in (primary, $primary-color),
     }
     li {
       display: inline-block;
-      padding: 0;      
+      padding: 0;
        &:nth-child(n+2){
         margin-left: 10px;
        }
     }
   }
   .card-footer {
-    padding: 0 30px !important;   
-    h6{      
+    padding: 0 30px !important;
+    h6{
       font-size: 16px;
     }
     h5{
@@ -801,9 +801,9 @@ $badge-light-color in (primary, $primary-color),
     font-size: 14px;
     font-weight: 400;
     color: $theme-body-sub-title-color;
-  }  
+  }
   .media-body {
-    align-self: center !important;    
+    align-self: center !important;
   }
   .icon-bg {
     font-size: 30px;
@@ -839,8 +839,8 @@ $badge-light-color in (primary, $primary-color),
 }
 
 
-// testimonial 
-.testimonial {  
+// testimonial
+.testimonial {
   text-align: center;
   i {
     font-size: 60px;
@@ -866,13 +866,13 @@ $badge-light-color in (primary, $primary-color),
   p {
     font-size: 14px;
     color: $theme-body-sub-title-color;
-    font-style: italic;   
+    font-style: italic;
     margin-top: 20px;
   }
 }
 
 
-// order widget 
+// order widget
 .order-widget{
   .heder-widget{
     span{
@@ -891,7 +891,7 @@ $badge-light-color in (primary, $primary-color),
   .new-order {
     h6,span {
       color: $font-gray-color;
-    } 
+    }
     .progress{
       height: 20px;
       margin-top: 20px;
@@ -902,7 +902,7 @@ $badge-light-color in (primary, $primary-color),
       align-items: center;
       li{
         width: 100%;
-        
+
         h5{
           margin-bottom: 0;
         }
@@ -914,7 +914,7 @@ $badge-light-color in (primary, $primary-color),
 
 
 // widget joins
-.widget-joins {  
+.widget-joins {
   .widget-card {
     border: 1px solid $light-widget-border;
     padding: 30px;
@@ -945,7 +945,7 @@ $badge-light-color in (primary, $primary-color),
       }
     }
     h6 {
-      color: $font-gray-color;     
+      color: $font-gray-color;
       margin-bottom: 10px;
       font-size: 18px;
       font-weight: 500;
@@ -971,7 +971,7 @@ $badge-light-color in (primary, $primary-color),
   }
   .media {
     text-align: center;
-    align-items: center;    
+    align-items: center;
     .details {
       padding: 1px 0;
     }
@@ -1035,7 +1035,7 @@ $badge-light-color in (primary, $primary-color),
   }
   h5 {
     font-size: 20px;
-    font-weight: 600;   
+    font-weight: 600;
   }
   .media {
     align-items: center;
@@ -1063,7 +1063,7 @@ $badge-light-color in (primary, $primary-color),
         }
       }
     }
-  }  
+  }
 }
 .browser-widget {
   &:hover {
@@ -1192,7 +1192,7 @@ $badge-light-color in (primary, $primary-color),
         h5{
           font-size: 22px;
           margin-bottom: 0;
-        } 
+        }
         margin-left: 30px;
       }
       span{
@@ -1381,12 +1381,12 @@ $badge-light-color in (primary, $primary-color),
   .cal-desc {
     h3 {
       font-size: 22px;
-      margin-bottom: 6px;      
+      margin-bottom: 6px;
       text-transform: capitalize;
     }
     p{
       font-weight: 400;
-      font-size: 16px;      
+      font-size: 16px;
       color: $light-1;
     }
   }
@@ -1488,7 +1488,7 @@ $badge-light-color in (primary, $primary-color),
 
 // user status
 .user-status {
-  table{    
+  table{
     tr{
       th,td{
         &:first-child{
@@ -1498,7 +1498,7 @@ $badge-light-color in (primary, $primary-color),
           padding-right: 0;
         }
       }
-    }   
+    }
     thead{
       tr{
         th{
@@ -1519,7 +1519,7 @@ $badge-light-color in (primary, $primary-color),
         }
         td{
           padding-top: 16px;
-          padding-bottom: 16px;          
+          padding-bottom: 16px;
         }
       }
     }
@@ -1943,7 +1943,7 @@ span.twitter-typeahead {
     width: 100%;
     min-width: 10rem;
     margin: 0.125rem 0 0;
-    font-size: 1rem;
+    font-size: 16px;
     color: #212529;
     text-align: left;
     list-style: none;
@@ -2150,7 +2150,7 @@ footer {
       }
       p{
         font-size: 16px;
-      } 
+      }
     }
     .cartoon-img{
       right: 0;
@@ -2194,7 +2194,7 @@ footer {
       img{
         margin-right: -40px;
       }
-    }      
+    }
     .greeting-user {
       h1{
         font-size: 24px;
@@ -2202,7 +2202,7 @@ footer {
       .btn{
         margin-top: 15px;
       }
-    }    
+    }
   }
 }
 
@@ -2219,7 +2219,7 @@ footer {
         }
       }
     }
-  } 
+  }
   .recent-activity{
     table{
       tr{
@@ -2234,7 +2234,7 @@ footer {
         }
       }
     }
-  } 
+  }
   .hot-selling{
     .table{
       tbody{
@@ -2252,7 +2252,7 @@ footer {
     #invoice-overviwe-chart{
       margin-bottom: -11px;
     }
-  } 
+  }
   .total-sale{
     .card-body{
       .sale-main{
@@ -2263,15 +2263,15 @@ footer {
         }
       }
     }
-  }    
+  }
   .special-discount{
     .discount-detail{
       .timer-sec{
         padding-top: 11px;
       }
     }
-  }  
-  .profile-greeting {   
+  }
+  .profile-greeting {
     .cartoon-img {
       img{
         margin-right: -80px;
@@ -2316,7 +2316,7 @@ footer {
         margin-right: -165px;
       }
     }
-  }  
+  }
 
 
 }
@@ -2360,7 +2360,7 @@ footer {
     #yearly-chart{
       margin-bottom: -15px;
     }
-  }  
+  }
   .premium-access {
     height: 200px;
     .btn{
@@ -2381,7 +2381,7 @@ footer {
       tbody {
         tr {
           td{
-            padding: 10px 0; 
+            padding: 10px 0;
           }
         }
       }
@@ -2398,7 +2398,7 @@ footer {
     >div{
       padding: 25px;
     }
-  }  
+  }
 }
 
 
@@ -2407,15 +2407,15 @@ footer {
     .img-wrraper{
       padding-top: 50px;
     }
-  } 
+  }
   .profile-greeting {
     .cartoon-img {
       right: 35px;
       img{
         margin-right: -110px;
-      }     
+      }
     }
-  } 
+  }
   .earning-card{
     .earning-back{
       padding: 30px !important;
@@ -2436,7 +2436,7 @@ footer {
   }
   .profile-greeting {
     .cartoon-img {
-      right: 0;      
+      right: 0;
       img{
         margin-right: -170px;
       }
@@ -2444,7 +2444,7 @@ footer {
   }
   .total-transactions {
     .report-sec{
-      border-top: 1px solid  rgba($dark, 0.1);     
+      border-top: 1px solid  rgba($dark, 0.1);
     }
   }
   .premium-access{
@@ -2456,7 +2456,7 @@ footer {
 
 @media screen and (max-width: 480px){
   .profile-greeting{
-    height:auto;   
+    height:auto;
   }
   .earning-card {
     .earning-content {
@@ -2484,7 +2484,7 @@ footer {
       }
 
     }
-    
+
   }
 
   .widget-feedback {
@@ -2523,7 +2523,7 @@ footer {
   }
 
   .custom-profile {
-    .card-footer{     
+    .card-footer{
       >div {
         div{
           padding: 20px 0;
@@ -2558,7 +2558,7 @@ footer {
       margin-top:10px;
     }
   }
-  
+
 
   .browser-table {
     table {
@@ -2571,17 +2571,17 @@ footer {
       }
     }
   }
-  
 
-  
 
-  
+
+
+
 
 }
 
 @media screen and (max-width: 420px){
   .profile-greeting{
-    text-align: center;   
+    text-align: center;
     .greeting-user {
       p{
         max-width: 100%;
@@ -2596,12 +2596,12 @@ footer {
     .cartoon-img {
       display: none;
     }
-  }  
+  }
 
   .premium-access{
     background-position: bottom right -90px;
   }
-  
+
 }
 
 

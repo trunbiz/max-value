@@ -199,10 +199,27 @@
                 </a>
             </div>
 
-            <div class="col-sm-12 col-xl-12 box-col-12">
+            <div class="col-sm-8 col-xl-8 box-col-8">
                 <div class="card">
                     <div id="chart_custom"></div>
                 </div>
+            </div>
+            <div class="col-sm-4 col-xl-4 box-col-14">
+                <label><b>Top 5 traffic</b></label>
+                <table class="table table-hover" style="height: 350px">
+                    <tbody>
+                    @foreach($listCountryTraffic as $itemTraffic)
+                        <tr>
+                            <td scope="row" data-column="Date">
+                                <span class="flag-icon flag-icon-{{$itemTraffic->code}} flag-icon-{{$itemTraffic->code}}"></span>
+
+                                {{$itemTraffic->name}}
+                            </td>
+                            <td>{{round(($itemTraffic->total_impressions/$totalCountryTraffic) * 100, 2)}} %</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
             <div class="col-sm-12 col-xl-12 box-col-12">
                 <form action="{{route('user.dashboard.index')}}" id="searchReport" method="GET">

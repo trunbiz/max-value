@@ -47,7 +47,6 @@
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --bs-body-font-family: var(--bs-font-sans-serif);
-    --bs-body-font-size: 1rem;
     --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
     --bs-body-color: #212529;
@@ -2262,7 +2261,7 @@ progress {
     display: block;
     width: 100%;
     padding: .375rem .75rem;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
@@ -2509,7 +2508,7 @@ textarea.form-control-lg {
     width: 100%;
     padding: .375rem 2.25rem .375rem .75rem;
     -moz-padding-start: calc(0.75rem - 3px);
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
@@ -2909,7 +2908,7 @@ textarea.form-control-lg {
     display: flex;
     align-items: center;
     padding: .375rem .75rem;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
@@ -3196,7 +3195,7 @@ textarea.form-control.is-invalid {
     background-color: transparent;
     border: 1px solid transparent;
     padding: .375rem .75rem;
-    font-size: 1rem;
+    font-size: 16px;
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
@@ -4008,7 +4007,7 @@ fieldset:disabled .btn {
     min-width: 10rem;
     padding: .5rem 0;
     margin: 0;
-    font-size: 1rem;
+    font-size: 16px;
     color: #212529;
     text-align: left;
     list-style: none;
@@ -5300,7 +5299,7 @@ fieldset:disabled .btn {
     align-items: center;
     width: 100%;
     padding: 1rem 1.25rem;
-    font-size: 1rem;
+    font-size: 16px;
     color: #212529;
     text-align: left;
     background-color: #fff;
@@ -6813,7 +6812,7 @@ fieldset:disabled .btn {
 .popover-header {
     padding: .5rem 1rem;
     margin-bottom: 0;
-    font-size: 1rem;
+    font-size: 16px;
     background-color: #f0f0f0;
     border-bottom: 1px solid rgba(0, 0, 0, .2);
     border-top-left-radius: calc(.3rem - 1px);

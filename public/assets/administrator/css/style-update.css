@@ -21,3 +21,6 @@
     display: inline-block;
     border-radius: 16px;
 }
+.form-select, .form-control{
+    font-size: 16px;
+}

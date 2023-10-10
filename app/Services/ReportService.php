@@ -8,6 +8,7 @@ use App\Models\ReportDetailModel;
 use App\Models\ReportModel;
 use App\Traits\ClientRequest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -257,6 +258,13 @@ class ReportService
 
     public function getDataReportGroupSite($listSiteId = null, $from = null, $to = null)
     {
+        $query = $this->getDataReportByDate($listSiteId, $from, $to);
+        $query->selectRaw('websites.name, date, SUM(report.change_revenue) as total_change_revenue');
+        return $query->groupBy('report.web_id', 'date')->orderBy('date', 'ASC')->get();
+    }
+
+    public function getDataReportByDate($listSiteId, $from, $to)
+    {
         $query = ReportModel::query()
             ->join('websites', 'websites.api_site_id', '=', 'report.web_id');
         if (!empty($listSiteId)) {
@@ -270,8 +278,45 @@ class ReportService
         if (!empty($to)) {
             $query->where('report.date', '<=', $to);
         }
-        $query->selectRaw('websites.name, date, SUM(report.change_revenue) as total_change_revenue');
-        return $query->where('report.status', 1)->groupBy('report.web_id', 'date')->orderBy('date', 'ASC')->get();
+        $query->where('report.status', 1);
+        return $query;
+    }
+
+
+    // Lấy data những country có lương request lớn nhất
+    public function queryDataTrafficCountry($listSiteId = null, $from = null, $to = null)
+    {
+        $query = ReportModel::query()
+            ->join('report_detail', 'report_detail.report_id', '=', 'report.id');
+        if (!empty($listSiteId)) {
+            $query->whereIn('report.web_id', $listSiteId);
+        }
+
+        if (!empty($from)) {
+            $query->where('report.date', '>=', $from);
+        }
+
+        if (!empty($to)) {
+            $query->where('report.date', '<=', $to);
+        }
+
+        return $query;
+    }
+    public function getDataTrafficCountry($listSiteId, $from, $to)
+    {
+        $query = $this->queryDataTrafficCountry($listSiteId, $from, $to);
+        $query->join('nationals', 'nationals.geoname', '=', 'report_detail.geo_id');
+        return $query->groupBy('geo_id')
+            ->orderBy('total_impressions', 'desc')
+            ->select('report_detail.geo_id', 'nationals.code', 'nationals.name', DB::raw('SUM(report_detail.impressions) AS total_impressions'))
+            ->limit(5)
+            ->get();
+    }
+
+    public function countTrafficCountry($listSiteId, $from, $to)
+    {
+        $query = $this->queryDataTrafficCountry($listSiteId, $from, $to);
+        return $query->select( DB::raw('SUM(report_detail.impressions) AS total_impressions'))->first();
     }
 
     public function getDataReportBySite($listSiteId = null, $from = null, $to = null, $orderBy = 'DESC', $params = null)
