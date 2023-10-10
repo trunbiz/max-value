@@ -216,7 +216,7 @@
                                     <td data-column="Status">
                                         {!! \App\Models\WithdrawStatus::htmlStatus(optional($itemTransaction->statusWithdraw)->name) !!}
                                     </td>
-                                    <td data-column="Amount">${{\App\Models\Formatter::formatMoney($itemTransaction->amount)}}</td>
+                                    <td data-column="Amount">${{$itemTransaction->amount}}</td>
                                     <th data-column="Order Time">
                                         <p>{{$itemTransaction->created_at}}</p>
 {{--                                        <p>12:00 AM</p>--}}
