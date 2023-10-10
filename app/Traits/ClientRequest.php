@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\Helper;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 trait ClientRequest
 {
@@ -40,6 +41,7 @@ trait ClientRequest
             ];
         }catch (\Exception $e)
         {
+            Log::error('error request' . $e->getMessage() ?? 'Request api error');
             return [
                 'success' => false,
                 'message' => $e->getMessage() ?? 'Request api error'

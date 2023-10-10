@@ -73,7 +73,7 @@
                             <div class="media static-widget">
                                 <div class="media-body">
                                     <h6 class="font-roboto">CPM</h6>
-                                    <h4 class="mb-0">${{ number_format($totalReport->averageCpm ?? 0, 2) }}</h4>
+                                    <h4 class="mb-0">{{ round($totalReport->averageCpm ?? 0, 3) }}</h4>
                                 </div>
                                 <div class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
                                      <span class="badge bg-success"><i class="fa-solid fa-square-arrow-up-right"></i>
@@ -85,7 +85,7 @@
                             <div class="progress-widget">
                                 <div style="text-align: right">
                                     <div class="badge bg-primary">
-                                        Last: {{number_format($totalReportLastMonth->averageCpm)}}
+                                        Last: {{round($totalReportLastMonth->averageCpm, 3)}}
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +185,7 @@
                                     <h6 class="font-roboto">Pending Zones</h6>
                                     <h4 class="mb-0 counter">{{number_format($totalZonePending)}}</h4>
                                 </div>
-                                <svg class="fill-success" width="45" height="39" viewBox="0 0 45 39" fill="none"
+                                <svg class="fill-secondary" width="45" height="39" viewBox="0 0 45 39" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M5.92047 8.49509C5.81037 8.42629 5.81748 8.25971 5.93378 8.20177C7.49907 7.41686 9.01464 6.65821 10.5302 5.89775C14.4012 3.95495 18.2696 2.00762 22.1478 0.0792996C22.3387 -0.0157583 22.6468 -0.029338 22.8359 0.060288C28.2402 2.64315 33.6357 5.24502 39.033 7.84327C39.0339 7.84327 39.0339 7.84417 39.0348 7.84417C39.152 7.90121 39.1582 8.06869 39.0472 8.1375C38.9939 8.17009 38.9433 8.20087 38.8918 8.22984C33.5398 11.2228 28.187 14.2121 22.8385 17.2115C22.5793 17.3572 22.3839 17.3762 22.1131 17.2296C16.7851 14.3507 11.4518 11.4826 6.12023 8.61188C6.05453 8.57748 5.98972 8.53855 5.92047 8.49509Z"></path>
@@ -201,7 +201,7 @@
                             </div>
                             <div class="progress-widget">
                                 <div class="progress sm-progress-bar progress-animate">
-                                    <div class="progress-gradient-success" role="progressbar" style="width: 60%"
+                                    <div class="progress-gradient-secondary" role="progressbar" style="width: 60%"
                                          aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span
                                             class="animate-circle"></span></div>
                                 </div>
