@@ -71,17 +71,17 @@ class WalletController extends Controller
     {
         $position = $request->position;
         $withdrawUser = WithdrawUser::find($request->id);
-        if ($withdrawUser->withdraw_status_id != 1)
-        {
-            $item = $withdrawUser;
-            return response()->json([
-                'status' => false,
-                'messsage' => 'Status unkinow',
-                'html' => view('administrator.' . $this->prefixView . '.table', compact('item', 'position'))->render()
-            ]);
-        }
+//        if ($withdrawUser->withdraw_status_id != 1)
+//        {
+//            $item = $withdrawUser;
+//            return response()->json([
+//                'status' => false,
+//                'messsage' => 'Status unkinow',
+//                'html' => view('administrator.' . $this->prefixView . '.table', compact('item', 'position'))->render()
+//            ]);
+//        }
 
-        $item = $this->model->updateByQuery($request, $request->id);
+        $item = $this->model->updateByQuery($request);
         return response()->json([
             'status' => true,
             'messsage' => 'Update Successful',

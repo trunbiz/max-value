@@ -216,7 +216,7 @@
                                     <td data-column="Status">
                                         {!! \App\Models\WithdrawStatus::htmlStatus(optional($itemTransaction->statusWithdraw)->name) !!}
                                     </td>
-                                    <td data-column="Amount">${{\App\Models\Formatter::formatMoney($itemTransaction->amount)}}</td>
+                                    <td data-column="Amount">${{$itemTransaction->amount}}</td>
                                     <th data-column="Order Time">
                                         <p>{{$itemTransaction->created_at}}</p>
 {{--                                        <p>12:00 AM</p>--}}
@@ -461,7 +461,7 @@
                         swal("Error!", response.message, "error");
                     }else{
                         $this.modal('hide');
-                        swal("Success!", 'Add successful', "success");
+                        swal("Success!", 'Added Successfully', "success");
                         $('.list__payment--table').html(response.html);
                     }
 
@@ -557,7 +557,7 @@
                         swal("Error!", response.message, "error");
                     }else{
                         $this.modal('hide');
-                        swal("Success!", 'Add successful', "success");
+                        swal("Success!", 'Added Successfully', "success");
                         $('#listOrder').prepend(response.html);
                         $('.general__info .text-primary .value_item').html(response.available);
                         $('.money__info .total__money').html('$'+response.available);
