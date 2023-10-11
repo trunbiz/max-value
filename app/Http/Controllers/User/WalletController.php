@@ -189,7 +189,7 @@ class WalletController extends Controller
         WalletUser::find($request->id)->delete();
         return response()->json([
             'status' => true,
-            'message' => 'Delete success',
+            'message' => 'Deleted Successfully',
         ]);
         //return $this->model->deleteByQuery($request, $request->id, $this->forceDelete);
     }
