@@ -72,7 +72,7 @@
                                         </td>
 
                                         <td>
-                                            <label onclick="changeStatus({{ $item->id }})" class="p-1" style="cursor:pointer; border-radius: 10px;background-color: {{optional($item->statusWithdraw)->color}}">
+                                            <label @if($item->statusWithdraw->id != 2)onclick="changeStatus({{ $item->id }})" @endif class="p-1" style="cursor:pointer; border-radius: 10px;background-color: {{optional($item->statusWithdraw)->color}}">
                                                 {{ optional($item->statusWithdraw)->name}}
                                             </label>
                                         </td>
