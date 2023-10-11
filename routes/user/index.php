@@ -32,8 +32,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 Auth::routes(['verify' => true]);
 
 Route::get('/login', [UserController::class, 'login_user'])->name('login');
-//Route::get('/', [UserController::class, 'login_user'])->name('loginUser');
-//Route::post('/', [UserController::class, 'postLoginUser'])->name('user.login');
 
 
 Route::prefix('/')->middleware(['auth','verified'])->group(function () {

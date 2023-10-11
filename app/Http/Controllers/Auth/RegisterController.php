@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\Common;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -48,6 +49,12 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+
+    public function showRegistrationForm()
+    {
+        return view('publisher.pages.sign-up');
     }
 
     /**
@@ -99,7 +106,12 @@ class RegisterController extends Controller
                       'emailUser' => $userInfoNew->email,
                       'dateUser' => $userInfoNew->created_at,
                     ];
-                    Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
+
+                    try {
+                        Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
+                    } catch (\Exception $e) {
+                        Log::error('mail error $e->getMessage()');
+                    }
                 }
 
                 $data['email'] = Helper::randomString();
@@ -109,8 +121,7 @@ class RegisterController extends Controller
 
         return Validator::make($data, [
             'email' => ['required', 'string', 'max:255','unique:users,email'],
-            'password' => ['required'],
-//            'captcha' => ['required', 'captcha'],
+            'password' => ['required']
         ]);
     }
 

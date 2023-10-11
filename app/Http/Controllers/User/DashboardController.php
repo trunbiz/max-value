@@ -223,7 +223,7 @@ class DashboardController extends Controller
             $chart['date'] = array_values($dateRange);
             $data['chart'] = $chart;
 
-            return view('user.dashboard.index', $data);
+            return view('publisher.dashboard.index', $data);
         }
         return redirect()->to('/login');
     }
