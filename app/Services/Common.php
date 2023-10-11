@@ -344,109 +344,109 @@ class Common
     const DIMENSIONS_GROUP = [
         'Best Performance' => [
             "B-Stickyads" => [
-                'name' => 'B-Sticky ads',
+                'name' => 'B-Sticky ads (1 x 1)',
                 'size' => [
                     1,
                     1
                 ]
             ],
             "Medium-Rectangle" => [
-                'name' => 'Medium Rectangle',
+                'name' => 'Medium Rectangle (300 x 250)',
                 'size' => [
                     300,
                     250
                 ]
             ],
             "Video-Freesize" => [
-                'name' => 'Video-Freesize',
+                'name' => 'Video-Freesize (100% x 100%)',
                 'size' => [
                     '100%',
                     '100%'
                 ]
             ],
             "Flexible" => [
-                'name' => 'Flexible',
+                'name' => 'Flexible (100% x 100%)',
                 'size' => [
                     '100%',
                     '100%'
                 ]
             ],
         ],
-        'Dimension Banner' => [
+        'Banner format' => [
             "B-Stickyads" => [
-                'name' => 'B-Sticky ads',
+                'name' => 'B-Sticky ads (1 x 1)',
                 'size' => [
                     1,
                     1
                 ]
             ],
             "Medium-Rectangle" => [
-                'name' => 'Medium Rectangle',
+                'name' => 'Medium Rectangle (300 x 250)',
                 'size' => [
                     300,
                     250
                 ]
             ],
             "Large-Rectangle" => [
-                'name' => 'Large Rectangle',
+                'name' => 'Large Rectangle (366 x 280)',
                 'size' => [
                     366,
                     280
                 ]
             ],
             "Leaderboard" => [
-                'name' => 'Leaderboard',
+                'name' => 'Leaderboard (728 x 90)',
                 'size' => [
                     728,
                     90
                 ]
             ],
             "Large-Leaderboard" => [
-                'name' => 'Large Leaderboard',
+                'name' => 'Large Leaderboard (750 x 100)',
                 'size' => [
                     750,
                     100
                 ]
             ],
             "Super-Leaderboard" => [
-                'name' => 'Super Leaderboard',
+                'name' => 'Super Leaderboard (970 x 90)',
                 'size' => [
                     970,
                     90
                 ]
             ],
             "Billboard" => [
-                'name' => 'Billboard',
+                'name' => 'Billboard (970 x 250)',
                 'size' => [
                     970,
                     250
                 ]
             ],
             "Wide-Skycraper" => [
-                'name' => 'Wide Skycraper',
+                'name' => 'Wide Skycraper (160 x 600)',
                 'size' => [
                     160,
                     600
                 ]
             ],
             "Half-page" => [
-                'name' => 'Half page',
+                'name' => 'Half page (300 x 600)',
                 'size' => [
                     300,
                     600
                 ]
             ],
             "Flexible" => [
-                'name' => 'Flexible',
+                'name' => 'Flexible (auto x auto)',
                 'size' => [
                     'auto',
                     'auto'
                 ]
             ],
         ],
-        'Dimension Video' => [
+        'Video format' => [
             "Video-Freesize" => [
-                'name' => 'Video Freesize',
+                'name' => 'Video Freesize (100% x 100%)',
                 'size' => [
                     '100%',
                     '100%'
@@ -474,7 +474,7 @@ class Common
                 ]
             ],
         ],
-        'Dimension Native' => [
+        'Native format' => [
             "Smart-Feed" => [
                 'name' => 'Smart Feed',
                 'size' => [
@@ -546,7 +546,7 @@ class Common
                 ]
             ],
         ],
-        'Dimension Mobile' => [
+        'Mobile format' => [
             "Mobile-320x50" => [
                 'name' => 'Mobile (320x50)',
                 'size' => [

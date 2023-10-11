@@ -60,15 +60,15 @@
                                             {{\App\Models\Formatter::getDateTime($item->updated_at)}}
                                         </td>
                                         <td>
+                                            {{!empty(optional($item->user)->getFirstUserAssign()) ? optional($item->user)->getFirstUserAssign()->getInfoAssign()->name ?? '' : ''}}
+                                        </td>
+
+                                        <td>
                                             {{ optional($item->user)->email}}
                                         </td>
 
                                         <td>
-                                            {{ optional($item->user)->name}}
-                                        </td>
-
-                                        <td>
-                                            ${{ number_format($item->amount)}}
+                                            ${{ $item->amount}}
                                         </td>
 
                                         <td>
