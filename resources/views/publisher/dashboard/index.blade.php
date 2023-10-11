@@ -177,7 +177,7 @@
                         </table>
                     </div><!-- col -->
                     <div class="col-md-8 mt-5 mt-md-0">
-                        <div id="vmap" class="vmap-one"></div>
+                        <div id="vmap-report" class="vmap-one"></div>
                     </div><!-- col -->
                 </div><!-- row -->
             </div><!-- card-body -->
@@ -328,5 +328,32 @@
         };
         var chartBar = new ApexCharts(document.querySelector("#chart_custom"), options);
         chartBar.render();
+
+
+        // Sessions By Location
+        $('#vmap-report').vectorMap({
+            map: 'world_en',
+            backgroundColor: '#fff',
+            borderColor: '#fff',
+            color: '#d9dde7',
+            colors: {
+                'us': '#dc3545',
+                'in': '#6984de',
+                'au': '#33d685',
+                'br': '#fd7e14',
+                'cn': '#dc3545',
+                'jp': '#0dcaf0',
+                'sa': '#ffc107'
+            },
+            hoverColor: null,
+            hoverOpacity: 0.8,
+            enableZoom: false,
+            showTooltip: true,
+            multiSelectRegion: true
+        });
+        $(document).ready(function(){
+            console.log(111)
+
+        });
     </script>
 @endsection

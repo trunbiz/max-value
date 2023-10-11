@@ -25,8 +25,16 @@
     <link rel="stylesheet" href="lib/jqvmap/jqvmap.min.css">
     <link rel="stylesheet" href="lib/apexcharts/apexcharts.css">
 
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="../administrator/css/vendors/flag-icon.css">
+
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/style.min.css">
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="lib/jqvmap/jquery.vmap.min.js"></script>
+    <script src="lib/jqvmap/maps/jquery.vmap.world.js"></script>
     <script src="lib/apexcharts/apexcharts.min.js"></script>
 </head>
 <body>
@@ -40,7 +48,8 @@
             <a href="#" class="nav-label">Dashboard</a>
             <ul class="nav nav-sidebar">
                 <li class="nav-item">
-                    <a href="{{route('user.dashboard.index')}}" class="nav-link active"><i class="ri-bar-chart-2-fill"></i> <span>Overview</span></a>
+                    <a href="{{route('user.dashboard.index')}}" class="nav-link active"><i
+                            class="ri-bar-chart-2-fill"></i> <span>Overview</span></a>
                 </li>
             </ul>
         </div><!-- nav-group -->
@@ -57,7 +66,8 @@
                     <a href="{{route('user.websites.index')}}" class="nav-link"><i class="ri-wallet-fill"></i> <span>Wallet</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('user.websites.index')}}" class="nav-link"><i class="ri-logout-box-fill"></i> <span>Return admin</span></a>
+                    <a href="{{route('user.websites.index')}}" class="nav-link"><i class="ri-logout-box-fill"></i>
+                        <span>Return admin</span></a>
                 </li>
             </ul>
         </div><!-- nav-group -->
@@ -98,7 +108,8 @@
     </div><!-- form-search -->
 
     <div class="dropdown dropdown-skin">
-        <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="ri-settings-3-line"></i></a>
+        <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i
+                class="ri-settings-3-line"></i></a>
         <div class="dropdown-menu dropdown-menu-end mt-10-f">
             <label>Skin Mode</label>
             <nav id="skinMode" class="nav nav-skin">
@@ -116,7 +127,8 @@
     </div><!-- dropdown -->
 
     <div class="dropdown dropdown-notification ms-3 ms-xl-4">
-        <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"><small>3</small><i class="ri-notification-3-line"></i></a>
+        <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"><small>3</small><i
+                class="ri-notification-3-line"></i></a>
         <div class="dropdown-menu dropdown-menu-end mt-10-f me--10-f">
             <div class="dropdown-menu-header">
                 <h6 class="dropdown-menu-title">Notifications</h6>
@@ -125,7 +137,8 @@
                 <li class="list-group-item">
                     <div class="avatar online"><img src="assets/img/img10.jpg" alt=""></div>
                     <div class="list-group-body">
-                        <p><strong>Dominador Manuel</strong> and <strong>100 other people</strong> reacted to your comment "Tell your partner that...</p>
+                        <p><strong>Dominador Manuel</strong> and <strong>100 other people</strong> reacted to your
+                            comment "Tell your partner that...</p>
                         <span>Aug 20 08:55am</span>
                     </div><!-- list-group-body -->
                 </li>
@@ -146,7 +159,8 @@
                 <li class="list-group-item">
                     <div class="avatar online"><img src="assets/img/img14.jpg" alt=""></div>
                     <div class="list-group-body">
-                        <p>Reminder: <strong>Jerry Cuares</strong> invited you to like <strong>Cuares Surveying Services</strong>. <br><a href="">Accept</a> or <a href="">Decline</a></p>
+                        <p>Reminder: <strong>Jerry Cuares</strong> invited you to like <strong>Cuares Surveying
+                                Services</strong>. <br><a href="">Accept</a> or <a href="">Decline</a></p>
                         <span>Aug 14 11:50pm</span>
                     </div><!-- list-group-body -->
                 </li>
@@ -162,7 +176,9 @@
         </div><!-- dropdown-menu -->
     </div><!-- dropdown -->
     <div class="dropdown dropdown-profile ms-3 ms-xl-4">
-        <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"><div class="avatar online"><img src="assets/img/img1.jpg" alt=""></div></a>
+        <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+            <div class="avatar online"><img src="assets/img/img1.jpg" alt=""></div>
+        </a>
         <div class="dropdown-menu dropdown-menu-end mt-10-f">
             <div class="dropdown-menu-body">
                 <div class="avatar avatar-xl online mb-3"><img src="assets/img/img1.jpg" alt=""></div>
@@ -170,7 +186,8 @@
                 <p class="fs-sm text-secondary">Member</p>
 
                 <nav class="nav">
-                    <a href="{{route('user.settings.index')}}"><i class="ri-user-settings-line"></i> Account Settings</a>
+                    <a href="{{route('user.settings.index')}}"><i class="ri-user-settings-line"></i> Account
+                        Settings</a>
                     <a href="{{route('user.logout')}}"><i class="ri-logout-box-r-line"></i> Log Out</a>
                 </nav>
             </div><!-- dropdown-menu-body -->
@@ -181,13 +198,6 @@
 <div class="main main-app p-3 p-lg-4">
     @yield('content')
 </div><!-- main -->
-
-
-<script src="lib/jquery/jquery.min.js"></script>
-<script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-<script src="lib/jqvmap/jquery.vmap.min.js"></script>
-<script src="lib/jqvmap/maps/jquery.vmap.world.js"></script>
 
 <script src="assets/js/script.js"></script>
 <script src="assets/js/db.data.js"></script>
