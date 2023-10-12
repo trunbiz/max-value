@@ -83,4 +83,9 @@ class SiteService
         return $query->where('websites.is_delete', 0)->orderBy('websites.id', 'DESC')
             ->select('websites.*')->distinct()->paginate(25);
     }
+
+    public function listWebsiteByUser($user_id)
+    {
+        return Website::where('is_delete', 0)->where('user_id', $user_id)->orderBy('id', 'DESC')->paginate(25);
+    }
 }

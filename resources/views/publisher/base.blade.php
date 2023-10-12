@@ -55,7 +55,7 @@
             <a href="#" class="nav-label">Dashboard</a>
             <ul class="nav nav-sidebar">
                 <li class="nav-item">
-                    <a href="{{route('user.dashboard.index')}}" class="nav-link active"><i
+                    <a href="{{route('user.dashboard.index')}}" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}"><i
                             class="ri-bar-chart-2-fill"></i> <span>Overview</span></a>
                 </li>
             </ul>
@@ -64,7 +64,7 @@
             <a href="#" class="nav-label">Applications</a>
             <ul class="nav nav-sidebar">
                 <li class="nav-item">
-                    <a href="{{route('user.websites.index')}}" class="nav-link"><i class="ri-ie-fill"></i> <span>Websites & Zones</span></a>
+                    <a href="{{route('user.websites.index')}}" class="nav-link {{ request()->is('websites') ? 'active' : '' }}"><i class="ri-ie-fill"></i> <span>Websites & Zones</span></a>
                 </li>
                 <li class="nav-item">
                     <a href="{{route('user.websites.index')}}" class="nav-link"><i class="ri-file-edit-fill"></i> <span>Ads.txt</span></a>

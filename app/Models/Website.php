@@ -35,11 +35,16 @@ class Website extends Model implements Auditable
     ];
 
     const STATUS = [
-        3520 => 'Pending',
-        3500 => 'Approved',
-        3525 => 'Verification',
-        3510 => 'Rejected',
+        self::STATUS_PENDING => 'Pending',
+        self::STATUS_APPROVED => 'Approved',
+        self::STATUS_VERIFICATION => 'Verification',
+        self::STATUS_REJECTED => 'Rejected',
     ];
+
+    const STATUS_PENDING = 3520;
+    const STATUS_APPROVED = 3500;
+    const STATUS_VERIFICATION = 3525;
+    const STATUS_REJECTED = 3510;
 
     const CATEGORY = [
         13 => 'Arts & Entertainment',
