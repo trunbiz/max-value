@@ -159,6 +159,13 @@ class DashboardController extends Controller
             $data['listCountryTraffic'] = $this->reportService->getDataTrafficCountry($listSiteId, $startDate, $endDate);
             $data['totalCountryTraffic'] = $this->reportService->countTrafficCountry($listSiteId, $startDate, $endDate)->total_impressions ?? 0;
 
+
+            $data['listMapCountryTraffic'] = [];
+            foreach ($data['listCountryTraffic'] as $key => $itemCountry)
+            {
+                $data['listMapCountryTraffic'][$itemCountry->code] = Common::CODE_COLOR[$key];
+            }
+
             // Lấy thông tin reports
             $dataReport = [];
             $infoReportBySite = $this->reportService->getDataReportGroupSite($listSiteId, $startDate, $endDate);

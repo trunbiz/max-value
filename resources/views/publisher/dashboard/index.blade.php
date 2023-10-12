@@ -186,6 +186,30 @@
 </div><!-- row -->
 
 <div class="card card-one mt-3">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-2">
+                    <input type="text" id="dateFrom" class="form-control" placeholder="From">
+                </div><!-- col -->
+                <div class="col-2">
+                    <input type="text" id="dateTo" class="form-control" placeholder="To">
+                </div><!-- col -->
+                <div class="col-2">
+                    <select id="websiteSearch" class="form-select" name="website_id">
+                        <option value="">-Website-</option>
+                        @foreach($websites as $website)
+                            <option value="{{ $website->id }}" {{ request('website_id') == $website->id ? 'selected' : ''}}>{{ $website->name }}</option>
+                        @endforeach
+                    </select>
+                </div><!-- col -->
+                <div class="col-2">
+                    <input type="text" id="dateTo" class="form-control" placeholder="To">
+                </div><!-- col -->
+            </div><!-- row -->
+        </div><!-- card-body -->
+    </div><!-- card -->
+
     <div class="card-body p-3">
         <div class="table-responsive">
             <table class="table table-four table-bordered">
@@ -277,11 +301,46 @@
 </div><!-- card -->
 
 <div class="main-footer mt-5">
-    <span>&copy; 2023. Dashbyte. All Rights Reserved.</span>
+    <span>&copy; 2023. Maxvalue. All Rights Reserved.</span>
     <span>Created by: <a href="http://themepixels.me" target="_blank">Themepixels</a></span>
 </div><!-- main-footer -->
 
     <script>
+        var dateFormat = 'mm/dd/yy';
+        var from = $('#dateFrom').datepicker({
+            defaultDate: '+1w',
+            numberOfMonths: 2
+        });
+
+        from.on('change', function() {
+            to.datepicker('option','minDate', getDate( this ) );
+        });
+
+        var to = $('#dateTo').datepicker({
+            defaultDate: '+1w',
+            numberOfMonths: 2
+        });
+        function getDate( element ) {
+            var date;
+            try {
+                date = $.datepicker.parseDate( dateFormat, element.value );
+            } catch( error ) {
+                date = null;
+            }
+
+            return date;
+        }
+
+
+        ////
+        // With search
+        $("#website_id").select2({
+            placeholder: "- Website -",
+        });
+        $('#websiteSearch').one('select2:open', function(e) {
+            $('input.select2-search__field').prop('placeholder', 'Search...');
+        });
+
         var options = {
             colors: ['rgb(0, 143, 251)', 'rgb(0, 227, 150)', 'rgb(254, 176, 25)', 'rgb(255, 69, 96)', 'rgb(119, 93, 208)', '#FF4081', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0', '#FFC107', '#03A9F4', '#E91E63', '#00BCD4', '#8BC34A', '#673AB7', '#FF5722', '#607D8B', '#9E9E9E', '#795548', '#F44336', '#FFEB3B', '#9C27B0', '#009688', '#FF5722'],
             series: @json($chart['data']),
@@ -336,15 +395,7 @@
             backgroundColor: '#fff',
             borderColor: '#fff',
             color: '#d9dde7',
-            colors: {
-                'us': '#dc3545',
-                'in': '#6984de',
-                'au': '#33d685',
-                'br': '#fd7e14',
-                'cn': '#dc3545',
-                'jp': '#0dcaf0',
-                'sa': '#ffc107'
-            },
+            colors: @json($listMapCountryTraffic),
             hoverColor: null,
             hoverOpacity: 0.8,
             enableZoom: false,
