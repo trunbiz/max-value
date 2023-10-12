@@ -142,12 +142,11 @@ class DashboardController extends Controller
                 $currentDate->addDay();
             }
 
-            if (!empty($request['date_range']) || !empty($request['website_id']) || !empty($request['zone_id']))
+            if (!empty($request['from']) || !empty($request['to']) || !empty($request['website_id']) || !empty($request['zone_id']))
             {
-                $dateSearch = explode(" - ", $request['date_range']);
                 // Lấy thông tin show bảng
-                $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
-                $data['countItem'] = $this->reportService->countDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
+                $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $request['from'] ?? null, $request['to'] ?? null, $sort, $request);
+                $data['countItem'] = $this->reportService->countDataReportBySite($listSiteId, $request['from'] ?? null, $request['to'] ?? null, $sort, $request);
             }
             else{
                 $data['items'] = new Collection();

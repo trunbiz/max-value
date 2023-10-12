@@ -29,7 +29,10 @@
     <link rel="stylesheet" type="text/css" href="../administrator/css/vendors/flag-icon.css">
 
     <!-- Template CSS -->
+    <link rel="stylesheet" href="lib/select2/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
