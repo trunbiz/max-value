@@ -42,7 +42,7 @@
                                     @endif
                                     </td>
                                     <td>{{$itemWebsite->url}}</td>
-                                    <td>{{$itemWebsite->user->name}}</td>
+                                    <td>{{$itemWebsite->user->name ?? ''}}</td>
                                     <td>
                                         <ul>
                                             @foreach($itemWebsite->zones as $itemZone)
