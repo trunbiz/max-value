@@ -680,6 +680,7 @@ class Common
 
     const ACTIVE = 1;
 
+    const CODE_COLOR = ['#dc3545', '#6984de', '#33d685', '#fd7e14', '#0dcaf0', '#ffc107'];
     const STATUS_ADSERVER = [
         3520 => 'Pending',
         3500 => 'Approved',
@@ -695,6 +696,12 @@ class Common
             }
         }
         return '';
+    }
+
+    static function randomColor()
+    {
+        $colors = ['#dc3545', '#6984de', '#33d685', '#fd7e14', '#dc3545', '#0dcaf0', '#ffc107'];
+        return $colors[array_rand($colors)];
     }
 
     public function listUserGroupAdmin()

@@ -142,12 +142,11 @@ class DashboardController extends Controller
                 $currentDate->addDay();
             }
 
-            if (!empty($request['date_range']) || !empty($request['website_id']) || !empty($request['zone_id']))
+            if (!empty($request['from']) || !empty($request['to']) || !empty($request['website_id']) || !empty($request['zone_id']))
             {
-                $dateSearch = explode(" - ", $request['date_range']);
                 // Lấy thông tin show bảng
-                $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
-                $data['countItem'] = $this->reportService->countDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
+                $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $request['from'] ?? null, $request['to'] ?? null, $sort, $request);
+                $data['countItem'] = $this->reportService->countDataReportBySite($listSiteId, $request['from'] ?? null, $request['to'] ?? null, $sort, $request);
             }
             else{
                 $data['items'] = new Collection();
@@ -158,6 +157,13 @@ class DashboardController extends Controller
             // Lấy thông tin geo traffic
             $data['listCountryTraffic'] = $this->reportService->getDataTrafficCountry($listSiteId, $startDate, $endDate);
             $data['totalCountryTraffic'] = $this->reportService->countTrafficCountry($listSiteId, $startDate, $endDate)->total_impressions ?? 0;
+
+
+            $data['listMapCountryTraffic'] = [];
+            foreach ($data['listCountryTraffic'] as $key => $itemCountry)
+            {
+                $data['listMapCountryTraffic'][$itemCountry->code] = Common::CODE_COLOR[$key];
+            }
 
             // Lấy thông tin reports
             $dataReport = [];
@@ -223,7 +229,7 @@ class DashboardController extends Controller
             $chart['date'] = array_values($dateRange);
             $data['chart'] = $chart;
 
-            return view('user.dashboard.index', $data);
+            return view('publisher.dashboard.index', $data);
         }
         return redirect()->to('/login');
     }

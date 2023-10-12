@@ -26,8 +26,7 @@ class UserController extends Controller
         if (auth()->check()) {
             if (optional(auth()->user())->is_admin == 0) return view('auth.login');
         }
-
-        return view('auth.login');
+        return view('publisher.pages.sign-in');
     }
 
     public function postLoginUser(Request $request)
