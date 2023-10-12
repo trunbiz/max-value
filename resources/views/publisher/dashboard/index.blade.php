@@ -298,7 +298,7 @@
 
     <div class="main-footer mt-5">
         <span>&copy; 2023. Maxvalue. All Rights Reserved.</span>
-        <span>Created by: <a href="http://themepixels.me" target="_blank">Themepixels</a></span>
+        <span>Created by: <a href="https://maxvalue.media" target="_blank">MaxValue Center</a></span>
     </div><!-- main-footer -->
 
     <script>
@@ -442,10 +442,8 @@
 
         function clickDownloadReport() {
             // Lấy giá trị các trường input và select trong form
-            var dateRange = document.querySelector('input[name="date_range"]').value;
-            var dateArray = dateRange.split(" - ");
-            var fromDate = dateArray[0]; // Giá trị "from"
-            var toDate = dateArray[1]; // Giá trị "to"
+            var fromDate = document.querySelector('input[name="from"]').value;; // Giá trị "from"
+            var toDate = document.querySelector('input[name="to"]').value;; // Giá trị "to"
 
             var websiteId = document.querySelector('select[name="website_id"]').value;
             var zoneId = document.querySelector('select[name="zone_id"]').value;
