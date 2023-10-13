@@ -13625,7 +13625,7 @@ textarea.form-control-lg {
 
 .sidebar-footer {
   position: absolute;
-  bottom: -250px;
+  bottom: 0;
   left: 0;
   right: 0;
   border-top: 1px solid #f3f5f9;
