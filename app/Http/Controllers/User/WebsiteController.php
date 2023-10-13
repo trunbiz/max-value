@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Website;
 use App\Http\Controllers\Controller;
 use App\Services\Common;
+use App\Services\SiteService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -24,18 +25,20 @@ class WebsiteController extends Controller
 {
     use BaseControllerTrait;
 
+    protected $siteService;
+
     public function __construct(Website $model)
     {
         $this->initBaseModel($model);
         $this->shareBaseModel($model);
+        $this->siteService = new SiteService();
     }
 
     public function index(Request $request)
     {
-        $title = "Websites & Zones";
-        $current_user = User::where('id', Auth::id())->first();
-        $items = Website::where('user_id', auth()->user()->id)->where('is_delete', 0)->get();
-        return view('user.' . $this->prefixView . '.index', compact('items','title', 'current_user'));
+        $data['items'] = $this->siteService->listWebsiteByUser(Auth::id());
+        $data['current_user'] = Auth::user();
+        return view('publisher.website.index', $data);
     }
 
     public function get(Request $request, $id)
