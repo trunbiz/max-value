@@ -205,6 +205,64 @@
 <div class="main main-app p-3 p-lg-4">
     @yield('content')
 </div><!-- main -->
+<!-- Modal -->
+<div class="modal fade" id="loading" tabindex="-1" aria-labelledby="loading" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align: center">
+                <h4>Waiting ...</h4>
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-info" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-dark" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function callAjax(method, url, data, success) {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: data,
+            type: method,
+            url: url,
+            beforeSend: function () {
+                $('#loader').removeClass('loading');
+            },
+            success: function (response, textStatus, jqXHR) {
+                success(response);
+            },
+            complete: function () {
+                $('#loader').addClass('loading');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert(errorThrown);
+            }
+        })
+    }
+</script>
 
 <script src="assets/js/script.js"></script>
 <script src="assets/js/db.data.js"></script>
