@@ -31,36 +31,8 @@ class AdvertiseController extends Controller
 
     public function index(Request $request)
     {
-        $title = "Ads.txt";
-//        $current_user = User::where('id', Auth::id())->first();
-//        $websites = auth()->user()->userWeb;
-//        $query = $this->model->with('getDomain')->where('user_id', Auth::id());
-//
-//
-//        if (isset($_GET['from']) && !empty($_GET['from'])) {
-//            $query=$query->where('created_at', '>=', $_GET['from']);
-//        }
-//
-//        if (isset($_GET['to']) && !empty($_GET['to'])) {
-//            $query=$query->where('created_at', '<=', $_GET['to']);
-//        }
-//
-//        if(isset($_GET['status']) && !empty($_GET['status'])){
-//            $query = $query->where('status', $_GET['status']);
-//        }
-//
-//        $items = $query->latest()->paginate(Formatter::getLimitRequest($request->limit))->appends(request()->query());
-//
-//        $websites = Helper::callGetHTTP("https://api.adsrv.net/v2/site?" . "filter[idpublisher]=".auth()->user()->api_publisher_id."&page=1&per-page=1000");
-//
-//        $items = Helper::callGetHTTP("https://api.adsrv.net/v2/zone?idsite=" . $request->website_id);
-//
-//        $items = Formatter::paginator($request, $items);
-
-//        $items = User::where('partner_code', '!=', '')->get();
-//        dd($items);
         $adsTxt = File::get(public_path('../../public_html/ads.txt'));
-        return view('user.' . $this->prefixView . '.index', compact('title','adsTxt'));
+        return view('publisher.ads.index', compact('adsTxt'));
     }
 
     public function get(Request $request, $id)

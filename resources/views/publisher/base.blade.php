@@ -37,10 +37,17 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <!-- Flag icon-->
     <link rel="stylesheet" type="text/css" href="../administrator/css/vendors/flag-icon.css">
 
+    <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/sweetalert2.css')}}">
+
+
+    <script src="<?php echo e(asset('/vendor/sweet-alert/sweetalert.min.js')); ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Template CSS -->
     <link rel="stylesheet" href="lib/select2/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
 
     <script src="lib/jquery/jquery.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -214,6 +221,10 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
 <div class="main main-app p-3 p-lg-4">
     @yield('content')
+    <div class="main-footer mt-5">
+        <span>&copy; 2023. Maxvalue. All Rights Reserved.</span>
+        <span>Created by: <a href="https://maxvalue.media" target="_blank">MaxValue Center</a></span>
+    </div><!-- main-footer -->
 </div><!-- main -->
 <!-- Modal -->
 <div class="modal fade" id="loading" tabindex="-1" aria-labelledby="loading" aria-hidden="true">

@@ -296,11 +296,6 @@
         </div><!-- card-body -->
     </div><!-- card -->
 
-    <div class="main-footer mt-5">
-        <span>&copy; 2023. Maxvalue. All Rights Reserved.</span>
-        <span>Created by: <a href="https://maxvalue.media" target="_blank">MaxValue Center</a></span>
-    </div><!-- main-footer -->
-
     <script>
         var dateFormat = 'yy-mm-dd';
         var from = $('#dateFrom').datepicker({
