@@ -1,3 +1,12 @@
+@php
+$userAssign = auth()->user()->getFirstUserAssign();
+$name = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->name : (optional(auth()->user()->manager)->name ?? \App\Models\User::find(1)->name);
+$email = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->email : (optional(auth()->user()->manager)->email ?? \App\Models\User::find(1)->email);
+$telegram = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->telegram : (optional(auth()->user()->manager)->telegram ?? \App\Models\User::find(1)->telegram);
+$skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->skype : (optional(auth()->user()->manager)->skype ?? \App\Models\User::find(1)->skype);
+@endphp
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,14 +76,18 @@
                     <a href="{{route('user.websites.index')}}" class="nav-link {{ request()->is('websites') ? 'active' : '' }}"><i class="ri-ie-fill"></i> <span>Websites & Zones</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('user.websites.index')}}" class="nav-link"><i class="ri-file-edit-fill"></i> <span>Ads.txt</span></a>
+                    <a href="{{route('user.advertises.index')}}" class="nav-link {{ (request()->is('advs')) ? 'active' : '' }}"><i class="ri-file-edit-fill"></i> <span>Ads.txt</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('user.websites.index')}}" class="nav-link"><i class="ri-wallet-fill"></i> <span>Wallet</span></a>
+                    <a href="{{route('user.wallet_users.index')}}" class="nav-link {{ (request()->is('wallet')) ? 'active' : '' }}"><i class="ri-wallet-fill"></i> <span>Wallet</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('user.websites.index')}}" class="nav-link"><i class="ri-logout-box-fill"></i>
+                    <a onclick="event.preventDefault(); document.getElementById('cloneuser-form').submit();" class="nav-link"><i class="ri-logout-box-fill"></i>
                         <span>Return admin</span></a>
+
+                    <form id="cloneuser-form" action="{{ route('administrator.returnImpersonateAdmin') }}" method="POST">
+                        {{ csrf_field() }}
+                    </form>
                 </li>
             </ul>
         </div><!-- nav-group -->
@@ -85,22 +98,19 @@
                 <img src="assets/img/img1.jpg" alt="">
             </div><!-- sidebar-footer-thumb -->
             <div class="sidebar-footer-body">
-                <h6><a href="../pages/profile.html">Shaira Diaz</a></h6>
-                <p>Premium Member</p>
+                <h6>{{$name}}</h6>
+                <p>Account Manager</p>
             </div><!-- sidebar-footer-body -->
-            <a id="sidebarFooterMenu" href="" class="dropdown-link"><i class="ri-arrow-down-s-line"></i></a>
         </div><!-- sidebar-footer-top -->
         <div class="sidebar-footer-menu">
             <nav class="nav">
-                <a href=""><i class="ri-edit-2-line"></i> Edit Profile</a>
-                <a href=""><i class="ri-profile-line"></i> View Profile</a>
-            </nav>
-            <hr>
-            <nav class="nav">
-                <a href=""><i class="ri-question-line"></i> Help Center</a>
-                <a href=""><i class="ri-lock-line"></i> Privacy Settings</a>
-                <a href=""><i class="ri-user-settings-line"></i> Account Settings</a>
-                <a href=""><i class="ri-logout-box-r-line"></i> Log Out</a>
+                <a href="mailto:{{$email}}" title="mail"><i class="ri-mail-line btn btn-outline-danger border-0"></i> Gmail</a>
+                @if(!empty($telegram))
+                <a href="{{$telegram}}" title="Telegram"><i class="ri-send-plane-fill btn btn-outline-info border-0"></i> Telegram</a>
+                @endif
+                @if(!empty($skype))
+                    <a href="{{$skype}}" title="Skype"><i class="ri-skype-line btn btn-outline-primary border-0"></i> Skype</a>
+                @endif
             </nav>
         </div><!-- sidebar-footer-menu -->
     </div><!-- sidebar-footer -->
