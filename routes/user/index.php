@@ -43,7 +43,7 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
             return redirect()->route('login');
         }
 
-        return redirect()->route('user.reports.index', ['begin' => \Carbon\Carbon::now()->subDays(6)->toDateString(), 'end' => \Carbon\Carbon::now()->toDateString()]);
+        return redirect()->route('user.dashboard.index');
     });
 
     Route::prefix('/dashboard')->group(function () {
