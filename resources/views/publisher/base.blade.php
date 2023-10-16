@@ -59,6 +59,15 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <script src="lib/colorpicker/spectrum.js"></script>
     <script src="lib/select2/js/select2.full.min.js"></script>
     <script src="lib/prismjs/prism.js"></script>
+
+
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
+    <link rel="stylesheet" href="lib/cryptofont/css/cryptofont.min.css">
+    <link rel="stylesheet" href="lib/apexcharts/apexcharts.css">
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/style.min.css">
+
 </head>
 <body>
 
@@ -288,6 +297,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 <script src="assets/js/script.js"></script>
 <script src="assets/js/db.data.js"></script>
 <script src="assets/js/db.analytics.js"></script>
-
+<script src="lib/chart.js/chart.min.js"></script>
+<script src="assets/js/db.crypto.js"></script>
 </body>
 </html>
