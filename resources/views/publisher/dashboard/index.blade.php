@@ -326,22 +326,29 @@
         }
 
         $(function() {
-            // Lấy ngày đầu tháng
-            var startDate = new Date();
-            startDate.setDate(1);
-            var startDateString = startDate.toISOString().split('T')[0];
+            // Kiểm tra URL có chứa các trường "from" và "to" hay không
+            var urlParams = new URLSearchParams(window.location.search);
+            var from = urlParams.get('from');
+            var to = urlParams.get('to');
 
-            // Lấy ngày hiện tại
-            var currentDate = new Date();
-            var currentDateString = currentDate.toISOString().split('T')[0];
+            if (!from && !to) {
+                // Lấy ngày đầu tháng
+                var startDate = new Date();
+                startDate.setDate(1);
+                var startDateString = startDate.toISOString().split('T')[0];
 
-            // Đặt giá trị mặc định cho các trường input
-            $("#dateFrom").val(startDateString);
-            $("#dateTo").val(currentDateString);
+                // Lấy ngày hiện tại
+                var currentDate = new Date();
+                var currentDateString = currentDate.toISOString().split('T')[0];
 
-            // Gắn kết chọn ngày vào các trường input
-            $("#dateFrom").datepicker({ dateFormat: "yy-mm-dd" });
-            $("#dateTo").datepicker({ dateFormat: "yy-mm-dd" });
+                // Đặt giá trị mặc định cho các trường input
+                $("#dateFrom").val(startDateString);
+                $("#dateTo").val(currentDateString);
+
+                // Gắn kết chọn ngày vào các trường input
+                $("#dateFrom").datepicker({ dateFormat: "yy-mm-dd" });
+                $("#dateTo").datepicker({ dateFormat: "yy-mm-dd" });
+            }
         });
 
 
