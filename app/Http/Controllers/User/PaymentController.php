@@ -45,7 +45,7 @@ class PaymentController extends Controller
     {
         $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->get();
         return response()->json([
-            'html' => view('user.withdraw_users.create', compact('items'))->render()
+            'html' => view('publisher.withdraw_users.create', compact('items'))->render()
         ]);
     }
 

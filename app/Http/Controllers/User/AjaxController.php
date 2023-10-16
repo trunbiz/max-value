@@ -85,7 +85,7 @@ class AjaxController extends Controller
             $item->withdraw_type_id = 3;
         }
         return response()->json([
-            'html' => view('user.wallet_users.edit_popup', compact('item', 'banks', 'banks_child'))->render(),
+            'html' => view('publisher.wallet_users.edit_popup', compact('item', 'banks', 'banks_child'))->render(),
         ]);
     }
 
