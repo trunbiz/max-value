@@ -14,48 +14,48 @@
     <div class="row g-3">
         <div class="col-sm-12 col-xl-12">
             <div class="row">
-                <div class="col-12 col-sm-6 col-xl">
+                <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-primary ti--3"><i class="ri-rocket-line fs-48 lh-1"></i></div>
+                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Available</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">6,320</span> $</p>
+                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$amountAvailable}}</span> $</p>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
-                <div class="col-6 col-sm-6 col-xl">
+                <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-primary ti--3"><i class="ri-file-text-line fs-48 lh-1"></i></div>
+                            <div class="mb-1 text-warning ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Pending</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">4,067</span> $</p>
+                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$amountPending}}</span> $</p>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-primary ti--3"><i class="ri-gallery-line fs-48 lh-1"></i></div>
+                            <div class="mb-1 text-danger ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Rejected</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">1,983</span> Files</p>
+                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$amountReject}}</span> $</p>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-primary ti--3"><i class="ri-folder-zip-line fs-48 lh-1"></i></div>
+                            <div class="mb-1 text-success ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Total withdrawn</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">3,508</span> Files</p>
+                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$amountTotalWithdraw}}</span> $</p>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-primary ti--3"><i class="ri-folder-2-line fs-48 lh-1"></i></div>
+                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Total Earning</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">845</span> Files</p>
+                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$totalEarning}}</span> $</p>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
@@ -87,7 +87,7 @@
                             <th scope="row">{{$transaction->id}}</th>
                             <td>
                                 <div class="list-group-one">
-                                    <div class="avatar bg-twitter text-white"><i class="{{\App\Models\WithdrawUser::TYPE_ICON[$transaction->walletUser->withdrawType->id  ?? '']}}"></i></div>
+                                    <div class="avatar bg-twitter text-white"><i class="{{\App\Models\WithdrawUser::TYPE_ICON[$transaction->walletUser->withdrawType->id]}}"></i></div>
                                     <div>
                                         <h6 class="mb-0">{{$transaction->walletUser->withdrawType->name ?? ''}}</h6>
                                     </div>
@@ -96,7 +96,7 @@
                             <td>
                                 @if($transaction->withdraw_status_id == \App\Models\WithdrawUser::STATUS_PENDING)
                                     <span class="badge bg-warning">Pending</span>
-                                @elseif($transaction->withdraw_status_id == \App\Models\WithdrawUser::STATUS_PENDING)
+                                @elseif($transaction->withdraw_status_id == \App\Models\WithdrawUser::STATUS_APPROVED)
                                     <span class="badge bg-success">Approved</span>
                                 @elseif($transaction->withdraw_status_id == \App\Models\WithdrawUser::STATUS_REJECT)
                                     <span class="badge bg-danger">Reject</span>
@@ -134,10 +134,10 @@
                                     </div>
                                 </th>
                                 <td><p class="name__payment" {{ isset($item->default) && !empty($item->default) && $item->default == 1 ? 'style=color:red' : '' }}>{{ optional($item->withdrawType)->name}} {{ isset($item->default) && !empty($item->default) && $item->default == 1 ? '(Default)' : '' }}</p></td>
-                                <td>{{$item->withdrawType->email ?? ''}}</td>
+                                <td>{{$item->email ?? ''}}</td>
                                 <td style="text-align: right">
-                                    <button type="button" class="btn btn-primary" onclick="editMethod({{ $item->id }})">Update</button>
-                                    <button type="button" class="btn btn-danger" onclick="deleteMethod({{ $item->id }})">Remove</button>
+                                    <button type="button" class="btn btn-primary" onclick="editMethod({{ $item->id }})"><i class="ri-edit-2-fill" title="edit"></i></button>
+{{--                                    <button type="button" class="btn btn-danger" onclick="deleteMethod({{ $item->id }})"><i class="ri-close-fill" title="edit"></i></button>--}}
                                 </td>
                             </tr>
                         @endforeach
@@ -193,6 +193,9 @@
 
         function updateMethod(){
             var $this = $('#editMethod');
+            $this.modal('hide');
+            var $loading = $('#loading');
+            $loading.modal('show');
             var id = $this.find('form').data('id');
             callAjax(
                 "PUT",
@@ -218,16 +221,9 @@
                     if(response.status == false){
                         swal("Error!", response.message, "error");
                     }else{
-                        $this.modal('hide');
-                        swal("Success!", 'Update successful', "success");
                         $('.list__payment--table').html(response.html);
-                        // if(response.default == 1){
-                        //     $('#method'+id).remove();
-                        //     $('.list__payment--table').prepend(response.html);
-                        //     $('#method14').removeClass('active');
-                        // }else{
-                        //     $('#method'+id).html(response.html);
-                        // }
+                        $loading.modal('hide');
+                        window.location.reload();
                     }
                 }
 
@@ -265,32 +261,16 @@
                 },
                 (response) => {
                     if(response.status == false){
-                        swal("Error!", response.message, "error");
+                        alert(response.message)
                     }else{
                         $this.modal('hide');
-                        swal("Success!", 'Added Successfully', "success");
-
+                        window.location.reload();
                     }
-                    window.location.reload();
                     $loading.modal('hide');
                 }
             )
         }
 
-        function createMethod() {
-            var $this = $('#addMethod');
-            $('#editMethod').empty();
-            $('#addOrder').empty();
-            callAjax(
-                'GET',
-                '{{ route('user.wallet_users.create') }}',
-                {},
-                (response) => {
-                    $this.html(response.html);
-                    $this.modal('show');
-                }
-            )
-        }
         function deleteMethod(id) {
             var result = confirm('Want to delete?');
             if(result){
@@ -363,6 +343,8 @@
 
         function storeMethod(){
             var $this = $('#addMethod');
+            var $loading = $('#loading');
+            $loading.modal('show');
             callAjax(
                 'POST',
                 '{{ route('user.wallet_users.store') }}',
@@ -391,7 +373,7 @@
                         swal("Success!", 'Added Successfully', "success");
                         $('.list__payment--table').html(response.html);
                     }
-
+                    $loading.modal('hide');
                 }
             )
         }

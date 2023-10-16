@@ -13,6 +13,7 @@ use App\Models\Website;
 use App\Http\Controllers\Controller;
 use App\Models\WithdrawType;
 use App\Models\WithdrawUser;
+use App\Services\WalletService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -26,10 +27,12 @@ class WalletController extends Controller
 {
     use BaseControllerTrait;
 
+    protected $walletService;
     public function __construct(WalletUser $model)
     {
         $this->initBaseModel($model);
         $this->shareBaseModel($model);
+        $this->walletService = new WalletService();
     }
 
     public function index(Request $request)
@@ -44,19 +47,21 @@ class WalletController extends Controller
         $amountReject = 0;
         $amountTotalWithdraw = 0;
         $transactions = WithdrawUser::where('user_id', \auth()->id())->orderBy('id', 'DESC')->paginate(25);
-        foreach ($transactions as $transaction)
+
+        $withdrawInfo = $this->walletService->getMoneyByStatus(auth()->id());
+        foreach ($withdrawInfo as $itemWithdraw)
         {
-            if ($transaction->withdraw_status_id == WithdrawUser::STATUS_PENDING)
+            if ($itemWithdraw->withdraw_status_id == WithdrawUser::STATUS_PENDING)
             {
-                $amountPending +=$transaction->amount;
+                $amountPending = $itemWithdraw->totalAmount;
             }
-            elseif ($transaction->withdraw_status_id == WithdrawUser::STATUS_APPROVED)
+            elseif ($itemWithdraw->withdraw_status_id == WithdrawUser::STATUS_APPROVED)
             {
-                $amountTotalWithdraw += $transaction->amount;
+                $amountTotalWithdraw = $itemWithdraw->totalAmount;
             }
-            elseif ($transaction->withdraw_status_id == WithdrawUser::STATUS_REJECT)
+            elseif ($itemWithdraw->withdraw_status_id == WithdrawUser::STATUS_REJECT)
             {
-                $amountReject += $transaction->amount;
+                $amountReject = $itemWithdraw->totalAmount;
             }
         }
         $totalEarning = ($amountAvailable + $amountPending + $amountTotalWithdraw + $amountReject);
