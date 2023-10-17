@@ -31,7 +31,6 @@ class UserController extends Controller
 
     public function postLoginUser(Request $request)
     {
-        dd(2332);
         $remember = $request->has('remember_me') ? true : false;
         if (auth()->attempt([
             'email' => $request->email,
