@@ -455,4 +455,6 @@
         }
 
     </script>
+    <script src="assets/js/db.data.js"></script>
+    <script src="assets/js/db.analytics.js"></script>
 @endsection
