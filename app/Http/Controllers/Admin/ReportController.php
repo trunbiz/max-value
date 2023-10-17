@@ -9,6 +9,7 @@ use App\Models\Helper;
 use App\Models\ReportModel;
 use App\Models\User;
 use App\Models\Website;
+use App\Models\ZoneModel;
 use App\Services\ReportService;
 use App\Services\WalletService;
 use Carbon\Carbon;
@@ -208,6 +209,19 @@ class ReportController extends Controller
                 $listZone[$zone['id']] = $zone['name'] ?? '';
             }
         }
+
+//        // Lọc các website được ass mowis cho nhifn thaays
+        if (auth()->user()->is_admin == 1 && auth()->user()->role->id == User::ROLE_PUBLISHER_MANAGER) {
+            $params['list_publisher_id'] = auth()->user()->getListUserAssign();
+            $websites = Website::whereIn('user_id', $params['list_publisher_id'])->where('is_delete', 0)->orderBy('id', 'DESC')->get();
+
+        }
+        else{
+            $websites = Website::where('is_delete', 0)->orderBy('id', 'DESC')->get();
+        }
+        $adSiteId = $websites->pluck('api_site_id')->toArray();
+        $listZone = ZoneModel::whereIn('ad_site_id', $adSiteId)->where('is_delete', 0)->orderBy('id', 'DESC')->pluck('name', 'ad_zone_id')->toArray();
+
         $data['title'] = "Report";
         $data['websites'] = $websites;
         $data['listZone'] = $listZone;

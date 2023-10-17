@@ -4,6 +4,7 @@
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
             <ol class="breadcrumb fs-sm mb-1">
+                <li class="breadcrumb-item"><a href="#">Applications</a></li>
                 <li class="breadcrumb-item"><a href="#">Websites & zones</a></li>
             </ol>
             <h4 class="main-title mb-0">List websites & zones</h4>
@@ -19,7 +20,6 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Website</th>
                 <th scope="col">Category</th>
                 <th scope="col">Status</th>
@@ -28,7 +28,6 @@
             <tbody>
             @foreach($items as $item)
                 <tr class="website-info">
-                    <th scope="row">{{$item->id}}</th>
                     <td>{{$item->url}}</td>
                     <td>{{\App\Models\Website::CATEGORY[$item->category_website_id] ?? ''}}</td>
                     <td>
@@ -71,7 +70,7 @@
                                         <div class="card-footer">
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                    <button type="button" class="btn btn-outline-primary" {{$zone->status == \App\Models\ZoneModel::STATUS_APPROVED ? '' : 'disabled'}}
                                                             onclick=getCode({{$zone->ad_zone_id}})>Get code
                                                     </button>
                                                 </div>

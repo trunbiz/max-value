@@ -117,7 +117,7 @@ class WithdrawUser extends Model implements Auditable
             'amount' => $request->amount - $walletUser->withdrawType->fee,
             'wallet_id' => $request->wallet_id,
             'user_id' => auth()->id(),
-            'updated_at' => Carbon::now()->day(15)->addMonth()
+            'estimate_payment' => Carbon::now()->day(15)->addMonth()->format('Y-m-d')
         ];
 
         try {

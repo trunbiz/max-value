@@ -102,6 +102,28 @@ var optionThree = {
 var chartThree = new ApexCharts(document.querySelector('#apexChart3'), optionThree);
 chartThree.render();
 
+// Total Conversions
+var optionThirtyThree = {
+    series: [{
+        type: 'column',
+        data: [[0,5],[1,10],[2,20],[3,15],[4,6],[5,10],[6,15],[7,18],[8,7],[9,11],[10,13],[11,15],[12,13],[13,7],[14,5]]
+    }, {
+        type: 'column',
+        data: data
+    }],
+    chart: chart,
+    states: states,
+    colors: ['#ffc107', '#e5e9f2'],
+    plotOptions: plotOptions,
+    stroke: stroke,
+    tooltip: {
+        enabled: false
+    }
+};
+
+var chartThirtyThree = new ApexCharts(document.querySelector('#apexChart33'), optionThirtyThree);
+chartThirtyThree.render();
+
 // Organic Visits & Conversions
 var optionFour = {
   series: [{
