@@ -249,7 +249,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     </div><!-- main-footer -->
 </div><!-- main -->
 <!-- Modal -->
-<div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel" aria-hidden="true">
+<div class="modal fade" id="loading" tabindex="-1" aria-labelledby="loading" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body" style="text-align: center">
