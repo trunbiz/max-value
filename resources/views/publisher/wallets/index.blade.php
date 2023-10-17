@@ -104,7 +104,7 @@
                             </td>
                             <td>{{$transaction->amount}} $</td>
                             <td>{{$transaction->created_at}}</td>
-                            <td>{{$transaction->created_at}}</td>
+                            <td>{{$transaction->estimate_payment}}</td>
                         </tr>
                         @endforeach
                         </tbody>
