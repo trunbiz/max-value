@@ -27,7 +27,7 @@
                         <option value="">-Site-</option>
                         @foreach($websites as $value)
                             <option
-                                value="{{ $value['id'] }}" {{ request('site_id') == $value['id'] ? 'selected' : ''}}>{{ $value['name'] }}</option>
+                                value="{{ $value['api_site_id'] }}" {{ request('site_id') == $value['api_site_id'] ? 'selected' : ''}}>{{ $value['name'] }}</option>
                         @endforeach
                     </select>
 
