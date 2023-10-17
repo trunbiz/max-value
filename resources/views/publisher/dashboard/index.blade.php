@@ -72,6 +72,7 @@
                             <label class="card-title fw-medium text-dark mb-1">Pending Zones</label>
                         </div><!-- col -->
                         <div class="col-5">
+                            <div id="apexChart33"></div>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div><!-- card-body -->

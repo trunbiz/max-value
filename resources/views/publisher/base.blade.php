@@ -68,6 +68,19 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/style.min.css">
 
+    <style>
+        #loading .modal-dialog{
+            position: relative;
+            margin: auto;
+            margin-top: 10%;
+            padding: 20px;
+            background-color: #fefefe;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -298,6 +311,6 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 <script src="assets/js/db.data.js"></script>
 <script src="assets/js/db.analytics.js"></script>
 <script src="lib/chart.js/chart.min.js"></script>
-<script src="assets/js/db.crypto.js"></script>
+{{--<script src="assets/js/db.crypto.js"></script>--}}
 </body>
 </html>
