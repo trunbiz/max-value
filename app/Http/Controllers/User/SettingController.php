@@ -13,11 +13,8 @@ use Illuminate\Support\Facades\Validator;
 class SettingController extends Controller
 {
     public function index(){
-        $title = 'Setting';
-
-        $current_user = User::where('id', Auth::id())->first();
-
-        return view('user.setting.index')->with(compact('title', 'current_user'));
+        $data['current_user'] = Auth::user();
+        return view('publisher.setting.index', $data);
     }
 
     public function update_profile(Request $request){

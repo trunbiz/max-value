@@ -1,5 +1,5 @@
 @extends('publisher.base')
-@section('title', 'Dashboard')
+@section('title', 'Ads.txt')
 @section('content')
     <div class="d-flex align-items-center mb-4">
         <div class="row">
