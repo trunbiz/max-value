@@ -367,10 +367,9 @@
                 },
                 (response) => {
                     if(response.status == false){
-                        swal("Error!", response.message, "error");
+                        alert(response.message)
                     }else{
                         $this.modal('hide');
-                        swal("Success!", 'Added Successfully', "success");
                         $('.list__payment--table').html(response.html);
                     }
                     $loading.modal('hide');
