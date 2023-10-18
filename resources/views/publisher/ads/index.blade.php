@@ -36,6 +36,7 @@
                 window.getSelection().addRange(range)
                 document.execCommand("copy")
             }
+            swal("Success!", 'Copied', "success");
         }
     </script>
 @endsection
