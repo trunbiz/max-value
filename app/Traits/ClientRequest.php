@@ -37,6 +37,7 @@ trait ClientRequest
                 'success' => true,
                 'message' => 'Request api success',
                 'data' => $data,
+                'extraData' => $response,
                 'responseHeaders' => $response->getHeaders()
             ];
         }catch (\Exception $e)

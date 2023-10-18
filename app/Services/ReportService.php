@@ -107,7 +107,9 @@ class ReportService
         if (empty($data['data']))
         {
             Log::error('call ' . $url, [
-                'data' => $data
+                'data' => $data,
+                'header' => $header,
+                'params' => $params
             ]);
             return false;
         }
