@@ -92,6 +92,7 @@ class ReportService
                     ]);
                 }
             }
+            sleep(3);
         }
         return true;
     }
