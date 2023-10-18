@@ -35,7 +35,12 @@ class ReportService
         {
             $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
             if (empty($datas['data']))
+            {
+                Log::error('error get report', [
+                    'datas' => $datas
+                ]);
                 continue;
+            }
 
             // Lấy thông tin chi tiết zone
             $dataDetail = $this->getReportDetailCountry($from, $web->id);
