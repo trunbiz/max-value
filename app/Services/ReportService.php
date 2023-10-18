@@ -31,6 +31,9 @@ class ReportService
 
         $to = Carbon::now()->subHours(2)->format('Y-m-d');
         $from = Carbon::now()->subHours(2)->format('Y-m-d');
+
+        $countRequest = 0;
+
         foreach ($webIds['data'] as $web)
         {
             $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
@@ -92,7 +95,15 @@ class ReportService
                     ]);
                 }
             }
-            sleep(3);
+            $countRequest ++;
+
+            // 1 phút gọi 70 requets
+            if ($countRequest>70)
+            {
+                Log::info('count request report');
+                $countRequest = 0;
+                sleep(61);
+            }
         }
         return true;
     }
