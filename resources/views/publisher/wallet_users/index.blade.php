@@ -358,6 +358,7 @@
 
         function chooseMethod(){
             var bank_id = $('select[name="method"]').val();
+            console.log(222, bank_id)
             if(bank_id == 0){
                 $('.modal-payment__group--icons').empty();
                 $('#infoMethod').empty();
@@ -406,6 +407,7 @@
         }
 
         function chooseType(){
+            console.log(1111);
             var type_id = $('select[name="type_crypto"]').val();
             callAjax(
                 'GET',

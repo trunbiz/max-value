@@ -66,7 +66,6 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <link rel="stylesheet" href="lib/cryptofont/css/cryptofont.min.css">
     <link rel="stylesheet" href="lib/apexcharts/apexcharts.css">
     <!-- Template CSS -->
-    <link rel="stylesheet" href="assets/css/style.min.css">
     <script src="{{asset('vendor/sweet-alert/sweetalert.min.js')}}"></script>
 
     <style>
