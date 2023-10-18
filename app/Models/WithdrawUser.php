@@ -40,12 +40,19 @@ class WithdrawUser extends Model implements Auditable
         self::TYPE_PAYPAL => 'ri-paypal-fill',
         self::TYPE_PAYONEER => 'ri-money-dollar-circle-fill',
         self::TYPE_CRYPTO => 'ri-bit-coin-fill',
+        self::TYPE_USDT => 'ri-money-dollar-circle-fill',
+        self::TYPE_ETHEREUM => 'ri-money-dollar-circle-fill',
+        self::TYPE_BITCOIN => 'ri-bit-coin-fill',
         self::TYPE_WIRE_TRANSFER => 'ri-bank-fill',
     ];
+
 
     const TYPE_PAYPAL = 1;
     const TYPE_PAYONEER = 2;
     const TYPE_CRYPTO = 3;
+    const TYPE_USDT = 4;
+    const TYPE_ETHEREUM = 5;
+    const TYPE_BITCOIN = 6;
     const TYPE_WIRE_TRANSFER = 7;
 
     // begin

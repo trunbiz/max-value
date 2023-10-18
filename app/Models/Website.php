@@ -58,7 +58,7 @@ class Website extends Model implements Auditable
         10 => 'Hobbies & Interests',
         41 => 'Home & Garden',
         42 => 'Law, Government, & Politics',
-        11 => 'News &amp; Media',
+        11 => 'News & Media',
         7 => 'Personal Finance',
         47 => 'Pets',
         52 => 'Real Estate',
