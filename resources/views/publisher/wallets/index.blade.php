@@ -130,7 +130,7 @@
                             <tr class="{{ isset($item->default) && !empty($item->default) && $item->default == 1 ? 'active' : '' }}" id="method{{ $item->id }}">
                                 <th scope="row">
                                     <div class="list-group-one">
-                                        <div class="avatar bg-twitter text-white"><i class="{{\App\Models\WithdrawUser::TYPE_ICON[$item->withdrawType->id  ?? '']}}"></i></div>
+                                        <div class="avatar bg-twitter text-white"><i class="{{\App\Models\WithdrawUser::TYPE_ICON[$item->withdrawType->id  ?? '0']}}"></i></div>
                                     </div>
                                 </th>
                                 <td><p class="name__payment" {{ isset($item->default) && !empty($item->default) && $item->default == 1 ? 'style=color:red' : '' }}>{{ optional($item->withdrawType)->name}} {{ isset($item->default) && !empty($item->default) && $item->default == 1 ? '(Default)' : '' }}</p></td>

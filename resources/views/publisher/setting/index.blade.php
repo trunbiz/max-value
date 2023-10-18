@@ -30,7 +30,7 @@
                 <div class="mb-3 row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Date of birth</label>
                     <div class="col-sm-10">
-                        <input type="date" name="birth" class="form-control datepicker-here" data-language="en" value="{{$current_user->birtday}}">
+                        <input type="date" name="birth" class="form-control" value="{{ date('Y-m-d', strtotime($current_user->date_of_birth)) }}">
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -43,7 +43,7 @@
                     <label for="inputPassword" class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-10">
                         <button type="button" class="btn btn-outline-primary" id="updateProfile">
-                            Update now
+                            Update
                         </button>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                     <label for="inputPassword" class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-10">
                         <button type="button" class="btn btn-outline-primary" id="updatePass">
-                            Update now
+                            Update
                         </button>
                     </div>
                 </div>
