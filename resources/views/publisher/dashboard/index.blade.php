@@ -1,7 +1,11 @@
 @extends('publisher.base')
 @section('title', 'Dashboard')
 @section('content')
-
+    <script src="lib/apexcharts/apexcharts.min.js"></script>
+    <script src="lib/jqvmap/jquery.vmap.min.js"></script>
+    <script src="lib/jqvmap/maps/jquery.vmap.world.js"></script>
+    <script src="assets/js/db.data.js"></script>
+    <script src="assets/js/db.analytics.js"></script>
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
             <ol class="breadcrumb fs-sm mb-1">
@@ -455,6 +459,4 @@
         }
 
     </script>
-    <script src="assets/js/db.data.js"></script>
-    <script src="assets/js/db.analytics.js"></script>
 @endsection

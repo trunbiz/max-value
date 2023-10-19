@@ -54,7 +54,6 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <script src="lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="lib/jqvmap/jquery.vmap.min.js"></script>
     <script src="lib/jqvmap/maps/jquery.vmap.world.js"></script>
-    <script src="lib/apexcharts/apexcharts.min.js"></script>
     <script src="lib/jqueryui/jquery-ui.min.js"></script>
     <script src="lib/colorpicker/spectrum.js"></script>
     <script src="lib/select2/js/select2.full.min.js"></script>
