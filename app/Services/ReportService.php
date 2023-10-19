@@ -56,6 +56,11 @@ class ReportService
             $dataDetail = $this->getReportDetailCountry($from, $web->api_site_id);
             foreach ($datas['data'] as $data) {
 
+                if (empty($web->getUserWeb->api_publisher_id))
+                {
+                    Log::info('publisher not use', $web->api_site_id);
+                }
+
                 $reportInfo = ReportModel::where('web_id', $web->api_site_id)
                     ->where('zone_id', $data->iddimension_2)
                     ->where('publisher_id', $web->getUserWeb->api_publisher_id)
