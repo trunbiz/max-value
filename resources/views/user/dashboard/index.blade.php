@@ -334,7 +334,9 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <img src="{{ asset('/assets/user/images/banner_popup_dashboard.png') }}" alt="Skype">
+                    <h5>Dear customers</h5>
+                    <p>Our data will be delayed few hours due to API issue. We'll fix asap.<br>
+                        Please be patient.</p>
                 </div>
 
                 <!-- Modal footer -->
@@ -412,7 +414,7 @@
         });
 
         $(document).ready(function () {
-           // // kích hide vào lưu giá trị này vào cooki
+           // kích hide vào lưu giá trị này vào cooki
            //  $('#showBannerCheckbox').change(function() {
            //      if ($(this).is(':checked')) {
            //          setCookie('hideBannerPopupDasboard', true);

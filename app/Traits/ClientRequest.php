@@ -10,6 +10,7 @@ trait ClientRequest
 {
     public function callClientRequest(string $method, string $url, array $headers = [], array $params = [], $multipart = false, $contentType = 'form-data')
     {
+        Log::info('call AdServer' . $url, ['params' => $params]);
         $client = new Client();
         $method = strtoupper($method);
         $data = [
@@ -37,7 +38,13 @@ trait ClientRequest
                 'success' => true,
                 'message' => 'Request api success',
                 'data' => $data,
-                'responseHeaders' => $response->getHeaders()
+                'extraData' => $response,
+                'responseBody' => $response->getBody(),
+                'responseHeaders' => $response->getHeaders(),
+                'detailRequest' => [
+                    'url' => $url,
+                    'params' => $params
+                ]
             ];
         }catch (\Exception $e)
         {

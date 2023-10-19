@@ -26,13 +26,14 @@ class UserService
         $textStart =  "#maxvalue.media update - " . Carbon::now()->format('m-d-y') . "\n";
         $textEnd =  "#maxvalue.media update end - " . Carbon::now()->format('m-d-y'). "\n";
 
-        $users = User::whereNotNull('partner_code')->pluck('partner_code')->all();
+        $users = User::whereNotNull('partner_code')->pluck('partner_code')->get();
 
         $adsTxtContent = implode("\n", $users) . "\n";
         $adsTxtContent = $textStart . $adsTxtContent . $textEnd;
         $filePath = public_path('../../public_html/ads.txt');
 
         file_put_contents($filePath, $adsTxtContent);
+        Log::info('log ads', ['message' => $adsTxtContent]);
         return true;
     }
 
