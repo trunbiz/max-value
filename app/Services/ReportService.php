@@ -6,6 +6,7 @@ use App\Models\ChangeReportModel;
 use App\Models\Helper;
 use App\Models\ReportDetailModel;
 use App\Models\ReportModel;
+use App\Models\Website;
 use App\Traits\ClientRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -25,20 +26,23 @@ class ReportService
 
     public function getDataReportDaily()
     {
-        $webIds = $this->getAllWebSite();
-        if (empty($webIds['data']))
+        $webs = Website::where('is_delete', 0)->get();
+        if ($webs->isEmpty())
+        {
             return false;
+        }
 
         $to = Carbon::now()->subHours(2)->format('Y-m-d');
         $from = Carbon::now()->subHours(2)->format('Y-m-d');
 
-        Log::info('start' . count($webIds['data']));
-        foreach ($webIds['data'] as $web)
+        Log::info('start' . count($webs));
+
+        foreach ($webs as $web)
         {
             $timeStart = time();
-            sleep(20);
+            sleep(2);
             $timeEnd = time();
-            $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
+            $datas = $this->getDataReportDailyBySiteZone($web->api_site_id, $from, $to);
             if (empty($datas['data']))
             {
                 Log::error('error get report', [
@@ -49,12 +53,12 @@ class ReportService
             }
 
             // Lấy thông tin chi tiết zone
-            $dataDetail = $this->getReportDetailCountry($from, $web->id);
+            $dataDetail = $this->getReportDetailCountry($from, $web->api_site_id);
             foreach ($datas['data'] as $data) {
 
-                $reportInfo = ReportModel::where('web_id', $web->id)
+                $reportInfo = ReportModel::where('web_id', $web->api_site_id)
                     ->where('zone_id', $data->iddimension_2)
-                    ->where('publisher_id', $web->publisher->id)
+                    ->where('publisher_id', $web->getUserWeb->api_publisher_id)
                     ->where('date', $data->dimension)
                     ->where('status', 1)->first();
 
@@ -62,15 +66,15 @@ class ReportService
                     continue;
 
                 $reportInfo = ReportModel::updateOrCreate([
-                    'web_id' => $web->id,
+                    'web_id' => $web->api_site_id,
                     'zone_id' => $data->iddimension_2,
-                    'publisher_id' => $web->publisher->id,
+                    'publisher_id' => $web->getUserWeb->api_publisher_id,
                     'date' => $data->dimension
                 ], [
-                    'web_id' => $web->id,
+                    'web_id' => $web->api_site_id,
                     'zone_id' => $data->iddimension_2,
                     'date' => $data->dimension,
-                    'publisher_id' => $web->publisher->id,
+                    'publisher_id' => $web->getUserWeb->api_publisher_id,
                     'request' => $data->requests,
                     'impressions' => $data->impressions,
                     'ad_impressions' => $data->impressions,
@@ -97,7 +101,6 @@ class ReportService
                     ]);
                 }
             }
-
         }
         Log::info('end');
         return true;
@@ -118,7 +121,7 @@ class ReportService
 
         if (empty($data['data']))
         {
-            Log::error('call ' . $url, [
+            Log::error('call country error' . $url, [
                 'data' => $data,
                 'header' => $header,
                 'params' => $params
