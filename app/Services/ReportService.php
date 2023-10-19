@@ -58,7 +58,7 @@ class ReportService
 
                 if (empty($web->getUserWeb->api_publisher_id))
                 {
-                    Log::info('publisher not use', $web->api_site_id);
+                    Log::info('publisher not use', ['user' => $web->api_site_id]);
                 }
 
                 $reportInfo = ReportModel::where('web_id', $web->api_site_id)
