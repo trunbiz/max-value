@@ -33,9 +33,10 @@ class ReportService
         $from = Carbon::now()->subHours(2)->format('Y-m-d');
 
         Log::info('start');
-        $timeStart = time();
         foreach ($webIds['data'] as $web)
         {
+            $timeStart = time();
+            sleep(20);
             $timeEnd = time();
             $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
             if (empty($datas['data']))
@@ -96,8 +97,7 @@ class ReportService
                     ]);
                 }
             }
-            $timeStart = time();
-            sleep(20);
+
         }
         Log::info('end');
         return true;
