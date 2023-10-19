@@ -34,20 +34,15 @@ class ReportService
 
         Log::info('start');
         $timeStart = time();
-        sleep(20);
-        $timeEnd = time();
-        dd($timeEnd - $timeStart);
-
-
-
-
         foreach ($webIds['data'] as $web)
         {
+            $timeEnd = time();
             $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
             if (empty($datas['data']))
             {
                 Log::error('error get report', [
-                    'datas' => $datas
+                    'datas' => $datas,
+                    'time' => $timeEnd - $timeStart
                 ]);
                 continue;
             }
@@ -101,6 +96,8 @@ class ReportService
                     ]);
                 }
             }
+            $timeStart = time();
+            sleep(20);
         }
         Log::info('end');
         return true;
