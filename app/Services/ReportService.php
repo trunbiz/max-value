@@ -94,15 +94,7 @@ class ReportService
                         'extra' => json_encode($itemDetail ?? [])
                     ]);
                 }
-            }
-            $countRequest ++;
-
-            // 1 phút gọi 70 requets
-            if ($countRequest>70)
-            {
-                Log::info('count request report');
-                $countRequest = 0;
-                sleep(61);
+                sleep(2);
             }
         }
         return true;
