@@ -34,11 +34,15 @@ class ReportService
 
         $countRequest = 0;
 
+        $this->info('start');
         foreach ($webIds['data'] as $web)
         {
             $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
             if (empty($datas['data']))
             {
+                $this->info('error data zone' . json_encode([
+                            'datas' => $datas
+                ]));
                 Log::error('error get report', [
                     'datas' => $datas
                 ]);
@@ -97,6 +101,7 @@ class ReportService
                 sleep(2);
             }
         }
+        $this->info('end');
         return true;
     }
 
