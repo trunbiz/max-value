@@ -32,7 +32,7 @@ class ReportService
         $to = Carbon::now()->subHours(2)->format('Y-m-d');
         $from = Carbon::now()->subHours(2)->format('Y-m-d');
 
-        Log::info('start');
+        Log::info('start' . count($webIds['data']));
         foreach ($webIds['data'] as $web)
         {
             $timeStart = time();
