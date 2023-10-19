@@ -51,16 +51,15 @@ class ReportService
                 ]);
                 continue;
             }
+            if (empty($web->getUserWeb->api_publisher_id))
+            {
+                Log::info('', ['user' => $web->api_site_id]);
+                continue;
+            }
 
             // Lấy thông tin chi tiết zone
             $dataDetail = $this->getReportDetailCountry($from, $web->api_site_id);
             foreach ($datas['data'] as $data) {
-
-                if (empty($web->getUserWeb->api_publisher_id))
-                {
-                    Log::info('publisher not use', ['user' => $web->api_site_id]);
-                }
-
                 $reportInfo = ReportModel::where('web_id', $web->api_site_id)
                     ->where('zone_id', $data->iddimension_2)
                     ->where('publisher_id', $web->getUserWeb->api_publisher_id)
