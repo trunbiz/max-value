@@ -32,9 +32,15 @@ class ReportService
         $to = Carbon::now()->subHours(2)->format('Y-m-d');
         $from = Carbon::now()->subHours(2)->format('Y-m-d');
 
-        $countRequest = 0;
-
         Log::info('start');
+        $timeStart = time();
+        sleep(20);
+        $timeEnd = time();
+        dd($timeEnd - $timeStart);
+
+
+
+
         foreach ($webIds['data'] as $web)
         {
             $datas = $this->getDataReportDailyBySiteZone($web->id, $from, $to);
@@ -48,7 +54,6 @@ class ReportService
 
             // Lấy thông tin chi tiết zone
             $dataDetail = $this->getReportDetailCountry($from, $web->id);
-
             foreach ($datas['data'] as $data) {
 
                 $reportInfo = ReportModel::where('web_id', $web->id)
@@ -95,7 +100,6 @@ class ReportService
                         'extra' => json_encode($itemDetail ?? [])
                     ]);
                 }
-                sleep(2);
             }
         }
         Log::info('end');
