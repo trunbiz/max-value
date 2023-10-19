@@ -40,7 +40,11 @@ trait ClientRequest
                 'data' => $data,
                 'extraData' => $response,
                 'responseBody' => $response->getBody(),
-                'responseHeaders' => $response->getHeaders()
+                'responseHeaders' => $response->getHeaders(),
+                'detailRequest' => [
+                    'url' => $url,
+                    'params' => $params
+                ]
             ];
         }catch (\Exception $e)
         {
