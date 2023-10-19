@@ -25,7 +25,7 @@
 
 <div class="header">
     <div class="container">
-        <a href="../" class="header-logo">Max Value</a>
+        <a href="{{asset('/')}}" class="header-logo">Max Value</a>
     </div><!-- container -->
 </div><!-- header -->
 

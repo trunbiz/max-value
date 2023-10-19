@@ -25,7 +25,7 @@
 
 <div class="card card-sign">
     <div class="card-header">
-        <a href="" class="header-logo mb-4">Maxvalue</a>
+        <a href="{{asset('/')}}" class="header-logo mb-4">Maxvalue</a>
         <h3 class="card-title">Sign Up</h3>
         <p class="card-text">It's free to signup and only takes a minute.</p>
     </div><!-- card-header -->
