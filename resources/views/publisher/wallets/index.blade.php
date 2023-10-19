@@ -293,6 +293,7 @@
         }
 
         function chooseMethod(){
+            console.log(223)
             var bank_id = $('select[name="method"]').val();
             if(bank_id == 0){
                 $('.modal-payment__group--icons').empty();
@@ -371,8 +372,36 @@
                     }else{
                         $this.modal('hide');
                         $('.list__payment--table').html(response.html);
+                        window.location.reload();
                     }
                     $loading.modal('hide');
+                }
+            )
+        }
+
+        function chooseType(){
+            var type_id = $('select[name="type_crypto"]').val();
+            callAjax(
+                'GET',
+                '{{ route('user.ajax.gettype') }}' + '?type_id='+type_id,{},
+                (response) => {
+                    $('#getType').html(response.html);
+                    if(type_id == 4){
+                        $('#usdt_network').show();
+                        $('#eth_network').hide();
+                        $('#bitcoin_network').hide();
+                        $('#address_network').show();
+                    }else if(type_id == 5){
+                        $('#usdt_network').hide();
+                        $('#eth_network').show();
+                        $('#bitcoin_network').hide();
+                        $('#address_network').show();
+                    }else if(type_id == 6){
+                        $('#usdt_network').hide();
+                        $('#eth_network').hide();
+                        $('#bitcoin_network').show();
+                        $('#address_network').show();
+                    }
                 }
             )
         }
