@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
@@ -67,17 +68,25 @@ class WebsiteController extends Controller
 
             $item = Helper::callPostHTTP("https://api.adsrv.net/v2/site", $params);
 
+            if (empty($item['id']))
+            {
+                Log::error('publisher create site', ['item' => $item, 'params' => $params]);
+                return response()->json([
+                    'status' => false,
+                    'message' => 'The system created the site error',
+                ]);
+            }
             // Lưu dữ lieu vao database
             Website::create([
                 'user_id' => auth()->user()->id ?? 0,
-                'name' => $item['name'] ?? '0',
-                'url' => $item['url'] ?? '0',
-                'category_website_id' => $item['category']['id'] ?? '0',
+                'name' => $item['name'],
+                'url' => $item['url'],
+                'category_website_id' => $item['category']['id'],
                 'description' => '0',
-                'status' => $item['status']['id'] ?? '0',
-                'api_site_id' => $item['id'] ?? '0',
+                'status' => $item['status']['id'],
+                'api_site_id' => $item['id'],
                 'is_delete' => 0,
-                'created_by' => auth()->user()->id ?? '0',
+                'created_by' => auth()->user()->id,
             ]);
 
             // Sau khi user tạo 1 siet mới thì bắn mail về cho sale director và Admin
