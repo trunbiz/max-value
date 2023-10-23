@@ -59,6 +59,14 @@ class WebsiteController extends Controller
                 'message' => 'URL is had already',
             ]);
         }else{
+            if (empty($request->url) || empty($request->idcategory))
+            {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Missing parameters',
+                ]);
+            }
+
             $params = [
                 "url" => $request->url,
                 "idcategory" => $request->idcategory,
