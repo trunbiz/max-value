@@ -46,7 +46,7 @@ class SiteService
 
     public function listSiteByApiSiteId($listSiteId)
     {
-        return Website::whereIn('api_site_id', $listSiteId)->get();
+        return Website::whereIn('api_site_id', $listSiteId)->where('is_delete', 0)->get();
     }
 
     public function listAll($params)

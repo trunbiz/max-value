@@ -147,9 +147,8 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 <div class="header-main px-3 px-lg-4">
     <a id="menuSidebar" href="#" class="menu-link me-3 me-lg-4"><i class="ri-menu-2-fill"></i></a>
 
-    <div class="form-search me-auto">
-        <input type="text" class="form-control" placeholder="Search">
-        <i class="ri-search-line"></i>
+    <div class="form-search me-auto" style="background: none">
+
     </div><!-- form-search -->
 
     <div class="dropdown dropdown-skin">

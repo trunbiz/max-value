@@ -14,11 +14,6 @@
             </ol>
             <h4 class="main-title mb-0">Welcome to Dashboard</h4>
         </div>
-        <nav class="nav nav-icon nav-icon-lg">
-            <a href="" class="nav-link" data-bs-toggle="tooltip" title="Share"><i class="ri-share-line"></i></a>
-            <a href="" class="nav-link" data-bs-toggle="tooltip" title="Print"><i class="ri-printer-line"></i></a>
-            <a href="" class="nav-link" data-bs-toggle="tooltip" title="Report"><i class="ri-bar-chart-2-line"></i></a>
-        </nav>
     </div>
 
     <div class="row g-3 justify-content-center">
