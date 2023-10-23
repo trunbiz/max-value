@@ -126,11 +126,6 @@ class WalletController extends Controller
                 'message' => $validator->errors()->first(),
             ]);
         }else{
-
-
-
-
-
             $check = WalletUser::where('withdraw_type_id', $request->withdraw_type_id)->where('user_id', Auth::id())->where('email', $request->email)->where('email', '!=', null)->first();
             if(isset($check) && !empty($check)){
                 return response()->json([
@@ -163,7 +158,7 @@ class WalletController extends Controller
             'usdt_network' => 'required_if:withdraw_type_id,4',
             'eth_network' => 'required_if:withdraw_type_id,5',
             'bitcoin_network' => 'required_if:withdraw_type_id,6',
-            'address_network' => 'required_if:withdraw_type_id,4,5,6',
+            'address_network' => 'required_if:withdraw_type_id,3,4,5,6',
             'beneficiary_name' => 'required_if:withdraw_type_id,7',
             'acc_number' => 'required_if:withdraw_type_id,7',
             'bank_name' => 'required_if:withdraw_type_id,7',
