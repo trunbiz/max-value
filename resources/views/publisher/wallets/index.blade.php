@@ -104,7 +104,11 @@
                             </td>
                             <td>{{$transaction->amount}} $</td>
                             <td>{{$transaction->created_at}}</td>
-                            <td>{{$transaction->estimate_payment}}</td>
+                            <td>
+                                @if($transaction->withdraw_status_id != \App\Models\WithdrawUser::STATUS_REJECT)
+                                    {{$transaction->estimate_payment}}
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                         </tbody>
