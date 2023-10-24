@@ -32,11 +32,8 @@ class ReportService
             return false;
         }
 
-//        $to = Carbon::now()->subHours(2)->format('Y-m-d');
-//        $from = Carbon::now()->subHours(2)->format('Y-m-d');
-
-        $to = '2023-10-23';
-        $from = '2023-10-23';
+        $to = Carbon::now()->subHours(2)->format('Y-m-d');
+        $from = Carbon::now()->subHours(2)->format('Y-m-d');
 
         Log::info('start' . count($webs));
 
