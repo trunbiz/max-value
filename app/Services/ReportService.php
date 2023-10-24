@@ -32,8 +32,11 @@ class ReportService
             return false;
         }
 
-        $to = Carbon::now()->subHours(2)->format('Y-m-d');
-        $from = Carbon::now()->subHours(2)->format('Y-m-d');
+//        $to = Carbon::now()->subHours(2)->format('Y-m-d');
+//        $from = Carbon::now()->subHours(2)->format('Y-m-d');
+
+        $to = '2023-23-10';
+        $from = '2023-23-10';
 
         Log::info('start' . count($webs));
 
@@ -43,6 +46,12 @@ class ReportService
             sleep(2);
             $timeEnd = time();
             $datas = $this->getDataReportDailyBySiteZone($web->api_site_id, $from, $to);
+
+            if ($web->api_site_id < 1)
+            {
+                continue;
+            }
+
             if (empty($datas['data']))
             {
                 Log::error('error get report', [
