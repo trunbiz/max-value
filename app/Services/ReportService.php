@@ -145,6 +145,7 @@ class ReportService
         $arrayResult = [];
         foreach ($data['data'] as $item)
         {
+            dd($item);
             $arrayResult[$item->iddimension_2][]= (array)$item;
         }
         return $arrayResult;
