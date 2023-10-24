@@ -35,8 +35,8 @@ class ReportService
 //        $to = Carbon::now()->subHours(2)->format('Y-m-d');
 //        $from = Carbon::now()->subHours(2)->format('Y-m-d');
 
-        $to = '2023-23-10';
-        $from = '2023-23-10';
+        $to = '2023-10-23';
+        $from = '2023-10-23';
 
         Log::info('start' . count($webs));
 
@@ -145,7 +145,6 @@ class ReportService
         $arrayResult = [];
         foreach ($data['data'] as $item)
         {
-            dd($item);
             $arrayResult[$item->iddimension_2][]= (array)$item;
         }
         return $arrayResult;
