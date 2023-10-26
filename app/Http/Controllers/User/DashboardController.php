@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Website;
 use App\Models\WithdrawUser;
 use App\Models\ZoneModel;
+use App\Repositories\Report\ReportRepository;
 use App\Services\CampaignService;
 use App\Services\Common;
 use App\Services\ReportService;
@@ -29,6 +30,8 @@ class DashboardController extends Controller
     protected $zoneService;
     protected $walletService;
     protected $commonService;
+
+    protected $reportRepository;
     public function __construct()
     {
         $this->reportService = new ReportService();
@@ -36,6 +39,7 @@ class DashboardController extends Controller
         $this->zoneService = new ZoneService();
         $this->walletService = new WalletService();
         $this->commonService = new Common();
+        $this->reportRepository = new ReportRepository();
     }
 
     public function index(Request $request){
@@ -43,6 +47,8 @@ class DashboardController extends Controller
         $dateOption = $request['date_option'] ?? 'SUB_7';
         $sort = $request['sort'] ?? 'DESC';
         $titleFilter = '';
+        $dateYesterday = Carbon::now()->yesterday()->format('Y-m-d');
+
         if(auth()->check()){
             $dateNow = Carbon::now()->format('Y-m-d');
             switch ($dateOption) {
@@ -87,8 +93,11 @@ class DashboardController extends Controller
                 'titleFilter' => $titleFilter,
                 'fileNameExport' => 'Maxvalue_' . date_format(new \DateTime($startDate), 'm-d-Y') . '_' . date_format(new \DateTime($endDate), 'm-d-Y')
             ];
-            $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
 
+            // Lấy Report ngày hôm qua
+            $data['revenueYesterday'] = $this->reportRepository->getPRevenueByDate($dateYesterday, $dateYesterday, Auth::user()->api_publisher_id);
+
+            $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
             // Lấy thông tin site và zone
 
             // Tổng Site

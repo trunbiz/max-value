@@ -1,18 +1,64 @@
 @extends('publisher.base')
-@section('title', 'Dashboard')
+@section('title', 'websites & zones')
 @section('content')
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
-            <ol class="breadcrumb fs-sm mb-1">
-                <li class="breadcrumb-item"><a href="#">Applications</a></li>
-                <li class="breadcrumb-item"><a href="#">Websites & zones</a></li>
-            </ol>
             <h4 class="main-title mb-0">List websites & zones</h4>
         </div>
-        <nav class="nav nav-icon nav-icon-lg">
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-xl-4">
+            <div class="card card-one">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-7">
+                            <h3 class="card-value mb-1">{{ number_format($totalSite) }}</h3>
+                            <label class="card-title fw-medium text-dark mb-1">Total Websites</label>
+                        </div><!-- col -->
+                        <div class="col-5">
+                            <div id="apexChart2"></div>
+                        </div><!-- col -->
+                    </div><!-- row -->
+                </div><!-- card-body -->
+            </div><!-- card-one -->
+        </div><!-- col -->
+        <div class="col-md-6 col-xl-4">
+            <div class="card card-one">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-7">
+                            <h3 class="card-value mb-1">{{number_format($totalZone)}}</h3>
+                            <label class="card-title fw-medium text-dark mb-1">Total Zones</label>
+                        </div><!-- col -->
+                        <div class="col-5">
+                            <div id="apexChart3"></div>
+                        </div><!-- col -->
+                    </div><!-- row -->
+                </div><!-- card-body -->
+            </div><!-- card-one -->
+        </div><!-- col -->
+        <div class="col-md-6 col-xl-4">
+            <div class="card card-one">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-7">
+                            <h3 class="card-value mb-1">{{number_format($totalZonePending)}}</h3>
+                            <label class="card-title fw-medium text-dark mb-1">Pending Zones</label>
+                        </div><!-- col -->
+                        <div class="col-5">
+                            <div id="apexChart33"></div>
+                        </div><!-- col -->
+                    </div><!-- row -->
+                </div><!-- card-body -->
+            </div><!-- card-one -->
+        </div><!-- col -->
+    </div>
+
+    <div class="row" style="padding: 15px; text-align: right">
+        <nav class="col-sm-12">
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#create-site">
-                <i class="ri-add-line"></i></button>
-            {{--            <a href="" class="nav-link" data-bs-toggle="tooltip" title="Share"></a>--}}
+                <i class="ri-add-circle-fill"></i> Add</button>
         </nav>
     </div>
 

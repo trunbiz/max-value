@@ -3,10 +3,6 @@
 @section('content')
     <div class="d-flex align-items-center mb-4">
         <div class="row">
-            <ol class="breadcrumb fs-sm mb-1">
-                <li class="breadcrumb-item"><a href="#">Applications</a></li>
-                <li class="breadcrumb-item"><a href="#">Ads</a></li>
-            </ol>
             <h4 class="main-title mb-0">Ads.Txt Configuration</h4>
             <p style="color: red">Update the ads.txt on your sites in order to keep them active and continue
                 monetizing</p>

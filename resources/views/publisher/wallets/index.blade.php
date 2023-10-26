@@ -4,10 +4,6 @@
 
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
-            <ol class="breadcrumb fs-sm mb-1">
-                <li class="breadcrumb-item"><a href="#">Applications</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Wallet</li>
-            </ol>
             <h4 class="main-title mb-0">Welcome to Wallet</h4>
         </div>
     </div>

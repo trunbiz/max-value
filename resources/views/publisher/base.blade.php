@@ -83,7 +83,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 </head>
 <body>
 
-<div class="sidebar">
+<div class="sidebar sidebar-dark">
     <div class="sidebar-header">
         <a href="/" class="sidebar-logo">Max Value</a>
     </div><!-- sidebar-header -->
@@ -101,22 +101,33 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
             <a href="#" class="nav-label">Applications</a>
             <ul class="nav nav-sidebar">
                 <li class="nav-item">
-                    <a href="{{route('user.websites.index')}}" class="nav-link {{ request()->is('websites') ? 'active' : '' }}"><i class="ri-ie-fill"></i> <span>Websites & Zones</span></a>
+                    <a href="{{route('user.websites.index')}}"
+                       class="nav-link {{ request()->is('websites') ? 'active' : '' }}"><i class="ri-ie-fill"></i>
+                        <span>Websites & Zones</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('user.advertises.index')}}" class="nav-link {{ (request()->is('advs')) ? 'active' : '' }}"><i class="ri-file-edit-fill"></i> <span>Ads.txt</span></a>
+                    <a href="{{route('user.advertises.index')}}"
+                       class="nav-link {{ (request()->is('advs')) ? 'active' : '' }}"><i class="ri-file-edit-fill"></i>
+                        <span>Ads.txt</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('user.wallet_users.index')}}" class="nav-link {{ (request()->is('wallet')) ? 'active' : '' }}"><i class="ri-wallet-fill"></i> <span>Wallet</span></a>
+                    <a href="{{route('user.wallet_users.index')}}"
+                       class="nav-link {{ (request()->is('wallet')) ? 'active' : '' }}"><i class="ri-wallet-fill"></i>
+                        <span>Wallet</span></a>
                 </li>
-                <li class="nav-item">
-                    <a onclick="event.preventDefault(); document.getElementById('cloneuser-form').submit();" class="nav-link"><i class="ri-logout-box-fill"></i>
-                        <span>Return admin</span></a>
+                @if(session()->has('hasClonedUser'))
+                    <li class="nav-item">
+                        <a href="#"
+                           onclick="event.preventDefault(); document.getElementById('cloneuser-form').submit();"
+                           class="nav-link"><i class="ri-logout-box-fill"></i>
+                            <span>Return admin</span></a>
 
-                    <form id="cloneuser-form" action="{{ route('administrator.returnImpersonateAdmin') }}" method="POST">
-                        {{ csrf_field() }}
-                    </form>
-                </li>
+                        <form id="cloneuser-form" action="{{ route('administrator.returnImpersonateAdmin') }}"
+                              method="POST">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                @endif
             </ul>
         </div><!-- nav-group -->
     </div><!-- sidebar-body -->
@@ -151,24 +162,24 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
     </div><!-- form-search -->
 
-    <div class="dropdown dropdown-skin">
-        <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i
-                class="ri-settings-3-line"></i></a>
-        <div class="dropdown-menu dropdown-menu-end mt-10-f">
-            <label>Skin Mode</label>
-            <nav id="skinMode" class="nav nav-skin">
-                <a href="" class="nav-link active">Light</a>
-                <a href="" class="nav-link">Dark</a>
-            </nav>
-            <hr>
-            <label>Sidebar Skin</label>
-            <nav id="sidebarSkin" class="nav nav-skin">
-                <a href="" class="nav-link active">Default</a>
-                <a href="" class="nav-link">Prime</a>
-                <a href="" class="nav-link">Dark</a>
-            </nav>
-        </div><!-- dropdown-menu -->
-    </div><!-- dropdown -->
+{{--    <div class="dropdown dropdown-skin">--}}
+{{--        <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i--}}
+{{--                class="ri-settings-3-line"></i></a>--}}
+{{--        <div class="dropdown-menu dropdown-menu-end mt-10-f">--}}
+{{--            <label>Skin Mode</label>--}}
+{{--            <nav id="skinMode" class="nav nav-skin">--}}
+{{--                <a href="" class="nav-link active">Light</a>--}}
+{{--                <a href="" class="nav-link">Dark</a>--}}
+{{--            </nav>--}}
+{{--            <hr>--}}
+{{--            <label>Sidebar Skin</label>--}}
+{{--            <nav id="sidebarSkin" class="nav nav-skin">--}}
+{{--                <a href="" class="nav-link active">Default</a>--}}
+{{--                <a href="" class="nav-link">Prime</a>--}}
+{{--                <a href="" class="nav-link">Dark</a>--}}
+{{--            </nav>--}}
+{{--        </div><!-- dropdown-menu -->--}}
+{{--    </div><!-- dropdown -->--}}
 
     <div class="dropdown dropdown-notification ms-3 ms-xl-4">
         <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i
