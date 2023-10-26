@@ -92,14 +92,14 @@
                     <td colspan="4">
                         <div class="row g-2 align-items-center">
                             @foreach($item->zones as $zone)
-                                <div class="col-sm-3">
+                                <div class="col-sm-6 col-md-4 col-xl-3">
                                     <div class="card">
                                         <div class="card-header tx-medium">
                                             <div class="row">
-                                                <div class="col-md-10">
+                                                <div class="col-md-8">
                                                     {{$zone->name}}
                                                 </div>
-                                                <div class="col-md-2 float-right">
+                                                <div class="col-md-4 float-right" style="text-align: right">
                                                     @if($zone->status == \App\Models\ZoneModel::STATUS_PENDING)
                                                         <span class="badge bg-warning">Pending</span>
                                                     @elseif($zone->status == \App\Models\ZoneModel::STATUS_APPROVED)
