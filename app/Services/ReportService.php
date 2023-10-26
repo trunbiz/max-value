@@ -43,6 +43,12 @@ class ReportService
             sleep(2);
             $timeEnd = time();
             $datas = $this->getDataReportDailyBySiteZone($web->api_site_id, $from, $to);
+
+            if ($web->api_site_id < 1)
+            {
+                continue;
+            }
+
             if (empty($datas['data']))
             {
                 Log::error('error get report', [
@@ -85,6 +91,7 @@ class ReportService
                     'cpm' => $data->cpm,
                     'ad_cpm' => $data->cpm,
                     'revenue' => round($data->impressions / 1000 * $data->cpm, 3),
+                    'trafq' => $data->trafq
                 ]);
 
                 // Lấy thông tin chi tiết và lưu thông tin chi tiết zone :))
@@ -173,7 +180,8 @@ class ReportService
             'dateEnd' => $to,
             'idsite' => $siteId,
             'group' => 'day',
-            'group2' => 'zone'
+            'group2' => 'zone',
+            'with_trafq' => 1
         ];
         return $this->callClientRequest('GET', $url, $header, $params);
     }
