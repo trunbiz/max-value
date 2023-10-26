@@ -5,10 +5,6 @@
     <script src="lib/jqvmap/maps/jquery.vmap.world.js"></script>
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
-            <ol class="breadcrumb fs-sm mb-1">
-                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Overview</li>
-            </ol>
             <h4 class="main-title mb-0">Welcome to Dashboard</h4>
         </div>
     </div>
@@ -19,11 +15,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-7">
-                            <h3 class="card-value mb-1">${{ number_format($wallet['totalEarning'] ?? 0, 2) }}</h3>
-                            <label class="card-title fw-medium text-dark mb-1">Total Earning</label>
-                        </div><!-- col -->
-                        <div class="col-5">
-                            <div id="apexChart1"></div>
+                            <h3 class="card-value mb-1">$ {{ number_format($revenueYesterday->totalRevenue ?? 0) }}</h3>
+                            <label class="card-title fw-medium text-dark mb-1">Total Earning Yesterday</label>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div><!-- card-body -->
@@ -34,60 +27,14 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-7">
-                            <h3 class="card-value mb-1">{{ number_format($totalSite) }}</h3>
-                            <label class="card-title fw-medium text-dark mb-1">Total Websites</label>
-                        </div><!-- col -->
-                        <div class="col-5">
-                            <div id="apexChart2"></div>
+                            <h3 class="card-value mb-1">{{ number_format($totalReport->totalImpressions ?? 0) }}</h3>
+                            <label class="card-title fw-medium text-dark mb-1">Total Impressions {{$titleFilter}}</label>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div><!-- card-body -->
             </div><!-- card-one -->
         </div><!-- col -->
         <div class="col-md-6 col-xl-3">
-            <div class="card card-one">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-7">
-                            <h3 class="card-value mb-1">{{number_format($totalZone)}}</h3>
-                            <label class="card-title fw-medium text-dark mb-1">Total Zones</label>
-                        </div><!-- col -->
-                        <div class="col-5">
-                            <div id="apexChart3"></div>
-                        </div><!-- col -->
-                    </div><!-- row -->
-                </div><!-- card-body -->
-            </div><!-- card-one -->
-        </div><!-- col -->
-        <div class="col-md-6 col-xl-3">
-            <div class="card card-one">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-7">
-                            <h3 class="card-value mb-1">{{number_format($totalZonePending)}}</h3>
-                            <label class="card-title fw-medium text-dark mb-1">Pending Zones</label>
-                        </div><!-- col -->
-                        <div class="col-5">
-                            <div id="apexChart33"></div>
-                        </div><!-- col -->
-                    </div><!-- row -->
-                </div><!-- card-body -->
-            </div><!-- card-one -->
-        </div><!-- col -->
-
-        <div class="col-md-6 col-xl-4">
-            <div class="card card-one">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-7">
-                            <h3 class="card-value mb-1">{{ number_format($totalReport->totalRequests ?? 0) }}</h3>
-                            <label class="card-title fw-medium text-dark mb-1">Total request {{$titleFilter}}</label>
-                        </div><!-- col -->
-                    </div><!-- row -->
-                </div><!-- card-body -->
-            </div><!-- card-one -->
-        </div><!-- col -->
-        <div class="col-md-6 col-xl-4">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
@@ -100,7 +47,7 @@
                 </div><!-- card-body -->
             </div><!-- card-one -->
         </div><!-- col -->
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6 col-xl-3">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
@@ -204,13 +151,13 @@
                 <form action="{{route('user.dashboard.index')}}" id="searchReport" method="GET">
                     <input type="hidden" name="date_option" value="{{ request('date_option')}}">
                     <div class="row">
-                        <div class="col-2">
+                        <div class="col-sm-2">
                             <input type="text" id="dateFrom" class="form-control" name="from" value="{{request('from')}}" placeholder="From">
                         </div><!-- col -->
-                        <div class="col-2">
+                        <div class="col-sm-2">
                             <input type="text" id="dateTo" class="form-control" name="to" value="{{request('to')}}" placeholder="To">
                         </div><!-- col -->
-                        <div class="col-2">
+                        <div class="col-sm-2">
                             <select id="websiteSearch" class="form-select" name="website_id">
                                 <option value="">-Website-</option>
                                 @foreach($websites as $website)
@@ -219,7 +166,7 @@
                                 @endforeach
                             </select>
                         </div><!-- col -->
-                        <div class="col-2">
+                        <div class="col-sm-2">
                             <select id="zoneSearch" class="form-select" name="zone_id">
                                 <option value="">-Zone-</option>
                                 @foreach($zones as $zone)
@@ -228,7 +175,7 @@
                                 @endforeach
                             </select>
                         </div><!-- col -->
-                        <div class="col-2">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <button type="button" class="btn btn-outline-primary generate"
                                         onclick="clickSearchReport()"><i class="fa-brands fa-searchengin"></i> Generate
@@ -256,6 +203,7 @@
                         <th scope="col"
                             class="impressions_sort {{ (request('impressions_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
                             Impressions <i class="fa-solid fa-sort"></i></th>
+                        <th scope="col">Traffic</th>
                         <th scope="col" class="cpm_sort {{ (request('cpm_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
                             Cpm <i class="fa-solid fa-sort"></i></th>
                         <th scope="col"
@@ -270,8 +218,9 @@
                             <td>{{$itemReportSite->name}}</td>
                             <td>{{$itemReportSite->zone_name}}</td>
                             <td>{{number_format($itemReportSite->total_change_impressions ?? 0)}}</td>
-                            <td>{{round($itemReportSite->ave_cpm, 3)}}</td>
-                            <td>{{round($itemReportSite->total_change_revenue ?? 0, 2)}} $</td>
+                            <td>{{$itemReportSite->trafq}}</td>
+                            <td>{{round($itemReportSite->ave_cpm, 2)}}</td>
+                            <td>$ {{round($itemReportSite->total_change_revenue ?? 0, 2)}}</td>
                         </tr>
                     @endforeach
                     @if(!empty($countItem->totalImpressions))
@@ -280,8 +229,9 @@
                             <td></td>
                             <td></td>
                             <td>{{empty($countItem->totalImpressions) ? 0 : number_format($countItem->totalImpressions)}}</td>
-                            <td>{{empty($countItem->averageCpm) ? 0 : round($countItem->averageCpm, 3)}}</td>
-                            <td>{{empty($countItem->totalRevenue) ? 0 : round($countItem->totalRevenue ?? 0, 2)}} $</td>
+                            <td>{{empty($countItem->averageTrafq) ? 0 : round($countItem->averageTrafq, 2)}}</td>
+                            <td>{{empty($countItem->averageCpm) ? 0 : round($countItem->averageCpm, 2)}}</td>
+                            <td>$ {{empty($countItem->totalRevenue) ? 0 : round($countItem->totalRevenue ?? 0, 2)}}</td>
                         </tr>
                     @endif
                     </tbody>

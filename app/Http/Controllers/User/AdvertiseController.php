@@ -120,7 +120,7 @@ class AdvertiseController extends Controller
             ->withHeaders([
                 'Content-Type' => 'text/plain',
                 'Cache-Control' => 'no-store, no-cache',
-                'Content-Disposition' => 'attachment; filename="Ads.txt',
+                'Content-Disposition' => 'attachment; filename="ads.txt',
             ]);
 
     }
