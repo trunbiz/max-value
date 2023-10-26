@@ -78,6 +78,9 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
             width: 80%;
             max-width: 600px;
         }
+        .form-control{
+            margin: 10px 0;
+        }
     </style>
 
 </head>
@@ -237,7 +240,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         <div class="dropdown-menu dropdown-menu-end mt-10-f">
             <div class="dropdown-menu-body">
                 <div class="avatar avatar-xl online mb-3"><img src="assets/img/img1.jpg" alt=""></div>
-                <h5 class="mb-1 text-dark fw-semibold">{{\Illuminate\Support\Facades\Auth::user()->email ?? ''}}</h5>
+                <h5 class="mb-1 text-dark fw-semibold" style="word-wrap: break-word;">{{\Illuminate\Support\Facades\Auth::user()->email ?? ''}}</h5>
                 <p class="fs-sm text-secondary">Member</p>
 
                 <nav class="nav">
