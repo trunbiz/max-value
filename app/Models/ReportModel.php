@@ -34,6 +34,7 @@ class ReportModel extends Model implements Auditable
         'change_cpm',
         'revenue',
         'change_revenue',
+        'trafq',
         'status'
     ];
     // begin
