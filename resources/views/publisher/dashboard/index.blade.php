@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-7">
-                            <h3 class="card-value mb-1">$ {{ number_format($revenueYesterday->totalRevenue ?? 0) }}</h3>
+                            <h3 class="card-value mb-1">${{ number_format($revenueYesterday->totalRevenue ?? 0) }}</h3>
                             <label class="card-title fw-medium text-dark mb-1">Total Earning Yesterday</label>
                         </div><!-- col -->
                     </div><!-- row -->
@@ -119,7 +119,7 @@
                 </div><!-- card-header -->
                 <div class="card-body p-4">
                     <div class="row g-3">
-                        <div class="col-md-4 d-flex flex-column">
+                        <div class="col-md-3 d-flex flex-column">
                             <table class="table table-one mb-4">
                                 @foreach($listCountryTraffic as $itemTraffic)
                                     <tr>
@@ -136,7 +136,7 @@
                                 @endforeach
                             </table>
                         </div><!-- col -->
-                        <div class="col-md-8 mt-5 mt-md-0">
+                        <div class="col-md-9 mt-5 mt-md-0">
                             <div id="vmap-report" class="vmap-one"></div>
                         </div><!-- col -->
                     </div><!-- row -->
@@ -158,7 +158,7 @@
                             <input type="text" id="dateTo" class="form-control" name="to" value="{{request('to')}}" placeholder="To">
                         </div><!-- col -->
                         <div class="col-sm-2">
-                            <select id="websiteSearch" class="form-select" name="website_id">
+                            <select id="websiteSearch" class="form-select form-control" name="website_id">
                                 <option value="">-Website-</option>
                                 @foreach($websites as $website)
                                     <option
@@ -167,7 +167,7 @@
                             </select>
                         </div><!-- col -->
                         <div class="col-sm-2">
-                            <select id="zoneSearch" class="form-select" name="zone_id">
+                            <select id="zoneSearch" class="form-select form-control" name="zone_id">
                                 <option value="">-Zone-</option>
                                 @foreach($zones as $zone)
                                     <option
@@ -203,7 +203,7 @@
                         <th scope="col"
                             class="impressions_sort {{ (request('impressions_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
                             Impressions <i class="fa-solid fa-sort"></i></th>
-                        <th scope="col">Traffic</th>
+                        <th scope="col">TrafficQ</th>
                         <th scope="col" class="cpm_sort {{ (request('cpm_sort') == 'ASC') ? 'ASC' : 'DESC'}}">
                             Cpm <i class="fa-solid fa-sort"></i></th>
                         <th scope="col"
