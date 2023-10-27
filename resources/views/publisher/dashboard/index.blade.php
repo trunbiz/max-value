@@ -114,6 +114,12 @@
                                    href="{{route('user.dashboard.index', ['date_option' => 'SUB_THIS_MONTH'])}}">This
                                     month</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ (request('date_option') == 'SUB_LAST_MONTH') ? 'active' : ''}}"
+                                   aria-current="page"
+                                   href="{{route('user.dashboard.index', ['date_option' => 'SUB_LAST_MONTH'])}}">Last
+                                    month</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
