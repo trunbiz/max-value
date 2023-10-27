@@ -78,7 +78,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
             width: 80%;
             max-width: 600px;
         }
-        .form-control, .select2-container{
+        .form-control, .select2-container, .form-group{
             margin: 10px 0;
         }
     </style>

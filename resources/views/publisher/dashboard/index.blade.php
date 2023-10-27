@@ -65,7 +65,7 @@
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link {{ (request('date_option') == 'YESTERDAY') ? 'active' : ''}}"
@@ -220,7 +220,7 @@
                             <td>{{number_format($itemReportSite->total_change_impressions ?? 0)}}</td>
                             <td>{{$itemReportSite->trafq}}</td>
                             <td>{{round($itemReportSite->ave_cpm, 2)}}</td>
-                            <td>$ {{round($itemReportSite->total_change_revenue ?? 0, 2)}}</td>
+                            <td>${{round($itemReportSite->total_change_revenue ?? 0, 2)}}</td>
                         </tr>
                     @endforeach
                     @if(!empty($countItem->totalImpressions))
@@ -231,7 +231,7 @@
                             <td>{{empty($countItem->totalImpressions) ? 0 : number_format($countItem->totalImpressions)}}</td>
                             <td>{{empty($countItem->averageTrafq) ? 0 : round($countItem->averageTrafq, 2)}}</td>
                             <td>{{empty($countItem->averageCpm) ? 0 : round($countItem->averageCpm, 2)}}</td>
-                            <td>$ {{empty($countItem->totalRevenue) ? 0 : round($countItem->totalRevenue ?? 0, 2)}}</td>
+                            <td>${{empty($countItem->totalRevenue) ? 0 : round($countItem->totalRevenue ?? 0, 2)}}</td>
                         </tr>
                     @endif
                     </tbody>
