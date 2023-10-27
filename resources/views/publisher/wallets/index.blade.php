@@ -2,6 +2,11 @@
 @section('title', 'Wallet')
 @section('content')
 
+    <style>
+        .dashboard-money .card-body{
+            text-align: center;
+        }
+    </style>
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
             <h4 class="main-title mb-0">Welcome to Wallet</h4>
@@ -9,49 +14,45 @@
     </div>
     <div class="row g-3">
         <div class="col-sm-12 col-xl-12">
-            <div class="row">
+            <div class="row dashboard-money">
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>
+{{--                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>--}}
                             <h6 class="fw-semibold text-dark mb-1">Available</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$amountAvailable}}</span> $</p>
+                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($amountAvailable)}}</span> $</h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-warning ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Pending</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$amountPending}}</span> $</p>
+                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($amountPending)}}</span> $</h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-danger ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Rejected</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$amountReject}}</span> $</p>
+                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($amountReject)}}</span> $</h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-success ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Total withdrawn</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$amountTotalWithdraw}}</span> $</p>
+                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($amountTotalWithdraw)}}</span> $</h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>
                             <h6 class="fw-semibold text-dark mb-1">Total Earning</h6>
-                            <p class="fs-xs text-secondary"><span class="ff-numerals">{{$totalEarning}}</span> $</p>
+                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($totalEarning)}}</span> $</h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
@@ -69,8 +70,9 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">ID</th>
+                            <th></th>
                             <th scope="col">Method</th>
+                            <th scope="col">Address</th>
                             <th scope="col">Status</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Order Time</th>
@@ -80,14 +82,22 @@
                         <tbody>
                         @foreach($transactions as $transaction)
                         <tr>
-                            <th scope="row">{{$transaction->id}}</th>
                             <td>
                                 <div class="list-group-one">
                                     <div class="avatar bg-twitter text-white"><i class="{{\App\Models\WithdrawUser::TYPE_ICON[$transaction->walletUser->withdrawType->id]}}"></i></div>
-                                    <div>
-                                        <h6 class="mb-0">{{$transaction->walletUser->withdrawType->name ?? ''}}</h6>
-                                    </div>
                                 </div>
+                            </td>
+                            <td>
+                                <h6 class="mb-0">{{$transaction->walletUser->withdrawType->name ?? ''}}</h6>
+                            </td>
+                            <td>
+                                @if(in_array($transaction->walletUser->withdraw_type_id, [\App\Models\WithdrawUser::TYPE_PAYPAL, \App\Models\WithdrawUser::TYPE_PAYONEER]))
+                                    {{$transaction->email}}
+                                @elseif($transaction->walletUser->withdraw_type_id == \App\Models\WithdrawUser::TYPE_WIRE_TRANSFER)
+                                    {{$transaction->walletUser->bank_name}}
+                                @else
+                                    {{$transaction->walletUser->network_address}}
+                                @endif
                             </td>
                             <td>
                                 @if($transaction->withdraw_status_id == \App\Models\WithdrawUser::STATUS_PENDING)
