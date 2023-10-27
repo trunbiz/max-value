@@ -18,7 +18,7 @@
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-{{--                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>--}}
+                            {{--                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>--}}
                             <h6 class="fw-semibold text-dark mb-1">Available</h6>
                             <h4 class="text-secondary"><span class="ff-numerals">${{number_format($amountAvailable)}}</span></h4>
                         </div><!-- card-body -->
@@ -58,6 +58,8 @@
                 </div><!-- col -->
             </div>
         </div>
+    </div>
+    <div class="row g-3">
         <div class="col-sm-12 col-md-6 col-xl-8">
             <div class="card card-one">
                 <div class="card-header">
@@ -66,7 +68,7 @@
                         <a href="javascript:void(0)" class="btn btn-outline-primary" onclick="openOrder()"><i class="ri-add-circle-fill"></i> Add</a>
                     </nav>
                 </div><!-- card-header -->
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
