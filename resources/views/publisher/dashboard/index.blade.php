@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="col-7">
                             <h3 class="card-value mb-1">${{ number_format($revenueYesterday->totalRevenue ?? 0) }}</h3>
-                            <label class="card-title fw-medium text-dark mb-1">Total Earning Yesterday</label>
+                            <label class="card-title fw-medium text-dark mb-1">Yesterday Earning</label>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div><!-- card-body -->

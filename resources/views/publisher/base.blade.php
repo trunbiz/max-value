@@ -84,6 +84,9 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         .navbar-expand-lg .container-fluid .navbar-filter-mobi{
             display: none !important;
         }
+        .col-6{
+            padding: 5px;
+        }
 
         /*.main-footer {*/
         /*    position: absolute;*/
@@ -283,10 +286,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
 <div class="main main-app p-3 p-lg-4">
     @yield('content')
-    <div class="main-footer mt-5">
-        <span>&copy; 2023. Maxvalue. All Rights Reserved.</span>
-        <span>Created by: <a href="https://maxvalue.media" target="_blank">MaxValue Center</a></span>
-    </div><!-- main-footer -->
+
 </div><!-- main -->
 <!-- Modal -->
 <div class="modal fade" id="loading" tabindex="-1" aria-labelledby="loading" aria-hidden="true">
