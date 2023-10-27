@@ -52,18 +52,18 @@
                                 <select
                                     class="form-control choose_value select2_init @error("idcategory") is-invalid @enderror"
                                     required name="idcategory">
-                                    <option value="13">Arts &amp; Entertainment</option>
+                                    <option value="13">Arts & Entertainment</option>
                                     <option value="33">Automotive</option>
                                     <option value="34">Business</option>
                                     <option value="35">Careers</option>
                                     <option value="36">Education</option>
-                                    <option value="37">Family &amp; Parenting</option>
-                                    <option value="39">Food &amp; Drink</option>
-                                    <option value="28">Health &amp; fitness</option>
-                                    <option value="10">Hobbies &amp; Interests</option>
-                                    <option value="41">Home &amp; Garden</option>
-                                    <option value="42">Law, Government, &amp; Politics</option>
-                                    <option value="11">News &amp; Media</option>
+                                    <option value="37">Family & Parenting</option>
+                                    <option value="39">Food & Drink</option>
+                                    <option value="28">Health & fitness</option>
+                                    <option value="10">Hobbies & Interests</option>
+                                    <option value="41">Home & Garden</option>
+                                    <option value="42">Law, Government, & Politics</option>
+                                    <option value="11">News & Media</option>
                                     <option value="7">Personal Finance</option>
                                     <option value="47">Pets</option>
                                     <option value="52">Real Estate</option>
@@ -71,8 +71,8 @@
                                     <option value="23">Shopping</option>
                                     <option value="8">Society</option>
                                     <option value="5">Sports</option>
-                                    <option value="49">Style &amp; Fashion</option>
-                                    <option value="6">Technology &amp; Computing</option>
+                                    <option value="49">Style & Fashion</option>
+                                    <option value="6">Technology & Computing</option>
                                     <option value="51">Travel</option>
                                     <option value="31">Uncategorized</option>
                                 </select>

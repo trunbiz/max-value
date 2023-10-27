@@ -65,7 +65,7 @@
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <div class="navbar-collapse" id="navbarNav">
+                    <div class="navbar-collapse navbar-filter" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link {{ (request('date_option') == 'YESTERDAY') ? 'active' : ''}}"
@@ -93,6 +93,26 @@
                                 <a class="nav-link {{ (request('date_option') == 'ALL') ? 'active' : ''}}"
                                    aria-current="page"
                                    href="{{route('user.dashboard.index', ['date_option' => 'ALL'])}}">All the time</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="navbar-collapse navbar-filter-mobi" id="navbar-filter-mobi">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link {{ (request('date_option') == 'YESTERDAY') ? 'active' : ''}}"
+                                   aria-current="page"
+                                   href="{{route('user.dashboard.index', ['date_option' => 'YESTERDAY'])}}">Yesterday</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ (request('date_option') == 'SUB_7') ? 'active' : ''}}"
+                                   aria-current="page"
+                                   href="{{route('user.dashboard.index', ['date_option' => 'SUB_7'])}}">Last 7 days</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link {{ (request('date_option') == 'SUB_THIS_MONTH') ? 'active' : ''}}"
+                                   aria-current="page"
+                                   href="{{route('user.dashboard.index', ['date_option' => 'SUB_THIS_MONTH'])}}">This
+                                    month</a>
                             </li>
                         </ul>
                     </div>
