@@ -22,12 +22,12 @@
                         <div class="card-body">
                             <div class="media static-widget">
                                 <div class="media-body">
-                                    <h6 class="font-roboto">Request</h6>
-                                    <h4 class="mb-0 counter">{{ number_format($totalReport->totalRequests ?? 0) }}</h4>
+                                    <h6 class="font-roboto">Impressions</h6>
+                                    <h4 class="mb-0 counter">{{ number_format($totalReport->totalImpressions ?? 0) }}</h4>
                                 </div>
                                 <div class="fill-primary" width="44" height="46" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
                                      <span class="badge bg-success"><i class="fa-solid fa-square-arrow-up-right"></i>
-                                        {{$totalReportLastMonth->totalRequests != 0 ? number_format((($totalReport->totalRequests) / ($totalReportLastMonth->totalRequests)) * 100, 3) : ''}}
+                                        {{$totalReportLastMonth->totalImpressions != 0 ? number_format((($totalReport->totalImpressions) / ($totalReportLastMonth->totalImpressions)) * 100, 3) : ''}}
                                         %
                                         </span>
                                 </div>
@@ -35,7 +35,7 @@
                             <div class="progress-widget">
                                 <div style="text-align: right">
                                     <div class="badge bg-primary">
-                                        Last: {{number_format($totalReportLastMonth->totalRequests)}}
+                                        Last: {{number_format($totalReportLastMonth->totalImpressions)}}
                                     </div>
                                 </div>
                             </div>
