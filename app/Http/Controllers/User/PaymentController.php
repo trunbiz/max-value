@@ -43,7 +43,7 @@ class PaymentController extends Controller
 
     public function create()
     {
-        $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->get();
+        $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->where('is_delete', 0)->get();
         return response()->json([
             'html' => view('publisher.withdraw_users.create', compact('items'))->render()
         ]);
