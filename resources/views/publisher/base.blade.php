@@ -81,6 +81,26 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         .form-control, .select2-container, .form-group{
             margin: 10px 0;
         }
+        .navbar-expand-lg .container-fluid .navbar-filter-mobi{
+            display: none !important;
+        }
+        @media only screen and (max-width: 600px) {
+            .navbar-expand-lg .container-fluid .navbar-filter-mobi {
+                display: block !important;
+            }
+            .navbar-expand-lg .container-fluid .navbar-filter-mobi ul {
+                flex-direction: row;
+            }
+            .navbar-expand-lg .container-fluid .navbar-filter-mobi ul li{
+                margin-right: 10px;
+            }
+            .navbar-filter{
+                display: none;
+            }
+        }
+
+
+
     </style>
 
 </head>
