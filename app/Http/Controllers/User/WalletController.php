@@ -39,7 +39,7 @@ class WalletController extends Controller
     {
         $current_user = User::where('id', Auth::id())->first();
         $banks = WithdrawType::where('parent_id', null)->get();
-        $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->orderBy('id', 'DESC')->get();
+        $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->where('is_delete', 0)->orderBy('id', 'DESC')->get();
 
         $amountAvailable = auth()->user()->money;
 
@@ -194,7 +194,10 @@ class WalletController extends Controller
 
     public function delete(Request $request)
     {
-        WalletUser::find($request->id)->delete();
+        $walletUser = WalletUser::find($request->id);
+        $walletUser->is_delete = 1;
+        $walletUser->save();
+
         return response()->json([
             'status' => true,
             'message' => 'Deleted Successfully',

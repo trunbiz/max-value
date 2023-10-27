@@ -147,7 +147,7 @@
                                 <td>{{$item->email ?? ''}}</td>
                                 <td style="text-align: right">
                                     <button type="button" class="btn btn-primary" onclick="editMethod({{ $item->id }})"><i class="ri-edit-2-fill" title="edit"></i></button>
-{{--                                    <button type="button" class="btn btn-danger" onclick="deleteMethod({{ $item->id }})"><i class="ri-close-fill" title="edit"></i></button>--}}
+                                    <button type="button" class="btn btn-danger" onclick="deleteMethod({{ $item->id }})"><i class="ri-close-fill" title="edit"></i></button>
                                 </td>
                             </tr>
                         @endforeach
