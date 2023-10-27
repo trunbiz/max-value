@@ -52,7 +52,7 @@ class Website extends Model implements Auditable
         34 => 'Business',
         35 => 'Careers',
         36 => 'Education',
-        37 => 'Family &amp; Parenting',
+        37 => 'Family & Parenting',
         39 => 'Food & Drink',
         28 => 'Health & fitness',
         10 => 'Hobbies & Interests',
