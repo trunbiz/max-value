@@ -1,14 +1,20 @@
 @extends('publisher.base')
 @section('title', 'websites & zones')
 @section('content')
+    <script src="lib/apexcharts/apexcharts.min.js"></script>
+    <style>
+        .dashboard-site .card-site {
+            margin: 5px 0;
+        }
+    </style>
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
             <h4 class="main-title mb-0">List websites & zones</h4>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6 col-xl-4">
+    <div class="row dashboard-site">
+        <div class="card-site col-md-6 col-xl-4">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
@@ -23,7 +29,7 @@
                 </div><!-- card-body -->
             </div><!-- card-one -->
         </div><!-- col -->
-        <div class="col-md-6 col-xl-4">
+        <div class="card-site col-md-6 col-xl-4">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
@@ -38,7 +44,7 @@
                 </div><!-- card-body -->
             </div><!-- card-one -->
         </div><!-- col -->
-        <div class="col-md-6 col-xl-4">
+        <div class="card-site col-md-6 col-xl-4">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
@@ -316,4 +322,6 @@
             return url.protocol === "http:" || url.protocol === "https:";
         }
     </script>
+    <script src="assets/js/db.data.js"></script>
+    <script src="assets/js/db.analytics.js"></script>
 @endsection

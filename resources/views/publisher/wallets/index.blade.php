@@ -108,7 +108,7 @@
                                     <span class="badge bg-danger">Reject</span>
                                 @endif
                             </td>
-                            <td>{{$transaction->amount}} $</td>
+                            <td>${{$transaction->amount}}</td>
                             <td>{{$transaction->created_at}}</td>
                             <td>
                                 @if($transaction->withdraw_status_id != \App\Models\WithdrawUser::STATUS_REJECT)
