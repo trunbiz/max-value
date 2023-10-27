@@ -168,7 +168,8 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <div class="sidebar-footer">
         <div class="sidebar-footer-top">
             <div class="sidebar-footer-thumb">
-                <img src="assets/img/img1.jpg" alt="">
+{{--                <img src="assets/img/img1.jpg" alt="">--}}
+                <img src="assets/img/customer_support.png" alt="">
             </div><!-- sidebar-footer-thumb -->
             <div class="sidebar-footer-body">
                 <h6>{{$name}}</h6>
@@ -177,12 +178,15 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         </div><!-- sidebar-footer-top -->
         <div class="sidebar-footer-menu">
             <nav class="nav">
-                <a href="mailto:{{$email}}" title="mail"><i class="ri-mail-line btn btn-outline-danger border-0"></i> Gmail</a>
+                <a href="mailto:{{$email}}" title="mail"><i class="ri-mail-line btn btn-outline-danger border-0"></i>
+                    Gmail</a>
                 @if(!empty($telegram))
-                <a href="{{$telegram}}" title="Telegram"><i class="ri-send-plane-fill btn btn-outline-info border-0"></i> Telegram</a>
+                    <a href="{{$telegram}}" title="Telegram"><i
+                            class="ri-send-plane-fill btn btn-outline-info border-0"></i> Telegram</a>
                 @endif
                 @if(!empty($skype))
-                    <a href="{{$skype}}" title="Skype"><i class="ri-skype-line btn btn-outline-primary border-0"></i> Skype</a>
+                    <a href="{{$skype}}" title="Skype"><i class="ri-skype-line btn btn-outline-primary border-0"></i>
+                        Skype</a>
                 @endif
             </nav>
         </div><!-- sidebar-footer-menu -->

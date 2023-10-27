@@ -230,11 +230,12 @@
                     'default' : $this.find('input[name="default"]').val(),
                 },
                 (response) => {
+                    $loading.modal('hide');
                     if(response.status == false){
                         swal("Error!", response.message, "error");
+                        $loading.modal('hide');
                     }else{
                         $('.list__payment--table').html(response.html);
-                        $loading.modal('hide');
                         window.location.reload();
                     }
                 }
