@@ -53,6 +53,7 @@
                                     <th>P.CPM</th>
                                     <th>P.Revenue</th>
                                     <th>Profit</th>
+                                    <th>Trafq %</th>
                                     <th>Status</th>
                                     <th>Options</th>
                                 </tr>
@@ -138,6 +139,7 @@
                                             <td class="pCpm">{{$pCpm}}</td>
                                             <td class="pRevenue">{{$pRevenue}}</td>
                                             <td class="pProfit">{{$pProfit}}</td>
+                                            <td>{{$item->trafq}}</td>
                                             <td>@if($item->status == 1)
                                                     <span class="badge bg-success">accept</span>
                                                 @endif
