@@ -39,7 +39,8 @@ class WalletUser extends Model implements Auditable
         'bank_address',
         'routing_number',
         'default',
-        'email'
+        'email',
+        'is_delete'
     ];
 
     // begin

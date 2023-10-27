@@ -84,6 +84,14 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         .navbar-expand-lg .container-fluid .navbar-filter-mobi{
             display: none !important;
         }
+
+        /*.main-footer {*/
+        /*    position: absolute;*/
+        /*    width: 80%;*/
+        /*    clear: both;*/
+        /*    padding-top: 20px;*/
+        /*    bottom: 0;*/
+        /*}*/
         @media only screen and (max-width: 600px) {
             .navbar-expand-lg .container-fluid .navbar-filter-mobi {
                 display: block !important;
