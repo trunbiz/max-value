@@ -13,6 +13,7 @@ use App\Models\Website;
 use App\Http\Controllers\Controller;
 use App\Models\WithdrawType;
 use App\Models\WithdrawUser;
+use App\Services\WalletService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\BaseControllerTrait;
@@ -26,48 +27,57 @@ class WalletController extends Controller
 {
     use BaseControllerTrait;
 
+    protected $walletService;
     public function __construct(WalletUser $model)
     {
         $this->initBaseModel($model);
         $this->shareBaseModel($model);
+        $this->walletService = new WalletService();
     }
 
     public function index(Request $request)
     {
-        $title = "Wallet";
         $current_user = User::where('id', Auth::id())->first();
         $banks = WithdrawType::where('parent_id', null)->get();
-//        $items = $this->model->searchByQuery($request, ['user_id' => \auth()->id()]);
-        $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->orderBy('id', 'DESC')->get();
+        $items = WalletUser::where('user_id', Auth::id())->orderBy('default', 'DESC')->where('is_delete', 0)->orderBy('id', 'DESC')->get();
 
         $amountAvailable = auth()->user()->money;
 
         $amountPending = 0;
         $amountReject = 0;
         $amountTotalWithdraw = 0;
-        $transactions = WithdrawUser::where('user_id', \auth()->id())->orderBy('id', 'DESC')->get();
-        foreach ($transactions as $transaction)
+        $transactions = WithdrawUser::where('user_id', \auth()->id())->orderBy('id', 'DESC')->paginate(25);
+
+        $withdrawInfo = $this->walletService->getMoneyByStatus(auth()->id());
+        foreach ($withdrawInfo as $itemWithdraw)
         {
-            if ($transaction->withdraw_status_id == WithdrawUser::STATUS_PENDING)
+            if ($itemWithdraw->withdraw_status_id == WithdrawUser::STATUS_PENDING)
             {
-                $amountPending +=$transaction->amount;
+                $amountPending = $itemWithdraw->totalAmount;
             }
-            elseif ($transaction->withdraw_status_id == WithdrawUser::STATUS_APPROVED)
+            elseif ($itemWithdraw->withdraw_status_id == WithdrawUser::STATUS_APPROVED)
             {
-                $amountTotalWithdraw += $transaction->amount;
+                $amountTotalWithdraw = $itemWithdraw->totalAmount;
             }
-            elseif ($transaction->withdraw_status_id == WithdrawUser::STATUS_REJECT)
+            elseif ($itemWithdraw->withdraw_status_id == WithdrawUser::STATUS_REJECT)
             {
-                $amountReject += $transaction->amount;
+                $amountReject = $itemWithdraw->totalAmount;
             }
         }
         $totalEarning = ($amountAvailable + $amountPending + $amountTotalWithdraw + $amountReject);
-//        $amountAvailable = Formatter::formatMoney($amountAvailable);
-//        $amountPending = Formatter::formatMoney($amountPending);
-//        $amountTotalWithdraw = Formatter::formatMoney($amountTotalWithdraw);
-//        $amountReject = Formatter::formatMoney($amountReject);
 
-        return view('user.' . $this->prefixView . '.index', compact('items', 'banks','title', 'current_user','amountAvailable','amountPending','amountTotalWithdraw','transactions', 'amountReject', 'totalEarning'));
+        $data = [
+            'items' => $items,
+            'banks' => $banks,
+            'current_user' => $current_user,
+            'amountAvailable' => $amountAvailable,
+            'amountPending' => $amountPending,
+            'amountTotalWithdraw' => $amountTotalWithdraw,
+            'transactions' => $transactions,
+            'amountReject' => $amountReject,
+            'totalEarning' => $totalEarning,
+        ];
+        return view('publisher.wallets.index', $data);
     }
 
     public function get(Request $request, $id)
@@ -77,11 +87,9 @@ class WalletController extends Controller
 
     public function create()
     {
-//        $title = "Add wallet";
-//        return view('user.' . $this->prefixView . '.add', compact('title'));
         $banks = WithdrawType::where('parent_id', null)->get();
         return response()->json([
-            'html' => view('user.' . $this->prefixView . '.add')->with(compact('banks'))->render(),
+            'html' => view('publisher.wallet_users.add')->with(compact('banks'))->render(),
         ]);
     }
 
@@ -93,7 +101,7 @@ class WalletController extends Controller
             'usdt_network' => 'required_if:withdraw_type_id,4',
             'eth_network' => 'required_if:withdraw_type_id,5',
             'bitcoin_network' => 'required_if:withdraw_type_id,6',
-            'address_network' => 'required_if:withdraw_type_id,4,5,6',
+            'address_network' => 'required_if:withdraw_type_id,3,4,5,6',
             'beneficiary_name' => 'required_if:withdraw_type_id,7',
             'acc_number' => 'required_if:withdraw_type_id,7',
             'bank_name' => 'required_if:withdraw_type_id,7',
@@ -150,7 +158,7 @@ class WalletController extends Controller
             'usdt_network' => 'required_if:withdraw_type_id,4',
             'eth_network' => 'required_if:withdraw_type_id,5',
             'bitcoin_network' => 'required_if:withdraw_type_id,6',
-            'address_network' => 'required_if:withdraw_type_id,4,5,6',
+            'address_network' => 'required_if:withdraw_type_id,3,4,5,6',
             'beneficiary_name' => 'required_if:withdraw_type_id,7',
             'acc_number' => 'required_if:withdraw_type_id,7',
             'bank_name' => 'required_if:withdraw_type_id,7',
@@ -186,7 +194,10 @@ class WalletController extends Controller
 
     public function delete(Request $request)
     {
-        WalletUser::find($request->id)->delete();
+        $walletUser = WalletUser::find($request->id);
+        $walletUser->is_delete = 1;
+        $walletUser->save();
+
         return response()->json([
             'status' => true,
             'message' => 'Deleted Successfully',

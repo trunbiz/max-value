@@ -105,4 +105,9 @@ class WalletService
             ->selectRaw('SUM(amount) AS totalAmount, withdraw_status_id AS withdrawStatus')
             ->groupBy('withdraw_status_id')->get();
     }
+
+    public function getMoneyByStatus($userId)
+    {
+        return WithdrawUser::where('user_id', $userId)->selectRaw('SUM(amount) AS totalAmount, withdraw_status_id')->groupBy('withdraw_status_id')->get();
+    }
 }

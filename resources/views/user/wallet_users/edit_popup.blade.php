@@ -24,7 +24,7 @@
                         <p class="content__threshold">(Minimum Payment Threshold: {{ optional($item->withdrawType)->min }} USD)</p>
                     </div>
                     <div class="divider"></div>
-                    <p class="modal-payment__required">
+                    <p class="text-danger">
                         Fields mark with <span>*</span> are required
                     </p>
                     <div class="row form-group {{ isset($item) && !empty($item) && $item->withdraw_type_id == 1 || $item->withdraw_type_id == 2 ? '' : 'hidden' }}" id="email_payment">

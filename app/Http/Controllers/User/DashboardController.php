@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Website;
 use App\Models\WithdrawUser;
 use App\Models\ZoneModel;
+use App\Repositories\Report\ReportRepository;
 use App\Services\CampaignService;
 use App\Services\Common;
 use App\Services\ReportService;
@@ -29,6 +30,8 @@ class DashboardController extends Controller
     protected $zoneService;
     protected $walletService;
     protected $commonService;
+
+    protected $reportRepository;
     public function __construct()
     {
         $this->reportService = new ReportService();
@@ -36,6 +39,7 @@ class DashboardController extends Controller
         $this->zoneService = new ZoneService();
         $this->walletService = new WalletService();
         $this->commonService = new Common();
+        $this->reportRepository = new ReportRepository();
     }
 
     public function index(Request $request){
@@ -43,6 +47,8 @@ class DashboardController extends Controller
         $dateOption = $request['date_option'] ?? 'SUB_7';
         $sort = $request['sort'] ?? 'DESC';
         $titleFilter = '';
+        $dateYesterday = Carbon::now()->yesterday()->format('Y-m-d');
+
         if(auth()->check()){
             $dateNow = Carbon::now()->format('Y-m-d');
             switch ($dateOption) {
@@ -54,17 +60,17 @@ class DashboardController extends Controller
                 case 'SUB_2':
                     $startDate = Carbon::now()->subDays(2)->format('Y-m-d');
                     $endDate = $dateNow;
-                    $titleFilter = 'last 2 day';
+                    $titleFilter = 'last 2 days';
                     break;
                 case 'SUB_3':
                     $startDate = Carbon::now()->subDays(3)->format('Y-m-d');
                     $endDate = $dateNow;
-                    $titleFilter = 'last 3 day';
+                    $titleFilter = 'last 3 days';
                     break;
                 case 'SUB_7':
                     $startDate = Carbon::now()->subDays(7)->format('Y-m-d');
                     $endDate = $dateNow;
-                    $titleFilter = 'last 7 day';
+                    $titleFilter = 'last 7 days';
                     break;
                 case 'SUB_THIS_MONTH':
                     $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
@@ -87,8 +93,11 @@ class DashboardController extends Controller
                 'titleFilter' => $titleFilter,
                 'fileNameExport' => 'Maxvalue_' . date_format(new \DateTime($startDate), 'm-d-Y') . '_' . date_format(new \DateTime($endDate), 'm-d-Y')
             ];
-            $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
 
+            // Lấy Report ngày hôm qua
+            $data['revenueYesterday'] = $this->reportRepository->getPRevenueByDate($dateYesterday, $dateYesterday, Auth::user()->api_publisher_id);
+
+            $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
             // Lấy thông tin site và zone
 
             // Tổng Site
@@ -142,12 +151,11 @@ class DashboardController extends Controller
                 $currentDate->addDay();
             }
 
-            if (!empty($request['date_range']) || !empty($request['website_id']) || !empty($request['zone_id']))
+            if (!empty($request['from']) || !empty($request['to']) || !empty($request['website_id']) || !empty($request['zone_id']))
             {
-                $dateSearch = explode(" - ", $request['date_range']);
                 // Lấy thông tin show bảng
-                $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
-                $data['countItem'] = $this->reportService->countDataReportBySite($listSiteId, $dateSearch[0] ?? null, $dateSearch[1] ?? null, $sort, $request);
+                $data['items'] = $this->reportService->getDataReportBySite($listSiteId, $request['from'] ?? null, $request['to'] ?? null, $sort, $request);
+                $data['countItem'] = $this->reportService->countDataReportBySite($listSiteId, $request['from'] ?? null, $request['to'] ?? null, $sort, $request);
             }
             else{
                 $data['items'] = new Collection();
@@ -158,6 +166,13 @@ class DashboardController extends Controller
             // Lấy thông tin geo traffic
             $data['listCountryTraffic'] = $this->reportService->getDataTrafficCountry($listSiteId, $startDate, $endDate);
             $data['totalCountryTraffic'] = $this->reportService->countTrafficCountry($listSiteId, $startDate, $endDate)->total_impressions ?? 0;
+
+
+            $data['listMapCountryTraffic'] = [];
+            foreach ($data['listCountryTraffic'] as $key => $itemCountry)
+            {
+                $data['listMapCountryTraffic'][$itemCountry->code] = Common::CODE_COLOR[$key];
+            }
 
             // Lấy thông tin reports
             $dataReport = [];
@@ -223,7 +238,7 @@ class DashboardController extends Controller
             $chart['date'] = array_values($dateRange);
             $data['chart'] = $chart;
 
-            return view('user.dashboard.index', $data);
+            return view('publisher.dashboard.index', $data);
         }
         return redirect()->to('/login');
     }

@@ -33,10 +33,14 @@ class ZoneModel extends Model
     ];
 
     const STATUS_ADSERVER = [
-        7010 => 'Pending',
-        7000 => 'Approved',
-        7020 => 'Rejected',
+        self::STATUS_PENDING => 'Pending',
+        self::STATUS_APPROVED => 'Approved',
+        self::STATUS_REJECTED => 'Rejected',
     ];
+
+    const STATUS_PENDING = 7010;
+    const STATUS_APPROVED = 7000;
+    const STATUS_REJECTED = 7020;
 
     const ID_ZONE_FORMAT = [
       6 => 'Banner'

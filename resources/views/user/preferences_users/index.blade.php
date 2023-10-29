@@ -278,7 +278,7 @@
                         <p class="content__threshold">(Minimum Payment Threshold: 50 USD)</p>
                     </div>
                     <div class="divider"></div>
-                    <p class="modal-payment__required">
+                    <p class="text-danger">
                         Fields mark with <span>*</span> are required
                     </p>
                     <form action="" id="myFomr" autocomplete="off">

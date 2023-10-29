@@ -35,11 +35,16 @@ class Website extends Model implements Auditable
     ];
 
     const STATUS = [
-        3520 => 'Pending',
-        3500 => 'Approved',
-        3525 => 'Verification',
-        3510 => 'Rejected',
+        self::STATUS_PENDING => 'Pending',
+        self::STATUS_APPROVED => 'Approved',
+        self::STATUS_VERIFICATION => 'Verification',
+        self::STATUS_REJECTED => 'Rejected',
     ];
+
+    const STATUS_PENDING = 3520;
+    const STATUS_APPROVED = 3500;
+    const STATUS_VERIFICATION = 3525;
+    const STATUS_REJECTED = 3510;
 
     const CATEGORY = [
         13 => 'Arts & Entertainment',
@@ -47,13 +52,13 @@ class Website extends Model implements Auditable
         34 => 'Business',
         35 => 'Careers',
         36 => 'Education',
-        37 => 'Family &amp; Parenting',
+        37 => 'Family & Parenting',
         39 => 'Food & Drink',
         28 => 'Health & fitness',
         10 => 'Hobbies & Interests',
         41 => 'Home & Garden',
         42 => 'Law, Government, & Politics',
-        11 => 'News &amp; Media',
+        11 => 'News & Media',
         7 => 'Personal Finance',
         47 => 'Pets',
         52 => 'Real Estate',
