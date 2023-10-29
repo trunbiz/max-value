@@ -28,7 +28,8 @@
                     <div class="row">
                         <div class="col-7">
                             <h3 class="card-value mb-1">{{ number_format($totalReport->totalImpressions ?? 0) }}</h3>
-                            <label class="card-title fw-medium text-dark mb-1">Total Impressions {{$titleFilter}}</label>
+                            <label class="card-title fw-medium text-dark mb-1">Total
+                                Impressions {{$titleFilter}}</label>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div><!-- card-body -->
@@ -178,10 +179,12 @@
                     <input type="hidden" name="date_option" value="{{ request('date_option')}}">
                     <div class="row">
                         <div class="col-sm-2">
-                            <input type="text" id="dateFrom" class="form-control" name="from" value="{{request('from')}}" placeholder="From">
+                            <input type="text" id="dateFrom" class="form-control" name="from"
+                                   value="{{request('from')}}" placeholder="From">
                         </div><!-- col -->
                         <div class="col-sm-2">
-                            <input type="text" id="dateTo" class="form-control" name="to" value="{{request('to')}}" placeholder="To">
+                            <input type="text" id="dateTo" class="form-control" name="to" value="{{request('to')}}"
+                                   placeholder="To">
                         </div><!-- col -->
                         <div class="col-sm-2">
                             <select id="websiteSearch" class="form-select form-control" name="website_id">
@@ -269,7 +272,59 @@
         </div><!-- card-body -->
     </div><!-- card -->
 
+    <!-- The Modal -->
+    <div class="modal fade" id="bannerPopupModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close close" data-dismiss="modal" onclick="clickCloseBannerPopup()">
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+{{--                    <h5>Dear customers</h5>--}}
+{{--                    <p>Our data will be delayed few hours due to API issue. We'll fix asap.<br>--}}
+{{--                        Please be patient.</p>--}}
+                    <img src="{{ asset('/assets/user/images/Maxvalue-newDashboard2.png') }}" style="width: 100%" alt="banner popup">
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer" style="justify-content: left;">
+                    <input type="checkbox" value="1" name="showBannerPopup" id="showBannerCheckbox">
+                    <label class="checkbox-inline">
+                        Hide
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script>
+        function clickCloseBannerPopup() {
+            $('#bannerPopupModal').modal('hide');
+        }
+
+        $(document).ready(function () {
+            // kích hide vào lưu giá trị này vào cooki
+            $('#showBannerCheckbox').change(function () {
+                if ($(this).is(':checked')) {
+                    setCookie('hideBannerPopupDashboard', true);
+                }
+            });
+
+            var hideBannerPopupDashboard = getCookie('hideBannerPopupDashboard');
+            console.log(111, hideBannerPopupDashboard)
+            // Hiện popup banner
+            if (!hideBannerPopupDashboard) {
+                $('#bannerPopupModal').modal('show');
+            }
+        });
+
         var dateFormat = 'yy-mm-dd';
         var from = $('#dateFrom').datepicker({
             dateFormat: "yy-mm-dd",
@@ -298,7 +353,7 @@
             return date;
         }
 
-        $(function() {
+        $(function () {
             // Kiểm tra URL có chứa các trường "from" và "to" hay không
             var urlParams = new URLSearchParams(window.location.search);
             var from = urlParams.get('from');
@@ -319,8 +374,8 @@
                 $("#dateTo").val(currentDateString);
 
                 // Gắn kết chọn ngày vào các trường input
-                $("#dateFrom").datepicker({ dateFormat: "yy-mm-dd" });
-                $("#dateTo").datepicker({ dateFormat: "yy-mm-dd" });
+                $("#dateFrom").datepicker({dateFormat: "yy-mm-dd"});
+                $("#dateTo").datepicker({dateFormat: "yy-mm-dd"});
             }
         });
 
@@ -417,8 +472,10 @@
 
         function clickDownloadReport() {
             // Lấy giá trị các trường input và select trong form
-            var fromDate = document.querySelector('input[name="from"]').value;; // Giá trị "from"
-            var toDate = document.querySelector('input[name="to"]').value;; // Giá trị "to"
+            var fromDate = document.querySelector('input[name="from"]').value;
+            ; // Giá trị "from"
+            var toDate = document.querySelector('input[name="to"]').value;
+            ; // Giá trị "to"
 
             var websiteId = document.querySelector('select[name="website_id"]').value;
             var zoneId = document.querySelector('select[name="zone_id"]').value;

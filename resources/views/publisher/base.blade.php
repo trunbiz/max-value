@@ -66,6 +66,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <link rel="stylesheet" href="lib/apexcharts/apexcharts.css">
     <!-- Template CSS -->
     <script src="{{asset('vendor/sweet-alert/sweetalert.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
 
     <style>
         #loading .modal-dialog{
