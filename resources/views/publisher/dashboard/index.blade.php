@@ -296,7 +296,7 @@
                 <div class="modal-footer" style="justify-content: left;">
                     <input type="checkbox" value="1" name="showBannerPopup" id="showBannerCheckbox">
                     <label class="checkbox-inline">
-                        Hide
+                        Don't show again
                     </label>
                 </div>
 
