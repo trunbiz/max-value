@@ -54,7 +54,7 @@
                         password.</p>
 
                     <div class="row g-2">
-                        <div class="col-sm-8"><input type="text" class="form-control" placeholder="Email">
+                        <div class="col-sm-8"><input type="text" class="form-control" placeholder="Email" name="email" id="email">
                         </div>
                         <div class="col-sm-4">
                             <button class="btn btn-primary">Reset</button>
