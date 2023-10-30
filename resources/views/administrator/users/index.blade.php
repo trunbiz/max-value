@@ -57,22 +57,25 @@
                                         <td>
                                             <ul>
                                                 @foreach($item->getListSite(request()->get('site_status') ?? []) as $itemUrl)
+                                                    <li>
                                                     @if($itemUrl->status == 3500)
                                                         <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
-                                                           style="color: #41C866; display: block">
+                                                           style="color: #41C866">
                                                             {{ $itemUrl->url}}
                                                         </a>
                                                     @elseif($itemUrl->status == 3525 || $itemUrl->status == 3510)
                                                         <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
-                                                           style="color: #ff0000; display: block">
+                                                           style="color: #ff0000">
                                                             {{ $itemUrl->url}}
                                                         </a>
                                                     @else
                                                         <a href="{{ route('administrator.websites.index') }}?publisher_id={{ $itemUrl->user_id }}"
-                                                           style="color: #ffc500; display: block">
+                                                           style="color: #ffc500">
                                                             {{ $itemUrl->url}}
                                                         </a>
                                                     @endif
+                                                        <a href="{{ $itemUrl->url}}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a>
+                                                    </li>
                                                 @endforeach
                                             </ul>
                                         </td>
