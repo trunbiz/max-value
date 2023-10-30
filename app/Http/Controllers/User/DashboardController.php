@@ -60,17 +60,17 @@ class DashboardController extends Controller
                 case 'SUB_2':
                     $startDate = Carbon::now()->subDays(2)->format('Y-m-d');
                     $endDate = $dateNow;
-                    $titleFilter = 'last 2 day';
+                    $titleFilter = 'last 2 days';
                     break;
                 case 'SUB_3':
                     $startDate = Carbon::now()->subDays(3)->format('Y-m-d');
                     $endDate = $dateNow;
-                    $titleFilter = 'last 3 day';
+                    $titleFilter = 'last 3 days';
                     break;
                 case 'SUB_7':
                     $startDate = Carbon::now()->subDays(7)->format('Y-m-d');
                     $endDate = $dateNow;
-                    $titleFilter = 'last 7 day';
+                    $titleFilter = 'last 7 days';
                     break;
                 case 'SUB_THIS_MONTH':
                     $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');

@@ -66,6 +66,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <link rel="stylesheet" href="lib/apexcharts/apexcharts.css">
     <!-- Template CSS -->
     <script src="{{asset('vendor/sweet-alert/sweetalert.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
 
     <style>
         #loading .modal-dialog{
@@ -81,6 +82,37 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         .form-control, .select2-container, .form-group{
             margin: 10px 0;
         }
+        .navbar-expand-lg .container-fluid .navbar-filter-mobi{
+            display: none !important;
+        }
+        .col-6{
+            padding: 5px;
+        }
+
+        /*.main-footer {*/
+        /*    position: absolute;*/
+        /*    width: 80%;*/
+        /*    clear: both;*/
+        /*    padding-top: 20px;*/
+        /*    bottom: 0;*/
+        /*}*/
+        @media only screen and (max-width: 600px) {
+            .navbar-expand-lg .container-fluid .navbar-filter-mobi {
+                display: block !important;
+            }
+            .navbar-expand-lg .container-fluid .navbar-filter-mobi ul {
+                flex-direction: row;
+            }
+            .navbar-expand-lg .container-fluid .navbar-filter-mobi ul li{
+                margin-right: 10px;
+            }
+            .navbar-filter{
+                display: none;
+            }
+        }
+
+
+
     </style>
 
 </head>
@@ -137,7 +169,8 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <div class="sidebar-footer">
         <div class="sidebar-footer-top">
             <div class="sidebar-footer-thumb">
-                <img src="assets/img/img1.jpg" alt="">
+{{--                <img src="assets/img/img1.jpg" alt="">--}}
+                <img src="assets/img/customer_support.png" alt="">
             </div><!-- sidebar-footer-thumb -->
             <div class="sidebar-footer-body">
                 <h6>{{$name}}</h6>
@@ -146,12 +179,15 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         </div><!-- sidebar-footer-top -->
         <div class="sidebar-footer-menu">
             <nav class="nav">
-                <a href="mailto:{{$email}}" title="mail"><i class="ri-mail-line btn btn-outline-danger border-0"></i> Gmail</a>
+                <a href="mailto:{{$email}}" title="mail"><i class="ri-mail-line btn btn-outline-danger border-0"></i>
+                    Gmail</a>
                 @if(!empty($telegram))
-                <a href="{{$telegram}}" title="Telegram"><i class="ri-send-plane-fill btn btn-outline-info border-0"></i> Telegram</a>
+                    <a href="{{$telegram}}" title="Telegram"><i
+                            class="ri-send-plane-fill btn btn-outline-info border-0"></i> Telegram</a>
                 @endif
                 @if(!empty($skype))
-                    <a href="{{$skype}}" title="Skype"><i class="ri-skype-line btn btn-outline-primary border-0"></i> Skype</a>
+                    <a href="{{$skype}}" title="Skype"><i class="ri-skype-line btn btn-outline-primary border-0"></i>
+                        Skype</a>
                 @endif
             </nav>
         </div><!-- sidebar-footer-menu -->
@@ -255,10 +291,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
 <div class="main main-app p-3 p-lg-4">
     @yield('content')
-    <div class="main-footer mt-5">
-        <span>&copy; 2023. Maxvalue. All Rights Reserved.</span>
-        <span>Created by: <a href="https://maxvalue.media" target="_blank">MaxValue Center</a></span>
-    </div><!-- main-footer -->
+
 </div><!-- main -->
 <!-- Modal -->
 <div class="modal fade" id="loading" tabindex="-1" aria-labelledby="loading" aria-hidden="true">

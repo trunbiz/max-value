@@ -13,14 +13,14 @@
         </div>
     </div>
     <div class="row g-3">
-        <div class="col-sm-12 col-xl-12">
+        <div class="col-xs-12 col-md-12 col-sm-12 col-xl-12">
             <div class="row dashboard-money">
                 <div class="col-6 col-sm-4 col-xl">
                     <div class="card card-one">
                         <div class="card-body p-3">
-{{--                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>--}}
+                            {{--                            <div class="mb-1 text-primary ti--3"><i class="ri-coin-line fs-48"></i></div>--}}
                             <h6 class="fw-semibold text-dark mb-1">Available</h6>
-                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($amountAvailable)}}</span> $</h4>
+                            <h4 class="text-secondary"><span class="ff-numerals">${{number_format($amountAvailable)}}</span></h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
@@ -28,7 +28,7 @@
                     <div class="card card-one">
                         <div class="card-body p-3">
                             <h6 class="fw-semibold text-dark mb-1">Pending</h6>
-                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($amountPending)}}</span> $</h4>
+                            <h4 class="text-secondary"><span class="ff-numerals">${{number_format($amountPending)}}</span></h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
@@ -36,7 +36,7 @@
                     <div class="card card-one">
                         <div class="card-body p-3">
                             <h6 class="fw-semibold text-dark mb-1">Rejected</h6>
-                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($amountReject)}}</span> $</h4>
+                            <h4 class="text-secondary"><span class="ff-numerals">${{number_format($amountReject)}}</span></h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
@@ -44,7 +44,7 @@
                     <div class="card card-one">
                         <div class="card-body p-3">
                             <h6 class="fw-semibold text-dark mb-1">Total withdrawn</h6>
-                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($amountTotalWithdraw)}}</span> $</h4>
+                            <h4 class="text-secondary"><span class="ff-numerals">${{number_format($amountTotalWithdraw)}}</span></h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
@@ -52,13 +52,15 @@
                     <div class="card card-one">
                         <div class="card-body p-3">
                             <h6 class="fw-semibold text-dark mb-1">Total Earning</h6>
-                            <h4 class="text-secondary"><span class="ff-numerals">{{number_format($totalEarning)}}</span> $</h4>
+                            <h4 class="text-secondary"><span class="ff-numerals">${{number_format($totalEarning)}}</span></h4>
                         </div><!-- card-body -->
                     </div><!-- card -->
                 </div><!-- col -->
             </div>
         </div>
-        <div class="col-xl-8">
+    </div>
+    <div class="row g-3">
+        <div class="col-sm-12 col-md-6 col-xl-8">
             <div class="card card-one">
                 <div class="card-header">
                     <h6 class="card-title">Recent Payment Orders</h6>
@@ -66,7 +68,7 @@
                         <a href="javascript:void(0)" class="btn btn-outline-primary" onclick="openOrder()"><i class="ri-add-circle-fill"></i> Add</a>
                     </nav>
                 </div><!-- card-header -->
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
@@ -92,7 +94,7 @@
                             </td>
                             <td>
                                 @if(in_array($transaction->walletUser->withdraw_type_id, [\App\Models\WithdrawUser::TYPE_PAYPAL, \App\Models\WithdrawUser::TYPE_PAYONEER]))
-                                    {{$transaction->email}}
+                                    {{$transaction->walletUser->email}}
                                 @elseif($transaction->walletUser->withdraw_type_id == \App\Models\WithdrawUser::TYPE_WIRE_TRANSFER)
                                     {{$transaction->walletUser->bank_name}}
                                 @else
@@ -125,7 +127,7 @@
                 </div><!-- card-body -->
             </div><!-- card -->
         </div><!-- col -->
-        <div class="col-md-6 col-xl-4">
+        <div class="col-sm-12 col-md-6 col-xl-4">
             <div class="card card-one">
                 <div class="card-header">
                     <h6 class="card-title">Current Payment Method</h6>
@@ -147,7 +149,7 @@
                                 <td>{{$item->email ?? ''}}</td>
                                 <td style="text-align: right">
                                     <button type="button" class="btn btn-primary" onclick="editMethod({{ $item->id }})"><i class="ri-edit-2-fill" title="edit"></i></button>
-{{--                                    <button type="button" class="btn btn-danger" onclick="deleteMethod({{ $item->id }})"><i class="ri-close-fill" title="edit"></i></button>--}}
+                                    <button type="button" class="btn btn-danger" onclick="deleteMethod({{ $item->id }})"><i class="ri-close-fill" title="edit"></i></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -228,11 +230,12 @@
                     'default' : $this.find('input[name="default"]').val(),
                 },
                 (response) => {
+                    $loading.modal('hide');
                     if(response.status == false){
                         swal("Error!", response.message, "error");
+                        $loading.modal('hide');
                     }else{
                         $('.list__payment--table').html(response.html);
-                        $loading.modal('hide');
                         window.location.reload();
                     }
                 }

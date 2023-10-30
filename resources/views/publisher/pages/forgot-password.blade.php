@@ -13,7 +13,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="../../../../public/assets/publisher/assets/img/favicon.png">
 
-    <title>Max Value - Premium Dashboard Template</title>
+    <title>Max Value</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
@@ -34,8 +34,8 @@
         <div class="card card-auth">
             <div class="card-body text-center">
                 @error('email')
-                <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
+                <span class="alert alert-danger" role="alert">
+                <strong>We can't find a user with that email address.</strong>
                 </span>
                 @enderror
                 @if (session('status'))
@@ -54,7 +54,9 @@
                         password.</p>
 
                     <div class="row g-2">
-                        <div class="col-sm-8"><input type="text" class="form-control" placeholder="Email">
+                        <div class="col-sm-8"><input type="text"
+                                                     class="form-control @error('email') is-invalid @enderror"
+                                                     placeholder="Email" name="email" id="email">
                         </div>
                         <div class="col-sm-4">
                             <button class="btn btn-primary">Reset</button>
