@@ -7,7 +7,34 @@
 @endsection
 
 @section('content')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var copyEmailBtns = document.querySelectorAll('.copy-icon');
 
+            copyEmailBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var email = this.previousElementSibling.getAttribute('data-email');
+
+                    var tempInput = document.createElement('input');
+                    tempInput.value = email;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+
+                    // Thêm lớp copy-success vào biểu tượng
+                    this.classList.add('copy-success');
+
+                });
+            });
+        });
+    </script>
+    <style>
+        .copy-success {
+            color: blue;
+        }
+    </style>
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row">
@@ -52,7 +79,8 @@
                                             {{!empty($item->getFirstUserAssign()) ? $item->getFirstUserAssign()->getInfoAssign()->name ?? '' : ''}}
                                         </td>
                                         <td>
-                                            {{$item->email ?? ''}}
+                                            <span class="email-copy" data-email="{{$item->email ?? ''}}">{{$item->email ?? ''}}</span>
+                                            <i class="fa-regular fa-copy copy-icon"></i>
                                         </td>
                                         <td>
                                             <ul>
