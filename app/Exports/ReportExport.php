@@ -24,7 +24,7 @@ class ReportExport implements FromCollection, WithHeadings
         $params = $this->condition;
         $reportService = new ReportService();
         $query = $reportService->queryDataReport($params['listSiteId'] ?? null, $params['from'] ?? null, $params['to'] ?? null, $params['orderBy'] ?? 'DESC', $params, true);
-        $query->selectRaw('report.id, websites.name, zones.name as zone_name, date, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm, report.change_revenue as total_change_revenue' );
+        $query->selectRaw('websites.name, zones.name as zone_name, date, report.change_impressions as total_change_impressions, report.change_cpm as ave_cpm, report.change_revenue as total_change_revenue, report.trafq as trafficQ' );
 
         return $query->get()->map(function ($item) {
             $item->total_change_revenue = round($item->total_change_revenue, 2); // Làm tròn cột "Revenue" thành 2 chữ số thập phân
@@ -35,13 +35,13 @@ class ReportExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
             'Website',
             'Zone',
             'Date',
             'Impressions',
             'Cpm',
-            'Revenue'
+            'Revenue',
+            'TrafficQ',
         ];
     }
 }
