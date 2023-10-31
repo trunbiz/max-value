@@ -316,6 +316,7 @@
         }
     </script>
     <script>
+        console.log(111, @json($charts))
         // column chart
         var options = {
             series: [{
