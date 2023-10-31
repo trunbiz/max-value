@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-7">
-                            <h3 class="card-value mb-1">${{ number_format($revenueYesterday->totalRevenue ?? 0) }}</h3>
+                            <h3 class="card-value mb-1">${{ number_format($revenueYesterday->totalRevenue ?? 0, 2) }}</h3>
                             <label class="card-title fw-medium text-dark mb-1">Yesterday Earning</label>
                         </div><!-- col -->
                     </div><!-- row -->
@@ -41,7 +41,7 @@
                     <div class="row">
                         <div class="col-7">
                             <h3 class="card-value mb-1">
-                                ${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h3>
+                                ${{ number_format($totalReport->totalRevenue ?? 0, 2) }}</h3>
                             <label class="card-title fw-medium text-dark mb-1">Total revenue {{$titleFilter}}</label>
                         </div><!-- col -->
                     </div><!-- row -->
