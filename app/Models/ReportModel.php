@@ -119,4 +119,14 @@ class ReportModel extends Model implements Auditable
         return $item;
     }
 
+    public function zone()
+    {
+        return $this->hasOne(ZoneModel::class, 'ad_zone_id', 'zone_id');
+    }
+
+    public function site()
+    {
+        return $this->hasOne(Website::class, 'api_site_id', 'web_id');
+    }
+
 }
