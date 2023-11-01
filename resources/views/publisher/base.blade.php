@@ -47,6 +47,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <link rel="stylesheet" href="lib/select2/css/select2.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style2.css">
 
 
     <script src="lib/jquery/jquery.min.js"></script>
@@ -58,6 +59,8 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <script src="lib/colorpicker/spectrum.js"></script>
     <script src="lib/select2/js/select2.full.min.js"></script>
     <script src="lib/prismjs/prism.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <script src="assets/js/scriptHeader.js"></script>
 
 
     <!-- Vendor CSS -->
@@ -233,7 +236,16 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     @yield('content')
     <div class="row mt-3">
         <div class="col-sm-12">
-            AAAAAAAA
+            <div id="widget-referral">
+                <button type="button" class="btn" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content-id="popover-content" tabindex="0" role="button">
+                    <img src="assets/img/referal-bonus-maxvalue.png" style="width: 100px">
+                </button>
+                <div id="popover-content" class="d-none">
+                    <span>Code: </span><strong class="text-copy">{{\Illuminate\Support\Facades\Auth::user()->code}} </strong><br>
+                    <span>Link referral: </span><br><strong class="text-copy">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}} </strong>
+                    <a href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>
+                </div>
+            </div>
         </div>
     </div>
 </div><!-- main -->
@@ -297,6 +309,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 </script>
 
 <script src="assets/js/script.js"></script>
+<script src="assets/js/script2.js"></script>
 <script src="lib/chart.js/chart.min.js"></script>
 </body>
 </html>

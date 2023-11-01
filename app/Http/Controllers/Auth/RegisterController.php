@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Services\Common;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -41,13 +42,16 @@ class RegisterController extends Controller
     protected $redirectTo = '/email/verify';
     private static $api_publisher_id = 0;
 
+    private $request;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
+        $this->request = $request;
         $this->middleware('guest');
     }
 
@@ -87,32 +91,33 @@ class RegisterController extends Controller
                     'api_publisher_id' => $response['id'],
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
+                    'device' => request()->userAgent(),
                     'ip_register' => request()->ip(),
                 ];
 
                 $userInfoNew = User::create($dataCreate);
 
                 // Sau khi user đăng ký thành công thì bắn mail về cho sale director và Admin
-                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
-                foreach ($userAdminAndSale as $adminSale)
-                {
-                    if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
-                        continue;
-                    }
-
-                    $formEmail = [
-                      'userAdmin' => $adminSale->name,
-                      'nameUser' => $userInfoNew->name,
-                      'emailUser' => $userInfoNew->email,
-                      'dateUser' => $userInfoNew->created_at,
-                    ];
-
-                    try {
-                        Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
-                    } catch (\Exception $e) {
-                        Log::error('mail error $e->getMessage()');
-                    }
-                }
+//                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
+//                foreach ($userAdminAndSale as $adminSale)
+//                {
+//                    if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
+//                        continue;
+//                    }
+//
+//                    $formEmail = [
+//                      'userAdmin' => $adminSale->name,
+//                      'nameUser' => $userInfoNew->name,
+//                      'emailUser' => $userInfoNew->email,
+//                      'dateUser' => $userInfoNew->created_at,
+//                    ];
+//
+//                    try {
+//                        Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
+//                    } catch (\Exception $e) {
+//                        Log::error('mail error $e->getMessage()');
+//                    }
+//                }
 
                 $data['email'] = Helper::randomString();
             }

@@ -318,7 +318,6 @@
             });
 
             var hideBannerPopupDashboard = getCookie('hideBannerPopupDashboard');
-            console.log(111, hideBannerPopupDashboard)
             // Hiện popup banner
             if (!hideBannerPopupDashboard) {
                 $('#bannerPopupModal').modal('show');

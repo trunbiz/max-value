@@ -66,6 +66,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     const ROLE_PUBLISHER_MANAGER = 5;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->code = Helper::generateRandomString();
+        });
+    }
+
     // begin
 
     public function addTransection($amount, $description){
