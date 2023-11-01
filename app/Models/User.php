@@ -272,7 +272,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function storeByQuery($request)
     {
-
+        $updateAdsTxt = false;
         $params = [
             'name' => $request->name == '' ? $request->email : $request->name,
             'email' => $request->email,
@@ -312,6 +312,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         if(!empty($request->partner_code)){
             $dataInsert['partner_code'] = $request->partner_code;
+            $updateAdsTxt = true;
         }
 
         if(!empty($request->idcloudrole)){
@@ -325,6 +326,18 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
+
+        // update file ads.txt
+        if ($updateAdsTxt)
+        {
+            try {
+                $userService = new UserService();
+                $userService->updateAdsTxt();
+            }catch (\Exception $e)
+            {
+                Log::error('error update ads.txt', $e->getMessage());
+            }
+        }
 
 
         if (!empty($request->is_admin && $request->is_admin == 1 && isset($request->role_ids))){
