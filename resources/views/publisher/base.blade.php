@@ -237,7 +237,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <div class="row mt-3">
         <div class="col-sm-12">
             <div id="widget-referral">
-                <button type="button" class="btn" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content-id="popover-content" tabindex="0" role="button">
+                <button type="button" class="btn" data-bs-toggle="popover" data-bs-placement="bottom" data-html="true" data-bs-html="true" data-bs-content-id="popover-content">
                     <img src="assets/img/referal-bonus-maxvalue.png" style="width: 100px">
                 </button>
                 <div id="popover-content" class="d-none">

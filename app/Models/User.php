@@ -73,6 +73,15 @@ class User extends Authenticatable implements MustVerifyEmail
         static::creating(function ($user) {
             $user->code = Helper::generateRandomString();
         });
+
+        static::saving(function ($user) {
+            if (!empty($user->referral_code)) {
+                $existingUser = static::where('code', $user->referral_code)->first();
+                if (!$existingUser) {
+                    $user->referral_code = null;
+                }
+            }
+        });
     }
 
     // begin

@@ -88,6 +88,7 @@ class RegisterController extends Controller
                 $dataCreate = [
                     'name' => $name,
                     'role_id' => '0',
+                    'referral_code' => $data['referral_code'] ?? null,
                     'api_publisher_id' => $response['id'],
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
