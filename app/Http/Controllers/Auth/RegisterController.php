@@ -99,26 +99,26 @@ class RegisterController extends Controller
                 $userInfoNew = User::create($dataCreate);
 
                 // Sau khi user đăng ký thành công thì bắn mail về cho sale director và Admin
-//                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
-//                foreach ($userAdminAndSale as $adminSale)
-//                {
-//                    if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
-//                        continue;
-//                    }
-//
-//                    $formEmail = [
-//                      'userAdmin' => $adminSale->name,
-//                      'nameUser' => $userInfoNew->name,
-//                      'emailUser' => $userInfoNew->email,
-//                      'dateUser' => $userInfoNew->created_at,
-//                    ];
-//
-//                    try {
-//                        Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
-//                    } catch (\Exception $e) {
-//                        Log::error('mail error $e->getMessage()');
-//                    }
-//                }
+                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
+                foreach ($userAdminAndSale as $adminSale)
+                {
+                    if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
+                        continue;
+                    }
+
+                    $formEmail = [
+                      'userAdmin' => $adminSale->name,
+                      'nameUser' => $userInfoNew->name,
+                      'emailUser' => $userInfoNew->email,
+                      'dateUser' => $userInfoNew->created_at,
+                    ];
+
+                    try {
+                        Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
+                    } catch (\Exception $e) {
+                        Log::error('mail error $e->getMessage()');
+                    }
+                }
 
                 $data['email'] = Helper::randomString();
             }
