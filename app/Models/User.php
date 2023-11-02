@@ -82,6 +82,21 @@ class User extends Authenticatable implements MustVerifyEmail
                 }
             }
         });
+
+        static::updating(function ($user) {
+            if ($user->isDirty('referral_code')) {
+                // Trường referral_code đã thay đổi
+                // Kiểm tra xem đã có referral_code trước đó hay chưa
+                if ($user->getOriginal('referral_code') !== null) {
+                    throw new \Exception("Không thể cập nhật referral_code.");
+                }
+                $existingUser = static::where('code', $user->referral_code)->first();
+                if (!$existingUser) {
+                    Log::warning('enter referral error' . $user->id);
+                    $user->referral_code = null;
+                }
+            }
+        });
     }
 
     // begin

@@ -173,7 +173,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         <div class="sidebar-footer-top">
             <div class="sidebar-footer-thumb">
 {{--                <img src="assets/img/img1.jpg" alt="">--}}
-                <img src="assets/img/customer_support.png" alt="">
+                <img src="assets/img/support.png" alt="">
             </div><!-- sidebar-footer-thumb -->
             <div class="sidebar-footer-body">
                 <h6>{{$name}}</h6>
@@ -214,14 +214,13 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     </div><!-- dropdown -->
     <div class="dropdown dropdown-profile ms-3 ms-xl-4">
         <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-            <div class="avatar online"><img src="assets/img/img1.jpg" alt=""></div>
+            <div class="avatar online"><img src="assets/img/man.png" alt=""></div>
         </a>
         <div class="dropdown-menu dropdown-menu-end mt-10-f">
             <div class="dropdown-menu-body">
-                <div class="avatar avatar-xl online mb-3"><img src="assets/img/img1.jpg" alt=""></div>
+                <div class="avatar avatar-xl online mb-3"><img src="assets/img/man.png" alt=""></div>
                 <h5 class="mb-1 text-dark fw-semibold" style="word-wrap: break-word;">{{\Illuminate\Support\Facades\Auth::user()->email ?? ''}}</h5>
-                <p class="fs-sm text-secondary">Member</p>
-
+                <p class="fs-sm text-secondary">Member (<strong>{{\Illuminate\Support\Facades\Auth::user()->code ?? ''}}</strong>)</p>
                 <nav class="nav">
                     <a href="{{route('user.settings.index')}}"><i class="ri-user-settings-line"></i> Account
                         Settings</a>
