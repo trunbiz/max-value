@@ -117,7 +117,7 @@
                                                                     <div class="info__advs">
                                                                         <div
                                                                             style="{{ strtolower(\App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status]) == "approved" ? "" : "cursor: no-drop;opacity: 0.5;"}}"
-                                                                            class="info__advs--get" {{ strtolower($itemZone->status) == "approved" ? 'onclick=getCode('. $itemZone->ad_zone_id . ')' : "cursor: no-drop;opacity: 0.5;"}}>
+                                                                            class="info__advs--get" {{ strtolower(\App\Models\ZoneModel::STATUS_ADSERVER[$itemZone->status]) == "approved" ? 'onclick=getCode('. $itemZone->ad_zone_id . ')' : ""}}>
                                                                             <i class="fa-regular fa-clipboard"></i>
                                                                             GET CODE
                                                                         </div>

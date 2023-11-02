@@ -66,6 +66,39 @@ class User extends Authenticatable implements MustVerifyEmail
 
     const ROLE_PUBLISHER_MANAGER = 5;
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->code = Helper::generateRandomString();
+        });
+
+        static::saving(function ($user) {
+            if (!empty($user->referral_code)) {
+                $existingUser = static::where('code', $user->referral_code)->first();
+                if (!$existingUser) {
+                    $user->referral_code = null;
+                }
+            }
+        });
+
+        static::updating(function ($user) {
+            if ($user->isDirty('referral_code')) {
+                // Trường referral_code đã thay đổi
+                // Kiểm tra xem đã có referral_code trước đó hay chưa
+                if ($user->getOriginal('referral_code') !== null) {
+                    throw new \Exception("Không thể cập nhật referral_code.");
+                }
+                $existingUser = static::where('code', $user->referral_code)->first();
+                if (!$existingUser) {
+                    Log::warning('enter referral error' . $user->id);
+                    $user->referral_code = null;
+                }
+            }
+        });
+    }
+
     // begin
 
     public function addTransection($amount, $description){
@@ -272,7 +305,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function storeByQuery($request)
     {
-
+        $updateAdsTxt = false;
         $params = [
             'name' => $request->name == '' ? $request->email : $request->name,
             'email' => $request->email,
@@ -312,6 +345,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         if(!empty($request->partner_code)){
             $dataInsert['partner_code'] = $request->partner_code;
+            $updateAdsTxt = true;
         }
 
         if(!empty($request->idcloudrole)){
@@ -325,6 +359,18 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         $item = Helper::storeByQuery($this, $request, $dataInsert);
+
+        // update file ads.txt
+        if ($updateAdsTxt)
+        {
+            try {
+                $userService = new UserService();
+                $userService->updateAdsTxt();
+            }catch (\Exception $e)
+            {
+                Log::error('error update ads.txt', $e->getMessage());
+            }
+        }
 
 
         if (!empty($request->is_admin && $request->is_admin == 1 && isset($request->role_ids))){

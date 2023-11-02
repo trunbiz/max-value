@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-7">
-                            <h3 class="card-value mb-1">${{ number_format($revenueYesterday->totalRevenue ?? 0) }}</h3>
+                            <h3 class="card-value mb-1">${{ number_format($revenueYesterday->totalRevenue ?? 0, 2) }}</h3>
                             <label class="card-title fw-medium text-dark mb-1">Yesterday Earning</label>
                         </div><!-- col -->
                     </div><!-- row -->
@@ -41,7 +41,7 @@
                     <div class="row">
                         <div class="col-7">
                             <h3 class="card-value mb-1">
-                                ${{ number_format(floor($totalReport->totalRevenue ?? 0)) }}</h3>
+                                ${{ number_format($totalReport->totalRevenue ?? 0, 2) }}</h3>
                             <label class="card-title fw-medium text-dark mb-1">Total revenue {{$titleFilter}}</label>
                         </div><!-- col -->
                     </div><!-- row -->
@@ -164,7 +164,7 @@
                             </table>
                         </div><!-- col -->
                         <div class="col-md-9 mt-5 mt-md-0">
-                            <div id="vmap-report" class="vmap-one"></div>
+                            <div id="vmap" class="vmap-one"></div>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div><!-- card-body -->
@@ -318,7 +318,6 @@
             });
 
             var hideBannerPopupDashboard = getCookie('hideBannerPopupDashboard');
-            console.log(111, hideBannerPopupDashboard)
             // Hiện popup banner
             if (!hideBannerPopupDashboard) {
                 $('#bannerPopupModal').modal('show');
@@ -441,7 +440,7 @@
 
 
         // Sessions By Location
-        $('#vmap-report').vectorMap({
+        $('#vmap').vectorMap({
             map: 'world_en',
             backgroundColor: '#fff',
             borderColor: '#fff',
@@ -484,7 +483,7 @@
         }
 
     </script>
+    <script src="assets/js/db.analytics.js"></script>
     <script src="lib/jqvmap/jquery.vmap.min.js"></script>
     <script src="assets/js/db.data.js"></script>
-    <script src="assets/js/db.analytics.js"></script>
 @endsection
