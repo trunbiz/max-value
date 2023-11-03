@@ -82,10 +82,4 @@ class UserController extends Controller
         return back();
     }
 
-    public function showSignUpReferral($code)
-    {
-        $data['code'] = $code;
-        return view('publisher.pages.sign-up', $data);
-    }
-
 }
