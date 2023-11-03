@@ -6,6 +6,7 @@ use App\Models\TransactionModel;
 use App\Models\User;
 use App\Repositories\Transaction\TransactionInterface;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionService
 {
@@ -42,7 +43,8 @@ class TransactionService
             'status' => TransactionModel::STATUS_SUCCESS,
             'description' => 'Referral for report ' . $reportInfo->id,
             'amount' => $revenueReferral,
-            'payment_at' => $reportInfo->date
+            'payment_at' => $reportInfo->date,
+            'created_by' => Auth::id(),
         ];
 
         $this->transactionRepo->create($transactionDeposit);
@@ -61,7 +63,8 @@ class TransactionService
                 'status' => TransactionModel::STATUS_SUCCESS,
                 'description' => 'Refund for report ' . $reportInfo->id,
                 'amount' => - $revenueOldReferral,
-                'payment_at' => $reportInfo->date
+                'payment_at' => $reportInfo->date,
+                'created_by' => Auth::id()
             ];
 
             $this->transactionRepo->create($transactionRefundDeposit);
