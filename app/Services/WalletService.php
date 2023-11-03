@@ -11,9 +11,10 @@ use Carbon\Carbon;
 class WalletService
 {
 
+    public $transactionService;
     public function __construct()
     {
-
+        $this->transactionService = app(TransactionService::class);
     }
 
     public function calculateRevenue()
@@ -34,7 +35,7 @@ class WalletService
 
     }
 
-    public function depositWalletPublisher($publisherId, $revenue, $oldChangeRevenue = 0)
+    public function depositWalletPublisher($publisherId, $revenue, $oldChangeRevenue = 0, $reportInfo = null)
     {
         $user = User::where('api_publisher_id', $publisherId)->first();
         if (empty($user))
@@ -44,7 +45,25 @@ class WalletService
 
         $user->money += $revenue - $oldChangeRevenue;
         $user->save();
+
+        // Tính tiền cho người được giới thiêu
+        if (empty($user->referral_code))
+            return true;
+
+        $this->transactionService->depositTransactionReferral($user->referral_code, $revenue, $oldChangeRevenue, $reportInfo);
+
         return true;
+    }
+
+    public function depositWallet($user_id, $amount)
+    {
+        $userInfo = User::lockForUpdate()->find($user_id);
+        if (empty($userInfo))
+            return false;
+
+        $userInfo->money += $amount;
+        $userInfo->save();
+        return $userInfo;
     }
 
     public function revenuePublisherDaily()
