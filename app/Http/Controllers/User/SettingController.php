@@ -35,13 +35,14 @@ class SettingController extends Controller
                 'message' => $validator->errors()->first(),
             ]);
         }else{
-            // Kiểm tra xem referral code có đúng không
-            $user = User::find(Auth::id());
-            $user->date_of_birth = date('Y-m-d', strtotime($birth));
-            $user->address = $address;
-            $user->referral_code = $data['referral_code'] ?? null;
-            $user->save();
-            if($user){
+            $update = User::where('id', Auth::id())->update([
+//                'name' => $firstname.' '.$lastname,
+                'email' => $email,
+                'date_of_birth' => date('Y-m-d', strtotime($birth)),
+                'address' => $address,
+            ]);
+
+            if($update){
                 return response()->json([
                     'status' => true,
                     'message' => 'Update Successful',
