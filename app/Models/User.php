@@ -66,39 +66,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     const ROLE_PUBLISHER_MANAGER = 5;
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($user) {
-            $user->code = Helper::generateRandomString();
-        });
-
-        static::saving(function ($user) {
-            if (!empty($user->referral_code)) {
-                $existingUser = static::where('code', $user->referral_code)->first();
-                if (!$existingUser) {
-                    $user->referral_code = null;
-                }
-            }
-        });
-
-        static::updating(function ($user) {
-            if ($user->isDirty('referral_code')) {
-                // Trường referral_code đã thay đổi
-                // Kiểm tra xem đã có referral_code trước đó hay chưa
-                if ($user->getOriginal('referral_code') !== null) {
-                    throw new \Exception("Không thể cập nhật referral_code.");
-                }
-                $existingUser = static::where('code', $user->referral_code)->first();
-                if (!$existingUser) {
-                    Log::warning('enter referral error' . $user->id);
-                    $user->referral_code = null;
-                }
-            }
-        });
-    }
-
     // begin
 
     public function addTransection($amount, $description){

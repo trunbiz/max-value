@@ -20,7 +20,7 @@
                 <div class="mb-3 row">
                     <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
-                        <input type="text" name="email" class="form-control" disabled value="{{ $current_user->email }}">
+                        <input type="text" name="email" class="form-control" value="{{ $current_user->email }}">
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -33,12 +33,6 @@
                     <label for="inputPassword" class="col-sm-2 col-form-label">Address</label>
                     <div class="col-sm-10">
                         <input type="text" name="address" class="form-control" value="{{ $current_user->address }}">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-2 col-form-label">Enter referral code</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="referral_code" class="form-control" placeholder="Enter referral code" {{!empty($current_user->referral_code) ? 'disabled' : ''}} value="{{ $current_user->referral_code }}">
                     </div>
                 </div>
                 <div class="mb-3 row">
@@ -99,7 +93,6 @@
                         'email' : $('input[name="email"]').val(),
                         'birth' : $('input[name="birth"]').val(),
                         'address' : $('input[name="address"]').val(),
-                        'referral_code' : $('input[name="referral_code"]').val(),
                     },
                     beforeSend: function( jqXHR, settings ) {
                         $('#loader').removeClass('loading');
