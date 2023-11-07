@@ -264,7 +264,7 @@ class ReportController extends Controller
             $reportInfo->save();
 
             // Sau khi cập nhật xong thì số tiền sẽ được cộng vào ví user
-            $this->walletService->depositWalletPublisher($reportInfo->publisher_id, $reportInfo->change_revenue, $oldChangeRevenue, $reportInfo);
+            $this->walletService->depositWalletPublisher($reportInfo->publisher_id, $reportInfo->change_revenue, $oldChangeRevenue);
         }
         return true;
     }
