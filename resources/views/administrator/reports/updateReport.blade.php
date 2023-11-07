@@ -52,6 +52,7 @@
                                     <th>P.Imp</th>
                                     <th>P.CPM</th>
                                     <th>P.Revenue</th>
+                                    <th>Pay referral</th>
                                     <th>Profit</th>
                                     <th>Trafq %</th>
                                     <th>Status</th>
@@ -138,7 +139,8 @@
                                             <td class="pImp">{{number_format($pImp)}}</td>
                                             <td class="pCpm">{{$pCpm}}</td>
                                             <td class="pRevenue">{{$pRevenue}}</td>
-                                            <td class="pProfit">{{$pProfit}}</td>
+                                            <td class="pReferral">{{round($item->getTotalReferral(), 2)}}</td>
+                                            <td class="pProfit">{{round($pProfit - ($item->getTotalReferral() ?? 0), 2)}}</td>
                                             <td>{{$item->trafq}}</td>
                                             <td>@if($item->status == 1)
                                                     <span class="badge bg-success">accept</span>

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\WalletRevenueModel;
 use App\Models\WithdrawUser;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class WalletService
 {
@@ -57,6 +58,10 @@ class WalletService
 
     public function depositWallet($user_id, $amount)
     {
+        Log::info('add money', [
+            'userId' => $user_id,
+            'amount' => $amount
+        ]);
         $userInfo = User::lockForUpdate()->find($user_id);
         if (empty($userInfo))
             return false;

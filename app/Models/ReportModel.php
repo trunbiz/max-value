@@ -80,6 +80,13 @@ class ReportModel extends Model implements Auditable
         return Helper::searchByQuery($this, $request, $queries, $randomRecord, $makeHiddens, $isCustom);
     }
 
+    public function getTotalReferral()
+    {
+        return $this->hasMany(TransactionModel::class,'report_id','id')
+            ->where('transactions.status', TransactionModel::STATUS_SUCCESS)
+            ->sum('transactions.amount');
+    }
+
     public function storeByQuery($request)
     {
         $dataInsert = [
