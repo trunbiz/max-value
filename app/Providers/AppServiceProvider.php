@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Models\OrderProduct;
 use App\Models\Product;
-use App\Repositories\Transaction\TransactionInterface;
-use App\Repositories\Transaction\TransactionRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Rinvex\Attributes\Models\Attribute;
@@ -20,10 +18,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
-        $this->app->singleton(
-            TransactionInterface::class,
-            TransactionRepository::class
-        );
     }
 
     /**
