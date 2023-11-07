@@ -311,17 +311,18 @@
 
         $(document).ready(function () {
             // kích hide vào lưu giá trị này vào cooki
-            $('#showBannerCheckbox').change(function () {
-                if ($(this).is(':checked')) {
-                    setCookie('hideBannerPopupDashboard', true);
-                }
-            });
+            // $('#showBannerCheckbox').change(function () {
+            //     if ($(this).is(':checked')) {
+            //         setCookie('hideBannerPopupDashboard', true);
+            //     }
+            // });
 
-            var hideBannerPopupDashboard = getCookie('hideBannerPopupDashboard');
-            // Hiện popup banner
-            if (!hideBannerPopupDashboard) {
-                $('#bannerPopupModal').modal('show');
-            }
+            // var hideBannerPopupDashboard = getCookie('hideBannerPopupDashboard');
+            // console.log(111, hideBannerPopupDashboard)
+            // // Hiện popup banner
+            // if (!hideBannerPopupDashboard) {
+            //     $('#bannerPopupModal').modal('show');
+            // }
         });
 
         var dateFormat = 'yy-mm-dd';
