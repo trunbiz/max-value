@@ -177,7 +177,7 @@
                             </table>
                         </div><!-- col -->
                         <div class="col-md-9 mt-5 mt-md-0">
-                            <div id="vmap" class="vmap-one"></div>
+                            <div id="vmap-report" class="vmap-one"></div>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div><!-- card-body -->
@@ -324,17 +324,18 @@
 
         $(document).ready(function () {
             // kích hide vào lưu giá trị này vào cooki
-            $('#showBannerCheckbox').change(function () {
-                if ($(this).is(':checked')) {
-                    setCookie('hideBannerPopupDashboard', true);
-                }
-            });
+            // $('#showBannerCheckbox').change(function () {
+            //     if ($(this).is(':checked')) {
+            //         setCookie('hideBannerPopupDashboard', true);
+            //     }
+            // });
 
-            var hideBannerPopupDashboard = getCookie('hideBannerPopupDashboard');
-            // Hiện popup banner
-            if (!hideBannerPopupDashboard) {
-                $('#bannerPopupModal').modal('show');
-            }
+            // var hideBannerPopupDashboard = getCookie('hideBannerPopupDashboard');
+            // console.log(111, hideBannerPopupDashboard)
+            // // Hiện popup banner
+            // if (!hideBannerPopupDashboard) {
+            //     $('#bannerPopupModal').modal('show');
+            // }
         });
 
         var dateFormat = 'yy-mm-dd';
@@ -453,7 +454,7 @@
 
 
         // Sessions By Location
-        $('#vmap').vectorMap({
+        $('#vmap-report').vectorMap({
             map: 'world_en',
             backgroundColor: '#fff',
             borderColor: '#fff',
@@ -496,7 +497,7 @@
         }
 
     </script>
-    <script src="assets/js/db.analytics.js"></script>
     <script src="lib/jqvmap/jquery.vmap.min.js"></script>
     <script src="assets/js/db.data.js"></script>
+    <script src="assets/js/db.analytics.js"></script>
 @endsection

@@ -33,6 +33,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/login', [UserController::class, 'login_user'])->name('login');
 
+
 Route::prefix('/')->middleware(['auth','verified'])->group(function () {
 
     Route::get('/', function (){
@@ -582,6 +583,3 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
 
 });
-
-// Đăng ký referral
-Route::get('/{code}', [UserController::class, 'showSignUpReferral'])->name('show.signUpReferral');

@@ -1,9 +1,0 @@
-#widget-referral{
-    position: fixed;
-    right: 10px;
-    bottom: 15px;
-    z-index: 2147483647;
-}
-.copy-icon:hover {
-    cursor: pointer;
-}

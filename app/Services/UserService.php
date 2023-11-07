@@ -80,7 +80,7 @@ class UserService
         }
         if (!empty($params['user_assign']) && $params['user_assign'] != 'null')
         {
-            $userListPublisher = AssignUserModel::where('user_id', $params['user_assign'])->where('type', 'PUBLISHER')->pluck('service_id')->toArray();
+            $userListPublisher = AssignUserModel::where('user_id', $params['user_assign'])->where('type', 'PUBLISHER')->where('is_delete', Common::NOT_DELETE)->pluck('service_id')->toArray();
             if (empty($userListPublisher))
             {
                 $userListPublisher = [-1];

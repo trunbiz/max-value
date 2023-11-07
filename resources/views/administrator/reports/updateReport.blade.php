@@ -83,14 +83,10 @@
                                                 {{$item->date}}
                                             </td>
                                             <td>
-                                                @foreach($websites as $web)
-                                                    @if($item->web_id == $web['id'])
-                                                        {{$web['name']}}
-                                                    @endif
-                                                @endforeach
+                                                {{$item->site->name ?? null}}
                                             </td>
                                             <td>
-                                                {{$listZone[$item->zone_id] ?? null}}
+                                                {{$item->zone->name ?? null}}
                                             </td>
                                             <td>
                                                 <span class="cRequest">{{number_format($item->request)}}</span>
