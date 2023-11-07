@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Repositories\Transaction\TransactionInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TransactionService
 {
@@ -71,6 +72,10 @@ class TransactionService
             // Trừ tiền vào cho refer
             $walletService->depositWallet($userInfo->id, $revenueOldReferral);
         }
+
+        Log::info('log referral', [
+            $revenue, $oldChangeRevenue, $revenueOldReferral ?? 0, $revenueReferral
+        ]);
         return true;
     }
 }
