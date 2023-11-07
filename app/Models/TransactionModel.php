@@ -22,7 +22,7 @@ class TransactionModel extends Model
     ];
 
     const TYPE_REFERRAL = 'REFERRAL';
-    const TYPE_REFUND = 'REFUND';
+    const TYPE_REFUND_REFERRAL = 'REFUND_REFERRAL';
 
     const STATUS_SUCCESS = 'SUCCESS';
     protected static function boot()

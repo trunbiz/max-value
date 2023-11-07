@@ -58,7 +58,7 @@ class TransactionService
             $transactionRefundDeposit = [
                 'report_id' => $reportInfo->id,
                 'user_id' => $userInfo->id,
-                'type' => TransactionModel::TYPE_REFUND,
+                'type' => TransactionModel::TYPE_REFUND_REFERRAL,
                 'title' => 'Refund for report ' . $reportInfo->id,
                 'status' => TransactionModel::STATUS_SUCCESS,
                 'description' => 'Refund for report ' . $reportInfo->id,
