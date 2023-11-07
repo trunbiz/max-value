@@ -54,7 +54,7 @@ class TransactionService
         // Nếu refund tiền thì - refer
         if ($oldChangeRevenue > 0)
         {
-            $revenueOldReferral = $oldChangeRevenue * 0.05;
+            $revenueOldReferral = - $oldChangeRevenue * 0.05;
             $transactionRefundDeposit = [
                 'report_id' => $reportInfo->id,
                 'user_id' => $userInfo->id,
@@ -62,7 +62,7 @@ class TransactionService
                 'title' => 'Refund for report ' . $reportInfo->id,
                 'status' => TransactionModel::STATUS_SUCCESS,
                 'description' => 'Refund for report ' . $reportInfo->id,
-                'amount' => - $revenueOldReferral,
+                'amount' => $revenueOldReferral,
                 'payment_at' => $reportInfo->date,
                 'created_by' => Auth::id()
             ];
