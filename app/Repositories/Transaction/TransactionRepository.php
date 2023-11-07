@@ -16,7 +16,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
 
     public function getTotalRevenueRefer($from, $to, $user_id)
     {
-        $query = $this->model->where('type', TransactionModel::TYPE_REFERRAL)
+        $query = $this->model->whereIn('type', [TransactionModel::TYPE_REFERRAL, TransactionModel::TYPE_REFUND_REFERRAL])
             ->where('status', TransactionModel::STATUS_SUCCESS)
             ->where('user_id', $user_id);
         if (!empty($from))
