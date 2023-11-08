@@ -26,7 +26,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Account Manager</th>
                                 <th scope="col">Websites</th>
-                                <th scope="col">Publisher</th>
+                                <th scope="col">Email</th>
                                 <th scope="col">Zones</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
@@ -42,7 +42,7 @@
                                     @endif
                                     </td>
                                     <td>{{$itemWebsite->url}}</td>
-                                    <td>{{$itemWebsite->user->name ?? ''}}</td>
+                                    <td>{{$itemWebsite->user->email ?? ''}}</td>
                                     <td>
                                         <ul>
                                             @foreach($itemWebsite->zones as $itemZone)
