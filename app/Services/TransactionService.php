@@ -25,17 +25,22 @@ class TransactionService
         return $this->transactionRepo->getTotalRevenueRefer($from, $to, $user_id);
     }
 
-    public function depositTransactionReferral($userCode, $revenue, $oldChangeRevenue, $reportInfo)
+    public function depositTransactionReferral($userCode, $revenue, $oldChangeRevenue, $reportInfo, $userReport)
     {
         $walletService = app(WalletService::class);
 
         // Kiểm tra người đó có được ai giới thiệu hay không và chỉ được tính trong vòng 1 năm
-        $userInfo = User::where('code', $userCode)->where('created_at', '>=', Carbon::now()->subYear())->first();
+        if ($userReport->created_at < Carbon::now()->subYear()->format('Y-m-d'))
+        {
+            return true;
+        }
+
+        $userInfo = User::where('code', $userCode)->first();
         if (empty($userInfo))
             return true;
 
         // Kiểm tra xem ngày report đó phải > ngày nhập mã refer mới được duyệt
-        if (empty($userInfo->referral_at) || date("Y-m-d", strtotime($userInfo->referral_at)) > $reportInfo->date)
+        if (empty($userReport->referral_at) || date("Y-m-d", strtotime($userReport->referral_at)) > $reportInfo->date)
             return true;
 
         // Tính 5% doanh thu mới cho người được giới thiệu
