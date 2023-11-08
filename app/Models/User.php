@@ -72,17 +72,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
         static::creating(function ($user) {
             $user->code = Helper::generateRandomString();
-        });
-
-        static::saving(function ($user) {
-            if (!empty($user->referral_code)) {
-                $existingUser = static::where('code', $user->referral_code)->first();
+            $referralCode = request()->input('referral_code', null);
+            if (!empty($referralCode)) {
+                $existingUser = static::where('code', $referralCode)->first();
                 if (!$existingUser) {
                     $user->referral_code = null;
                 } else {
                     $user->referral_at = Carbon::now();
                 }
             }
+        });
+
+        static::saving(function ($user) {
+
         });
 
         static::updating(function ($user) {
@@ -105,10 +107,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     // begin
 
-    public function addTransection($amount, $description)
-    {
+    public function addTransection($amount, $description){
 
-        $amount = (float)$amount;
+        $amount = (float) $amount;
         DB::beginTransaction();
 
         try {
@@ -118,7 +119,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 'description' => $description,
             ]);
 
-            $amount = ((float)$this->money) + $amount;
+            $amount =( (float) $this->money ) + $amount;
 
             $this->update([
                 'money' => $amount
@@ -130,13 +131,11 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function wallets()
-    {
-        return $this->hasMany(WalletUser::class, 'user_id', 'id');
+    public function wallets(){
+        return $this->hasMany(WalletUser::class,'user_id','id');
     }
 
-    public static function getCategory($parent_id = null)
-    {
+    public static function getCategory($parent_id = null){
         $data = User::where('is_admin', '!=', 0)->get();
         $recusive = new Recusive($data);
         $htmlOption = $recusive->categoryRecusive($parent_id);
@@ -144,30 +143,27 @@ class User extends Authenticatable implements MustVerifyEmail
         return $htmlOption;
     }
 
-    public function manager()
-    {
-        return $this->hasOne(User::class, 'id', 'manager_id');
+    public function manager(){
+        return $this->hasOne(User::class, 'id','manager_id');
     }
 
-    public function getReportStatsFromAPI($query)
-    {
+    public function getReportStatsFromAPI($query){
 
         $params = [
             'query' => $query
         ];
 
-        $response = Helper::callGetHTTP('https://api.adsrv.net/v2/stats', $params);
+        $response = Helper::callGetHTTP('https://api.adsrv.net/v2/stats',  $params);
 
-        if (!empty($response)) {
-            return array_reverse($response);
+        if (!empty($response)){
+            return  array_reverse($response);
         }
 
         return [];
     }
 
 
-    public function getTodayEarningFromAPI()
-    {
+    public function getTodayEarningFromAPI(){
 
         $params = [
             'query' => [
@@ -180,8 +176,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $total = 0;
 
-        if (!empty($response) && is_array($response)) {
-            foreach ($response as $item) {
+        if (!empty($response) && is_array($response)){
+            foreach ($response as $item){
                 $total += $item['amount_pub'];
             }
         }
@@ -190,8 +186,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $total;
     }
 
-    public function getTotalEarningFromAPI()
-    {
+    public function getTotalEarningFromAPI(){
 
         $params = [
             'query' => [
@@ -204,8 +199,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $total = 0;
 
-        if (!empty($response) && is_array($response)) {
-            foreach ($response as $item) {
+        if (!empty($response) && is_array($response)){
+            foreach ($response as $item){
                 $total += $item['amount_pub'];
             }
         }
@@ -213,23 +208,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $total;
     }
 
-    public function userType()
-    {
-        return $this->hasOne(UserType::class, 'id', 'user_type_id');
+    public function userType(){
+        return $this->hasOne(UserType::class,'id','user_type_id');
     }
 
-    public function userWeb()
-    {
+    public function userWeb(){
         return $this->hasMany(Website::class);
     }
 
-    public function zones()
-    {
+    public function zones(){
         return $this->hasMany(Advertise::class);
     }
 
-    public function zonesAvtive()
-    {
+    public function zonesAvtive(){
         return $this->hasMany(Advertise::class)->where('adverser_status_id', 2);
     }
 
@@ -248,24 +239,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $array;
     }
 
-    public function avatar($size = "100x100")
-    {
+    public function avatar($size = "100x100"){
         $image = $this->image;
-        if (!empty($image)) {
-            return Formatter::getThumbnailImage($image->image_path, $size);
+        if (!empty($image)){
+            return Formatter::getThumbnailImage($image->image_path,$size);
         }
 
         return config('_my_config.default_avatar');
     }
 
-    public function image()
-    {
-        return $this->hasOne(SingleImage::class, 'relate_id', 'id')->where('table', $this->getTable());
+    public function image(){
+        return $this->hasOne(SingleImage::class,'relate_id','id')->where('table' , $this->getTable());
     }
 
-    public function images()
-    {
-        return $this->hasMany(Image::class, 'relate_id', 'id')->where('table', $this->getTable())->orderBy('index');
+    public function images(){
+        return $this->hasMany(Image::class,'relate_id','id')->where('table' , $this->getTable())->orderBy('index');
     }
 
     public function gender()
@@ -297,7 +285,8 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         $role = optional(auth()->user())->role;
-        if (!empty($role)) {
+        if (!empty($role))
+        {
             $permissions = $role->permissions;
             if ($permissions->contains('key_code', $permissionCheck)) {
                 return true;
@@ -307,13 +296,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return false;
     }
 
-    public function isAdmin()
-    {
+    public function isAdmin(){
         return auth()->check() && optional(auth()->user())->is_admin == 2;
     }
 
-    public function isEmployee()
-    {
+    public function isEmployee(){
         return auth()->check() && optional(auth()->user())->is_admin != 0;
     }
 
@@ -333,17 +320,17 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
 
         $manager = \auth()->user();
-        if (!empty($request->manager_id)) {
+        if (!empty($request->manager_id)){
             $manager = User::findOrFail($request->manager_id);
-        } else {
-            if (auth()->user()->is_admin != 2) {
+        }else{
+            if (auth()->user()->is_admin != 2){
                 $manager = \auth()->user();
             }
         }
 
         $itemApi = Helper::callPostHTTP("https://api.adsrv.net/v2/user", $params);
 
-        if (Helper::isErrorAPIAdserver($itemApi)) {
+        if (Helper::isErrorAPIAdserver($itemApi)){
             return $itemApi;
         }
 
@@ -356,22 +343,22 @@ class User extends Authenticatable implements MustVerifyEmail
             'gender_id' => $request->gender_id ?? 1,
             'email_verified_at' => now(),
             'password' => Hash::make($request->password),
-            'manager_id' => optional($manager)->id ? optional($manager)->id : 0,
+            'manager_id' =>  optional($manager)->id ? optional($manager)->id : 0,
             'api_publisher_id' => $itemApi['id'],
             'user_status_id' => $request->user_status_id ?? 2,
         ];
 
 
-        if (!empty($request->partner_code)) {
+        if(!empty($request->partner_code)){
             $dataInsert['partner_code'] = $request->partner_code;
             $updateAdsTxt = true;
         }
 
-        if (!empty($request->idcloudrole)) {
+        if(!empty($request->idcloudrole)){
             $dataInsert['role_id'] = $request->idcloudrole ?? 0;
         }
 
-        if ($this->isAdmin()) {
+        if ($this->isAdmin()){
             $dataInsert['is_admin'] = $request->is_admin ?? 0;
             $dataInsert['user_status_id'] = 1;
             $dataInsert['url'] = $request->url;
@@ -380,17 +367,19 @@ class User extends Authenticatable implements MustVerifyEmail
         $item = Helper::storeByQuery($this, $request, $dataInsert);
 
         // update file ads.txt
-        if ($updateAdsTxt) {
+        if ($updateAdsTxt)
+        {
             try {
                 $userService = new UserService();
                 $userService->updateAdsTxt();
-            } catch (\Exception $e) {
+            }catch (\Exception $e)
+            {
                 Log::error('error update ads.txt', $e->getMessage());
             }
         }
 
 
-        if (!empty($request->is_admin && $request->is_admin == 1 && isset($request->role_ids))) {
+        if (!empty($request->is_admin && $request->is_admin == 1 && isset($request->role_ids))){
             $item->roles()->attach($request->role_ids);
         }
 
@@ -405,28 +394,29 @@ class User extends Authenticatable implements MustVerifyEmail
 
         $params = [];
 
-        if (isset($request->email)) {
+        if (isset($request->email)){
             $params['email'] = $request->email;
         }
 
-        if (isset($request->name)) {
+        if (isset($request->name)){
             $params['name'] = $request->name;
         }
 
-        if (isset($request->idrole)) {
+        if (isset($request->idrole)){
             $params['idrole'] = $request->idcloudrole == 3 ? 3 : 4;
         }
 
-        if (isset($request->user_status_id)) {
+        if (isset($request->user_status_id)){
             $params['is_active'] = $request->user_status_id == 2 ? 0 : 1;
         }
 
         $manager = User::find($request->manager_id);
 
-        if (!$isPartner) {
-            if (empty($manager)) {
+        if (!$isPartner)
+        {
+            if (empty($manager)){
                 $params['idmanager'] = "";
-            } else {
+            }else{
                 $params['idmanager'] = $manager->api_publisher_id != 0 ? $manager->api_publisher_id : "";
             }
         }
@@ -437,19 +427,19 @@ class User extends Authenticatable implements MustVerifyEmail
             'user_type_id' => $request->user_type_id ?? 1,
         ];
 
-        if (isset($request->email)) {
+        if (isset($request->email)){
             $dataUpdate['email'] = $request->email;
         }
 
-        if (!empty($request->name)) {
+        if (!empty($request->name)){
             $dataUpdate['name'] = $request->name;
         }
 
-        if (!empty($request->date_of_birth)) {
+        if (!empty($request->date_of_birth)){
             $dataUpdate['date_of_birth'] = $request->date_of_birth;
         }
 
-        if (!empty($request->gender_id)) {
+        if (!empty($request->gender_id)){
             $dataUpdate['gender_id'] = $request->gender_id;
         }
 
@@ -472,7 +462,8 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
 
-        if ($isPartner) {
+        if ($isPartner)
+        {
             // Nếu có sự thay đổi thì cập nhật lại ads.txt
             if (strcmp($request->partner_code, $item->partner_code))
                 $updateAdsTxt = true;
@@ -481,16 +472,18 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         $item = Helper::updateByQuery($this, $request, $item->id, $dataUpdate);
 
-        if ($item->is_admin != 0 && isset($request->role_ids)) {
+        if ($item->is_admin != 0 && isset($request->role_ids)){
             $item->roles()->sync($request->role_ids);
         }
 
         // update file ads.txt
-        if ($updateAdsTxt) {
+        if ($updateAdsTxt)
+        {
             try {
                 $userService = new UserService();
                 $userService->updateAdsTxt();
-            } catch (\Exception $e) {
+            }catch (\Exception $e)
+            {
                 Log::error('error update ads.txt', $e->getMessage());
             }
         }
@@ -528,7 +521,6 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('type', AssignUserModel::TYPE['PUBLISHER'])
             ->where('is_delete', Common::NOT_DELETE)->pluck('service_id')->toArray();
     }
-
     public function getFirstUserAssign()
     {
         return $this->hasOne(AssignUserModel::class, 'service_id', 'id')
@@ -550,7 +542,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $query = $this->hasMany(Website::class, 'user_id', 'id')
             ->where('is_delete', 0);
-        if (!empty($listStatus)) {
+        if (!empty($listStatus))
+        {
             $query->whereIn('status', $listStatus);
         }
         return $query->get();
