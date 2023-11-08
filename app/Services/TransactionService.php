@@ -35,7 +35,7 @@ class TransactionService
             return true;
 
         // Kiểm tra xem ngày report đó phải > ngày nhập mã refer mới được duyệt
-        if (date_format($userInfo->referral_at, 'Y-m-d') > $reportInfo->date)
+        if (empty($userInfo->referral_at) || date("Y-m-d", strtotime($userInfo->referral_at)) > $reportInfo->date)
             return true;
 
         // Tính 5% doanh thu mới cho người được giới thiệu
