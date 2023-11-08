@@ -51,7 +51,7 @@ class WalletService
         if (empty($user->referral_code))
             return true;
 
-        $this->transactionService->depositTransactionReferral($user->referral_code, $revenue, $oldChangeRevenue, $reportInfo);
+        $this->transactionService->depositTransactionReferral($user->referral_code, $revenue, $oldChangeRevenue, $reportInfo, $user);
 
         return true;
     }
