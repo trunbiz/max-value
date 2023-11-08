@@ -34,6 +34,10 @@ class TransactionService
         if (empty($userInfo))
             return true;
 
+        // Kiểm tra xem ngày report đó phải > ngày nhập mã refer mới được duyệt
+        if (date_format($userInfo->referral_at, 'Y-m-d') > $reportInfo->date)
+            return true;
+
         // Tính 5% doanh thu mới cho người được giới thiệu
         $revenueReferral = $revenue * 0.05;
         $transactionDeposit = [
@@ -55,7 +59,7 @@ class TransactionService
         // Nếu refund tiền thì - refer
         if ($oldChangeRevenue > 0)
         {
-            $revenueOldReferral = - $oldChangeRevenue * 0.05;
+            $revenueOldReferral = (- $oldChangeRevenue * 0.05);
             $transactionRefundDeposit = [
                 'report_id' => $reportInfo->id,
                 'user_id' => $userInfo->id,
