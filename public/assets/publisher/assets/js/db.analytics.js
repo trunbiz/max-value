@@ -198,104 +198,104 @@ var optionFour = {
 var chartFour = new ApexCharts(document.querySelector('#apexChart4'), optionFour);
 chartFour.render();
 
-// Acquisition
-var optionFive = {
-  series: [{
-    name: 'Growth',
-    data: dp1
-  },{
-    name: 'Actual',
-    data: dp2
-  }],
-  chart: {
-    type: 'area',
-    height: 140,
-    parentHeightOffset: 0,
-    stacked: true,
-    toolbar: {
-      show: false
-    }
-  },
-  colors: ['#9dc3fc', '#506fd9'],
-  dataLabels: {
-    enabled: false
-  },
-  grid: {
-    borderColor: 'rgba(72,94,144, 0.07)',
-    padding: {
-      top: -20,
-      bottom: 0,
-      left: 20
-    },
-    yaxis: {
-      lines: {
-        show: false
-      }
-    }
-  },
-  stroke: {
-    curve: 'smooth',
-    width: 1.5
-  },
-  fill: {
-    colors: ['#fff','#81adee'],
-    type: ['solid', 'gradient'],
-    opacity: 1,
-    gradient: {
-      opacityFrom: 0.35,
-      opacityTo: 0.65,
-    }
-  },
-  legend: {
-    show: false
-  },
-  tooltip: {
-    enabled: false
-  },
-  yaxis: {
-    max: 200,
-    tickAmount: 6,
-    show: false
-  },
-  xaxis: {
-    type: 'numeric',
-    tickAmount: 11,
-    labels: {
-      style: {
-        colors: '#6e7985',
-        fontSize: '11px'
-      }
-    },
-    axisBorder: {
-      show: false
-    }
-  },
-};
-
-var chartFive = new ApexCharts(document.querySelector('#apexChart5'), optionFive);
-chartFive.render();
+// // Acquisition
+// var optionFive = {
+//   series: [{
+//     name: 'Growth',
+//     data: dp1
+//   },{
+//     name: 'Actual',
+//     data: dp2
+//   }],
+//   chart: {
+//     type: 'area',
+//     height: 140,
+//     parentHeightOffset: 0,
+//     stacked: true,
+//     toolbar: {
+//       show: false
+//     }
+//   },
+//   colors: ['#9dc3fc', '#506fd9'],
+//   dataLabels: {
+//     enabled: false
+//   },
+//   grid: {
+//     borderColor: 'rgba(72,94,144, 0.07)',
+//     padding: {
+//       top: -20,
+//       bottom: 0,
+//       left: 20
+//     },
+//     yaxis: {
+//       lines: {
+//         show: false
+//       }
+//     }
+//   },
+//   stroke: {
+//     curve: 'smooth',
+//     width: 1.5
+//   },
+//   fill: {
+//     colors: ['#fff','#81adee'],
+//     type: ['solid', 'gradient'],
+//     opacity: 1,
+//     gradient: {
+//       opacityFrom: 0.35,
+//       opacityTo: 0.65,
+//     }
+//   },
+//   legend: {
+//     show: false
+//   },
+//   tooltip: {
+//     enabled: false
+//   },
+//   yaxis: {
+//     max: 200,
+//     tickAmount: 6,
+//     show: false
+//   },
+//   xaxis: {
+//     type: 'numeric',
+//     tickAmount: 11,
+//     labels: {
+//       style: {
+//         colors: '#6e7985',
+//         fontSize: '11px'
+//       }
+//     },
+//     axisBorder: {
+//       show: false
+//     }
+//   },
+// };
+//
+// var chartFive = new ApexCharts(document.querySelector('#apexChart5'), optionFive);
+// chartFive.render();
 
 // Sessions By Location
-$('#vmap').vectorMap({
-  map: 'world_en',
-  backgroundColor: '#fff',
-  borderColor: '#fff',
-  color: '#d9dde7',
-  colors: {
-    'us': '#1c96e9',
-    'in': '#6984de',
-    'au': '#33d685',
-    'br': '#fd7e14',
-    'cn': '#dc3545',
-    'jp': '#0dcaf0',
-    'sa': '#ffc107'
-  },
-  hoverColor: null,
-  hoverOpacity: 0.8,
-  enableZoom: false,
-  showTooltip: true,
-  multiSelectRegion: true
-});
+// $('#vmap').vectorMap({
+//   map: 'world_en',
+//   backgroundColor: '#fff',
+//   borderColor: '#fff',
+//   color: '#d9dde7',
+//   colors: {
+//     'us': '#1c96e9',
+//     'in': '#6984de',
+//     'au': '#33d685',
+//     'br': '#fd7e14',
+//     'cn': '#dc3545',
+//     'jp': '#0dcaf0',
+//     'sa': '#ffc107'
+//   },
+//   hoverColor: null,
+//   hoverOpacity: 0.8,
+//   enableZoom: false,
+//   showTooltip: true,
+//   multiSelectRegion: true
+// });
 
 
 // Dark skin integration
