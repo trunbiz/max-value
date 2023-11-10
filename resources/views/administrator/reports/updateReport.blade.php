@@ -188,6 +188,7 @@
                                         <td class="pImp">{{number_format($totalPIm)}}</td>
                                         <td class="pCpm">{{round($avePCpm/count($items), 3)}}</td>
                                         <td class="pRevenue">{{$totalPReve}}</td>
+                                        <td></td>
                                         <td class="pProfit">{{$totalPProfit}}</td>
                                         <td></td>
                                         <td></td>
