@@ -57,7 +57,9 @@ class AssignUserService
                 Mail::to($userInfo->email)->send(new MailAssignNotify($formEmail));
             }catch (\Exception $e)
             {
-                Log::debug($e->getMessage());
+                Log::error('Email error ', [
+                    'error' => $e->getMessage()
+                ]);
             }
         }
 

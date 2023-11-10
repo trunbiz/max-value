@@ -51,15 +51,10 @@ class ReportService
 
             if (empty($datas['data']))
             {
-                Log::error('error get report', [
-                    'datas' => $datas,
-                    'time' => $timeEnd - $timeStart
-                ]);
                 continue;
             }
             if (empty($web->getUserWeb->api_publisher_id))
             {
-                Log::info('', ['user' => $web->api_site_id]);
                 continue;
             }
 
@@ -113,7 +108,6 @@ class ReportService
                 }
             }
         }
-        Log::info('end');
         return true;
     }
 

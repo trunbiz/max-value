@@ -10,7 +10,6 @@ trait ClientRequest
 {
     public function callClientRequest(string $method, string $url, array $headers = [], array $params = [], $multipart = false, $contentType = 'form-data')
     {
-        Log::info('call AdServer' . $url, ['params' => $params]);
         $client = new Client();
         $method = strtoupper($method);
         $data = [
@@ -48,7 +47,10 @@ trait ClientRequest
             ];
         }catch (\Exception $e)
         {
-            Log::error('error request' . $e->getMessage() ?? 'Request api error');
+            Log::error('error request' . $e->getMessage() ?? 'Request api error', [
+                'url' => $url,
+                'params' => $params
+            ]);
             return [
                 'success' => false,
                 'message' => $e->getMessage() ?? 'Request api error'
