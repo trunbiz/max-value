@@ -214,11 +214,11 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     </div><!-- dropdown -->
     <div class="dropdown dropdown-profile ms-3 ms-xl-4">
         <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-            <div class="avatar online"><img src="assets/img/man.png" alt=""></div>
+            <div class="avatar online"><img src="assets/img/user.png" alt=""></div>
         </a>
         <div class="dropdown-menu dropdown-menu-end mt-10-f">
             <div class="dropdown-menu-body">
-                <div class="avatar avatar-xl online mb-3"><img src="assets/img/man.png" alt=""></div>
+                <div class="avatar avatar-xl online mb-3"><img src="assets/img/user.png" alt=""></div>
                 <h5 class="mb-1 text-dark fw-semibold" style="word-wrap: break-word;">{{\Illuminate\Support\Facades\Auth::user()->email ?? ''}}</h5>
                 <p class="fs-sm text-secondary">Member (<strong>{{\Illuminate\Support\Facades\Auth::user()->code ?? ''}}</strong>)</p>
                 <nav class="nav">
