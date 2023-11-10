@@ -15,6 +15,7 @@ use App\Services\CampaignService;
 use App\Services\Common;
 use App\Services\ReportService;
 use App\Services\SiteService;
+use App\Services\TransactionService;
 use App\Services\WalletService;
 use App\Services\ZoneService;
 use Carbon\Carbon;
@@ -32,6 +33,7 @@ class DashboardController extends Controller
     protected $commonService;
 
     protected $reportRepository;
+    protected $transactionService;
     public function __construct()
     {
         $this->reportService = new ReportService();
@@ -40,6 +42,8 @@ class DashboardController extends Controller
         $this->walletService = new WalletService();
         $this->commonService = new Common();
         $this->reportRepository = new ReportRepository();
+
+        $this->transactionService = app(TransactionService::class);
     }
 
     public function index(Request $request){
@@ -98,8 +102,11 @@ class DashboardController extends Controller
             $data['revenueYesterday'] = $this->reportRepository->getPRevenueByDate($dateYesterday, $dateYesterday, Auth::user()->api_publisher_id);
 
             $data['totalReport'] = $this->reportService->totalReportAccept($startDate, $endDate, [Auth::user()->api_publisher_id]);
-            // Lấy thông tin site và zone
 
+            // Lấy thông tin tiền refer
+            $data['totalReferral'] = $this->transactionService->getTotalRevenueRefer($startDate, $endDate, Auth::id());
+
+            // Lấy thông tin site và zone
             // Tổng Site
             $data['totalSite'] = $this->siteService->totalSite(null, $listSiteId, [Auth::user()->id]);
 
