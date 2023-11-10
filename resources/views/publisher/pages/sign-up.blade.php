@@ -20,6 +20,7 @@
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/style.min.css">
+    <script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
 </head>
 <body class="page-sign">
 
@@ -40,6 +41,10 @@
                 <label class="form-label">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Enter your password">
             </div>
+            <div class="mb-3">
+                <label class="form-label">Referral code</label>
+                <input type="text" name="referral_code" class="form-control" placeholder="Referral code" value="">
+            </div>
             <div class="mb-4">
                 <small>By clicking <strong>Create Account</strong> below, you agree to our terms of service and privacy
                     statement.</small>
@@ -55,12 +60,19 @@
 <script src="lib/jquery/jquery.min.js"></script>
 <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
-    'use script'
-
+    console.log(11123)
     var skinMode = localStorage.getItem('skin-mode');
     if (skinMode) {
         $('html').attr('data-skin', 'dark');
     }
+    $(document).ready(function() {
+
+        // Lưu giá trị code referral cuối cùng
+        @if(!empty($code))
+        setCookie('referral_code', @json($code));
+        @endif
+        $('input[name="referral_code"]').val(getCookie('referral_code'));
+    });
 </script>
 </body>
 </html>

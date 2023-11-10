@@ -83,10 +83,14 @@
                                                 {{$item->date}}
                                             </td>
                                             <td>
-                                                {{$item->site->name ?? null}}
+                                                @foreach($websites as $web)
+                                                    @if($item->web_id == $web['id'])
+                                                        {{$web['name']}}
+                                                    @endif
+                                                @endforeach
                                             </td>
                                             <td>
-                                                {{$item->zone->name ?? null}}
+                                                {{$listZone[$item->zone_id] ?? null}}
                                             </td>
                                             <td>
                                                 <span class="cRequest">{{number_format($item->request)}}</span>
@@ -184,6 +188,7 @@
                                         <td class="pImp">{{number_format($totalPIm)}}</td>
                                         <td class="pCpm">{{round($avePCpm/count($items), 3)}}</td>
                                         <td class="pRevenue">{{$totalPReve}}</td>
+                                        <td></td>
                                         <td class="pProfit">{{$totalPProfit}}</td>
                                         <td></td>
                                         <td></td>

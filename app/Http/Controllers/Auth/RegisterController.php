@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Services\Common;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -41,13 +42,16 @@ class RegisterController extends Controller
     protected $redirectTo = '/email/verify';
     private static $api_publisher_id = 0;
 
+    private $request;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
+        $this->request = $request;
         $this->middleware('guest');
     }
 
@@ -84,9 +88,11 @@ class RegisterController extends Controller
                 $dataCreate = [
                     'name' => $name,
                     'role_id' => '0',
+                    'referral_code' => $data['referral_code'] ?? null,
                     'api_publisher_id' => $response['id'],
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
+                    'device' => request()->userAgent(),
                     'ip_register' => request()->ip(),
                 ];
 
