@@ -10,11 +10,11 @@
     </div>
 
     <div class="row g-3 justify-content-center">
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 col-xl">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-7">
+                        <div class="col-12">
                             <h3 class="card-value mb-1">${{ number_format($revenueYesterday->totalRevenue ?? 0, 2) }}</h3>
                             <label class="card-title fw-medium text-dark mb-1">Yesterday Earning</label>
                         </div><!-- col -->
@@ -22,11 +22,11 @@
                 </div><!-- card-body -->
             </div><!-- card-one -->
         </div><!-- col -->
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 col-xl">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-7">
+                        <div class="col-12">
                             <h3 class="card-value mb-1">{{ number_format($totalReport->totalImpressions ?? 0) }}</h3>
                             <label class="card-title fw-medium text-dark mb-1">Total
                                 Impressions {{$titleFilter}}</label>
@@ -35,11 +35,23 @@
                 </div><!-- card-body -->
             </div><!-- card-one -->
         </div><!-- col -->
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 col-xl">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-7">
+                        <div class="col-12">
+                            <h3 class="card-value mb-1">{{ number_format($totalReport->averageCpm ?? 0, 2) }}</h3>
+                            <label class="card-title fw-medium text-dark mb-1">Average CPM {{$titleFilter}}</label>
+                        </div><!-- col -->
+                    </div><!-- row -->
+                </div><!-- card-body -->
+            </div><!-- card-one -->
+        </div><!-- col -->
+        <div class="col-md-6 col-xl">
+            <div class="card card-one">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
                             <h3 class="card-value mb-1">
                                 ${{ number_format($totalReport->totalRevenue ?? 0, 2) }}</h3>
                             <label class="card-title fw-medium text-dark mb-1">Total revenue {{$titleFilter}}</label>
@@ -48,13 +60,14 @@
                 </div><!-- card-body -->
             </div><!-- card-one -->
         </div><!-- col -->
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 col-xl">
             <div class="card card-one">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-7">
-                            <h3 class="card-value mb-1">{{ number_format($totalReport->averageCpm ?? 0, 2) }}</h3>
-                            <label class="card-title fw-medium text-dark mb-1">Average CPM {{$titleFilter}}</label>
+                        <div class="col-12">
+                            <h3 class="card-value mb-1">
+                                ${{ number_format($totalReferral ?? 0, 2) }}</h3>
+                            <label class="card-title fw-medium text-dark mb-1">Total revenue referral {{$titleFilter}}</label>
                         </div><!-- col -->
                     </div><!-- row -->
                 </div><!-- card-body -->
