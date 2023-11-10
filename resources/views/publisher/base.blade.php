@@ -242,7 +242,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
                 <div id="popover-content" class="d-none">
                     <span>Code: </span><strong class="text-copy">{{\Illuminate\Support\Facades\Auth::user()->code}} </strong><br>
                     <span>Link referral: </span><br><strong class="text-copy">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}} </strong>
-                    <a href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>
+                    <a target="_blank" href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>
                 </div>
             </div>
         </div>

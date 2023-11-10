@@ -9,11 +9,16 @@
     <!-- Meta -->
     <meta name="description" content="">
     <meta name="author" content="Themepixels">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">
+    <meta property="og:url" content="{{env('APP_URL')}}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{{env('APP_URL')}}"/>
+    <meta property="og:description" content="{{env('APP_URL')}}"/>
+    <meta property="og:image" content="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}"/>
 
-    <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
-
-    <title>Maxvalue</title>
+    <title>maxvalue.media - Login</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
