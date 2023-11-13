@@ -57,7 +57,7 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{\App\Models\Formatter::getDateTime($item->created_at)}}</td>
                                         <td>
-                                            {{\App\Models\Formatter::getDateTime($item->updated_at)}}
+                                            {{$item->estimate_payment}}
                                         </td>
                                         <td>
                                             {{!empty(optional($item->user)->getFirstUserAssign()) ? optional($item->user)->getFirstUserAssign()->getInfoAssign()->name ?? '' : ''}}
