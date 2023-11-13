@@ -316,10 +316,33 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="welcome-user">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Welcome to the MaxValue!</h5>
+                    <button type="button" class="btn-close close" data-dismiss="modal" onclick="clickClosePopup('#welcome-user')">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Hello! We are delighted to welcome you as a new member.</p>
+                    <p>Please click the button below to add a website immediately.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{route('user.websites.index')}}" class="btn btn-primary">Add website</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script>
         function clickCloseBannerPopup() {
             $('#bannerPopupModal').modal('hide');
+        }
+        function clickClosePopup(id) {
+            $(id).modal('hide');
         }
 
         $(document).ready(function () {
@@ -336,6 +359,10 @@
             // if (!hideBannerPopupDashboard) {
             //     $('#bannerPopupModal').modal('show');
             // }
+            @if(count($websites) == 0)
+            $('#welcome-user').modal('show');
+            setCookie('newUser', true);
+            @endif
         });
 
         var dateFormat = 'yy-mm-dd';
