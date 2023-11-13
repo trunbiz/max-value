@@ -241,6 +241,14 @@
             $(".select-multiple").select2({
                 dropdownParent: $("#create-site")
             });
+
+            @if($items->count() > 0)
+                removeCookie('newUser')
+            @endif
+
+            if (getCookie('newUser')) {
+                $('#create-site').modal('show');
+            }
         });
 
         //get code
@@ -324,6 +332,7 @@
                     contentType: false,
                     success: function(response) {
                         if (response.status == true) {
+                            removeCookie('newUser')
                             window.location.reload();
                             $this.modal('hide');
                             swal("Success!", 'Add successful', "success");
