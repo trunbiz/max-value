@@ -156,6 +156,9 @@
                 </div>
                 <form action="" autocomplete="off">
                     <div class="modal-body">
+                        <div class="alert alert-primary" role="alert">
+                            For a faster approval process, please provide the following additional information.
+                        </div>
                         <div class="mb-3">
                             <label for="category" class="">Category (<span class="text-danger">*</span>)</label>
                             <select
@@ -192,16 +195,12 @@
                             <input type="text" name="url" class="form-control @error("url") is-invalid @enderror"
                                    required>
                         </div>
-
-                        <div class="alert alert-primary" role="alert">
-                            To expedite the website browsing process, please provide additional information.
-                        </div>
                         <div class="mb-3">
-                            <label for="impression" class="">Impression/page view</label>
+                            <label for="impression" class="">Monthly impression/pageview</label>
                             <input type="number" name="impression" class="form-control impression" placeholder="1.000.000">
                         </div>
                         <div class="mb-3">
-                            <label for="geo_id" class="">Geo</label>
+                            <label for="geo_id" class="">Top geo</label>
                             <select class="form-control choose_value select2_init select-multiple geo_id" name="geo_id[]" multiple>
                                 <option value=null>Choose</option>
                                 @foreach($geos as $geo)
@@ -210,7 +209,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="file_report" class="">File Report</label>
+                            <label for="file_report" class="">Reports (GA, cloudflare reports, ...)</label>
                             <input type="file" class="form-control file_report" name="file_report">
                             <div class="form-text">Please tell us about your site's charts and reports.</div>
                         </div>
