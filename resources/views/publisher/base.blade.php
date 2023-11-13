@@ -14,10 +14,8 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Meta -->
     <meta name="description" content="">
-    <meta name="author" content="Themepixels">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">
@@ -282,7 +280,18 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         </div>
     </div>
 </div>
+
 <script>
+    $(document).ready(function() {
+        // $('.select-multiple').select2();
+
+        // $( '.select-multiple' ).select2( {
+        //     theme: "bootstrap-5",
+        //     width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+        //     placeholder: $( this ).data( 'placeholder' ),
+        //     closeOnSelect: false,
+        // } );
+    });
     function callAjax(method, url, data, success) {
         $.ajax({
             headers: {
