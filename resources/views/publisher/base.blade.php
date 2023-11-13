@@ -14,10 +14,8 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Meta -->
     <meta name="description" content="">
-    <meta name="author" content="Themepixels">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">
@@ -214,11 +212,11 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     </div><!-- dropdown -->
     <div class="dropdown dropdown-profile ms-3 ms-xl-4">
         <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-            <div class="avatar online"><img src="assets/img/man.png" alt=""></div>
+            <div class="avatar online"><img src="assets/img/user.png" alt=""></div>
         </a>
         <div class="dropdown-menu dropdown-menu-end mt-10-f">
             <div class="dropdown-menu-body">
-                <div class="avatar avatar-xl online mb-3"><img src="assets/img/man.png" alt=""></div>
+                <div class="avatar avatar-xl online mb-3"><img src="assets/img/user.png" alt=""></div>
                 <h5 class="mb-1 text-dark fw-semibold" style="word-wrap: break-word;">{{\Illuminate\Support\Facades\Auth::user()->email ?? ''}}</h5>
                 <p class="fs-sm text-secondary">Member (<strong>{{\Illuminate\Support\Facades\Auth::user()->code ?? ''}}</strong>)</p>
                 <nav class="nav">
@@ -242,7 +240,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
                 <div id="popover-content" class="d-none">
                     <span>Code: </span><strong class="text-copy">{{\Illuminate\Support\Facades\Auth::user()->code}} </strong><br>
                     <span>Link referral: </span><br><strong class="text-copy">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}} </strong>
-                    <a href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>
+                    <a target="_blank" href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>
                 </div>
             </div>
         </div>
@@ -282,7 +280,18 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         </div>
     </div>
 </div>
+
 <script>
+    $(document).ready(function() {
+        // $('.select-multiple').select2();
+
+        // $( '.select-multiple' ).select2( {
+        //     theme: "bootstrap-5",
+        //     width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+        //     placeholder: $( this ).data( 'placeholder' ),
+        //     closeOnSelect: false,
+        // } );
+    });
     function callAjax(method, url, data, success) {
         $.ajax({
             headers: {
