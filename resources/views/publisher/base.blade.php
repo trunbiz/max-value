@@ -17,7 +17,6 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
     <!-- Meta -->
     <meta name="description" content="">
-    <meta name="author" content="Themepixels">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">

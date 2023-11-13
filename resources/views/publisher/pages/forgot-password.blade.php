@@ -8,7 +8,6 @@
 
     <!-- Meta -->
     <meta name="description" content="">
-    <meta name="author" content="Themepixels">
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="../../../../public/assets/publisher/assets/img/favicon.png">
