@@ -198,20 +198,21 @@
                         </div>
                         <div class="mb-3">
                             <label for="impression" class="">Impression/page view</label>
-                            <input type="number" name="impression" class="form-control impression">
+                            <input type="number" name="impression" class="form-control impression" placeholder="1.000.000">
                         </div>
                         <div class="mb-3">
                             <label for="geo_id" class="">Geo</label>
                             <select class="form-control choose_value select2_init select-multiple geo_id" name="geo_id[]" multiple>
+                                <option value=null>Choose</option>
                                 @foreach($geos as $geo)
-                                    <option value=null>Choose</option>
                                     <option value="{{$geo->id}}">{{$geo->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="file_report" class="">Image Report</label>
+                            <label for="file_report" class="">File Report</label>
                             <input type="file" class="form-control file_report" name="file_report">
+                            <div class="form-text">Please tell us about your site's charts and reports.</div>
                         </div>
                     </div>
                     <div class="modal-footer">
