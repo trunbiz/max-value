@@ -10,14 +10,16 @@
     <meta name="description" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">
+    <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+
     <meta property="og:url" content="{{env('APP_URL')}}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{env('APP_URL')}}"/>
     <meta property="og:description" content="{{env('APP_URL')}}"/>
     <meta property="og:image" content="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}"/>
 
-    <title>Maxvalue.media - Login</title>
+    <title>maxvalue.media - register</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
@@ -31,8 +33,8 @@
 <div class="card card-sign">
     <div class="card-header">
         <a href="{{asset('/')}}" class="header-logo mb-4">Maxvalue</a>
-        <h3 class="card-title">Sign Up</h3>
-        <p class="card-text">It's free to signup and only takes a minute.</p>
+        <h3 class="card-title">Register</h3>
+        <p class="card-text">It's free to register and only takes a minute.</p>
     </div><!-- card-header -->
     <div class="card-body">
         <form method="POST" action="{{ route('register') }}">
@@ -102,7 +104,7 @@
         </form>
     </div><!-- card-body -->
     <div class="card-footer">
-        Already have an account? <a href="{{ route('login') }}">Sign In</a>
+        Already have an account? <a href="{{ route('login') }}">Login</a>
     </div><!-- card-footer -->
 </div><!-- card -->
 
