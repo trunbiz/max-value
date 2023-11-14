@@ -1,20 +1,19 @@
 @extends('publisher.base')
 @section('title', 'Ads.txt')
 @section('content')
-    <div class="d-flex align-items-center mb-4">
-        <div class="row">
-            <h4 class="main-title mb-0">Ads.Txt Configuration</h4>
-            <p style="color: red">Update the ads.txt on your sites in order to keep them active and continue
-                monetizing</p>
-        </div>
+    <div class="row">
+        <h4 class="main-title mb-0">Ads.Txt Configuration</h4>
+        <p style="color: red">Update the ads.txt on your sites in order to keep them active and continue
+            monetizing</p>
     </div>
     <div class="row g-3">
         <div class="col-sm-6">
+            <span style="float: right">{{$lines}} Row</span>
             <textarea class="form-control" id="myInput" disabled rows="24" placeholder="Ads ...">{{$adsTxt}}</textarea>
         </div>
         <div class="col-sm-6" style="font-size: 32px">
-            <a class="btn btn-primary" href="{{route('user.advertises.download_txt')}}"> <i class="ri-download-2-fill"></i></a>
-            <button class="btn btn-primary" onclick="copyAdsText()"><i class="ri-folders-line"></i></button>
+            <a class="btn btn-primary" href="{{route('user.advertises.download_txt')}}"> <i class="ri-download-2-fill"></i> Download</a>
+            <button class="btn btn-primary" onclick="copyAdsText()"><i class="ri-folders-line"></i> Copy</button>
         </div>
     </div>
     <style>
