@@ -115,7 +115,7 @@ class WebsiteController extends Controller
                 'status' => $item['status']['id'],
                 'api_site_id' => $item['id'],
                 'publisher_report_impression' => $request->get('impression', null),
-                'publisher_report_geo_id' => json_encode(explode(',', $request->get('geo_id', ''))),
+                'publisher_report_geo' => $request->get('geo', null),
                 'is_delete' => 0,
                 'created_by' => auth()->user()->id,
             ];

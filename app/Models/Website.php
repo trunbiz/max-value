@@ -30,7 +30,7 @@ class Website extends Model implements Auditable
         'status',
         'api_site_id',
         'publisher_report_impression',
-        'publisher_report_geo_id',
+        'publisher_report_geo',
         'publisher_report_file',
         'is_delete',
         'created_by',
