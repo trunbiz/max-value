@@ -99,6 +99,8 @@ Route::prefix('ajax/administrator')->group(function () {
 
             })->name('ajax.administrator.website.store');
 
+            Route::get('/show', [\App\Http\Controllers\Admin\WebsiteController::class, 'show'])->name('ajax.administrator.website.show');
+
             Route::put('/update', function (Request $request) {
                 $params = [];
 //                if (isset($request->is_active)){
