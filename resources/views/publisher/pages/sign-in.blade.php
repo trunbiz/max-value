@@ -11,6 +11,7 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
     <title>Maxvalue</title>
 
