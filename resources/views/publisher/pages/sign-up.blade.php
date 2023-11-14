@@ -83,11 +83,11 @@
                 <input type="text" name="url" class="form-control" required placeholder="https://example.com" value="">
             </div>
             <div class="mb-3">
-                <label for="impression" class="">Monthly impression/pageview</label>
+                <label for="impression" class="form-label">Monthly impression/pageview</label>
                 <input type="number" name="impression" class="form-control impression" placeholder="1.000.000">
             </div>
             <div class="mb-3">
-                <label for="geo" class="">Top geo</label>
+                <label for="geo" class="form-label">Top geo</label>
                 <input type="text" name="geo" class="form-control" placeholder="US, UK, ..." value="">
             </div>
 {{--            <div class="mb-3">--}}
