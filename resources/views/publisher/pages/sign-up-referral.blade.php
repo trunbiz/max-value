@@ -11,7 +11,7 @@
     <meta name="author" content="Maxvalue">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
     <title>MaxValue - Sign Up Referral</title>
 
