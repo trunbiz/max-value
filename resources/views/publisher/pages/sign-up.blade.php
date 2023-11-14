@@ -8,7 +8,6 @@
 
     <!-- Meta -->
     <meta name="description" content="">
-    <meta name="author" content="Themepixels">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">
@@ -18,7 +17,7 @@
     <meta property="og:description" content="{{env('APP_URL')}}"/>
     <meta property="og:image" content="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}"/>
 
-    <title>maxvalue.media - Login</title>
+    <title>maxvalue.media - Sign Up</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
@@ -65,7 +64,6 @@
 <script src="lib/jquery/jquery.min.js"></script>
 <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
-    console.log(11123)
     var skinMode = localStorage.getItem('skin-mode');
     if (skinMode) {
         $('html').attr('data-skin', 'dark');
