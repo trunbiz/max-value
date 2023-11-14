@@ -7,3 +7,6 @@
 .copy-icon:hover {
     cursor: pointer;
 }
+.select2 {
+    width: 100% !important;
+}

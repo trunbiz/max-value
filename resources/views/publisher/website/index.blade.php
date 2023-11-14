@@ -157,23 +157,28 @@
                 <form action="" autocomplete="off">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="category" class="mb-3">Category<span class="text-danger">*</span></label>
+                            <label for="url" class="">URL (<span class="text-danger">*</span>)  </label>
+                            <input type="text" name="url" class="form-control @error("url") is-invalid @enderror"
+                                   required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="">Category (<span class="text-danger">*</span>)</label>
                             <select
                                 class="form-control choose_value select2_init @error("idcategory") is-invalid @enderror"
                                 required name="idcategory">
                                 <option value="">Choose</option>
-                                <option value="13">Arts &amp; Entertainment</option>
+                                <option value="13">Arts & Entertainment</option>
                                 <option value="33">Automotive</option>
                                 <option value="34">Business</option>
                                 <option value="35">Careers</option>
                                 <option value="36">Education</option>
-                                <option value="37">Family &amp; Parenting</option>
-                                <option value="39">Food &amp; Drink</option>
-                                <option value="28">Health &amp; fitness</option>
-                                <option value="10">Hobbies &amp; Interests</option>
-                                <option value="41">Home &amp; Garden</option>
-                                <option value="42">Law, Government, &amp; Politics</option>
-                                <option value="11">News &amp; Media</option>
+                                <option value="37">Family & Parenting</option>
+                                <option value="39">Food & Drink</option>
+                                <option value="28">Health & fitness</option>
+                                <option value="10">Hobbies & Interests</option>
+                                <option value="41">Home & Garden</option>
+                                <option value="42">Law, Government, & Politics</option>
+                                <option value="11">News & Media</option>
                                 <option value="7">Personal Finance</option>
                                 <option value="47">Pets</option>
                                 <option value="52">Real Estate</option>
@@ -181,16 +186,27 @@
                                 <option value="23">Shopping</option>
                                 <option value="8">Society</option>
                                 <option value="5">Sports</option>
-                                <option value="49">Style &amp; Fashion</option>
-                                <option value="6">Technology &amp; Computing</option>
+                                <option value="49">Style & Fashion</option>
+                                <option value="6">Technology & Computing</option>
                                 <option value="51">Travel</option>
                                 <option value="31">Uncategorized</option>
                             </select>
                         </div>
+                        <div class="alert alert-primary" role="alert">
+                            For a faster approval process, please provide the following additional information.
+                        </div>
                         <div class="mb-3">
-                            <label for="url" class="mb-3">URL <span class="text-danger">*</span></label>
-                            <input type="text" name="url" class="form-control @error("url") is-invalid @enderror"
-                                   required>
+                            <label for="impression" class="">Monthly impression/pageview</label>
+                            <input type="number" name="impression" class="form-control impression" placeholder="1.000.000">
+                        </div>
+                        <div class="mb-3">
+                            <label for="geo" class="">Top geo</label>
+                            <input type="text" name="geo" class="form-control geo" placeholder="US, UK, ..." value="">
+                        </div>
+                        <div class="mb-3">
+                            <label for="file_report" class="">Reports (GA, cloudflare reports, ...)</label>
+                            <input type="file" class="form-control file_report" name="file_report">
+                            <div class="form-text">Please tell us about your site's charts and reports.</div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -215,6 +231,18 @@
                 // Tìm dòng "zone-info" liền kề và chuyển trạng thái hiển thị
                 $(this).next('.zone-info').toggle();
             });
+
+            $(".select-multiple").select2({
+                dropdownParent: $("#create-site")
+            });
+
+            @if($items->count() > 0)
+                removeCookie('newUser')
+            @endif
+
+            if (getCookie('newUser')) {
+                $('#create-site').modal('show');
+            }
         });
 
         //get code
@@ -241,6 +269,8 @@
                 data: data,
                 type: method,
                 url: url,
+                processData: false,
+                contentType: false,
                 beforeSend: function () {
                     $('#loader').removeClass('loading');
                 },
@@ -279,27 +309,33 @@
                     return;
                 }
 
-                callAjax(
-                    "POST",
-                    "{{ route('user.websites.store') }}",
-                    {
-                        'idcategory': $this.find('select[name="idcategory"]').val(),
-                        'url': url,
-                    },
-                    (response) => {
+                var formData = new FormData;
+                formData.append('idcategory', $this.find('select[name="idcategory"]').val());
+                formData.append('url', url);
+                formData.append('impression', $( ".impression" ).val());
+                formData.append('geo', $( ".geo" ).val());
+                formData.append('file_report', $( ".file_report" )[0].files[0]); //
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                $.ajax({
+                    url: "{{ route('user.websites.store') }}",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
                         if (response.status == true) {
-                            window.location.reload()
+                            removeCookie('newUser')
+                            window.location.reload();
                             $this.modal('hide');
                             swal("Success!", 'Add successful', "success");
                             $('.accordion').prepend(response.html);
                             $this.find('input[name="url"]').val('');
                             $this.find('select[name="idcategory"]').val('');
                         } else {
-                            swal("Erorr!", response.message, "error");
+                            swal("Error!", response.message, "error");
                         }
-
                     }
-                )
+                });
             }
 
         }

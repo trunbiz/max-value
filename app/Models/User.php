@@ -39,6 +39,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     const ACTIVE = 1;
 
+    const SKYPE = 'SKYPE';
+    const TELEGRAM = 'TELEGRAM';
+    const WHATSAPP = 'WHATSAPP';
+
     protected $guarded = [
 //        'is_admin',
     ];

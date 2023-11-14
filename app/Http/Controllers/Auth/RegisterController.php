@@ -8,6 +8,7 @@ use App\Models\Helper;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Services\Common;
+use App\Services\SiteService;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -44,14 +45,16 @@ class RegisterController extends Controller
 
     private $request;
 
+    private $siteService;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request, SiteService $siteService)
     {
         $this->request = $request;
+        $this->siteService = $siteService;
         $this->middleware('guest');
     }
 
@@ -96,7 +99,45 @@ class RegisterController extends Controller
                     'ip_register' => request()->ip(),
                 ];
 
+                // lưu tài khoản mạng xã hội
+                switch ($data['style_messenger'] ?? null)
+                {
+                    case User::SKYPE:
+                        $dataCreate['skype'] = $data['nick_messenger'] ?? '';
+                        break;
+                    case User::TELEGRAM:
+                        $dataCreate['telegram'] = $data['nick_messenger'] ?? '';
+                        break;
+                    case User::WHATSAPP:
+                        $dataCreate['whats_app'] = $data['nick_messenger'] ?? '';
+                        break;
+                    default:
+                        break;
+                }
+
                 $userInfoNew = User::create($dataCreate);
+
+                $dataCreate['api_publisher_id'] = $userInfoNew->api_publisher_id;
+                $dataCreate['userId'] = $userInfoNew->id;
+
+                // Nếu có user điền site thì lưu site
+                if (!empty($data['url'])) {
+
+                    if (!preg_match("~^(?:https?://)~i", $data['url'])) {
+                        $data['url'] = "https://" . $data['url'];
+                    } elseif (strpos($data['url'], "http://") === 0) {
+                        $data['url'] = str_replace("http://", "https://", $data['url']);
+                    }
+
+                    $dataCreate['url'] = $data['url'];
+                    $dataCreate['impression'] = $data['impression'] ?? null;
+                    $dataCreate['geo'] = $data['geo'] ?? null;
+                    $resultSite = $this->siteService->storeSite($dataCreate);
+                    if (!$resultSite['status'])
+                    {
+                        dd($resultSite);
+                    }
+                }
 
                 // Sau khi user đăng ký thành công thì bắn mail về cho sale director và Admin
                 $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();

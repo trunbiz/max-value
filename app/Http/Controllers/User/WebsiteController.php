@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Website;
 use App\Http\Controllers\Controller;
 use App\Models\ZoneModel;
+use App\Repositories\National\NationalRepositoryInterface;
 use App\Services\Common;
 use App\Services\SiteService;
 use App\Services\ZoneService;
@@ -20,6 +21,7 @@ use App\Traits\BaseControllerTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use function redirect;
 use function view;
@@ -30,13 +32,15 @@ class WebsiteController extends Controller
 
     protected $siteService;
     protected $zoneService;
+    protected $nationalRepo;
 
-    public function __construct(Website $model)
+    public function __construct(Website $model, NationalRepositoryInterface $nationalRepo)
     {
         $this->initBaseModel($model);
         $this->shareBaseModel($model);
         $this->siteService = new SiteService();
         $this->zoneService = new ZoneService();
+        $this->nationalRepo = $nationalRepo;
     }
 
     public function index(Request $request)
@@ -44,6 +48,7 @@ class WebsiteController extends Controller
         $data['items'] = $this->siteService->listWebsiteByUser(Auth::id());
         $data['current_user'] = Auth::user();
         $data['totalSite'] = $this->siteService->totalSite(null, $listSiteId, [Auth::user()->id]);
+        $data['geos'] = $this->nationalRepo->getAll();
 
         if (empty($listSiteId))
         {
@@ -100,8 +105,8 @@ class WebsiteController extends Controller
                     'message' => 'The system created the site error',
                 ]);
             }
-            // Lưu dữ lieu vao database
-            Website::create([
+
+            $dataInfo = [
                 'user_id' => auth()->user()->id ?? 0,
                 'name' => $item['name'],
                 'url' => $item['url'],
@@ -109,9 +114,18 @@ class WebsiteController extends Controller
                 'description' => '0',
                 'status' => $item['status']['id'],
                 'api_site_id' => $item['id'],
+                'publisher_report_impression' => $request->get('impression', null),
+                'publisher_report_geo' => $request->get('geo', null),
                 'is_delete' => 0,
                 'created_by' => auth()->user()->id,
-            ]);
+            ];
+
+            if($request->hasFile('file_report')){
+                $dataInfo['publisher_report_file'] = Storage::putFile('files', $request->file('file_report'));
+            }
+
+            // Lưu dữ lieu vao database
+            Website::create($dataInfo);
 
             // Sau khi user tạo 1 siet mới thì bắn mail về cho sale director và Admin
             $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
