@@ -83,6 +83,19 @@ class WebsiteController extends Controller
         return $this->model->findById($id);
     }
 
+    public function show(Request $request)
+    {
+        $request = $request->all();
+        $id = $request['id'] ?? null;
+        $item = Website::find($id);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'success',
+            'data' => $item
+        ], 200);
+    }
+
     public function create()
     {
         $publishers = Helper::callGetHTTP("https://api.adsrv.net/v2/user?page=1&per-page=10000&filter[idcloudrole]=4") ?? [];

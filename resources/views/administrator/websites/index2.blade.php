@@ -62,6 +62,12 @@
                                         </span>
                                     </td>
                                     <td class="options">
+                                        <a onclick="detailSiteModal('{{$itemWebsite->id}}')"
+                                           style="cursor: pointer;"
+                                           title="Detail" data-bs-toggle="modal"
+                                           data-bs-target="#detailSiteModal">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
                                         <a href="{{route('administrator.reports.index', ["website_id" => $itemWebsite->api_site_id])}}" target="_blank"><i class="fa-solid fa-chart-line"></i></a>
                                         <a onclick="oneditStatusModal('{{$itemWebsite->api_site_id}}')"
                                            style="cursor: pointer;"
@@ -224,6 +230,41 @@
                 <div class="modal-footer justify-content-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" onclick="onSubmitAddWebsite()" class="btn btn-success">Create now</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="detailSiteModal" aria-labelledby="detailSiteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createWebsiteModalLabel">Detail site</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mt-3">
+                        <label class="bold">URL</label>
+                        <input class="form-control url" name="url" value="" disabled>
+                    </div>
+                    <div class="mt-3">
+                        <label class="bold">Monthly impression/pageview</label>
+                        <input class="form-control impression" name="impression" value="" disabled>
+                    </div>
+                    <div class="mt-3">
+                        <label class="bold">Top geo</label>
+                        <input class="form-control geo" name="geo" value="" disabled>
+                    </div>
+                    <div class="mt-3 form-report-file">
+                        <label class="bold">Reports (GA, cloudflare reports, ...)</label><br>
+                        <a href="" title="download" target="_blank" class="btn btn btn-outline-info report-file"><i class="fa fa-cloud-download" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
 
             </div>
@@ -490,6 +531,35 @@
 
             $('select[name="status_id"]').val(id_status).change()
             $('input[name="site_id"]').val(idsite).change()
+        }
+
+        function detailSiteModal(id) {
+            var $this = $('#detailSiteModal');
+            var storageUrl = "{{ asset('storage') }}";
+            callAjax(
+                "GET",
+                "{{ route('ajax.administrator.website.show')}}" + "?id=" + id, {},
+                (response) => {
+                    if (!response.status) {
+                        alert('error' + response.message)
+                        return;
+                    }
+                    let data = response.data;
+                    if(data.publisher_report_file == null)
+                    {
+                        $('.form-report-file').hide();
+                    }
+                    else {
+                        $('.form-report-file').show();
+                    }
+                    $("#detailSiteModal .url").val(data.url);
+                    $("#detailSiteModal .impression").val(data.publisher_report_impression);
+                    $("#detailSiteModal .geo").val(data.publisher_report_geo);
+                    $("#detailSiteModal .report-file").attr("href", storageUrl + '/' + data.publisher_report_file);
+                    $this.modal('show');
+                }
+            )
+            $this.modal('show');
         }
 
         function deleteSite(siteId) {
