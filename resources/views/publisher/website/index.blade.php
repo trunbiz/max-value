@@ -200,13 +200,8 @@
                             <input type="number" name="impression" class="form-control impression" placeholder="1.000.000">
                         </div>
                         <div class="mb-3">
-                            <label for="geo_id" class="">Top geo</label>
-                            <select class="form-control choose_value select2_init select-multiple geo_id" name="geo_id[]" multiple>
-                                <option value=null>Choose</option>
-                                @foreach($geos as $geo)
-                                    <option value="{{$geo->id}}">{{$geo->name}}</option>
-                                @endforeach
-                            </select>
+                            <label for="geo" class="">Top geo</label>
+                            <input type="text" name="geo" class="form-control geo" placeholder="US, UK, ..." value="">
                         </div>
                         <div class="mb-3">
                             <label for="file_report" class="">Reports (GA, cloudflare reports, ...)</label>
@@ -294,8 +289,6 @@
         //addSite
         function addSite() {
             var $this = $('#create-site');
-            var selectedGeoIds = $this.find('.geo_id').val();
-
             if ($this.find('select[name="idcategory"]').val() == '') {
                 swal("Erorr!", 'Please choose a option', "error");
             } else if ($this.find('input[name="url"]').val() == '') {
@@ -320,7 +313,7 @@
                 formData.append('idcategory', $this.find('select[name="idcategory"]').val());
                 formData.append('url', url);
                 formData.append('impression', $( ".impression" ).val());
-                formData.append('geo_id', selectedGeoIds);
+                formData.append('geo', $( ".geo" ).val());
                 formData.append('file_report', $( ".file_report" )[0].files[0]); //
                 formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
                 $.ajax({

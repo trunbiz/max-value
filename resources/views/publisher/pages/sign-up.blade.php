@@ -76,19 +76,19 @@
                 </div>
             </div>
             <div class="alert alert-primary" role="alert">
-                To expedite the website browsing process, please provide additional information.
+                For a faster approval process, please provide the following additional information.
             </div>
             <div class="mb-3">
-                <label class="form-label">Url website</label>
-                <input type="text" name="url" class="form-control" placeholder="url" value="">
+                <label class="form-label">Url website (<span class="text-danger">*</span>)</label>
+                <input type="text" name="url" class="form-control" required placeholder="https://example.com" value="">
             </div>
             <div class="mb-3">
-                <label for="impression" class="">Impression/page view</label>
+                <label for="impression" class="">Monthly impression/pageview</label>
                 <input type="number" name="impression" class="form-control impression" placeholder="1.000.000">
             </div>
             <div class="mb-3">
-                <label for="geo_id" class="">Top geo</label>
-                <input type="text" name="geo_id" class="form-control" placeholder="US, UK, ..." value="">
+                <label for="geo" class="">Top geo</label>
+                <input type="text" name="geo" class="form-control" placeholder="US, UK, ..." value="">
             </div>
 {{--            <div class="mb-3">--}}
 {{--                <label for="file_report" class="">File Report</label>--}}
