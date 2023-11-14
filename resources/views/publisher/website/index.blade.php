@@ -156,8 +156,10 @@
                 </div>
                 <form action="" autocomplete="off">
                     <div class="modal-body">
-                        <div class="alert alert-primary" role="alert">
-                            For a faster approval process, please provide the following additional information.
+                        <div class="mb-3">
+                            <label for="url" class="">URL (<span class="text-danger">*</span>)  </label>
+                            <input type="text" name="url" class="form-control @error("url") is-invalid @enderror"
+                                   required>
                         </div>
                         <div class="mb-3">
                             <label for="category" class="">Category (<span class="text-danger">*</span>)</label>
@@ -190,10 +192,8 @@
                                 <option value="31">Uncategorized</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="url" class="">URL (<span class="text-danger">*</span>)  </label>
-                            <input type="text" name="url" class="form-control @error("url") is-invalid @enderror"
-                                   required>
+                        <div class="alert alert-primary" role="alert">
+                            For a faster approval process, please provide the following additional information.
                         </div>
                         <div class="mb-3">
                             <label for="impression" class="">Monthly impression/pageview</label>
