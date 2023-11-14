@@ -25,6 +25,13 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="assets/css/style.min.css">
     <script type="text/javascript" src="{{asset('assets/helper/main_helper.js')}}"></script>
+    <style>
+        @media (min-width: 768px) {
+            .card-sign {
+                width: 600px;
+            }
+        }
+    </style>
 </head>
 <body class="page-sign">
 
@@ -80,19 +87,14 @@
                 <input type="number" name="impression" class="form-control impression" placeholder="1.000.000">
             </div>
             <div class="mb-3">
-                <label for="geo_id" class="">Geo</label>
-                <select class="form-control choose_value select2_init select-multiple geo_id" name="geo_id[]" multiple>
-                    <option value=null>Choose</option>
-                    @foreach($geos as $geo)
-                        <option value="{{$geo->id}}">{{$geo->name}}</option>
-                    @endforeach
-                </select>
+                <label for="geo_id" class="">Top geo</label>
+                <input type="text" name="geo_id" class="form-control" placeholder="US, UK, ..." value="">
             </div>
-            <div class="mb-3">
-                <label for="file_report" class="">File Report</label>
-                <input type="file" class="form-control file_report" name="file_report">
-                <div class="form-text">Please tell us about your site's charts and reports.</div>
-            </div>
+{{--            <div class="mb-3">--}}
+{{--                <label for="file_report" class="">File Report</label>--}}
+{{--                <input type="file" class="form-control file_report" name="file_report">--}}
+{{--                <div class="form-text">Please tell us about your site's charts and reports.</div>--}}
+{{--            </div>--}}
 
             <div class="mb-4">
                 <small>By clicking <strong>Create Account</strong> below, you agree to our terms of service and privacy
