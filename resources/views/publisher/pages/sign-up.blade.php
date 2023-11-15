@@ -19,7 +19,7 @@
     <meta property="og:description" content="{{env('APP_URL')}}"/>
     <meta property="og:image" content="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}"/>
 
-    <title>maxvalue.media - register</title>
+    <title>Maxvalue.media - register</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">

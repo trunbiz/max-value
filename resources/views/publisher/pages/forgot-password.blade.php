@@ -12,7 +12,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
-    <title>Max Value</title>
+    <title>Maxvalue.media - forgot password</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
@@ -24,7 +24,7 @@
 
 <div class="header">
     <div class="container">
-        <a href="{{asset('/')}}" class="header-logo">Max Value</a>
+        <a href="{{asset('/')}}" class="header-logo">Maxvalue</a>
     </div><!-- container -->
 </div><!-- header -->
 
