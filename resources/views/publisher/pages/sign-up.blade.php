@@ -44,6 +44,11 @@
     <div class="card-body">
         <form method="POST" action="{{ route('register') }}">
             @csrf
+            @error('email')
+            <div class="alert alert-danger" role="alert">
+                {{ $message }}
+            </div>
+            @enderror
             <div class="mb-3">
                 <label class="form-label">Email address (<span class="text-danger">*</span>)</label>
                 <input type="text" name="email" class="form-control" required placeholder="Enter your email address">
