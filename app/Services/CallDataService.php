@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Helper;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Website;
 use App\Models\ZoneModel;
@@ -185,25 +186,74 @@ class CallDataService
 
     public function runCheckCodeSite()
     {
+        $adsTxt = Setting::find(1)->ads_txt;
 
         // Get all site
         $listWebsite = Website::where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->get();
         foreach ($listWebsite as $siteItem)
         {
             $url = 'https://realitytvseries.uk/ads.txt';
-            $checkAds = $this->checkAdsSite($url);
+            $checkAds = $this->checkAdsSite($url, $adsTxt, $status);
         }
         dd($listWebsite);
 
     }
 
-    public function checkAdsSite($url, &$status = 'EMPTY')
+    public function checkAdsSite($url, $fileAdsTxt, &$status = 'EMPTY')
     {
+        $maxvalueStart = '#maxvalue.media update';
+
+        $maxvalueEnd = '#maxvalue.media update end';
+
         $dataCrawl = $this->callContentClientRequest('GET', $url);
         if ($dataCrawl['success'] && !empty($dataCrawl['data']))
         {
+            $adsTxt = $dataCrawl['data'];
+            $arrayAdsTxt = preg_split('/\R/', $adsTxt);
+            $arrayAdsTxt = array_filter($arrayAdsTxt, function ($value) {
+                return !empty($value);
+            });
+
+
+            $arrayFileAdsTxt = preg_split('/\R/', $fileAdsTxt);
+            $arrayFileAdsTxt = array_filter($arrayFileAdsTxt, function ($value) {
+                return !empty($value);
+            });
+
+
+            $firstFileAdsTxt = current($arrayFileAdsTxt);
+            $lastFileAdsTxt = end($arrayFileAdsTxt);
+
+            dd($firstFileAdsTxt, $lastFileAdsTxt);
+
+            $issMaxvalueStartTxt = false;
+            $issMaxvalueEndTxt = false;
+            foreach ($arrayAdsTxt as $itemAds)
+            {
+                // check isset #maxvalue.media
+                if (strpos($itemAds, $maxvalueStart))
+                {
+                    $issMaxvalueStartTxt = true;
+                }
+                elseif (strpos($itemAds, $maxvalueEnd))
+                {
+                    $issMaxvalueEndTxt = true;
+                }
+
+                // Check
+
+
+            }
+
+
+
+            dd($arrayFileAdsTxt);
+            dd($arrayAdsTxt, 22);
+
+
 
         }
-        dd(2234,$url, $dataCrawl);
+        $status = 'NOT_EXIST';
+        return false;
     }
 }
