@@ -28,7 +28,7 @@
     <div class="col-md-7 col-lg-5 col-xl-4 col-wrapper">
         <div class="card card-sign">
             <div class="card-header">
-                <a href="../" class="header-logo mb-5">MaxValue</a>
+                <a href="../" class="header-logo mb-5">Maxvalue</a>
                 <h3 class="card-title">Register</h3>
                 <p class="card-text">It's free to register and only takes a minute.</p>
             </div><!-- card-header -->
