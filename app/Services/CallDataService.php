@@ -16,6 +16,7 @@ class CallDataService
     {
         $this->url = config('api.adServer.url');
         $this->accessToken = config('api.adServer.accessToken');
+        $this->commonService = new Common();
     }
 
     public function getHeader()
@@ -180,5 +181,29 @@ class CallDataService
         }
         $page++;
         $this->callDataPublisher($page);
+    }
+
+    public function runCheckCodeSite()
+    {
+
+        // Get all site
+        $listWebsite = Website::where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->get();
+        foreach ($listWebsite as $siteItem)
+        {
+            $url = 'https://realitytvseries.uk/ads.txt';
+            $checkAds = $this->checkAdsSite($url);
+        }
+        dd($listWebsite);
+
+    }
+
+    public function checkAdsSite($url, &$status = 'EMPTY')
+    {
+        $dataCrawl = $this->callContentClientRequest('GET', $url);
+        if ($dataCrawl['success'] && !empty($dataCrawl['data']))
+        {
+
+        }
+        dd(2234,$url, $dataCrawl);
     }
 }

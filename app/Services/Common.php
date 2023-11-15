@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Weidner\Goutte\GoutteFacade;
 
 class Common
 {
@@ -736,5 +737,13 @@ class Common
 
         $color = "hsl($hue, $saturation%, $lightness%)";
         return $color;
+    }
+
+    public function crawlData($url, $path)
+    {
+        $crawler = GoutteFacade::request('GET', $url);
+        return $crawler->filter($path)->each(function ($node) {
+            return $node->text();
+        });
     }
 }
