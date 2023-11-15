@@ -136,7 +136,7 @@ class RegisterController extends Controller
                     $resultSite = $this->siteService->storeSite($dataCreate);
                     if (!$resultSite['status'])
                     {
-                        dd($resultSite);
+                        Log::error('site register error'. $resultSite['message'] ?? '');
                     }
                 }
 
@@ -158,7 +158,7 @@ class RegisterController extends Controller
                     try {
                         Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
                     } catch (\Exception $e) {
-                        Log::error('mail error $e->getMessage()');
+                        Log::error('mail error' . $e->getMessage());
                     }
                 }
 
