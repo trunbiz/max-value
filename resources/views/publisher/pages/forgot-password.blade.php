@@ -10,7 +10,7 @@
     <meta name="description" content="">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="../../../../public/assets/publisher/assets/img/favicon.png">
+    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
     <title>Max Value</title>
 
