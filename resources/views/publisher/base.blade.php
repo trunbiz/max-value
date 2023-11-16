@@ -18,7 +18,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
     <meta name="description" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">
+    <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
     <meta property="og:url" content="{{env('APP_URL')}}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{env('APP_URL')}}"/>
@@ -153,7 +153,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
                 </li>
                 <li class="nav-item">
                     <a href="{{route('user.faqs')}}"
-                       class="nav-link {{ (request()->is('wallet')) ? 'active' : '' }}"><i class="ri-questionnaire-fill"></i>
+                       class="nav-link {{ (request()->is('faqs')) ? 'active' : '' }}"><i class="ri-questionnaire-fill"></i>
                         <span>Faqs</span></a>
                 </li>
                 @if(session()->has('hasClonedUser'))
