@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <h4 class="main-title mb-0">Ads.Txt Configuration</h4>
-        <p style="color: red">Update the ads.txt on your sites in order to keep them active and continue
+        <p class="text-danger mb-0">Update the ads.txt on your sites in order to keep them active and continue
             monetizing</p>
     </div>
     <div class="row g-3">
