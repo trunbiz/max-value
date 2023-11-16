@@ -11,9 +11,10 @@
     <meta name="author" content="Maxvalue">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
-    <title>MaxValue - Sign Up Referral</title>
+    <title>Maxvalue.media - register referral</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
@@ -28,8 +29,8 @@
         <div class="card card-sign">
             <div class="card-header">
                 <a href="../" class="header-logo mb-5">MaxValue</a>
-                <h3 class="card-title">Sign Up</h3>
-                <p class="card-text">It's free to signup and only takes a minute.</p>
+                <h3 class="card-title">Register</h3>
+                <p class="card-text">It's free to register and only takes a minute.</p>
             </div><!-- card-header -->
             <div class="card-body">
                 <div class="mb-3">
@@ -49,20 +50,9 @@
                         privacy statement.</small>
                 </div>
                 <button class="btn btn-primary btn-sign">Create Account</button>
-
-                <div class="divider"><span>or sign up using</span></div>
-
-                <div class="row gx-2">
-                    <div class="col">
-                        <button class="btn btn-facebook"><i class="ri-facebook-fill"></i> Facebook</button>
-                    </div>
-                    <div class="col">
-                        <button class="btn btn-google"><i class="ri-google-fill"></i> Google</button>
-                    </div>
-                </div><!-- row -->
             </div><!-- card-body -->
             <div class="card-footer">
-                Already have an account? <a href="sign-in-2.html">Sign In</a>
+                Already have an account? <a href="sign-in-2.html">Login</a>
             </div><!-- card-footer -->
         </div><!-- card -->
     </div><!-- col -->
