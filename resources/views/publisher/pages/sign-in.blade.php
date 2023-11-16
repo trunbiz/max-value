@@ -8,12 +8,12 @@
 
     <!-- Meta -->
     <meta name="description" content="">
-    <meta name="author" content="Themepixels">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
-    <title>Maxvalue</title>
+    <title>Maxvalue.media - login</title>
 
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="lib/remixicon/fonts/remixicon.css">
@@ -26,8 +26,8 @@
 <div class="card card-sign">
     <div class="card-header">
         <a href="{{asset('/')}}" class="header-logo mb-4">Maxvalue</a>
-        <h3 class="card-title">Sign In</h3>
-        <p class="card-text">Welcome back! Please signin to continue.</p>
+        <h3 class="card-title">Login</h3>
+        <p class="card-text">Welcome back! Please login to continue.</p>
     </div><!-- card-header -->
     <div class="card-body">
         @if(session('error'))
@@ -46,7 +46,7 @@
                         href="{{ route('password.request') }}">Forgot password?</a></label>
                 <input type="password" class="form-control" name="password" placeholder="Enter your password">
             </div>
-            <button class="btn btn-primary btn-sign">Sign In</button>
+            <button class="btn btn-primary btn-sign">Login</button>
         </form>
     </div><!-- card-body -->
     <div class="card-footer">
