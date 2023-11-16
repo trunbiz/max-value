@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Website;
 use App\Models\ZoneModel;
 use App\Traits\ClientRequest;
+use Weidner\Goutte\GoutteFacade;
 
 class CallDataService
 {
@@ -192,8 +193,24 @@ class CallDataService
         $listWebsite = Website::where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->get();
         foreach ($listWebsite as $siteItem)
         {
-            $url = 'https://realitytvseries.uk/ads.txt';
-            $checkAds = $this->checkAdsSite($url, $adsTxt, $status);
+            $url = 'https://realitytvseries.uk' . '/ads.txt';
+
+//            // check ads
+//            $checkAds = $this->checkAdsSite($url, $adsTxt, $status);
+//            if ($checkAds)
+//            {
+//                $siteItem->ads_status = $status ?? null;
+//                $siteItem->save();
+//            }
+
+            // Check all zone
+            $listZone = ZoneModel::where('ad_site_id', $siteItem->api_site_id)->where('is_delete', Common::NOT_DELETE)
+                ->where('active', Common::ACTIVE)->get();
+
+            if ($listZone->isEmpty())
+                continue;
+
+            dd(222, $listZone);
         }
         dd($listWebsite);
 
@@ -220,12 +237,6 @@ class CallDataService
                 return !empty($value);
             });
 
-
-            $firstFileAdsTxt = current($arrayFileAdsTxt);
-            $lastFileAdsTxt = end($arrayFileAdsTxt);
-
-            dd($firstFileAdsTxt, $lastFileAdsTxt);
-
             $issMaxvalueStartTxt = false;
             $issMaxvalueEndTxt = false;
             foreach ($arrayAdsTxt as $itemAds)
@@ -239,21 +250,43 @@ class CallDataService
                 {
                     $issMaxvalueEndTxt = true;
                 }
-
-                // Check
-
-
+            }
+            if (!$issMaxvalueStartTxt || !$issMaxvalueEndTxt)
+            {
+                $status = Common::CODE_EMPTY;
+                return false;
             }
 
-
-
-            dd($arrayFileAdsTxt);
-            dd($arrayAdsTxt, 22);
-
-
-
+            // check update file ads.txt
+            foreach ($arrayFileAdsTxt as $itemFileAds)
+            {
+                $checkIsset = false;
+                foreach ($arrayAdsTxt as $itemAds)
+                {
+                    if (trim($itemAds) == trim($itemFileAds))
+                    {
+                        $checkIsset = true;
+                    }
+                }
+                if (!$checkIsset)
+                {
+                    $status = Common::CODE_NOT_UPDATE;
+                    return false;
+                }
+            }
+            $status = Common::CODE_ACCEPT;
+            return true;
         }
-        $status = 'NOT_EXIST';
+        $status = Common::CODE_EMPTY;
         return false;
+    }
+
+    public function checkCodeZones($url, $codeZone)
+    {
+        $crawler = GoutteFacade::request('GET', $url);
+        $title = $crawler->filter('')->each(function ($node) use ($tag) {
+            return $node->attr($tag);
+        });
+        print($title);
     }
 }

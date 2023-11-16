@@ -688,6 +688,10 @@ class Common
         3525 => 'Verification',
         3510 => 'Rejected',
     ];
+    const CODE_EMPTY = 'EMPTY'; // Không tồn tại nôị dung
+    const CODE_NOT_UPDATE = 'NOT_UPDATE'; // File chưa update
+
+    const CODE_ACCEPT = 'ACCEPT'; // Hoạt động
 
     static function getNameDimension($height, $width)
     {
