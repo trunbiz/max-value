@@ -151,11 +151,11 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
                        class="nav-link {{ (request()->is('wallet')) ? 'active' : '' }}"><i class="ri-wallet-fill"></i>
                         <span>Wallet</span></a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{route('user.faqs')}}"
-                       class="nav-link {{ (request()->is('faqs')) ? 'active' : '' }}"><i class="ri-questionnaire-fill"></i>
-                        <span>Faqs</span></a>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a href="{{route('user.faqs')}}"--}}
+{{--                       class="nav-link {{ (request()->is('faqs')) ? 'active' : '' }}"><i class="ri-questionnaire-fill"></i>--}}
+{{--                        <span>Faqs</span></a>--}}
+{{--                </li>--}}
                 @if(session()->has('hasClonedUser'))
                     <li class="nav-item">
                         <a href="#"

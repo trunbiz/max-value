@@ -579,9 +579,9 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
         ]);
     });
 
-    Route::get('faqs', function (){
-       return view('publisher.pages.faqs');
-    })->name('user.faqs');
+//    Route::get('faqs', function (){
+//       return view('publisher.pages.faqs');
+//    })->name('user.faqs');
 
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
 
