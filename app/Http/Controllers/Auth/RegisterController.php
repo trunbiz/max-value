@@ -92,6 +92,7 @@ class RegisterController extends Controller
                     'name' => $name,
                     'role_id' => '0',
                     'referral_code' => $data['referral_code'] ?? null,
+                    'phone' => $data['phone'] ?? null,
                     'api_publisher_id' => $response['id'],
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
@@ -135,7 +136,7 @@ class RegisterController extends Controller
                     $resultSite = $this->siteService->storeSite($dataCreate);
                     if (!$resultSite['status'])
                     {
-                        dd($resultSite);
+                        Log::error('site register error'. $resultSite['message'] ?? '');
                     }
                 }
 
@@ -157,7 +158,7 @@ class RegisterController extends Controller
                     try {
                         Mail::to($adminSale->email)->send(new MailNotiUserNew($formEmail));
                     } catch (\Exception $e) {
-                        Log::error('mail error $e->getMessage()');
+                        Log::error('mail error' . $e->getMessage());
                     }
                 }
 
