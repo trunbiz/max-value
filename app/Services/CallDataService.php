@@ -193,15 +193,12 @@ class CallDataService
         $listWebsite = Website::where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->get();
         foreach ($listWebsite as $siteItem)
         {
-            $url = 'https://realitytvseries.uk' . '/ads.txt';
+            $url = trim($siteItem->url, '/ ');
 
-//            // check ads
-//            $checkAds = $this->checkAdsSite($url, $adsTxt, $status);
-//            if ($checkAds)
-//            {
-//                $siteItem->ads_status = $status ?? null;
-//                $siteItem->save();
-//            }
+            // check ads
+            $this->checkAdsSite($url . '/ads.txt', $adsTxt, $status);
+            $siteItem->ads_status = $status ?? null;
+            $siteItem->save();
 
             // Check all zone
             $listZone = ZoneModel::where('ad_site_id', $siteItem->api_site_id)->where('is_delete', Common::NOT_DELETE)
@@ -210,17 +207,30 @@ class CallDataService
             if ($listZone->isEmpty())
                 continue;
 
-            dd(222, $listZone);
-        }
-        dd($listWebsite);
+            foreach ($listZone as $itemZone)
+            {
+                // Normal tag
+                $normalTag = $this->checkCodeZones($url, 'ins', 'data-zone');
 
+                if (in_array($itemZone->ad_zone_id, $normalTag))
+                {
+                    $itemZone->display_status = ZoneModel::STATUS_SHOW;
+                }
+                else{
+                    $itemZone->display_status = ZoneModel::STATUS_HIDE;
+                }
+                $itemZone->save();
+            }
+        }
     }
 
-    public function checkAdsSite($url, $fileAdsTxt, &$status = 'EMPTY')
+    public function checkAdsSite($url, $fileAdsTxt, &$status = Common::CODE_EMPTY)
     {
-        $maxvalueStart = '#maxvalue.media update';
+        $maxvalueStart = '#maxvalue.media';
+        $maxvalueStart2 = '#maxvalue.media update';
 
-        $maxvalueEnd = '#maxvalue.media update end';
+        $maxvalueEnd = '#maxvalue.media';
+        $maxvalueEnd2 = '#maxvalue.media update end';
 
         $dataCrawl = $this->callContentClientRequest('GET', $url);
         if ($dataCrawl['success'] && !empty($dataCrawl['data']))
@@ -241,12 +251,14 @@ class CallDataService
             $issMaxvalueEndTxt = false;
             foreach ($arrayAdsTxt as $itemAds)
             {
+//                echo $itemAds .'------------------'. $maxvalueStart . "\n";
+
                 // check isset #maxvalue.media
-                if (strpos($itemAds, $maxvalueStart))
+                if (strpos($itemAds, $maxvalueStart) !== false || strpos($itemAds, $maxvalueStart2) !== false)
                 {
                     $issMaxvalueStartTxt = true;
                 }
-                elseif (strpos($itemAds, $maxvalueEnd))
+                if (strpos($itemAds, $maxvalueEnd) !== false || strpos($itemAds, $maxvalueEnd2) !== false)
                 {
                     $issMaxvalueEndTxt = true;
                 }
@@ -281,12 +293,17 @@ class CallDataService
         return false;
     }
 
-    public function checkCodeZones($url, $codeZone)
+    public function checkCodeZones($url, $codeZone, $tag)
     {
-        $crawler = GoutteFacade::request('GET', $url);
-        $title = $crawler->filter('')->each(function ($node) use ($tag) {
-            return $node->attr($tag);
-        });
-        print($title);
+        try {
+            $crawler = GoutteFacade::request('GET', $url);
+            return $crawler->filter($codeZone)->each(function ($node) use ($tag) {
+                return $node->attr($tag);
+            });
+        }catch (\Exception $e)
+        {
+            return [];
+        }
+
     }
 }

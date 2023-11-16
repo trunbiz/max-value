@@ -44,6 +44,9 @@ class ZoneModel extends Model
     const STATUS_APPROVED = 7000;
     const STATUS_REJECTED = 7020;
 
+    const STATUS_HIDE = 'HIDE';
+    const STATUS_SHOW = 'SHOW';
+
     const ID_ZONE_FORMAT = [
       6 => 'Banner'
     ];
