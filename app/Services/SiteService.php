@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\Mail\UserSiteNew;
 use App\Models\Helper;
 use App\Models\User;
 use App\Models\Website;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class SiteService
 {
@@ -88,4 +92,83 @@ class SiteService
     {
         return Website::where('is_delete', 0)->where('user_id', $user_id)->orderBy('id', 'DESC')->paginate(25);
     }
+
+    public function storeSite($params)
+    {
+        if (empty($params['url']))
+        {
+            return [
+                'status' => false,
+                'message' => 'Missing parameters',
+            ];
+        }
+
+        $urls = Helper::callGetHTTP("https://api.adsrv.net/v2/site?filter[url]=".$params['url']."&page=1&per-page=10000");
+        if(!empty($urls)){
+            return [
+                'status' => false,
+                'message' => 'URL is had already',
+            ];
+        }else{
+            $paramsRequest = [
+                "url" => $params['url'],
+                "idcategory" => $params['idCategory'] ?? 13,
+                "idpublisher" => $params['api_publisher_id'],
+                "idstatus" => 3520,
+            ];
+            $item = Helper::callPostHTTP("https://api.adsrv.net/v2/site", $paramsRequest);
+            if (empty($item['id']))
+            {
+                return [
+                    'status' => false,
+                    'message' => 'The system created the site error',
+                ];
+            }
+            $dataSiteInfo = [
+                'user_id' => $params['userId'],
+                'name' => $item['name'],
+                'url' => $item['url'],
+                'category_website_id' => $item['category']['id'],
+                'description' => '0',
+                'status' => $item['status']['id'],
+                'api_site_id' => $item['id'],
+                'publisher_report_impression' => $params['impression'],
+                'publisher_report_geo' => $params['geo'],
+                'is_delete' => 0,
+                'created_by' => $params['userId'],
+            ];
+            // Lưu dữ lieu vao database
+            Website::create($dataSiteInfo);
+
+            // Sau khi user tạo 1 site mới thì bắn mail về cho sale director và Admin
+//            $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
+//            foreach ($userAdminAndSale as $adminSale)
+//            {
+//                if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
+//                    continue;
+//                }
+//
+//                $formEmail = [
+//                    'userAdmin' => $adminSale->name,
+//                    'name' => $item['name'] ?? '0',
+//                    'url' => $item['url'] ?? '0',
+//                    'created_at' => Carbon::now()->format('Y-m-d hH:i:s'),
+//                ];
+//                try {
+//                    Mail::to($adminSale->email)->send(new UserSiteNew($formEmail));
+//                }catch (\Exception $e)
+//                {
+//                    Log::error('mail error', [
+//                        'email' => $adminSale->email
+//                    ]);
+//                }
+//            }
+            return [
+                'status' => true,
+                'message' => 'Success',
+                'data' => $dataSiteInfo
+            ];
+        }
+    }
 }
+
