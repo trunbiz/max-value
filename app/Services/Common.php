@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Weidner\Goutte\GoutteFacade;
 
 class Common
 {
@@ -687,6 +688,10 @@ class Common
         3525 => 'Verification',
         3510 => 'Rejected',
     ];
+    const CODE_EMPTY = 'EMPTY'; // Không tồn tại nôị dung
+    const CODE_NOT_UPDATE = 'NOT_UPDATE'; // File chưa update
+
+    const CODE_ACCEPT = 'ACCEPT'; // Hoạt động
 
     static function getNameDimension($height, $width)
     {
@@ -736,5 +741,13 @@ class Common
 
         $color = "hsl($hue, $saturation%, $lightness%)";
         return $color;
+    }
+
+    public function crawlData($url, $path)
+    {
+        $crawler = GoutteFacade::request('GET', $url);
+        return $crawler->filter($path)->each(function ($node) {
+            return $node->text();
+        });
     }
 }

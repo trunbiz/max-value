@@ -27,6 +27,7 @@ class Website extends Model implements Auditable
         'url',
         'category_website_id',
         'description',
+        'ads_status',
         'status',
         'api_site_id',
         'publisher_report_impression',
