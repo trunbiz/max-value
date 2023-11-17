@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="google-site-verification" content="qnS8f1XIvnXPF-cd_GzUDuAxT0SxnpSrvzi_h6EO9v8" />
     <base href="{{asset('assets/publisher')}}/"/>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -13,6 +14,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
     <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
     <title>maxvalue.media - register referral</title>
 
