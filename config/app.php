@@ -183,7 +183,6 @@ return [
         OwenIt\Auditing\AuditingServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-
         \Weidner\Goutte\GoutteServiceProvider::class
     ],
 
