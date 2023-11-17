@@ -319,7 +319,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $params = [
             'name' => $request->name == '' ? $request->email : $request->name,
             'email' => $request->email,
-            'idrole' => $request->idcloudrole == 3 ? 3 : 4,
+            'idrole' => 4,
             'is_active' => $request->user_status_id == 2 ? 0 : 1,
         ];
 
