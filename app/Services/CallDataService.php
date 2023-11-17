@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Website;
 use App\Models\ZoneModel;
 use App\Traits\ClientRequest;
+use Illuminate\Support\Facades\Log;
 use Weidner\Goutte\GoutteFacade;
 
 class CallDataService
@@ -187,6 +188,7 @@ class CallDataService
 
     public function runCheckCodeSite()
     {
+        Log::info('job check site run');
         $adsTxt = Setting::find(1)->ads_txt;
 
         // Get all site
