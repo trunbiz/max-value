@@ -13,6 +13,7 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
     <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
     <meta property="og:url" content="{{env('APP_URL')}}"/>
     <meta property="og:type" content="website"/>

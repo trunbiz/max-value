@@ -35,6 +35,8 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
     <!-- Flag icon-->
     <link rel="stylesheet" type="text/css" href="../administrator/css/vendors/flag-icon.css">
+    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/sweetalert2.css')}}">
 
