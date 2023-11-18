@@ -99,11 +99,11 @@
                 <label for="geo" class="form-label">Top geo</label>
                 <input type="text" name="geo" class="form-control" placeholder="US, UK, ..." value="">
             </div>
-{{--            <div class="mb-3">--}}
-{{--                <label for="file_report" class="">File Report</label>--}}
-{{--                <input type="file" class="form-control file_report" name="file_report">--}}
-{{--                <div class="form-text">Please tell us about your site's charts and reports.</div>--}}
-{{--            </div>--}}
+            <div class="mb-3">
+                <label for="file_report" class="">File Report</label>
+                <input type="file" class="form-control file_report" name="file_report">
+                <div class="form-text">Please tell us about your site's charts and reports.</div>
+            </div>
 
             <div class="mb-4">
                 <small>By clicking <strong>Create Account</strong> below, you agree to our terms of service and privacy

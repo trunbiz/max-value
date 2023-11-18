@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Mews\Captcha\Facades\Captcha;
@@ -133,6 +134,12 @@ class RegisterController extends Controller
                     $dataCreate['url'] = $data['url'];
                     $dataCreate['impression'] = $data['impression'] ?? null;
                     $dataCreate['geo'] = $data['geo'] ?? null;
+                    $dataCreate['file_report'] = null;
+
+                    // Save file reports
+                    if(request()->hasFile('file_report')){
+                        $dataCreate['file_report'] = Storage::putFile('files', request()->file('file_report'));
+                    }
                     $resultSite = $this->siteService->storeSite($dataCreate);
                     if (!$resultSite['status'])
                     {
