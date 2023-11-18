@@ -46,7 +46,7 @@
         <p class="card-text">It's free to signup and only takes a minute.</p>
     </div><!-- card-header -->
     <div class="card-body">
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
             @csrf
             @error('email')
             <div class="alert alert-danger" role="alert">
