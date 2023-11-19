@@ -577,6 +577,13 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
             'as' => 'user.ajax.reports.list',
             'uses' => 'App\Http\Controllers\User\ReportController@apiListReport',
         ]);
+
+        Route::group(['prefix' => 'zones'], function (){
+            Route::post('/store', [
+                'as' => 'user.ajax.zone.store',
+                'uses' => 'App\Http\Controllers\User\ZoneController@store',
+            ]);
+        });
     });
 
     Route::get('faqs', function (){
