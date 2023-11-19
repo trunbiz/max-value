@@ -63,7 +63,7 @@
 
     <div class="row" style="padding: 15px; text-align: right">
         <nav class="col-sm-12">
-            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#create-site">
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#create-site" onclick="clearSlider()">
                 <i class="ri-add-circle-fill"></i> Add website</button>
         </nav>
     </div>
@@ -319,6 +319,13 @@
             });
         });
 
+        function clearSlider()
+        {
+            // Quay lại slide đầu tiên
+            var carousel = new bootstrap.Carousel(document.getElementById('registerCarousel'));
+            carousel.to(0);
+        }
+
         //get code
         function getCode(id) {
             var $this = $('#getCode');
@@ -362,6 +369,8 @@
 
         //addSite
         function addSite() {
+
+            $(".alert-message").empty();
             var $this = $('#create-website');
             if ($this.find('select[name="idcategory"]').val() == '') {
                 swal("Erorr!", 'Please choose a option', "error");
@@ -415,6 +424,7 @@
 
         function addZones()
         {
+            $(".alert-message").empty();
             var $this = $('#create-zone');
             var formZoneData = new FormData();
             formZoneData.append('adSiteId', $this.find('input[name="adSiteId"]').val());
@@ -423,7 +433,6 @@
                 formZoneData.append('list_zone_dimensions[]', $(this).val());
             });
             formZoneData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-            $('#registerCarousel').carousel('next')
             var $loading = $('#loading');
             $loading.modal('show');
             $.ajax({
@@ -435,15 +444,14 @@
                 success: function (response) {
                     if (response.success == true) {
                         $(".zone-code").html(response.data.html)
+                        $('#registerCarousel').carousel('next')
                     } else {
-                        $('#registerCarousel').carousel('prev')
                         $(".alert-message").append('<div class="alert alert-danger" role="alert">' + response.message + '</div>')
                     }
                     $loading.modal('hide');
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     $loading.modal('hide');
-                    $('#registerCarousel').carousel('prev')
                     alert(XMLHttpRequest.responseText);
                 }
             });
