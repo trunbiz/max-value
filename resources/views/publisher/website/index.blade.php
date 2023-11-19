@@ -75,6 +75,8 @@
                 <th scope="col">Website</th>
                 <th scope="col">Category</th>
                 <th scope="col">Status</th>
+                <th scope="col">Ads.txt</th>
+                <th scope="col" class="col-2">Options</th>
             </tr>
             </thead>
             <tbody>
@@ -93,9 +95,21 @@
                             <span class="badge bg-danger">Rejected</span>
                         @endif
                     </td>
+                    <td>
+                        @if($item->ads_status == \App\Models\Website::CODE_EMPTY)
+                            <span class="badge bg-danger">Empty</span>
+                        @elseif($item->ads_status == \App\Models\Website::CODE_NOT_UPDATE)
+                            <span class="badge bg-warning">Not Update</span>
+                        @elseif($item->ads_status == \App\Models\Website::CODE_ACCEPT)
+                            <span class="badge bg-success">Verify</span>
+                        @endif
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-primary" onclick="addZone({{$item->api_site_id}})">add zone</button>
+                    </td>
                 </tr>
                 <tr class="zone-info collapse" id="collapseExample">
-                    <td colspan="4">
+                    <td colspan="6">
                         <div class="row g-2 align-items-center">
                             @foreach($item->zones as $zone)
                                 <div class="col-sm-6 col-md-4 col-xl-3">
@@ -106,7 +120,9 @@
                                                     {{$zone->name}}
                                                 </div>
                                                 <div class="col-md-4 float-right" style="text-align: right">
-                                                    @if($zone->status == \App\Models\ZoneModel::STATUS_PENDING)
+                                                    @if($zone->status == \App\Models\ZoneModel::STATUS_PENDING && $zone->display_status == \App\Models\ZoneModel::STATUS_SHOW)
+                                                        <span class="badge bg-info">Verify</span>
+                                                    @elseif($zone->status == \App\Models\ZoneModel::STATUS_PENDING)
                                                         <span class="badge bg-warning">Pending</span>
                                                     @elseif($zone->status == \App\Models\ZoneModel::STATUS_APPROVED)
                                                         <span class="badge bg-success">Approved</span>
@@ -121,10 +137,17 @@
                                         </div>
                                         <div class="card-footer">
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <button type="button" class="btn btn-outline-primary" {{$zone->status == \App\Models\ZoneModel::STATUS_APPROVED ? '' : 'disabled'}}
+                                                <div class="col-md-8 col-8">
+                                                    <button type="button" class="btn btn-outline-primary" {{in_array($zone->status, [\App\Models\ZoneModel::STATUS_APPROVED, \App\Models\ZoneModel::STATUS_PENDING]) ? '' : 'disabled'}}
                                                             onclick=getCode({{$zone->ad_zone_id}})>Get code
                                                     </button>
+                                                </div>
+                                                <div class="col-md-4 col-4">
+                                                    @if($zone->status)
+                                                        <span class="badge bg-success">Active</span>
+                                                    @else
+                                                        <span class="badge bg-warning">Non-active</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -318,6 +341,18 @@
                 $('.impression_format').text(formattedValue);
             });
         });
+
+        function addZone(adSiteId)
+        {
+            $(".adSiteId").val(adSiteId);
+            $(".addZones").removeClass("disabled");
+            var $this = $('#create-site');
+            $this.modal('show');
+
+            // Quay lại slide đầu tiên
+            var carousel = new bootstrap.Carousel(document.getElementById('registerCarousel'));
+            carousel.to(1);
+        }
 
         function clearSlider()
         {

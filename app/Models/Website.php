@@ -50,6 +50,11 @@ class Website extends Model implements Auditable
     const STATUS_VERIFICATION = 3525;
     const STATUS_REJECTED = 3510;
 
+    const CODE_EMPTY = 'EMPTY'; // Không tồn tại nôị dung
+    const CODE_NOT_UPDATE = 'NOT_UPDATE'; // File chưa update
+
+    const CODE_ACCEPT = 'ACCEPT'; // Hoạt động
+
     const CATEGORY = [
         13 => 'Arts & Entertainment',
         33 => 'Automotive',
