@@ -157,7 +157,7 @@
                     <div class="carousel-inner">
 
                         <!-- Slide 1: Form đăng ký -->
-                        <div class="carousel-item" >
+                        <div class="carousel-item active" >
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Create website</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -262,7 +262,7 @@
                             </form>
                         </div>
                         <!-- Slide 2: hướng dẫn config -->
-                        <div class="carousel-item active">
+                        <div class="carousel-item">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">The zones were created successfully. Please follow the steps!</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
