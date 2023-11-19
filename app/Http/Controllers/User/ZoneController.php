@@ -20,6 +20,8 @@ class ZoneController extends Controller
     {
         $request = $request->all();
         $adSiteId = $request['adSiteId'] ?? null;
+
+        dd($request);
         if (empty($adSiteId))
             return returnApi(false, 'site id not empty');
 

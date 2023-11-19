@@ -581,7 +581,7 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
         Route::group(['prefix' => 'zones'], function (){
             Route::post('/store', [
                 'as' => 'user.ajax.zone.store',
-                'uses' => 'App\Http\Controllers\User\AjaxController@createZone',
+                'uses' => 'App\Http\Controllers\User\ZoneController@store',
             ]);
         });
     });

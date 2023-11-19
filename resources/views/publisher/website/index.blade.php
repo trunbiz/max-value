@@ -162,7 +162,7 @@
                                 <h5 class="modal-title" id="exampleModalLabel">Create website</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form action="" autocomplete="off">
+                            <form action="" autocomplete="off" id="create-website">
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="url" class="">URL (<span class="text-danger">*</span>)  </label>
@@ -220,8 +220,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary filter__button" id="submit" onclick="addSite()">Add website
-                                    </button>
+                                    <button type="button" class="btn btn-primary filter__button" id="submit" onclick="addSite()">Add website</button>
                                 </div>
                             </form>
                         </div>
@@ -233,9 +232,9 @@
                                 <h5 class="modal-title" id="exampleModalLabel">Create Zones</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form action="" autocomplete="off">
+                            <form action="" id="create-zone" autocomplete="off">
                                 <div class="modal-body">
-                                    <input class="adSiteId" hidden type="text" value="">
+                                    <input class="adSiteId" hidden type="text" name="adSiteId" value="">
                                     @foreach($groupDimensions as $lable => $listDimensions)
                                         <label class="control-label fw-semibold mb-3 mt-3">{{$lable}}</label>
                                         <div class="row">
@@ -274,22 +273,24 @@
 
                                 <h5>Step 2: Copy the codes to your website.</h5>
                                 <div class="form-text">Please copy the file or download the ads.txt file to the website</div>
-                                <div class="row mt-3">
-                                    <label class="control-label fw-semibold">Bannerq11</label>
-                                    <div class="col-10">
-                                        <textarea class="form-control" disabled rows="3" placeholder="Code ...">aaaaaaaaa</textarea>
+                                <div class="zone-code">
+                                    <div class="row mt-3">
+                                        <label class="control-label fw-semibold">Bannerq11</label>
+                                        <div class="col-10">
+                                            <textarea class="form-control" disabled rows="3" placeholder="Code ...">aaaaaaaaa</textarea>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-primary mt-3">Copy</button>
+                                        </div>
                                     </div>
-                                    <div class="col-2">
-                                        <button type="button" class="btn btn-primary mt-3">Copy</button>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <label class="control-label fw-semibold">Bannerq11</label>
-                                    <div class="col-10">
-                                        <textarea class="form-control" disabled rows="3" placeholder="Code ...">aaaaaaaaa</textarea>
-                                    </div>
-                                    <div class="col-2">
-                                        <button type="button" class="btn btn-primary mt-3">Copy</button>
+                                    <div class="row mt-3">
+                                        <label class="control-label fw-semibold">Bannerq11</label>
+                                        <div class="col-10">
+                                            <textarea class="form-control" disabled rows="3" placeholder="Code ...">aaaaaaaaa</textarea>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-primary mt-3">Copy</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -377,28 +378,14 @@
             })
         }
 
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
         //addSite
-        async function addSite() {
-            // console.log(116);
-            // await sleep(2 * 1000);
-            $('#registerCarousel').carousel('next')
-            // console.log(1112);
-            return ;
-            var $this = $('#create-site');
+        function addSite() {
+            var $this = $('#create-website');
             if ($this.find('select[name="idcategory"]').val() == '') {
                 swal("Erorr!", 'Please choose a option', "error");
             } else if ($this.find('input[name="url"]').val() == '') {
                 swal("Erorr!", 'Url is required', "error");
             } else {
-                // var $createSite = $('#create-site').modal('hide');
-                // $createSite.modal('hide');
-                // var $loading = $('#loading');
-                // $loading.modal('show');
-
                 let url = $this.find('input[name="url"]').val();
                 if (!url.includes("http")) {
                     url = "https://" + url;
@@ -425,9 +412,10 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
+                        console.log(222, response);
                         if (response.status == true) {
-                            console.log(222, response);
-                            $(".adSiteId").val(response.api_site_id)
+                            $(".adSiteId").val(response.data.api_site_id);
+                            console.log(123, $(".adSiteId").val());
                             removeCookie('newUser')
                             // $(".alert-message").append('<div class="alert alert-success" role="alert">' + response.message + '</div>')
                         } else {
@@ -443,25 +431,31 @@
             }
 
         }
+
         function addZones()
         {
-            $('#registerCarousel').carousel('next')
-            return;
-            var formZoneData = new FormData;
-            formData.append('idcategory', $this.find('select[name="idcategory"]').val());
+            var $this = $('#create-zone');
+            var formZoneData = new FormData();
+            formZoneData.append('adSiteId', $this.find('input[name="adSiteId"]').val());
 
+            $this.find('input[name="list_zone_dimensions[]"]:checked').each(function() {
+                formZoneData.append('list_zone_dimensions[]', $(this).val());
+            });
+            formZoneData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+            console.log($this.find('input[name="adSiteId"]').val(), $this.find('input[name="list_zone_dimensions[]"]').val())
+            console.log(22)
+            console.log(11, formZoneData)
             $('#registerCarousel').carousel('next')
             $.ajax({
-                url: "{{ route('user.websites.store') }}",
+                url: "{{ route('user.ajax.zone.store') }}",
                 type: "POST",
-                data: formData,
+                data: formZoneData,
                 processData: false,
                 contentType: false,
                 success: function (response) {
+                    console.log(222, response);
                     if (response.status == true) {
-                        console.log(222, response);
-                        $(".adSiteId").val(response.api_site_id)
-                        removeCookie('newUser')
                         // $(".alert-message").append('<div class="alert alert-success" role="alert">' + response.message + '</div>')
                     } else {
                         $('#registerCarousel').carousel('prev')
