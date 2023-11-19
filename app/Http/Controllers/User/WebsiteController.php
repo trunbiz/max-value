@@ -129,7 +129,7 @@ class WebsiteController extends Controller
             // Lưu dữ lieu vao database
             $infoWebsite = Website::create($dataInfo);
 
-            // Sau khi user tạo 1 siet mới thì bắn mail về cho sale director và Admin
+            // Sau khi user tạo 1 site mới thì bắn mail về cho sale director và Admin
             $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
             foreach ($userAdminAndSale as $adminSale)
             {

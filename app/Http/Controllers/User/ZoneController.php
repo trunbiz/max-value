@@ -18,14 +18,37 @@ class ZoneController extends Controller
 
     public function store(Request $request)
     {
+        $dataResult = [];
         $request = $request->all();
         $adSiteId = $request['adSiteId'] ?? null;
+        $listZoneDimensions = $request['list_zone_dimensions'] ?? null;
 
-        dd($request);
         if (empty($adSiteId))
             return returnApi(false, 'site id not empty');
 
-        $data = $this->zoneService->storeZone($adSiteId, $request);
-        return returnApi(true, 'created zone', $data);
+        if (empty($listZoneDimensions))
+            return returnApi(false, 'list_zone_dimensions not empty');
+
+        $data = [];
+        // Create list zones
+        foreach ($listZoneDimensions as $item)
+        {
+            $params = [
+                'idDimension' => $item
+            ];
+
+            $zoneInfo = $this->zoneService->storeZone($adSiteId, $params);
+            if ($zoneInfo['success'])
+            {
+                $data[] = [
+                    'id' => $zoneInfo['data']->id,
+                    'name' => $zoneInfo['data']->name,
+                    'code' => $zoneInfo['zoneCode']
+                ];
+            }
+        }
+
+        $dataResult['html'] = view('publisher.common.zoneCode', ['zoneCode'=>$data])->render();
+        return returnApi(true, 'created zone', $dataResult);
     }
 }

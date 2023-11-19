@@ -54,8 +54,10 @@ class ZoneModel extends Model
     const REVENUE_SHARE = 2;
 
     const ID_ZONE_FORMAT = [
-      6 => 'Banner'
+      self::FORMAT_BANNER => 'Banner'
     ];
+
+    const FORMAT_BANNER = 6;
 
     const PENDING = 7010;
 

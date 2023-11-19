@@ -241,7 +241,7 @@
                                             @foreach($listDimensions as $key => $dimensions)
                                                 <div class="col-3">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="{{$dimensions['id']}}" name="list_zone_dimensions[]">
+                                                        <input class="form-check-input" type="checkbox" value="{{$key}}" name="list_zone_dimensions[]">
                                                         <label class="form-check-label" for="flexCheckDefault">
                                                             {{$dimensions['name']}}
                                                         </label>
@@ -255,12 +255,12 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary filter__button" id="submit" onclick="addZones()">Add zones
+                                    <button type="button" class="btn btn-primary filter__button disabled addZones" id="submit" onclick="addZones()">Add zones
                                     </button>
                                 </div>
                             </form>
                         </div>
-                        <!-- Slide 2: hướng dẫn config -->
+                        <!-- Slide 3: hướng dẫn config -->
                         <div class="carousel-item">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">The zones were created successfully. Please follow the steps!</h5>
@@ -274,24 +274,6 @@
                                 <h5>Step 2: Copy the codes to your website.</h5>
                                 <div class="form-text">Please copy the file or download the ads.txt file to the website</div>
                                 <div class="zone-code">
-                                    <div class="row mt-3">
-                                        <label class="control-label fw-semibold">Bannerq11</label>
-                                        <div class="col-10">
-                                            <textarea class="form-control" disabled rows="3" placeholder="Code ...">aaaaaaaaa</textarea>
-                                        </div>
-                                        <div class="col-2">
-                                            <button type="button" class="btn btn-primary mt-3">Copy</button>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <label class="control-label fw-semibold">Bannerq11</label>
-                                        <div class="col-10">
-                                            <textarea class="form-control" disabled rows="3" placeholder="Code ...">aaaaaaaaa</textarea>
-                                        </div>
-                                        <div class="col-2">
-                                            <button type="button" class="btn btn-primary mt-3">Copy</button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -412,11 +394,10 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        console.log(222, response);
                         if (response.status == true) {
                             $(".adSiteId").val(response.data.api_site_id);
-                            console.log(123, $(".adSiteId").val());
                             removeCookie('newUser')
+                            $(".addZones").removeClass("disabled");
                             // $(".alert-message").append('<div class="alert alert-success" role="alert">' + response.message + '</div>')
                         } else {
                             $('#registerCarousel').carousel('prev')
@@ -442,11 +423,9 @@
                 formZoneData.append('list_zone_dimensions[]', $(this).val());
             });
             formZoneData.append('_token', $('meta[name="csrf-token"]').attr('content'));
-
-            console.log($this.find('input[name="adSiteId"]').val(), $this.find('input[name="list_zone_dimensions[]"]').val())
-            console.log(22)
-            console.log(11, formZoneData)
             $('#registerCarousel').carousel('next')
+            var $loading = $('#loading');
+            $loading.modal('show');
             $.ajax({
                 url: "{{ route('user.ajax.zone.store') }}",
                 type: "POST",
@@ -454,15 +433,16 @@
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                    console.log(222, response);
-                    if (response.status == true) {
-                        // $(".alert-message").append('<div class="alert alert-success" role="alert">' + response.message + '</div>')
+                    if (response.success == true) {
+                        $(".zone-code").html(response.data.html)
                     } else {
                         $('#registerCarousel').carousel('prev')
                         $(".alert-message").append('<div class="alert alert-danger" role="alert">' + response.message + '</div>')
                     }
+                    $loading.modal('hide');
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $loading.modal('hide');
                     $('#registerCarousel').carousel('prev')
                     alert(XMLHttpRequest.responseText);
                 }
