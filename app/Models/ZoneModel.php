@@ -47,6 +47,12 @@ class ZoneModel extends Model
     const STATUS_HIDE = 'HIDE';
     const STATUS_SHOW = 'SHOW';
 
+    const ZONE_DIMENSION_CUSTOM = 666;
+
+    const EXACT_MATCH = 1;
+
+    const REVENUE_SHARE = 2;
+
     const ID_ZONE_FORMAT = [
       6 => 'Banner'
     ];

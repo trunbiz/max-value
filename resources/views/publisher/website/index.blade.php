@@ -64,7 +64,7 @@
     <div class="row" style="padding: 15px; text-align: right">
         <nav class="col-sm-12">
             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#create-site">
-                <i class="ri-add-circle-fill"></i> Add</button>
+                <i class="ri-add-circle-fill"></i> Add website</button>
         </nav>
     </div>
 
@@ -150,72 +150,156 @@
     <div class="modal fade modal-lg" id="create-site" tabindex="-1" aria-labelledby="create-site" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create Site</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="alert-message">
                 </div>
-                <form action="" autocomplete="off">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="url" class="">URL (<span class="text-danger">*</span>)  </label>
-                            <input type="text" name="url" class="form-control @error("url") is-invalid @enderror"
-                                   required>
+                <!-- Carousel -->
+                <div id="registerCarousel" class="carousel slide" data-bs-interval="false">
+                    <div class="carousel-inner">
+
+                        <!-- Slide 1: Form đăng ký -->
+                        <div class="carousel-item" >
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Create website</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="" autocomplete="off">
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="url" class="">URL (<span class="text-danger">*</span>)  </label>
+                                        <input type="text" name="url" class="form-control @error("url") is-invalid @enderror"
+                                               required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="category" class="">Category (<span class="text-danger">*</span>)</label>
+                                        <select
+                                            class="form-control choose_value select2_init @error("idcategory") is-invalid @enderror"
+                                            required name="idcategory">
+                                            <option value="">Choose</option>
+                                            <option value="13">Arts & Entertainment</option>
+                                            <option value="33">Automotive</option>
+                                            <option value="34">Business</option>
+                                            <option value="35">Careers</option>
+                                            <option value="36">Education</option>
+                                            <option value="37">Family & Parenting</option>
+                                            <option value="39">Food & Drink</option>
+                                            <option value="28">Health & fitness</option>
+                                            <option value="10">Hobbies & Interests</option>
+                                            <option value="41">Home & Garden</option>
+                                            <option value="42">Law, Government, & Politics</option>
+                                            <option value="11">News & Media</option>
+                                            <option value="7">Personal Finance</option>
+                                            <option value="47">Pets</option>
+                                            <option value="52">Real Estate</option>
+                                            <option value="46">Science</option>
+                                            <option value="23">Shopping</option>
+                                            <option value="8">Society</option>
+                                            <option value="5">Sports</option>
+                                            <option value="49">Style & Fashion</option>
+                                            <option value="6">Technology & Computing</option>
+                                            <option value="51">Travel</option>
+                                            <option value="31">Uncategorized</option>
+                                        </select>
+                                    </div>
+                                    <div class="alert alert-primary" role="alert">
+                                        For a faster approval process, please provide the following additional information.
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="impression" class="">Monthly impression/pageView</label>
+                                        <input type="number" name="impression" class="form-control impression" placeholder="1000000">
+                                        <div class="form-text" style="margin-left: 10px">Impression: <span class="impression_format">1.000.000</span></div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="geo" class="">Top geo</label>
+                                        <input type="text" name="geo" class="form-control geo" placeholder="US, UK, ..." value="">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="file_report" class="">Reports (GA, cloudflare reports, ...)</label>
+                                        <input type="file" class="form-control file_report" name="file_report">
+                                        <div class="form-text">Please tell us about your site's charts and reports.</div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary filter__button" id="submit" onclick="addSite()">Add website
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="mb-3">
-                            <label for="category" class="">Category (<span class="text-danger">*</span>)</label>
-                            <select
-                                class="form-control choose_value select2_init @error("idcategory") is-invalid @enderror"
-                                required name="idcategory">
-                                <option value="">Choose</option>
-                                <option value="13">Arts & Entertainment</option>
-                                <option value="33">Automotive</option>
-                                <option value="34">Business</option>
-                                <option value="35">Careers</option>
-                                <option value="36">Education</option>
-                                <option value="37">Family & Parenting</option>
-                                <option value="39">Food & Drink</option>
-                                <option value="28">Health & fitness</option>
-                                <option value="10">Hobbies & Interests</option>
-                                <option value="41">Home & Garden</option>
-                                <option value="42">Law, Government, & Politics</option>
-                                <option value="11">News & Media</option>
-                                <option value="7">Personal Finance</option>
-                                <option value="47">Pets</option>
-                                <option value="52">Real Estate</option>
-                                <option value="46">Science</option>
-                                <option value="23">Shopping</option>
-                                <option value="8">Society</option>
-                                <option value="5">Sports</option>
-                                <option value="49">Style & Fashion</option>
-                                <option value="6">Technology & Computing</option>
-                                <option value="51">Travel</option>
-                                <option value="31">Uncategorized</option>
-                            </select>
+
+                        <!-- Slide 2: Tạo zones -->
+                        <div class="carousel-item">
+                            <!-- Nội dung slide tạo zones -->
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Create Zones</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="" autocomplete="off">
+                                <div class="modal-body">
+                                    <input class="adSiteId" hidden type="text" value="">
+                                    @foreach($groupDimensions as $lable => $listDimensions)
+                                        <label class="control-label fw-semibold mb-3 mt-3">{{$lable}}</label>
+                                        <div class="row">
+                                            @foreach($listDimensions as $key => $dimensions)
+                                                <div class="col-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="{{$dimensions['id']}}" name="list_zone_dimensions[]">
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            {{$dimensions['name']}}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+{{--                                    <p class="mt-10-f"><a class="control link-opacity-100" target="_blank" href="{{route('publisher.pages.faqs')}}">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>--}}
+                                    <p class="mt-4"><a class="control link-opacity-100" target="_blank" href="">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary filter__button" id="submit" onclick="addZones()">Add zones
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="alert alert-primary" role="alert">
-                            For a faster approval process, please provide the following additional information.
-                        </div>
-                        <div class="mb-3">
-                            <label for="impression" class="">Monthly impression/pageview</label>
-                            <input type="number" name="impression" class="form-control impression" placeholder="1.000.000">
-                        </div>
-                        <div class="mb-3">
-                            <label for="geo" class="">Top geo</label>
-                            <input type="text" name="geo" class="form-control geo" placeholder="US, UK, ..." value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="file_report" class="">Reports (GA, cloudflare reports, ...)</label>
-                            <input type="file" class="form-control file_report" name="file_report">
-                            <div class="form-text">Please tell us about your site's charts and reports.</div>
+                        <!-- Slide 2: hướng dẫn config -->
+                        <div class="carousel-item active">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">The zones were created successfully. Please follow the steps!</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5>Step 1: Add the ads.txt file to your website.</h5>
+                                <div class="form-text">Please copy the file or download the ads.txt file to the website</div>
+                                <p class=""><a class="control link-opacity-100" target="_blank" href="">Link download</a></p>
+
+                                <h5>Step 2: Copy the codes to your website.</h5>
+                                <div class="form-text">Please copy the file or download the ads.txt file to the website</div>
+                                <div class="row mt-3">
+                                    <label class="control-label fw-semibold">Bannerq11</label>
+                                    <div class="col-10">
+                                        <textarea class="form-control" disabled rows="3" placeholder="Code ...">aaaaaaaaa</textarea>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-primary mt-3">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <label class="control-label fw-semibold">Bannerq11</label>
+                                    <div class="col-10">
+                                        <textarea class="form-control" disabled rows="3" placeholder="Code ...">aaaaaaaaa</textarea>
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="button" class="btn btn-primary mt-3">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary filter__button" id="submit" onclick="addSite()">Add
-                            now
-                        </button>
-                    </div>
-                </form>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -243,6 +327,13 @@
             if (getCookie('newUser')) {
                 $('#create-site').modal('show');
             }
+
+            $('.impression').on('input', function() {
+                var input = $(this);
+                var value = input.val();
+                var formattedValue = value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                $('.impression_format').text(formattedValue);
+            });
         });
 
         //get code
@@ -286,18 +377,27 @@
             })
         }
 
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
         //addSite
-        function addSite() {
+        async function addSite() {
+            // console.log(116);
+            // await sleep(2 * 1000);
+            $('#registerCarousel').carousel('next')
+            // console.log(1112);
+            return ;
             var $this = $('#create-site');
             if ($this.find('select[name="idcategory"]').val() == '') {
                 swal("Erorr!", 'Please choose a option', "error");
             } else if ($this.find('input[name="url"]').val() == '') {
                 swal("Erorr!", 'Url is required', "error");
             } else {
-                var $createSite = $('#create-site').modal('hide');
-                $createSite.modal('hide');
-                var $loading = $('#loading');
-                $loading.modal('show');
+                // var $createSite = $('#create-site').modal('hide');
+                // $createSite.modal('hide');
+                // var $loading = $('#loading');
+                // $loading.modal('show');
 
                 let url = $this.find('input[name="url"]').val();
                 if (!url.includes("http")) {
@@ -316,28 +416,63 @@
                 formData.append('geo', $( ".geo" ).val());
                 formData.append('file_report', $( ".file_report" )[0].files[0]); //
                 formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+
+                $('#registerCarousel').carousel('next')
                 $.ajax({
                     url: "{{ route('user.websites.store') }}",
                     type: "POST",
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response) {
+                    success: function (response) {
                         if (response.status == true) {
+                            console.log(222, response);
+                            $(".adSiteId").val(response.api_site_id)
                             removeCookie('newUser')
-                            window.location.reload();
-                            $this.modal('hide');
-                            swal("Success!", 'Add successful', "success");
-                            $('.accordion').prepend(response.html);
-                            $this.find('input[name="url"]').val('');
-                            $this.find('select[name="idcategory"]').val('');
+                            // $(".alert-message").append('<div class="alert alert-success" role="alert">' + response.message + '</div>')
                         } else {
-                            swal("Error!", response.message, "error");
+                            $('#registerCarousel').carousel('prev')
+                            $(".alert-message").append('<div class="alert alert-danger" role="alert">' + response.message + '</div>')
                         }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        $('#registerCarousel').carousel('prev')
+                        alert(XMLHttpRequest.responseText);
                     }
                 });
             }
 
+        }
+        function addZones()
+        {
+            $('#registerCarousel').carousel('next')
+            return;
+            var formZoneData = new FormData;
+            formData.append('idcategory', $this.find('select[name="idcategory"]').val());
+
+            $('#registerCarousel').carousel('next')
+            $.ajax({
+                url: "{{ route('user.websites.store') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.status == true) {
+                        console.log(222, response);
+                        $(".adSiteId").val(response.api_site_id)
+                        removeCookie('newUser')
+                        // $(".alert-message").append('<div class="alert alert-success" role="alert">' + response.message + '</div>')
+                    } else {
+                        $('#registerCarousel').carousel('prev')
+                        $(".alert-message").append('<div class="alert alert-danger" role="alert">' + response.message + '</div>')
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $('#registerCarousel').carousel('prev')
+                    alert(XMLHttpRequest.responseText);
+                }
+            });
         }
 
         // Ẩn modal
