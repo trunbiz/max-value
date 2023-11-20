@@ -211,4 +211,11 @@ class WebsiteController extends Controller
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
     }
+
+    public function listWebsiteInPage(Request $request)
+    {
+        $data['items'] = $this->siteService->listWebsiteByUser(Auth::id());
+        $dataResult['html'] = view('publisher.common.listWebsite', $data)->render();
+        return returnApi(true, 'Get list success', $dataResult);
+    }
 }
