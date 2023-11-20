@@ -292,10 +292,10 @@
                             <div class="modal-body">
                                 <h5>Step 1: Add the ads.txt file to your website.</h5>
                                 <div class="form-text">Please copy the file or download the ads.txt file to the website</div>
-                                <p class=""><a class="control link-opacity-100" target="_blank" href="">Link download</a></p>
+                                <p class=""><a class="control link-opacity-100" target="_blank" href="{{asset('/ads.txt')}}">Link download</a></p>
 
                                 <h5>Step 2: Copy the codes to your website.</h5>
-                                <div class="form-text">Please copy the file or download the ads.txt file to the website</div>
+                                <div class="form-text">Please copy the code to the zone in websites</div>
                                 <div class="zone-code">
                                 </div>
                             </div>
