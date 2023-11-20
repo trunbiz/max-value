@@ -584,6 +584,13 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
                 'uses' => 'App\Http\Controllers\User\ZoneController@store',
             ]);
         });
+
+        Route::group(['prefix' => 'websites'], function (){
+            Route::get('/', [
+                'as' => 'user.ajax.websites.listWebsiteInPage',
+                'uses' => 'App\Http\Controllers\User\WebsiteController@listWebsiteInPage',
+            ]);
+        });
     });
 
 //    Route::get('faqs', function (){

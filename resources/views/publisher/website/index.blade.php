@@ -79,7 +79,7 @@
                 <th scope="col" class="col-2">Options</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="table-list-website">
             @foreach($items as $item)
                 <tr class="website-info">
                     <td>{{$item->url}}</td>
@@ -363,12 +363,15 @@
 
         //get code
         function getCode(id) {
+            var $loading = $('#loading');
+            $loading.modal('show');
             var $this = $('#getCode');
             $this.find('form').attr('data-id', id);
             callAjax(
                 "GET",
                 "{{ route('user.ajax.getcode') }}" + "?id=" + id, {},
                 (response) => {
+                    $loading.modal('hide');
                     let html = '';
                     $this.find('.getcode__info--name input').val(response.name);
                     $this.html(response.html);
@@ -402,9 +405,29 @@
             })
         }
 
+        function getAllSite()
+        {
+            $.ajax({
+                url: "{{ route('user.ajax.websites.listWebsiteInPage') }}",
+                type: "GET",
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.success == true) {
+                        $(".table-list-website").empty();
+                        $(".table-list-website").html(response.data.html);
+                    } else {
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $('#registerCarousel').carousel('prev')
+                    alert(XMLHttpRequest.responseText);
+                }
+            });
+        }
+
         //addSite
         function addSite() {
-
             $(".alert-message").empty();
             var $this = $('#create-website');
             if ($this.find('select[name="idcategory"]').val() == '') {
@@ -442,6 +465,7 @@
                             $(".adSiteId").val(response.data.api_site_id);
                             removeCookie('newUser')
                             $(".addZones").removeClass("disabled");
+                            getAllSite();
                             // $(".alert-message").append('<div class="alert alert-success" role="alert">' + response.message + '</div>')
                         } else {
                             $('#registerCarousel').carousel('prev')
@@ -480,6 +504,7 @@
                     if (response.success == true) {
                         $(".zone-code").html(response.data.html)
                         $('#registerCarousel').carousel('next')
+                        getAllSite();
                     } else {
                         $(".alert-message").append('<div class="alert alert-danger" role="alert">' + response.message + '</div>')
                     }
