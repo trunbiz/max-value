@@ -143,7 +143,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="col-md-4 col-4" style="text-align: right">
-                                                    @if($zone->status == \App\Services\Common::ACTIVE)
+                                                    @if($zone->active == \App\Services\Common::ACTIVE)
                                                         <span class="badge bg-success">Active</span>
                                                     @else
                                                         <span class="badge bg-warning">Non-active</span>
