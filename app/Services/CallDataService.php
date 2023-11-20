@@ -251,7 +251,6 @@ class CallDataService
                 return !empty($value);
             });
 
-            dd($arrayAdsTxt);
             $issMaxvalueStartTxt = false;
             $issMaxvalueEndTxt = false;
             foreach ($arrayAdsTxt as $itemAds)
