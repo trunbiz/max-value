@@ -54,23 +54,24 @@ class ZoneController extends Controller
         $item = Helper::callPostHTTP("https://api.adsrv.net/v2/zone?idsite=" . $request->idsite, $params);
 
         ZoneModel::create([
-           'ad_site_id' =>$request->idsite,
-           'ad_zone_id' => $item['id'],
-           'name' => $name,
-           'id_zone_format' => $request->idzoneformat,
-           'id_dimension_method' => $request->idDimensionMethod,
-           'dimensions' => json_encode([
-               'paramsIdDimension' =>$keyIdDimension ?? null,
-               'iddimension' => 666,
-               'width' => (string)$dimensionInfo['size'][1],
-               'height' => (string)$dimensionInfo['size'][0],
-           ]),
-           'active' => $item['is_active'] ? 1 : 0,
-           'status' => $item['status']['id'],
-           'extra_params' => json_encode($params),
-           'extra_response' => json_encode($item),
-           'created_by' => auth()->user()->id ?? '0',
-           'updated_by' => auth()->user()->id ?? '0',
+            'ad_site_id' => $request->idsite,
+            'ad_zone_id' => $item['id'],
+            'name' => $name,
+            'id_zone_format' => $request->idzoneformat,
+            'id_dimension_method' => $request->idDimensionMethod,
+            'dimensions' => json_encode([
+                'paramsIdDimension' => $keyIdDimension ?? null,
+                'iddimension' => 666,
+                'width' => (string)$dimensionInfo['size'][1],
+                'height' => (string)$dimensionInfo['size'][0],
+            ]),
+            'active' => $item['is_active'] ? 1 : 0,
+            'status' => $item['status']['id'],
+            'ad_code' => json_encode($item['code']),
+            'extra_params' => json_encode($params),
+            'extra_response' => json_encode($item),
+            'created_by' => auth()->user()->id ?? '0',
+            'updated_by' => auth()->user()->id ?? '0',
         ]);
 
         if (Helper::isErrorAPIAdserver($item)) {
