@@ -8,7 +8,9 @@ use App\Models\User;
 use App\Models\Website;
 use App\Models\ZoneModel;
 use App\Traits\ClientRequest;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\DomCrawler\Crawler;
 use Weidner\Goutte\GoutteFacade;
 
 class CallDataService
@@ -190,7 +192,7 @@ class CallDataService
     {
         $idLog = rand(10,100);
         Log::info('job run start ' . $idLog);
-        $adsTxt = Setting::find(1)->ads_txt;
+        $adsTxt = File::get(public_path('ads.txt'));
 
         // Get all site
         $listWebsite = Website::where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->get();
@@ -201,6 +203,7 @@ class CallDataService
             $url = 'https://riseearning.com';
             // check ads
             $this->checkAdsSite($url . '/ads.txt', $adsTxt, $status);
+
             $siteItem->ads_status = $status ?? null;
             $siteItem->save();
 
