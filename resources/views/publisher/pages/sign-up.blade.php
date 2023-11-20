@@ -100,7 +100,7 @@
                 <input type="text" name="geo" class="form-control" placeholder="US, UK, ..." value="">
             </div>
             <div class="mb-3">
-                <label for="file_report" class="">File Report</label>
+                <label for="file_report" class="form-label">File Report</label>
                 <input type="file" class="form-control file_report" name="file_report">
                 <div class="form-text">Please tell us about your site's charts and reports.</div>
             </div>
