@@ -188,7 +188,8 @@ class CallDataService
 
     public function runCheckCodeSite()
     {
-        Log::info('job run start');
+        $idLog = rand(10,100);
+        Log::info('job run start ' . $idLog);
         $adsTxt = Setting::find(1)->ads_txt;
 
         // Get all site
@@ -223,7 +224,7 @@ class CallDataService
                 $itemZone->save();
             }
         }
-        Log::info('job run end');
+        Log::info('job run end' . $idLog);
     }
 
     public function checkAdsSite($url, $fileAdsTxt, &$status = Common::CODE_EMPTY)
