@@ -19,7 +19,7 @@
 
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="Normal" role="tabpanel" aria-labelledby="Normal-tab{{$item['id']}}">
+        <div class="tab-pane fade show active" id="Normal-tab{{$item['id']}}" role="tabpanel" aria-labelledby="Normal-tab{{$item['id']}}">
             <div class="row mt-3">
                 <div class="col-12">
                     <textarea class="form-control" disabled rows="8" placeholder="Code ...">{{$item['code'][0]['code']}}</textarea>
