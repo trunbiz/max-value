@@ -200,7 +200,7 @@ class CallDataService
         {
             $url = trim($siteItem->url, '/ ');
 
-            $url = 'https://riseearning.com';
+//            $url = 'https://riseearning.com';
             // check ads
             $this->checkAdsSite($url . '/ads.txt', $adsTxt, $status);
 
@@ -217,7 +217,6 @@ class CallDataService
             {
                 // Normal tag
                 $normalTag = $this->checkCodeZones($url, 'ins', 'data-zone');
-
                 if (in_array($itemZone->ad_zone_id, $normalTag))
                 {
                     $itemZone->display_status = ZoneModel::STATUS_SHOW;
@@ -303,7 +302,11 @@ class CallDataService
     public function checkCodeZones($url, $codeZone, $tag)
     {
         try {
-            $crawler = GoutteFacade::request('GET', $url);
+            $crawler = GoutteFacade::request('GET', $url, [], [], [
+                'HTTP_PRAGMA' => 'no-cache',
+                'HTTP_CACHE_CONTROL' => 'no-cache',
+            ]);
+
             return $crawler->filter($codeZone)->each(function ($node) use ($tag) {
                 return $node->attr($tag);
             });
