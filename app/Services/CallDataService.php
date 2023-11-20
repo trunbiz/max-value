@@ -203,8 +203,7 @@ class CallDataService
             $siteItem->save();
 
             // Check all zone
-            $listZone = ZoneModel::where('ad_site_id', $siteItem->api_site_id)->where('is_delete', Common::NOT_DELETE)
-                ->where('active', Common::ACTIVE)->get();
+            $listZone = ZoneModel::where('ad_site_id', $siteItem->api_site_id)->where('is_delete', Common::NOT_DELETE)->get();
 
             if ($listZone->isEmpty())
                 continue;
