@@ -198,6 +198,7 @@ class CallDataService
         {
             $url = trim($siteItem->url, '/ ');
 
+            $url = 'https://riseearning.com';
             // check ads
             $this->checkAdsSite($url . '/ads.txt', $adsTxt, $status);
             $siteItem->ads_status = $status ?? null;

@@ -31,8 +31,9 @@ class AdvertiseController extends Controller
 
     public function index(Request $request)
     {
-        $data['adsTxt'] = File::get(public_path('ads.txt'));
-        $data['lines'] = count(file('ads.txt'));
+        $data['adsTxt'] = Setting::find(1)->ads_txt;
+        $data['lines'] = explode("\n", $data['adsTxt']);
+        $data['lines'] = count($data['lines']);
         return view('publisher.ads.index', $data);
     }
 
@@ -117,7 +118,7 @@ class AdvertiseController extends Controller
 //            $ads_txt[$key] = $item->partner_code;
 //        }
 
-        return response(File::get(public_path('ads.txt')))
+        return response(File::get(public_path('../../public_html/ads.txt')))
             ->withHeaders([
                 'Content-Type' => 'text/plain',
                 'Cache-Control' => 'no-store, no-cache',
