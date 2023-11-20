@@ -16,11 +16,6 @@
                     data-bs-target="#AMP{{$item['id']}}" type="button" role="tab" aria-controls="AMP"
                     aria-selected="true">{{$item['code'][2]['title']}}</button>
         </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="Prebid-tab{{$item['id']}}" data-bs-toggle="tab"
-                    data-bs-target="#Prebid{{$item['id']}}" type="button" role="tab" aria-controls="Prebid"
-                    aria-selected="true">{{$item['code'][3]['title']}}</button>
-        </li>
 
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -42,13 +37,6 @@
             <div class="row mt-3">
                 <div class="col-12">
                     <textarea class="form-control" disabled rows="8" placeholder="Code ...">{{$item['code'][2]['code']}}</textarea>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade show" id="Prebid{{$item['id']}}" role="tabpanel" aria-labelledby="Prebid-tab{{$item['id']}}">
-            <div class="row mt-3">
-                <div class="col-12">
-                    <textarea class="form-control" disabled rows="8" placeholder="Code ...">{{$item['code'][3]['code']}}</textarea>
                 </div>
             </div>
         </div>
