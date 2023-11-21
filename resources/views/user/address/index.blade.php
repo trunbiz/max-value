@@ -11,7 +11,7 @@
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{env('APP_NAME')}}"/>
     <meta property="og:description" content="{{env('APP_NAME')}}"/>
-    <meta property="og:image" content="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}"/>
+    <meta property="og:image" content="{{asset('images/logo.png')}}"/>
 
 @endsection
 
