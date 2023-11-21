@@ -118,7 +118,7 @@ class AdvertiseController extends Controller
 //            $ads_txt[$key] = $item->partner_code;
 //        }
 
-        return response(File::get(public_path('../../public_html/ads.txt')))
+        return response(File::get(public_path('ads.txt')))
             ->withHeaders([
                 'Content-Type' => 'text/plain',
                 'Cache-Control' => 'no-store, no-cache',
