@@ -51,7 +51,7 @@
                         <div class="accordion-body pt-0">
                             <ol>
                                 <li>Add your website and zone</li>
-                                <li>Update our <a href="{{route('user.advertises.index')}}">ads.txt lines</a> , implement our pending code to your websites</li>
+                                <li>Update our <a target="_blank" href="{{route('user.advertises.index')}}">ads.txt lines</a> , implement our pending code to your websites</li>
                                 <li>Wait 1-2 days for demand approval to start earning.</li>
                             </ol>
                             <p>Important Note: <span class="text-danger">We do need 1- 3 weeks to integrate our demands to optimize your revenue.</span></p>
