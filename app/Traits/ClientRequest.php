@@ -89,10 +89,6 @@ trait ClientRequest
             ];
         }catch (\Exception $e)
         {
-            Log::error('error request' . $e->getMessage() ?? 'Request api error', [
-                'url' => $url,
-                'params' => $params
-            ]);
             return [
                 'success' => false,
                 'message' => $e->getMessage() ?? 'Request api error'

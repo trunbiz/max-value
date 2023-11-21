@@ -8,7 +8,7 @@
     </div>
     <div class="row g-3">
         <div class="col-sm-6">
-            <span style="float: right">{{$lines}} Row</span>
+            <span style="float: right">{{$lines}} Rows</span>
             <textarea class="form-control" id="myInput" disabled rows="24" placeholder="Ads ...">{{$adsTxt}}</textarea>
         </div>
         <div class="col-sm-6" style="font-size: 32px">

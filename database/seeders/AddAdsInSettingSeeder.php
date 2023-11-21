@@ -15,7 +15,7 @@ class AddAdsInSettingSeeder extends Seeder
      */
     public function run()
     {
-        $adsTxt = File::get(public_path('../../public_html/ads.txt'));
+        $adsTxt = File::get(public_path('ads.txt'));
 
         $settingInfo = Setting::find(1);
         $settingInfo->ads_txt = $adsTxt;
