@@ -148,7 +148,7 @@ class RegisterController extends Controller
                 }
 
                 // Sau khi user đăng ký thành công thì bắn mail về cho sale director và Admin
-                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
+                $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->orWhere('email', 'rachel@maxvalue.media')->get();
                 foreach ($userAdminAndSale as $adminSale)
                 {
                     if (!filter_var($adminSale->email, FILTER_VALIDATE_EMAIL)) {
