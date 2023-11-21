@@ -31,9 +31,8 @@ class AdvertiseController extends Controller
 
     public function index(Request $request)
     {
-        $data['adsTxt'] = Setting::find(1)->ads_txt;
-        $data['lines'] = explode("\n", $data['adsTxt']);
-        $data['lines'] = count($data['lines']);
+        $data['adsTxt'] = File::get(public_path('ads.txt'));
+        $data['lines'] = count(file('ads.txt'));
         return view('publisher.ads.index', $data);
     }
 
