@@ -157,7 +157,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
                 <li class="nav-item">
                     <a href="{{route('user.faqs')}}"
                        class="nav-link {{ (request()->is('faqs')) ? 'active' : '' }}"><i class="ri-questionnaire-fill"></i>
-                        <span>Faqs</span></a>
+                        <span>FAQ</span></a>
                 </li>
                 @if(session()->has('hasClonedUser'))
                     <li class="nav-item">
