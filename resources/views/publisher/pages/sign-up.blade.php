@@ -11,15 +11,14 @@
     <meta name="description" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
-    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
-    <link rel="icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="shortcut icon" href="{{asset('images/logo.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{asset('images/logo.png')}}">
 
     <meta property="og:url" content="{{env('APP_URL')}}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{env('APP_URL')}}"/>
     <meta property="og:description" content="{{env('APP_URL')}}"/>
-    <meta property="og:image" content="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}"/>
+    <meta property="og:image" content="{{asset('images/logo.png')}}"/>
 
     <title>Maxvalue.media - register</title>
 
