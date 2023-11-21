@@ -23,7 +23,7 @@
             @endif
         </td>
         <td>
-            <button type="button" class="btn btn-outline-primary" onclick="addZone({{$item->api_site_id}})">add zone</button>
+            <button type="button" class="btn btn-outline-primary" onclick="addZone({{$item->api_site_id}}, '{{$item->ads_status}}')"><i class="ri-add-circle-fill"></i> Add zone</button>
         </td>
     </tr>
     <tr class="zone-info collapse" id="collapseExample">

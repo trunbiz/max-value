@@ -105,7 +105,7 @@
                         @endif
                     </td>
                     <td>
-                        <button type="button" class="btn btn-outline-primary" onclick="addZone({{$item->api_site_id}})">add zone</button>
+                        <button type="button" class="btn btn-outline-primary" onclick="addZone({{$item->api_site_id}}, '{{$item->ads_status}}')"><i class="ri-add-circle-fill"></i> Add zone</button>
                     </td>
                 </tr>
                 <tr class="zone-info collapse" id="collapseExample">
@@ -180,9 +180,9 @@
                     <div class="carousel-inner">
 
                         <!-- Slide 1: Form đăng ký -->
-                        <div class="carousel-item active" >
+                        <div class="carousel-item active">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Create website</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Add website</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="" autocomplete="off" id="create-website">
@@ -252,7 +252,7 @@
                         <div class="carousel-item">
                             <!-- Nội dung slide tạo zones -->
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Create Zones</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Add Zones</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="" id="create-zone" autocomplete="off">
@@ -290,12 +290,10 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <h5>Step 1: Add the ads.txt file to your website.</h5>
-                                <div class="form-text">Please copy the file or download the ads.txt file to the website</div>
-                                <p class=""><a class="control link-opacity-100" target="_blank" href="{{asset('/ads.txt')}}">Link download</a></p>
+                                <h5>Step 1: Add the ads.txt file to your website. <i class="ri-checkbox-circle-line checkAdsTxt text-danger"></i></h5>
+                                <p class="link-ads"><a class="control link-opacity-100" target="_blank" href="{{route('user.advertises.index')}}">Link ads.txt</a></p>
 
                                 <h5>Step 2: Copy the codes to your website.</h5>
-                                <div class="form-text">Please copy the code to the zone in websites</div>
                                 <div class="zone-code">
                                 </div>
                             </div>
@@ -340,14 +338,42 @@
                 var formattedValue = value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
                 $('.impression_format').text(formattedValue);
             });
+
+            // Sự kiện khi checkbox được tích hoặc bỏ tích
+            $('input[name="list_zone_dimensions[]"]').change(function () {
+                // Lấy giá trị của checkbox được thay đổi
+                var checkboxValue = $(this).val();
+
+                // Lấy trạng thái (checked hoặc unchecked) của checkbox
+                var isChecked = $(this).prop('checked');
+
+                // Tìm tất cả các checkbox có cùng giá trị và đặt trạng thái cho chúng
+                $('input[name="list_zone_dimensions[]"][value="' + checkboxValue + '"]').prop('checked', isChecked);
+            });
         });
 
-        function addZone(adSiteId)
+        function addZone(adSiteId, adsStatus)
         {
             $(".adSiteId").val(adSiteId);
             $(".addZones").removeClass("disabled");
             var $this = $('#create-site');
             $this.modal('show');
+
+            $('i.checkAdsTxt').removeClass('text-success');
+            $('i.checkAdsTxt').removeClass('text-warning');
+
+            if(adsStatus !== undefined)
+            {
+                if(adsStatus === 'EMPTY' || adsStatus === 'NOT_UPDATE')
+                {
+                    $('i.checkAdsTxt').addClass('text-warning');
+                }
+                else if(adsStatus === 'ACCEPT')
+                {
+                    $('i.checkAdsTxt').addClass('text-success');
+                    $('.link-ads').addClass('d-none');
+                }
+            }
 
             // Quay lại slide đầu tiên
             var carousel = new bootstrap.Carousel(document.getElementById('registerCarousel'));
