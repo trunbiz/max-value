@@ -57,6 +57,8 @@ class WebsiteController extends Controller
         // Tổng zone
         $data['totalZone'] = $this->zoneService->totalZone(null, $listSiteId);
         $data['totalZonePending'] = $this->zoneService->totalZone(['status' => ZoneModel::PENDING], $listSiteId);
+
+        $data['groupDimensions'] = Common::DIMENSIONS_GROUP;
         return view('publisher.website.index', $data);
     }
 
@@ -125,9 +127,9 @@ class WebsiteController extends Controller
             }
 
             // Lưu dữ lieu vao database
-            Website::create($dataInfo);
+            $infoWebsite = Website::create($dataInfo);
 
-            // Sau khi user tạo 1 siet mới thì bắn mail về cho sale director và Admin
+            // Sau khi user tạo 1 site mới thì bắn mail về cho sale director và Admin
             $userAdminAndSale = User::where('role_id', [1, 4])->where('active', Common::ACTIVE)->get();
             foreach ($userAdminAndSale as $adminSale)
             {
@@ -157,6 +159,8 @@ class WebsiteController extends Controller
             $category_name = $item['category']['iab'].': '.$item['category']['name'];
             return response()->json([
                 'status' => true,
+                'message' => 'create website success',
+                'data' => $infoWebsite,
                 'html' => view('user.websites.add_site', compact('status', 'category_name', 'item'))->render(),
             ]);
         }
@@ -206,5 +210,12 @@ class WebsiteController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ModelExport($this->model, $request), $this->prefixView . '.xlsx');
+    }
+
+    public function listWebsiteInPage(Request $request)
+    {
+        $data['items'] = $this->siteService->listWebsiteByUser(Auth::id());
+        $dataResult['html'] = view('publisher.common.listWebsite', $data)->render();
+        return returnApi(true, 'Get list success', $dataResult);
     }
 }

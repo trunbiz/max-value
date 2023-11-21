@@ -17,7 +17,9 @@ class ZoneModel extends Model
         'id_zone_format',
         'id_dimension_method',
         'dimensions',
+        'ad_code',
         'status',
+        'display_status',
         'active',
         'is_delete',
         'extra_response',
@@ -42,9 +44,20 @@ class ZoneModel extends Model
     const STATUS_APPROVED = 7000;
     const STATUS_REJECTED = 7020;
 
+    const STATUS_HIDE = 'HIDE';
+    const STATUS_SHOW = 'SHOW';
+
+    const ZONE_DIMENSION_CUSTOM = 666;
+
+    const EXACT_MATCH = 1;
+
+    const REVENUE_SHARE = 2;
+
     const ID_ZONE_FORMAT = [
-      6 => 'Banner'
+      self::FORMAT_BANNER => 'Banner'
     ];
+
+    const FORMAT_BANNER = 6;
 
     const PENDING = 7010;
 

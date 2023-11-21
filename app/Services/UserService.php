@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\AssignUserModel;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Website;
 use Carbon\Carbon;
@@ -29,9 +30,17 @@ class UserService
         $users = User::whereNotNull('partner_code')->pluck('partner_code')->toArray();
         $adsTxtContent = implode("\n", $users) . "\n";
         $adsTxtContent = $textStart . $adsTxtContent . $textEnd;
-        $filePath = public_path('../../public_html/ads.txt');
+
+        $settingInfo = Setting::find(1);
+        $settingInfo->ads_txt = $adsTxtContent ?? '';
+        $settingInfo->save();
+
+        $filePath = public_path('ads.txt');
+        $filePath2 = public_path('../../public_html/ads.txt');
 
         file_put_contents($filePath, $adsTxtContent);
+        file_put_contents($filePath2, $adsTxtContent);
+
         Log::info('log ads', ['message' => $adsTxtContent]);
         return true;
     }
