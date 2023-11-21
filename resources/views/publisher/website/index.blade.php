@@ -274,7 +274,7 @@
                                         </div>
                                     @endforeach
 {{--                                    <p class="mt-10-f"><a class="control link-opacity-100" target="_blank" href="{{route('publisher.pages.faqs')}}">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>--}}
-                                    <p class="mt-4"><a class="control link-opacity-100" target="_blank" href="">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>
+                                    <p class="mt-4"><a class="control link-opacity-100" target="_blank" href="{{route('publisher.pages.faqs')}}">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
