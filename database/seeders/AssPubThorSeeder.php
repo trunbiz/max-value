@@ -17,14 +17,14 @@ class AssPubThorSeeder extends Seeder
     {
         $userIdRancher = 32;
         $userIdThor = 239;
-        $listAssUser = AssignUserModel::where('type', 'PUBLISHER')->where('user_id', $userIdRancher)->where('is_delete', 0)->get();
+        $listAssUser = AssignUserModel::where('type', 'PUBLISHER')->where('user_id', $userIdThor)->where('is_delete', 0)->get();
 
         foreach ($listAssUser as $item)
         {
             AssignUserModel::create([
                'type' => 'PUBLISHER',
                'service_id' => $item->service_id,
-               'user_id' => $userIdThor,
+               'user_id' => $userIdRancher,
                'is_delete' => 0,
             ]);
             $item->is_delete = 1;

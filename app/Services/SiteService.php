@@ -134,6 +134,7 @@ class SiteService
                 'api_site_id' => $item['id'],
                 'publisher_report_impression' => $params['impression'],
                 'publisher_report_geo' => $params['geo'],
+                'publisher_report_file' => $params['file_report'] ?? null,
                 'is_delete' => 0,
                 'created_by' => $params['userId'],
             ];

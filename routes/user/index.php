@@ -577,11 +577,25 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
             'as' => 'user.ajax.reports.list',
             'uses' => 'App\Http\Controllers\User\ReportController@apiListReport',
         ]);
+
+        Route::group(['prefix' => 'zones'], function (){
+            Route::post('/store', [
+                'as' => 'user.ajax.zone.store',
+                'uses' => 'App\Http\Controllers\User\ZoneController@store',
+            ]);
+        });
+
+        Route::group(['prefix' => 'websites'], function (){
+            Route::get('/', [
+                'as' => 'user.ajax.websites.listWebsiteInPage',
+                'uses' => 'App\Http\Controllers\User\WebsiteController@listWebsiteInPage',
+            ]);
+        });
     });
 
-//    Route::get('faqs', function (){
-//       return view('publisher.pages.faqs');
-//    })->name('user.faqs');
+    Route::get('faqs', function (){
+       return view('publisher.pages.faqs');
+    })->name('user.faqs');
 
     Route::get('/logout', [UserController::class, 'logout'])->name('user.logout');
 

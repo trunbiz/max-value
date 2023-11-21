@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use Weidner\Goutte\GoutteFacade;
 
 class Common
 {
@@ -344,6 +345,7 @@ class Common
     const DIMENSIONS_GROUP = [
         'Best Performance' => [
             "B-Stickyads" => [
+                'id' => 1,
                 'name' => 'B-Sticky ads (1 x 1)',
                 'size' => [
                     1,
@@ -351,6 +353,7 @@ class Common
                 ]
             ],
             "Medium-Rectangle" => [
+                'id' => 2,
                 'name' => 'Medium Rectangle (300 x 250)',
                 'size' => [
                     300,
@@ -358,6 +361,7 @@ class Common
                 ]
             ],
             "Video-Freesize" => [
+                'id' => 11,
                 'name' => 'Video-Freesize (100% x 100%)',
                 'size' => [
                     '100%',
@@ -365,6 +369,7 @@ class Common
                 ]
             ],
             "Flexible" => [
+                'id' => 4,
                 'name' => 'Flexible (100% x 100%)',
                 'size' => [
                     '100%',
@@ -374,6 +379,7 @@ class Common
         ],
         'Banner format' => [
             "B-Stickyads" => [
+                'id' => 1,
                 'name' => 'B-Sticky ads (1 x 1)',
                 'size' => [
                     1,
@@ -381,6 +387,7 @@ class Common
                 ]
             ],
             "Medium-Rectangle" => [
+                'id' => 2,
                 'name' => 'Medium Rectangle (300 x 250)',
                 'size' => [
                     300,
@@ -388,6 +395,7 @@ class Common
                 ]
             ],
             "Large-Rectangle" => [
+                'id' => 3,
                 'name' => 'Large Rectangle (366 x 280)',
                 'size' => [
                     366,
@@ -395,6 +403,7 @@ class Common
                 ]
             ],
             "Leaderboard" => [
+                'id' => 4,
                 'name' => 'Leaderboard (728 x 90)',
                 'size' => [
                     728,
@@ -402,6 +411,7 @@ class Common
                 ]
             ],
             "Large-Leaderboard" => [
+                'id' => 5,
                 'name' => 'Large Leaderboard (750 x 100)',
                 'size' => [
                     750,
@@ -409,6 +419,7 @@ class Common
                 ]
             ],
             "Super-Leaderboard" => [
+                'id' => 6,
                 'name' => 'Super Leaderboard (970 x 90)',
                 'size' => [
                     970,
@@ -416,6 +427,7 @@ class Common
                 ]
             ],
             "Billboard" => [
+                'id' => 7,
                 'name' => 'Billboard (970 x 250)',
                 'size' => [
                     970,
@@ -423,6 +435,7 @@ class Common
                 ]
             ],
             "Wide-Skycraper" => [
+                'id' => 8,
                 'name' => 'Wide Skycraper (160 x 600)',
                 'size' => [
                     160,
@@ -430,6 +443,7 @@ class Common
                 ]
             ],
             "Half-page" => [
+                'id' => 9,
                 'name' => 'Half page (300 x 600)',
                 'size' => [
                     300,
@@ -437,6 +451,7 @@ class Common
                 ]
             ],
             "Flexible" => [
+                'id' => 10,
                 'name' => 'Flexible (auto x auto)',
                 'size' => [
                     'auto',
@@ -446,6 +461,7 @@ class Common
         ],
         'Video format' => [
             "Video-Freesize" => [
+                'id' => 11,
                 'name' => 'Video Freesize (100% x 100%)',
                 'size' => [
                     '100%',
@@ -453,6 +469,7 @@ class Common
                 ]
             ],
             "Video-Large-498x280" => [
+                'id' => 12,
                 'name' => 'Video Large (498x280)',
                 'size' => [
                     498,
@@ -460,6 +477,7 @@ class Common
                 ]
             ],
             "Video-Large-500x300" => [
+                'id' => 13,
                 'name' => 'Video Large (500x300)',
                 'size' => [
                     500,
@@ -467,6 +485,7 @@ class Common
                 ]
             ],
             "Video-Large-600x400" => [
+                'id' => 14,
                 'name' => 'Video Large (600x400)',
                 'size' => [
                     600,
@@ -476,6 +495,7 @@ class Common
         ],
         'Native format' => [
             "Smart-Feed" => [
+                'id' => 15,
                 'name' => 'Smart Feed',
                 'size' => [
                     '100%',
@@ -483,6 +503,7 @@ class Common
                 ]
             ],
             "Native-1x2" => [
+                'id' => 16,
                 'name' => 'Native (1x2)',
                 'size' => [
                     1,
@@ -490,6 +511,7 @@ class Common
                 ]
             ],
             "Native-1x3" => [
+                'id' => 17,
                 'name' => 'Native (1x3)',
                 'size' => [
                     1,
@@ -497,6 +519,7 @@ class Common
                 ]
             ],
             "Native-1x4" => [
+                'id' => 18,
                 'name' => 'Native (1x4)',
                 'size' => [
                     1,
@@ -504,6 +527,7 @@ class Common
                 ]
             ],
             "Native-2x1" => [
+                'id' => 19,
                 'name' => 'Native (2x1)',
                 'size' => [
                     1,
@@ -511,6 +535,7 @@ class Common
                 ]
             ],
             "Native-2x2" => [
+                'id' => 20,
                 'name' => 'Native (2x2)',
                 'size' => [
                     1,
@@ -518,6 +543,7 @@ class Common
                 ]
             ],
             "Native-3x1" => [
+                'id' => 21,
                 'name' => 'Native (3x1)',
                 'size' => [
                     1,
@@ -525,6 +551,7 @@ class Common
                 ]
             ],
             "Native-3x2" => [
+                'id' => 22,
                 'name' => 'Native (3x2)',
                 'size' => [
                     1,
@@ -532,6 +559,7 @@ class Common
                 ]
             ],
             "Native-4x1" => [
+                'id' => 23,
                 'name' => 'Native (4x1)',
                 'size' => [
                     1,
@@ -539,6 +567,7 @@ class Common
                 ]
             ],
             "Native-4x2" => [
+                'id' => 25,
                 'name' => 'Native (4x2)',
                 'size' => [
                     1,
@@ -548,6 +577,7 @@ class Common
         ],
         'Mobile format' => [
             "Mobile-320x50" => [
+                'id' => 26,
                 'name' => 'Mobile (320x50)',
                 'size' => [
                     320,
@@ -555,6 +585,7 @@ class Common
                 ]
             ],
             "Mobile-320x100" => [
+                'id' => 27,
                 'name' => 'Mobile (320x100)',
                 'size' => [
                     320,
@@ -687,6 +718,9 @@ class Common
         3525 => 'Verification',
         3510 => 'Rejected',
     ];
+    const CODE_EMPTY = 'EMPTY'; // Không tồn tại nôị dung
+    const CODE_NOT_UPDATE = 'NOT_UPDATE'; // File chưa update
+    const CODE_ACCEPT = 'ACCEPT'; // Hoạt động
 
     static function getNameDimension($height, $width)
     {
@@ -736,5 +770,13 @@ class Common
 
         $color = "hsl($hue, $saturation%, $lightness%)";
         return $color;
+    }
+
+    public function crawlData($url, $path)
+    {
+        $crawler = GoutteFacade::request('GET', $url);
+        return $crawler->filter($path)->each(function ($node) {
+            return $node->text();
+        });
     }
 }

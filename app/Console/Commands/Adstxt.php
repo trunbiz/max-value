@@ -46,7 +46,7 @@ class Adstxt extends Command
         $adsTxtContent = implode("\n", $users);
         $adsTxtContent = $textStart . $adsTxtContent . $textEnd;
 
-        $filePath = public_path('../../public_html/ads.txt');
+        $filePath = public_path('ads.txt');
 
         file_put_contents($filePath, $adsTxtContent);
 

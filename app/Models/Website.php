@@ -27,6 +27,7 @@ class Website extends Model implements Auditable
         'url',
         'category_website_id',
         'description',
+        'ads_status',
         'status',
         'api_site_id',
         'publisher_report_impression',
@@ -48,6 +49,11 @@ class Website extends Model implements Auditable
     const STATUS_APPROVED = 3500;
     const STATUS_VERIFICATION = 3525;
     const STATUS_REJECTED = 3510;
+
+    const CODE_EMPTY = 'EMPTY'; // Không tồn tại nôị dung
+    const CODE_NOT_UPDATE = 'NOT_UPDATE'; // File chưa update
+
+    const CODE_ACCEPT = 'ACCEPT'; // Hoạt động
 
     const CATEGORY = [
         13 => 'Arts & Entertainment',

@@ -10,6 +10,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="google-site-verification" content="qnS8f1XIvnXPF-cd_GzUDuAxT0SxnpSrvzi_h6EO9v8" />
     <base href="{{asset('assets/publisher')}}/"/>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -34,6 +35,8 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
     <!-- Flag icon-->
     <link rel="stylesheet" type="text/css" href="../administrator/css/vendors/flag-icon.css">
+    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
 
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/sweetalert2.css')}}">
 
@@ -151,11 +154,11 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
                        class="nav-link {{ (request()->is('wallet')) ? 'active' : '' }}"><i class="ri-wallet-fill"></i>
                         <span>Wallet</span></a>
                 </li>
-{{--                <li class="nav-item">--}}
-{{--                    <a href="{{route('user.faqs')}}"--}}
-{{--                       class="nav-link {{ (request()->is('faqs')) ? 'active' : '' }}"><i class="ri-questionnaire-fill"></i>--}}
-{{--                        <span>Faqs</span></a>--}}
-{{--                </li>--}}
+                <li class="nav-item">
+                    <a href="{{route('user.faqs')}}"
+                       class="nav-link {{ (request()->is('faqs')) ? 'active' : '' }}"><i class="ri-questionnaire-fill"></i>
+                        <span>FAQ</span></a>
+                </li>
                 @if(session()->has('hasClonedUser'))
                     <li class="nav-item">
                         <a href="#"

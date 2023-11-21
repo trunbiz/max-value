@@ -183,6 +183,7 @@ return [
         OwenIt\Auditing\AuditingServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        \Weidner\Goutte\GoutteServiceProvider::class
     ],
 
     /*
@@ -240,7 +241,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'ImportExcel' => PhpOffice\PhpSpreadsheet\IOFactory::class
+        'ImportExcel' => PhpOffice\PhpSpreadsheet\IOFactory::class,
+        'Goutte' => \Weidner\Goutte\GoutteFacade::class
     ],
 
 ];
