@@ -97,11 +97,11 @@
                     </td>
                     <td>
                         @if($item->ads_status == \App\Models\Website::CODE_EMPTY)
-                            <span class="badge bg-danger">Empty</span>
+                            <i title="Not found" class="ri-checkbox-circle-line checkAdsTxt text-danger"></i>
                         @elseif($item->ads_status == \App\Models\Website::CODE_NOT_UPDATE)
-                            <span class="badge bg-warning">Not Update</span>
+                            <i title="Not update" class="ri-checkbox-circle-line checkAdsTxt text-danger"></i>
                         @elseif($item->ads_status == \App\Models\Website::CODE_ACCEPT)
-                            <span class="badge bg-success">Verify</span>
+                            <i title="Verify" class="ri-checkbox-circle-line checkAdsTxt text-success"></i>
                         @endif
                     </td>
                     <td>
