@@ -36,8 +36,11 @@ class UserService
         $settingInfo->save();
 
         $filePath = public_path('ads.txt');
+        $filePath2 = public_path('../../public_html/ads.txt');
 
         file_put_contents($filePath, $adsTxtContent);
+        file_put_contents($filePath2, $adsTxtContent);
+
         Log::info('log ads', ['message' => $adsTxtContent]);
         return true;
     }
