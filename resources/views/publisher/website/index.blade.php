@@ -290,7 +290,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <h5>Step 1: Add the ads.txt file to your website. <i class="ri-checkbox-circle-line checkAdsTxt text-danger"></i></h5>
+                                <h5>Step 1: Add the ads.txt file to your website. <i class="ri-checkbox-circle-line checkAdsTxt"></i></h5>
                                 <p class="link-ads"><a class="control link-opacity-100" target="_blank" href="{{route('user.advertises.index')}}">Link ads.txt</a></p>
 
                                 <h5>Step 2: Copy the codes to your website.</h5>
@@ -359,8 +359,10 @@
             var $this = $('#create-site');
             $this.modal('show');
 
-            $('i.checkAdsTxt').removeClass('text-success');
-            $('i.checkAdsTxt').removeClass('text-warning');
+            $('.carousel-item .checkAdsTxt').removeClass('text-success');
+            $('.carousel-item .checkAdsTxt').removeClass('text-warning');
+
+            console.log(222)
 
             if(adsStatus !== undefined)
             {
