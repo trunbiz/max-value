@@ -99,7 +99,7 @@
                         @if($item->ads_status == \App\Models\Website::CODE_EMPTY)
                             <i title="Not found" class="ri-checkbox-circle-line checkAdsTxt text-danger"></i>
                         @elseif($item->ads_status == \App\Models\Website::CODE_NOT_UPDATE)
-                            <i title="Not update" class="ri-checkbox-circle-line checkAdsTxt text-danger"></i>
+                            <i title="Not update" class="ri-checkbox-circle-line checkAdsTxt text-warning"></i>
                         @elseif($item->ads_status == \App\Models\Website::CODE_ACCEPT)
                             <i title="Verify" class="ri-checkbox-circle-line checkAdsTxt text-success"></i>
                         @endif
@@ -142,13 +142,13 @@
                                                             onclick=getCode({{$zone->ad_zone_id}})>Get code
                                                     </button>
                                                 </div>
-                                                <div class="col-md-4 col-4" style="text-align: right">
-                                                    @if($zone->active == \App\Services\Common::ACTIVE)
-                                                        <span class="badge bg-success">Active</span>
-                                                    @else
-                                                        <span class="badge bg-warning">Non-active</span>
-                                                    @endif
-                                                </div>
+{{--                                                <div class="col-md-4 col-4" style="text-align: right">--}}
+{{--                                                    @if($zone->active == \App\Services\Common::ACTIVE)--}}
+{{--                                                        <span class="badge bg-success">Active</span>--}}
+{{--                                                    @else--}}
+{{--                                                        <span class="badge bg-warning">Non-active</span>--}}
+{{--                                                    @endif--}}
+{{--                                                </div>--}}
                                             </div>
                                         </div>
                                     </div>
@@ -360,19 +360,28 @@
             $this.modal('show');
 
             $('.carousel-item .checkAdsTxt').removeClass('text-success');
+            $('.carousel-item .checkAdsTxt').removeClass('text-danger');
             $('.carousel-item .checkAdsTxt').removeClass('text-warning');
+            $('i.checkAdsTxt').removeAttr('title')
 
             console.log(222)
 
             if(adsStatus !== undefined)
             {
-                if(adsStatus === 'EMPTY' || adsStatus === 'NOT_UPDATE')
+                if(adsStatus === 'EMPTY')
+                {
+                    $('i.checkAdsTxt').addClass('text-danger');
+                    $('i.checkAdsTxt').prop('title', 'Not found');
+                }
+                else if(adsStatus === 'NOT_UPDATE')
                 {
                     $('i.checkAdsTxt').addClass('text-warning');
+                    $('i.checkAdsTxt').prop('title', 'Not update');
                 }
                 else if(adsStatus === 'ACCEPT')
                 {
                     $('i.checkAdsTxt').addClass('text-success');
+                    $('i.checkAdsTxt').prop('title', 'Verify');
                     $('.link-ads').addClass('d-none');
                 }
             }
