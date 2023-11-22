@@ -58,7 +58,7 @@ class WebsiteController extends Controller
         $data['totalZone'] = $this->zoneService->totalZone(null, $listSiteId);
         $data['totalZonePending'] = $this->zoneService->totalZone(['status' => ZoneModel::PENDING], $listSiteId);
 
-        $data['groupDimensions'] = Common::DIMENSIONS_GROUP;
+        $data['groupDimensions'] = Common::PUBLISHER_DIMENSIONS_GROUP;
         return view('publisher.website.index', $data);
     }
 
