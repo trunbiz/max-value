@@ -340,8 +340,122 @@ class Common
                 100
             ]
         ],
+        "In-Article" => [
+            'id' => 28,
+            'name' => 'In Article',
+            'size' => [
+                1,
+                1
+            ]
+        ]
     ];
 
+    const PUBLISHER_DIMENSIONS_GROUP = [
+        'Best Performance' => [
+            "B-Stickyads" => [
+                'id' => 1,
+                'name' => 'B-Sticky ads (1 x 1)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Medium-Rectangle" => [
+                'id' => 2,
+                'name' => 'Medium Rectangle (300 x 250)',
+                'size' => [
+                    300,
+                    250
+                ]
+            ],
+            "Video-Freesize" => [
+                'id' => 11,
+                'name' => 'Video-Freesize',
+                'size' => [
+                    '100%',
+                    '100%'
+                ]
+            ]
+        ],
+        'Banner format' => [
+            "B-Stickyads" => [
+                'id' => 1,
+                'name' => 'B-Sticky ads (1 x 1)',
+                'size' => [
+                    1,
+                    1
+                ]
+            ],
+            "Medium-Rectangle" => [
+                'id' => 2,
+                'name' => 'Medium Rectangle (300 x 250)',
+                'size' => [
+                    300,
+                    250
+                ]
+            ],
+            "Leaderboard" => [
+                'id' => 4,
+                'name' => 'Leaderboard (728 x 90)',
+                'size' => [
+                    728,
+                    90
+                ]
+            ],
+            "Super-Leaderboard" => [
+                'id' => 6,
+                'name' => 'Super Leaderboard (970 x 90)',
+                'size' => [
+                    970,
+                    90
+                ]
+            ],
+            "Billboard" => [
+                'id' => 7,
+                'name' => 'Billboard (970 x 250)',
+                'size' => [
+                    970,
+                    250
+                ]
+            ],
+            "Wide-Skycraper" => [
+                'id' => 8,
+                'name' => 'Wide Skycraper (160 x 600)',
+                'size' => [
+                    160,
+                    600
+                ]
+            ]
+        ],
+        'Video format' => [
+            "Video-Freesize" => [
+                'id' => 11,
+                'name' => 'Video Freesize',
+                'size' => [
+                    '100%',
+                    '100%'
+                ]
+            ]
+        ],
+        'Native format' => [
+            "Smart-Feed" => [
+                'id' => 15,
+                'name' => 'Smart Feed',
+                'size' => [
+                    '100%',
+                    'auto'
+                ]
+            ],
+            "In-Article" => [
+                'id' => 28,
+                'name' => 'In Article',
+                'size' => [
+                    1,
+                    1
+                ]
+            ]
+        ]
+    ];
     const DIMENSIONS_GROUP = [
         'Best Performance' => [
             "B-Stickyads" => [
@@ -574,6 +688,14 @@ class Common
                     1
                 ]
             ],
+            "In-Article" => [
+                'id' => 28,
+                'name' => 'In Article',
+                'size' => [
+                    1,
+                    1
+                ]
+            ]
         ],
         'Mobile format' => [
             "Mobile-320x50" => [

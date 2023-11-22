@@ -6,6 +6,17 @@
         .dashboard-site .card-site {
             margin: 5px 0;
         }
+        .dimension_label{
+            cursor: pointer;
+        }
+        .demo-zone-ads{
+            text-align: center;
+            padding-top: 4rem!important;
+            border: 1px solid rgba(29, 29, 29, 0.5);
+            border-radius: 40px;
+            background-color: #F8F8F8;
+            min-height: 270px;
+        }
     </style>
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
@@ -170,7 +181,7 @@
 
 
     <!-- Modal -->
-    <div class="modal fade modal-lg" id="create-site" tabindex="-1" aria-labelledby="create-site" aria-hidden="true">
+    <div class="modal fade modal-xl" id="create-site" tabindex="-1" aria-labelledby="create-site" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="alert-message">
@@ -179,7 +190,7 @@
                 <div id="registerCarousel" class="carousel slide" data-bs-interval="false">
                     <div class="carousel-inner">
 
-                        <!-- Slide 1: Form đăng ký -->
+                        <!-- Slide 1: -->
                         <div class="carousel-item active">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Add website</h5>
@@ -248,50 +259,58 @@
                             </form>
                         </div>
 
-                        <!-- Slide 2: Tạo zones -->
-                        <div class="carousel-item">
-                            <!-- Nội dung slide tạo zones -->
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Add Zones</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form action="" id="create-zone" autocomplete="off">
-                                <div class="modal-body">
-                                    <input class="adSiteId" hidden type="text" name="adSiteId" value="">
-                                    @foreach($groupDimensions as $lable => $listDimensions)
-                                        <label class="control-label fw-semibold mb-3 mt-3">{{$lable}}</label>
+                            <!-- Slide 2: -->
+                            <div class="carousel-item">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add Zones</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="" id="create-zone" autocomplete="off">
+                                    <div class="modal-body">
                                         <div class="row">
-                                            @foreach($listDimensions as $key => $dimensions)
-                                                <div class="col-3">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="{{$key}}" name="list_zone_dimensions[]">
-                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                            {{$dimensions['name']}}
-                                                        </label>
+                                            <div class="col-sm-9">
+                                                <input class="adSiteId" hidden type="text" name="adSiteId" value="">
+                                                @foreach($groupDimensions as $lable => $listDimensions)
+                                                    <label class="control-label fw-semibold mb-3 mt-3">{{$lable}}</label>
+                                                    <div class="row">
+                                                        @foreach($listDimensions as $key => $dimensions)
+                                                            <div class="col-4">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" value="{{$key}}" name="list_zone_dimensions[]" id="dimension_{{$key}}">
+                                                                    <label class="form-check-label dimension_label" for="dimension_{{$key}}">
+                                                                        {{$dimensions['name']}}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
                                                     </div>
+                                                @endforeach
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="demo-zone-ads">
+                                                    <img style="width: 80%" src="{{asset('/images/dimensions/B-Stickyads.png')}}">
                                                 </div>
-                                            @endforeach
+                                            </div>
                                         </div>
-                                    @endforeach
-{{--                                    <p class="mt-10-f"><a class="control link-opacity-100" target="_blank" href="{{route('user.faqs')}}">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>--}}
-                                    <p class="mt-4"><a class="control link-opacity-100" target="_blank" href="{{route('user.faqs')}}">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary filter__button disabled addZones" id="submit" onclick="addZones()">Add zones
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- Slide 3: hướng dẫn config -->
-                        <div class="carousel-item">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">The zones were created successfully. Please follow the steps!</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        {{--                                    <p class="mt-10-f"><a class="control link-opacity-100" target="_blank" href="{{route('user.faqs')}}">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>--}}
+                                        <p class="mt-4"><a class="control link-opacity-100" target="_blank" href="{{route('user.faqs')}}">To view detailed information, please refer to the Frequently Asked Questions (FAQ) section.</a></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-primary filter__button disabled addZones" id="submit" onclick="addZones()">Add zones
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="modal-body">
-                                <h5>Step 1: Add the ads.txt file to your website. <i class="ri-checkbox-circle-line checkAdsTxt"></i></h5>
-                                <p class="link-ads"><a class="control link-opacity-100" target="_blank" href="{{route('user.advertises.index')}}">Link ads.txt</a></p>
+                            <!-- Slide 3:  -->
+                            <div class="carousel-item">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">The zones were created successfully. Please follow the steps!</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>Step 1: Add the ads.txt file to your website. <i class="ri-checkbox-circle-line checkAdsTxt"></i></h5>
+                                    <p class="link-ads"><a class="control link-opacity-100" target="_blank" href="{{route('user.advertises.index')}}">Link ads.txt</a></p>
 
                                 <h5>Step 2: Copy the codes to your website.</h5>
                                 <div class="zone-code">
@@ -311,12 +330,9 @@
     </style>
     <script>
         $(document).ready(function () {
-            // Ẩn tất cả các dòng "zone-info" ban đầu
             $('.zone-info').hide();
 
-            // Xử lý sự kiện khi nhấp vào dòng "website-info"
             $('.website-info').click(function () {
-                // Tìm dòng "zone-info" liền kề và chuyển trạng thái hiển thị
                 $(this).next('.zone-info').toggle();
             });
 
@@ -339,16 +355,30 @@
                 $('.impression_format').text(formattedValue);
             });
 
-            // Sự kiện khi checkbox được tích hoặc bỏ tích
             $('input[name="list_zone_dimensions[]"]').change(function () {
-                // Lấy giá trị của checkbox được thay đổi
                 var checkboxValue = $(this).val();
 
-                // Lấy trạng thái (checked hoặc unchecked) của checkbox
                 var isChecked = $(this).prop('checked');
 
-                // Tìm tất cả các checkbox có cùng giá trị và đặt trạng thái cho chúng
                 $('input[name="list_zone_dimensions[]"][value="' + checkboxValue + '"]').prop('checked', isChecked);
+            });
+
+            $('.form-check-label').mouseenter(function(){
+                var inputId = $(this).attr('for');
+                console.log(222, inputId)
+                var dimensionValue = $('#'+inputId).val();
+
+                console.log(333, dimensionValue)
+                var newImagePath = '{{asset('/images/dimensions/')}}' + '/' + dimensionValue + '.png';
+                $('.demo-zone-ads img').attr('src', newImagePath);
+            });
+
+            $('.form-check-label').mouseleave(function(){
+                $('#demoImage').attr('src', '{{asset('/images/dimensions/B-Stickyads.png')}}');
+            });
+
+            $('.form-check-label').mouseleave(function(){
+                $('.demo-zone-ads img').attr('src', '{{asset('/images/dimensions/B-Stickyads.png')}}');
             });
         });
 
@@ -364,7 +394,6 @@
             $('.carousel-item .checkAdsTxt').removeClass('text-warning');
             $('i.checkAdsTxt').removeAttr('title')
 
-            console.log(222)
 
             if(adsStatus !== undefined)
             {
@@ -386,14 +415,12 @@
                 }
             }
 
-            // Quay lại slide đầu tiên
             var carousel = new bootstrap.Carousel(document.getElementById('registerCarousel'));
             carousel.to(1);
         }
 
         function clearSlider()
         {
-            // Quay lại slide đầu tiên
             var carousel = new bootstrap.Carousel(document.getElementById('registerCarousel'));
             carousel.to(0);
         }
@@ -554,7 +581,6 @@
             });
         }
 
-        // Ẩn modal
         function hideModal() {
             myModal.classList.remove('show');
             myModal.style.display = 'none';
