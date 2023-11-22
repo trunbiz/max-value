@@ -12,7 +12,7 @@
     <meta name="author" content="Maxvalue">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('images/logo.png')}}">
+    <link rel="shortcut icon" type="image/png" href="{{asset('images/logo.png')}}">
     <link rel="icon" type="image/x-icon" href="{{asset('images/logo.png')}}">
 
     <title>Maxvalue.media - register referral</title>
