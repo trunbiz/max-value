@@ -340,6 +340,14 @@ class Common
                 100
             ]
         ],
+        "In-Article" => [
+            'id' => 28,
+            'name' => 'In Article',
+            'size' => [
+                1,
+                1
+            ]
+        ]
     ];
 
     const PUBLISHER_DIMENSIONS_GROUP = [
