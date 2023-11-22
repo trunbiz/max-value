@@ -94,7 +94,7 @@ class RegisterController extends Controller
                     'role_id' => '0',
                     'referral_code' => $data['referral_code'] ?? null,
                     'phone' => $data['phone'] ?? null,
-                    'api_publisher_id' => $response['id'],
+                    'api_publisher_id' => $response['id'] ?? 0,
                     'email' => $data['email'],
                     'password' => Hash::make($data['password']),
                     'device' => request()->userAgent(),

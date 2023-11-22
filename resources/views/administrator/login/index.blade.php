@@ -14,9 +14,9 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Admin - {{env('APP_NAME')}}" />
     <meta property="og:description" content="Admin - {{env('APP_NAME')}}" />
-    <meta property="og:image" content="{{ env('APP_URL') . \App\Models\Helper::logoImagePath() }}" />
+    <meta property="og:image" content="{{ env('APP_URL') . asset('images/logo.png') }}" />
 
-    <link rel="shortcut icon" href="{{ env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="shortcut icon" href="{{ env('APP_URL') . asset('images/logo.png') }}">
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 

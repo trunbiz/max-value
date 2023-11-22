@@ -12,9 +12,8 @@
     <meta name="author" content="Maxvalue">
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
-    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
-    <link rel="icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
+    <link rel="shortcut icon" href="{{asset('images/logo.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{asset('images/logo.png')}}">
 
     <title>maxvalue.media - register referral</title>
 

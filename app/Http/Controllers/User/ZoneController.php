@@ -30,6 +30,7 @@ class ZoneController extends Controller
             return returnApi(false, 'list_zone_dimensions not empty');
 
         $data = [];
+        $listZoneDimensions = array_unique($listZoneDimensions);
         // Create list zones
         foreach ($listZoneDimensions as $item)
         {

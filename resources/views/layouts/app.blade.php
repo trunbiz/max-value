@@ -12,12 +12,12 @@
     <meta name="Description" content="{{ config('app.name', 'Laravel') }}">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ \App\Models\Helper::logoImagePath() }}">
+    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
     <meta property="og:url" content="{{env('APP_URL')}}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{env('APP_NAME')}}"/>
     <meta property="og:description" content="{{env('APP_NAME')}}"/>
-    <meta property="og:image" content="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}"/>
+    <meta property="og:image" content="{{env('APP_URL') . asset('images/logo.png') }}"/>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
