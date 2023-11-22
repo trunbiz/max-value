@@ -440,6 +440,12 @@ class Helper extends Model
                     'body' => json_encode($params)
                 ])->json();
 
+            Log::info('call post AdServer', [
+                'url' => $url,
+                'params' => $params,
+                'response' => $response,
+            ]);
+
             return $response;
         } catch (\Exception $exception) {
             Log::error('error post', [
