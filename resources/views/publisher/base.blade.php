@@ -6,10 +6,10 @@ $userAssign = auth()->user()->getFirstUserAssign();
 //$skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->skype : (optional(auth()->user()->manager)->skype ?? \App\Models\User::find(1)->skype);
 
 
-$name = \App\Models\User::find(1)->name;
-$email = \App\Models\User::find(1)->email;
-$telegram = \App\Models\User::find(1)->telegram;
-$skype =  \App\Models\User::find(1)->skype;
+$name = \App\Models\User::find(1)->name ?? null;
+$email = \App\Models\User::find(1)->email ?? null;
+$telegram = \App\Models\User::find(1)->telegram ?? null;
+$skype =  \App\Models\User::find(1)->skype ?? null;
 @endphp
 
 
