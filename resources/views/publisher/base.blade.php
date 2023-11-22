@@ -1,9 +1,9 @@
 @php
 $userAssign = auth()->user()->getFirstUserAssign();
-$name = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->name : (optional(auth()->user()->manager)->name ?? \App\Models\User::find(1)->name);
-$email = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->email : (optional(auth()->user()->manager)->email ?? \App\Models\User::find(1)->email);
-$telegram = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->telegram : (optional(auth()->user()->manager)->telegram ?? \App\Models\User::find(1)->telegram);
-$skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->skype : (optional(auth()->user()->manager)->skype ?? \App\Models\User::find(1)->skype);
+$name = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->name : (optional(auth()->user()->manager)->name ?? (\App\Models\User::find(1)->name ?? null));
+$email = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->email : (optional(auth()->user()->manager)->email ?? (\App\Models\User::find(1)->email ?? null));
+$telegram = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->telegram : (optional(auth()->user()->manager)->telegram ?? (\App\Models\User::find(1)->telegram ?? null));
+$skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->skype : (optional(auth()->user()->manager)->skype ?? (\App\Models\User::find(1)->skype ?? null));
 @endphp
 
 

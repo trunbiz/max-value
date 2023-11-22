@@ -73,6 +73,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        Log::info('log user', [
+            'url' => $data['url'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+        ]);
+
         $name = explode('@', $data['email'])[0] ?? 'publisher';
         $params = [
             'name' => $name,
