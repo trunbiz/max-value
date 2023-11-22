@@ -190,7 +190,7 @@
                 <div id="registerCarousel" class="carousel slide" data-bs-interval="false">
                     <div class="carousel-inner">
 
-                        <!-- Slide 1: Form đăng ký -->
+                        <!-- Slide 1: -->
                         <div class="carousel-item active">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Add website</h5>
@@ -259,9 +259,8 @@
                             </form>
                         </div>
 
-                            <!-- Slide 2: Tạo zones -->
+                            <!-- Slide 2: -->
                             <div class="carousel-item">
-                                <!-- Nội dung slide tạo zones -->
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Add Zones</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -303,7 +302,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <!-- Slide 3: hướng dẫn config -->
+                            <!-- Slide 3:  -->
                             <div class="carousel-item">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">The zones were created successfully. Please follow the steps!</h5>
@@ -331,12 +330,9 @@
     </style>
     <script>
         $(document).ready(function () {
-            // Ẩn tất cả các dòng "zone-info" ban đầu
             $('.zone-info').hide();
 
-            // Xử lý sự kiện khi nhấp vào dòng "website-info"
             $('.website-info').click(function () {
-                // Tìm dòng "zone-info" liền kề và chuyển trạng thái hiển thị
                 $(this).next('.zone-info').toggle();
             });
 
@@ -359,19 +355,14 @@
                 $('.impression_format').text(formattedValue);
             });
 
-            // Sự kiện khi checkbox được tích hoặc bỏ tích
             $('input[name="list_zone_dimensions[]"]').change(function () {
-                // Lấy giá trị của checkbox được thay đổi
                 var checkboxValue = $(this).val();
 
-                // Lấy trạng thái (checked hoặc unchecked) của checkbox
                 var isChecked = $(this).prop('checked');
 
-                // Tìm tất cả các checkbox có cùng giá trị và đặt trạng thái cho chúng
                 $('input[name="list_zone_dimensions[]"][value="' + checkboxValue + '"]').prop('checked', isChecked);
             });
 
-            // Bắt đầu sự kiện khi di chuột vào form-check-label
             $('.form-check-label').mouseenter(function(){
                 var inputId = $(this).attr('for');
                 console.log(222, inputId)
@@ -386,9 +377,7 @@
                 $('#demoImage').attr('src', '{{asset('/images/dimensions/B-Stickyads.png')}}');
             });
 
-            // Kết thúc sự kiện khi di chuột ra khỏi form-check-label
             $('.form-check-label').mouseleave(function(){
-                // Đặt lại đường dẫn ảnh về mặc định khi không di chuột
                 $('.demo-zone-ads img').attr('src', '{{asset('/images/dimensions/B-Stickyads.png')}}');
             });
         });
@@ -405,7 +394,6 @@
             $('.carousel-item .checkAdsTxt').removeClass('text-warning');
             $('i.checkAdsTxt').removeAttr('title')
 
-            console.log(222)
 
             if(adsStatus !== undefined)
             {
@@ -427,14 +415,12 @@
                 }
             }
 
-            // Quay lại slide đầu tiên
             var carousel = new bootstrap.Carousel(document.getElementById('registerCarousel'));
             carousel.to(1);
         }
 
         function clearSlider()
         {
-            // Quay lại slide đầu tiên
             var carousel = new bootstrap.Carousel(document.getElementById('registerCarousel'));
             carousel.to(0);
         }
@@ -595,7 +581,6 @@
             });
         }
 
-        // Ẩn modal
         function hideModal() {
             myModal.classList.remove('show');
             myModal.style.display = 'none';
