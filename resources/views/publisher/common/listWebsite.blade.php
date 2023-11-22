@@ -15,11 +15,11 @@
         </td>
         <td>
             @if($item->ads_status == \App\Models\Website::CODE_EMPTY)
-                <span class="badge bg-danger">Empty</span>
+                <i title="Not found" class="ri-checkbox-circle-line checkAdsTxt text-danger"></i>
             @elseif($item->ads_status == \App\Models\Website::CODE_NOT_UPDATE)
-                <span class="badge bg-warning">Not Update</span>
+                <i title="Not update" class="ri-checkbox-circle-line checkAdsTxt text-warning"></i>
             @elseif($item->ads_status == \App\Models\Website::CODE_ACCEPT)
-                <span class="badge bg-success">Verify</span>
+                <i title="Verify" class="ri-checkbox-circle-line checkAdsTxt text-success"></i>
             @endif
         </td>
         <td>
@@ -60,13 +60,13 @@
                                         onclick=getCode({{$zone->ad_zone_id}})>Get code
                                         </button>
                                     </div>
-                                    <div class="col-md-4 col-4" style="text-align: right">
-                                        @if($zone->status == \App\Services\Common::ACTIVE)
-                                            <span class="badge bg-success">Active</span>
-                                        @else
-                                            <span class="badge bg-warning">Non-active</span>
-                                        @endif
-                                    </div>
+{{--                                    <div class="col-md-4 col-4" style="text-align: right">--}}
+{{--                                        @if($zone->active == \App\Services\Common::ACTIVE)--}}
+{{--                                            <span class="badge bg-success">Active</span>--}}
+{{--                                        @else--}}
+{{--                                            <span class="badge bg-warning">Non-active</span>--}}
+{{--                                        @endif--}}
+{{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>
