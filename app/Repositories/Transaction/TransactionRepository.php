@@ -39,7 +39,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
         if (!empty($to))
             $query->where('payment_at', '<=', $params['to']);
 
-        $query->groupBy('report_id', 'payment_at')->selectRaw('SUM(amount) AS totalRefer, report_id, payment_at');
+        $query->groupBy('payment_at')->selectRaw('SUM(amount) AS totalRefer, payment_at');
 
         return $query->orderBy('id', 'DESC')->paginate(25);
     }
