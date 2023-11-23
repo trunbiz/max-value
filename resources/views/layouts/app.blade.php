@@ -12,7 +12,7 @@
     <meta name="Description" content="{{ config('app.name', 'Laravel') }}">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
     <meta property="og:url" content="{{env('APP_URL')}}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{env('APP_NAME')}}"/>

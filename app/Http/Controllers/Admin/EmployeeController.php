@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
 use function view;
@@ -143,6 +144,10 @@ class EmployeeController extends Controller
 
     public function delete($id)
     {
+        Log::info('delete user', [
+          'id' => $id,
+          'auth' =>  \auth()->user()->id ?? null,
+        ]);
         $item = User::findOrFail($id);
 
         Helper::callDeleteHTTP('https://api.adsrv.net/v2/user/' . $item->api_publisher_id);
@@ -152,6 +157,11 @@ class EmployeeController extends Controller
 
     public function deleteManyByIds(Request $request)
     {
+        Log::info('delete user', [
+            'params' => $request->all(),
+            'auth' =>  \auth()->user()->id ?? null,
+        ]);
+
         return $this->model->deleteManyByIds($request, $this->forceDelete);
     }
 

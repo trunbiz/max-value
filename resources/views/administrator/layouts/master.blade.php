@@ -10,7 +10,7 @@
     <meta content="Pham Son" name="author">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
 
     <!-- Google font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">

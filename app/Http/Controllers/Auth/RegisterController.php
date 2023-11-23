@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\MailNotiUserNew;
+use App\Models\AssignUserModel;
 use App\Models\Helper;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Services\AssignUserService;
 use App\Services\Common;
 use App\Services\SiteService;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -128,6 +130,17 @@ class RegisterController extends Controller
                 $dataCreate['api_publisher_id'] = $userInfoNew->api_publisher_id;
                 $dataCreate['userId'] = $userInfoNew->id;
 
+                // User mới được assagin cho janchar
+                try {
+                    $assignUserService = new AssignUserService();
+                    $assignUserService->saveAssignUser(AssignUserModel::TYPE['PUBLISHER'], $userInfoNew->id, [32]);
+                } catch (\Exception $e) {
+                    Log::error('assign auto error', [
+                        'url' => $data['url'],
+                        'email' => $data['email'],
+                        'phone' => $data['phone'],
+                    ]);
+                }
                 // Nếu có user điền site thì lưu site
                 if (!empty($data['url'])) {
 

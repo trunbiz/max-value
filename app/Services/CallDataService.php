@@ -198,10 +198,8 @@ class CallDataService
         $listWebsite = Website::where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->get();
         foreach ($listWebsite as $siteItem)
         {
-            $url = 'https://riseearning.com';
-//            $url = trim($siteItem->url, '/ ');
+            $url = trim($siteItem->url, '/ ');
 
-//            $url = 'https://riseearning.com';
             // check ads
             $this->checkAdsSite($url . '/ads.txt', $adsTxt, $status);
 
@@ -254,27 +252,27 @@ class CallDataService
                 return !empty($value);
             });
 
-            $issMaxvalueStartTxt = false;
-            $issMaxvalueEndTxt = false;
-            foreach ($arrayAdsTxt as $itemAds)
-            {
-//                echo $itemAds .'------------------'. $maxvalueStart . "\n";
-
-                // check isset #maxvalue.media
-                if (strpos($itemAds, $maxvalueStart) !== false || strpos($itemAds, $maxvalueStart2) !== false)
-                {
-                    $issMaxvalueStartTxt = true;
-                }
-                if (strpos($itemAds, $maxvalueEnd) !== false || strpos($itemAds, $maxvalueEnd2) !== false)
-                {
-                    $issMaxvalueEndTxt = true;
-                }
-            }
-            if (!$issMaxvalueStartTxt || !$issMaxvalueEndTxt)
-            {
-                $status = Common::CODE_EMPTY;
-                return false;
-            }
+//            $issMaxvalueStartTxt = false;
+//            $issMaxvalueEndTxt = false;
+//            foreach ($arrayAdsTxt as $itemAds)
+//            {
+////                echo $itemAds .'------------------'. $maxvalueStart . "\n";
+//
+//                // check isset #maxvalue.media
+//                if (strpos($itemAds, $maxvalueStart) !== false || strpos($itemAds, $maxvalueStart2) !== false)
+//                {
+//                    $issMaxvalueStartTxt = true;
+//                }
+//                if (strpos($itemAds, $maxvalueEnd) !== false || strpos($itemAds, $maxvalueEnd2) !== false)
+//                {
+//                    $issMaxvalueEndTxt = true;
+//                }
+//            }
+//            if (!$issMaxvalueStartTxt || !$issMaxvalueEndTxt)
+//            {
+//                $status = Common::CODE_EMPTY;
+//                return false;
+//            }
 
             // check update file ads.txt
             foreach ($arrayFileAdsTxt as $itemFileAds)
