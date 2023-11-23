@@ -198,10 +198,8 @@ class CallDataService
         $listWebsite = Website::where('is_delete', Common::NOT_DELETE)->orderBy('id', 'DESC')->get();
         foreach ($listWebsite as $siteItem)
         {
-            $url = 'https://riseearning.com';
-//            $url = trim($siteItem->url, '/ ');
+            $url = trim($siteItem->url, '/ ');
 
-//            $url = 'https://riseearning.com';
             // check ads
             $this->checkAdsSite($url . '/ads.txt', $adsTxt, $status);
 
