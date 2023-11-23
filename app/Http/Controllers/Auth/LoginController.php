@@ -47,6 +47,16 @@ class LoginController extends Controller
         return Socialite::driver($driver)->redirect();
     }
 
+    protected function redirectTo()
+    {
+        $isAdmin = auth()->user()->is_admin ?? null;
+
+        if (!empty($isAdmin)) {
+            return RouteServiceProvider::ADMIN;
+        }
+        return RouteServiceProvider::HOME;
+    }
+
     public function handleProviderCallback($driver)
     {
         try {

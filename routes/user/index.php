@@ -537,6 +537,13 @@ Route::prefix('/')->middleware(['auth','verified'])->group(function () {
 
     });
 
+    Route::group(['prefix' => 'referral'], function (){
+        Route::get('/', [
+            'as' => 'user.referral.index',
+            'uses' => 'App\Http\Controllers\User\UserController@indexReferral',
+        ]);
+    });
+
     Route::prefix('ajax')->group(function (){
         Route::get('/getSite', [
             'as' => 'user.ajax.getSite',
