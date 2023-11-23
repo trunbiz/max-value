@@ -26,6 +26,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Account Manager</th>
                                 <th scope="col">Websites</th>
+                                <th scope="col">Ads.txt</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Zones</th>
                                 <th scope="col">Status</th>
@@ -42,6 +43,15 @@
                                     @endif
                                     </td>
                                     <td>{{$itemWebsite->url}}</td>
+                                    <td>
+                                        @if($itemWebsite->ads_status == \App\Models\Website::CODE_EMPTY)
+                                            <i title="Not found" class="fa fa-check-circle checkAdsTxt text-danger"></i>
+                                        @elseif($itemWebsite->ads_status == \App\Models\Website::CODE_NOT_UPDATE)
+                                            <i title="Not update" class="fa fa-check-circle checkAdsTxt text-warning"></i>
+                                        @elseif($itemWebsite->ads_status == \App\Models\Website::CODE_ACCEPT)
+                                            <i title="Verify" class="fa fa-check-circle checkAdsTxt text-success"></i>
+                                        @endif
+                                    </td>
                                     <td>{{$itemWebsite->user->email ?? ''}}</td>
                                     <td>
                                         <ul>
