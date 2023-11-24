@@ -17,6 +17,9 @@
             background-color: #F8F8F8;
             min-height: 270px;
         }
+        .available-zone:hover {
+            cursor: pointer;
+        }
     </style>
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div>
@@ -128,7 +131,10 @@
                                         <div class="card-header tx-medium">
                                             <div class="row">
                                                 <div class="col-md-8">
-                                                    {{$zone->name}}
+                                                    <span>{{$zone->name}}</span>
+                                                    @if($zone->display_status == \App\Models\ZoneModel::STATUS_SHOW)
+                                                        <span class="text-success available-zone"><i class="ri-checkbox-circle-line" title="Available on the website"></i></span>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-4 float-right" style="text-align: right">
                                                     @if($zone->status == \App\Models\ZoneModel::STATUS_PENDING && $zone->display_status == \App\Models\ZoneModel::STATUS_SHOW)
@@ -144,7 +150,10 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <p class="card-text">{{\App\Models\ZoneModel::ID_ZONE_FORMAT[$zone->id_zone_format]}}</p>
+                                            @php
+                                                $dimensionInfo = json_decode($zone->dimensions, true);
+                                            @endphp
+                                            <p class="card-text">{{\App\Services\Common::DIMENSIONS[$dimensionInfo['paramsIdDimension']]['name'] ?? 'Unknown'}}</p>
                                         </div>
                                         <div class="card-footer">
                                             <div class="row">
