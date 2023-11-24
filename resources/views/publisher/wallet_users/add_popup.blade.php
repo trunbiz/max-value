@@ -5,7 +5,7 @@
                 <div class="modal-payment__title">
                     Add payment method
                 </div>
-                <div class="modal-payment__choose">Choose Paymend Method&nbsp<span class="text-danger">*</span></div>
+                <div class="modal-payment__choose">Choose Paymend Method (<span class="text-danger">*</span>)</div>
                 <div class="modal-payment__group">
                     <div class="modal-payment__group--icons">
                         <img src="{{ asset($item->image_path ?? '/public') }}" alt="{{ $item->name}}">
