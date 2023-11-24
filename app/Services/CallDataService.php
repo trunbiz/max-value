@@ -200,11 +200,9 @@ class CallDataService
         {
             $url = trim($siteItem->url, '/ ');
 
-            $url = 'https://spoilersleuths.uk';
             // check ads
             $this->checkAdsSite($url . '/ads.txt', $adsTxt, $status);
 
-            dd($status);
             $siteItem->ads_status = $status ?? null;
             $siteItem->save();
 
