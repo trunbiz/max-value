@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/favicons/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16"  href="/favicons/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32"  href="/favicons/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
