@@ -7,6 +7,11 @@
 @endsection
 
 @section('content')
+    <style>
+        .available-zone:hover {
+            cursor: pointer;
+        }
+    </style>
     <div class="container-fluid list-products">
         <div class="row">
             <div class="col-12">
@@ -105,6 +110,11 @@
                                                             <div class="title__advs">
                                                                 <div class="title__advs--title">
                                                                     <span>{{$itemZone->name}}</span>
+                                                                    @if($itemZone->display_status == \App\Models\ZoneModel::STATUS_SHOW)
+                                                                        <span class="text-success available-zone"><i class="fa fa-check-circle" title="Available on the website"></i></span>
+                                                                    @else
+                                                                        <span class="text-danger available-zone"><i class="fa fa-check-circle" title="Not online"></i>
+                                                                    @endif
                                                                     <p>
                                                                         @if($itemZone->active)
                                                                             <span class="badge badge-success">Active</span>

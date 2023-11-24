@@ -277,9 +277,11 @@ class CallDataService
             // check update file ads.txt
             foreach ($arrayFileAdsTxt as $itemFileAds)
             {
+                $itemFileAds = html_entity_decode($itemFileAds, ENT_QUOTES, 'UTF-8');
                 $checkIsset = false;
                 foreach ($arrayAdsTxt as $itemAds)
                 {
+                    $itemAds = html_entity_decode($itemAds, ENT_QUOTES, 'UTF-8');
                     if (trim($itemAds) == trim($itemFileAds))
                     {
                         $checkIsset = true;

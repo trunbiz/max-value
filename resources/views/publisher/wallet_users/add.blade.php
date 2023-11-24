@@ -7,7 +7,7 @@
         <form action="" autocomplete="off">
             <div class="modal-body">
                 <div class="mb-3">
-                    <label for="method">Choose Paymend Method<span class="text-danger">*</span></label>
+                    <label for="method">Choose Paymend Method (<span class="text-danger">*</span>)</label>
                     <select class="form-select form-control" name="method" aria-label="Default select example" onchange="chooseMethod()">
                         @foreach($banks as $bank)
                             <option value="{{ $bank->id }}">{{ $bank->name }}</option>
