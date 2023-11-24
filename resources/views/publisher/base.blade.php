@@ -204,7 +204,6 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
         </div><!-- sidebar-footer-top -->
         <div class="sidebar-footer-menu">
             <nav class="nav">
-                <a href="" title="Time UTC"><i class="ri-time-fill btn btn-outline-info border-0"></i><span class="timeUTC" style="color: rgba(255, 255, 255, 0.6)"></span></a>
                 <a href="mailto:{{$email}}" title="mail"><i class="ri-mail-line btn btn-outline-danger border-0"></i>
                     Gmail</a>
                 @if(!empty($telegram))
@@ -215,7 +214,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
                     <a href="{{$skype}}" title="Skype"><i class="ri-skype-line btn btn-outline-primary border-0"></i>
                         Skype</a>
                 @endif
-
+                <a href="javascript:void(0)" title="Time UTC"><i class="ri-time-fill btn btn-outline-info border-0"></i><span class="timeUTC" style="color: rgba(255, 255, 255, 0.6)"></span></a>
             </nav>
         </div><!-- sidebar-footer-menu -->
     </div><!-- sidebar-footer -->
@@ -328,7 +327,7 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
             var formattedTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
 
             // Gán giá trị vào phần tử HTML
-            $(".timeUTC").text("UTC Time: " + formattedTime);
+            $(".timeUTC").text("UTC: " + formattedTime);
         }
         // Hàm để thêm số 0 phía trước nếu cần
         function pad(num) {
