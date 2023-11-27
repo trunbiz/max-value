@@ -143,8 +143,11 @@
 
         <div class="col-md-12 col-xl-12">
             <div class="card card-one">
-                <div class="card-header">
+                <div class="card-header" style="display: flex;justify-content: space-between;align-items: center;">
                     <h6 class="card-title">Revenue Chart</h6>
+                    <h6 class="time-report" style="margin-left: auto;margin-right: auto;">
+                        Yesterday’s revenue will be shown fully after <span id="countdown"></span> minutes.
+                    </h6>
                 </div><!-- card-header -->
                 <div class="card-body">
                     <div id="chart_custom" class="apex-chart-nine"></div>
@@ -523,6 +526,36 @@
             window.open(exportUrl, '_blank');
         }
 
+    </script>
+    <script>
+        // Lấy phần tử "time-report"
+        const countdownElement = document.getElementById('countdown');
+
+        // Tính thời gian đếm ngược
+        function countdownTo9AM() {
+            const now = new Date();
+            const target = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 9, 0, 0, 0);
+            let timeRemaining = target - now;
+
+            // Kiểm tra nếu thời gian đã qua 9 giờ sáng
+            if (timeRemaining < 0) {
+                timeRemaining = 0;
+            }
+
+            // Chuyển đổi thời gian còn lại sang định dạng giờ:phút:giây
+            const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+            const seconds = Math.floor((timeRemaining / 1000) % 60);
+
+            // Hiển thị thời gian đếm ngược trong phần tử "time-report"
+            countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Cập nhật thời gian đếm ngược mỗi giây
+            setTimeout(countdownTo9AM, 1000);
+        }
+
+        // Gọi hàm tính thời gian đếm ngược
+        countdownTo9AM();
     </script>
     <script src="assets/js/db.analytics.js"></script>
     <script src="lib/jqvmap/jquery.vmap.min.js"></script>
