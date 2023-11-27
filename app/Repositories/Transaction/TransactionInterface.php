@@ -8,4 +8,6 @@ interface TransactionInterface extends RepositoryInterface
 {
 
     public function getTotalRevenueRefer($from, $to, $user_id);
+
+    public function listReferPublisherByDate($params);
 }

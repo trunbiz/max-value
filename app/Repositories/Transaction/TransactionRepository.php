@@ -27,4 +27,20 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
 
         return $query->sum('amount');
     }
+
+    public function listReferPublisherByDate($params)
+    {
+        $query = $this->model->where('type', TransactionModel::TYPE_REFERRAL)
+            ->where('status', TransactionModel::STATUS_SUCCESS)
+            ->where('user_id', $params['user_id']);
+        if (!empty($from))
+            $query->where('payment_at', '>=', $params['from']);
+
+        if (!empty($to))
+            $query->where('payment_at', '<=', $params['to']);
+
+        $query->groupBy('payment_at')->selectRaw('SUM(amount) AS totalRefer, payment_at');
+
+        return $query->orderBy('id', 'DESC')->paginate(25);
+    }
 }
