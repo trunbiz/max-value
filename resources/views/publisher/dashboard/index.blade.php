@@ -499,27 +499,20 @@
 
         //
         function clickSearchReport() {
-            var url = new URL(window.location.href); // Lấy URL hiện tại
-            var dateOption = url.searchParams.get("date_option"); // Lấy giá trị của tham số "date_option"
+            var url = new URL(window.location.href);
+            var dateOption = url.searchParams.get("date_option")
 
-            // Thêm tham số "dashboard?date_option" vào URL khi kích vào nút form
-            var form = document.getElementById("searchReport"); // Thay thế "your-form-id" bằng ID của form
+            var form = document.getElementById("searchReport");
 
-            // Gán giá trị của "date_option" vào trường ẩn trong form
             var dateOptionInput = form.elements["date_option"];
             dateOptionInput.value = dateOption;
             form.action = url + "?date_option=" + dateOption;
-            // Gửi form
             form.submit();
         }
 
         function clickDownloadReport() {
-            // Lấy giá trị các trường input và select trong form
             var fromDate = document.querySelector('input[name="from"]').value;
-            ; // Giá trị "from"
             var toDate = document.querySelector('input[name="to"]').value;
-            ; // Giá trị "to"
-
             var websiteId = document.querySelector('select[name="website_id"]').value;
             var zoneId = document.querySelector('select[name="zone_id"]').value;
             var exportUrl = "{{route('user.reports.export')}}" + "?website_id=" + websiteId + "&zone_id=" + zoneId + "&from=" + fromDate + "&to=" + toDate;
@@ -528,33 +521,31 @@
 
     </script>
     <script>
-        // Lấy phần tử "time-report"
         const countdownElement = document.getElementById('countdown');
-
-        // Tính thời gian đếm ngược
         function countdownTo9AM() {
-            const now = new Date();
-            const target = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 9, 0, 0, 0);
-            let timeRemaining = target - now;
+            const currentUtcTime = new Date();
+            const currentUtcHours = currentUtcTime.getUTCHours();
 
-            // Kiểm tra nếu thời gian đã qua 9 giờ sáng
-            if (timeRemaining < 0) {
-                timeRemaining = 0;
+            const targetUtcTime = new Date(currentUtcTime);
+            targetUtcTime.setUTCHours(9, 0, 0, 0);
+
+            if (currentUtcHours >= 9) {
+                targetUtcTime.setDate(targetUtcTime.getUTCDate() + 1);
+            }
+            const timeUntilTarget = targetUtcTime - currentUtcTime;
+
+            if(timeUntilTarget < 0)
+            {
+                countdownElement.textContent = `00:00:00`;
+                setTimeout(countdownTo9AM, 1000);
             }
 
-            // Chuyển đổi thời gian còn lại sang định dạng giờ:phút:giây
-            const hours = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
-            const seconds = Math.floor((timeRemaining / 1000) % 60);
-
-            // Hiển thị thời gian đếm ngược trong phần tử "time-report"
-            countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-            // Cập nhật thời gian đếm ngược mỗi giây
+            const hours = Math.floor(timeUntilTarget / 3600000);
+            const minutes = Math.floor((timeUntilTarget % 3600000) / 60000);
+            const seconds = Math.floor((timeUntilTarget % 60000) / 1000);
+            countdownElement.textContent = `${hours}:${minutes}:${seconds}`;
             setTimeout(countdownTo9AM, 1000);
         }
-
-        // Gọi hàm tính thời gian đếm ngược
         countdownTo9AM();
     </script>
     <script src="assets/js/db.analytics.js"></script>
