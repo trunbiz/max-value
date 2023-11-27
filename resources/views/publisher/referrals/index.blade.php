@@ -6,35 +6,36 @@
             <h2 class="main-title mb-0"><b>Referral Program</b></h2>
         </div>
         <div class="row mt-3">
-            <p class="mb-5">Sponsor your friends and receive $15 for each new publisher that registers thanks to you!
-                Your friend will be credited with $5 upon approval. In order to benefit from the offer, the person you
-                refer must use your sponsor code when registering. To receive your commission of $15 your friend must
-                generate at least $1 through the Maxvalue. You may only earn commission for each friend once regardless
-                of the number of websites you refer to The Maxvalue.</p>
+            <p style="margin: 0">The Maxvalue referral program allows you to receive a 5% commission on the earnings of websites you invited to join Maxvalue adnetwork.</p>
+            <p class="mb-5">THE MORE YOU INVITE, THE MORE YOU RECEIVE!</p>
         </div>
         <div class="row text-center">
-            <div class="col-6">
-                <h3 class="fs-6 mb-4"><b>My Referral Code</b></h3>
+            <div class="col-6 ml-1 mr-1 mb-3 d-flex justify-content-center">
+                <div class=" refer-code">
+                    <h3 class="fs-6 mb-4"><b>My Referral Code</b></h3>
 
-                <p class="fw-bold color-domain" style="display: none"
-                   id="referral_code">{{\Illuminate\Support\Facades\Auth::user()->code}}</p>
+                    <p class="fw-bold color-domain" style="display: none"
+                       id="referral_code">{{\Illuminate\Support\Facades\Auth::user()->code}}</p>
 
-                <button type="button" class="btn btn-outline-primary btn-lg btnReferralCode">Get my Referral Code</button>
-                <div class="alert alertReferralCode alert-success align-items-center px-3 py-1 mt-2 mb-0 d-none" role="alert">
-                    <i class="bi bi-check-circle-fill fs-4 pe-2"></i>
-                    copied
+                    <button type="button" class="btn btn-outline-primary btn-lg btnReferralCode">Get my Referral Code</button>
+                    <div class="alert alertReferralCode alert-success align-items-center px-3 py-1 mt-2 mb-0 d-none" role="alert">
+                        <i class="bi bi-check-circle-fill fs-4 pe-2"></i>
+                        copied
+                    </div>
                 </div>
             </div>
-            <div class="col-6">
-                <h3 class="fs-6 mb-4"><b>My Referral Link</b></h3>
+            <div class="col-6 ml-1 mr-1 d-flex justify-content-center">
+                <div class="refer-code">
+                    <h3 class="fs-6 mb-4"><b>My Referral Link</b></h3>
 
-                <p class="fw-bold color-domain" style="display: none"
-                   id="link_referral_code">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}</p>
+                    <p class="fw-bold color-domain" style="display: none"
+                       id="link_referral_code">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}</p>
 
-                <button type="button" class="btn btn-outline-primary btn-lg btnReferralLink">Get my Referral link</button>
-                <div class="alert alert-success alertReferralLink align-items-center px-3 py-1 mt-2 mb-0 d-none" role="alert">
-                    <i class="bi bi-check-circle-fill fs-4 pe-2"></i>
-                    copied
+                    <button type="button" class="btn btn-outline-primary btn-lg btnReferralLink">Get my Referral link</button>
+                    <div class="alert alert-success alertReferralLink align-items-center px-3 py-1 mt-2 mb-0 d-none" role="alert">
+                        <i class="bi bi-check-circle-fill fs-4 pe-2"></i>
+                        copied
+                    </div>
                 </div>
             </div>
         </div>
@@ -56,7 +57,7 @@
                     <tbody>
                     @foreach($items as $key => $item)
                         <tr>
-                            <th scope="row">{{$key}}</th>
+                            <th scope="row">{{$key + 1}}</th>
                             <td>{{$item->payment_at}}</td>
                             <td>$ {{round($item->totalRefer ?? 0, 2)}}</td>
                         </tr>
@@ -72,6 +73,15 @@
     <style>
         .color-domain {
             color: #0583C7;
+        }
+        .refer-code{
+            padding: 100px;
+            background: beige;
+            width: 500px;
+            height: 300px;
+        }
+        .refer-code  button{
+            height: 50px;
         }
     </style>
     <script>

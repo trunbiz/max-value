@@ -260,20 +260,20 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
 <div class="main main-app p-3 p-lg-4">
     @yield('content')
-    <div class="row mt-3">
-        <div class="col-sm-12">
-            <div id="widget-referral">
-                <button type="button" class="btn ringing" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content-id="popover-content">
-                    <img src="assets/img/referal-bonus-maxvalue.gif" style="width: 100px">
-                </button>
-                <div id="popover-content" class="d-none">
-                    <span>Code: </span><strong class="text-copy">{{\Illuminate\Support\Facades\Auth::user()->code}} </strong><br>
-                    <span>Link referral: </span><br><strong class="text-copy">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}} </strong>
-                    <a target="_blank" href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--    <div class="row mt-3">--}}
+{{--        <div class="col-sm-12">--}}
+{{--            <div id="widget-referral">--}}
+{{--                <button type="button" class="btn ringing" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content-id="popover-content">--}}
+{{--                    <img src="assets/img/referal-bonus-maxvalue.gif" style="width: 100px">--}}
+{{--                </button>--}}
+{{--                <div id="popover-content" class="d-none">--}}
+{{--                    <span>Code: </span><strong class="text-copy">{{\Illuminate\Support\Facades\Auth::user()->code}} </strong><br>--}}
+{{--                    <span>Link referral: </span><br><strong class="text-copy">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}} </strong>--}}
+{{--                    <a target="_blank" href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 </div><!-- main -->
 <!-- Modal -->
 <div class="modal fade" id="loading" tabindex="-1" aria-labelledby="loading" aria-hidden="true">
