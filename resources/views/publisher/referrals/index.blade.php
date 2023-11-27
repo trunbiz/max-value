@@ -76,7 +76,7 @@
         }
         .refer-code{
             padding: 100px;
-            background: beige;
+            background: aliceblue;
             width: 500px;
             height: 300px;
         }
