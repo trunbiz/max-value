@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Transaction\TransactionInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,12 @@ use function view;
 
 class UserController extends Controller
 {
+
+    public $transaction;
+    public function __construct(TransactionInterface $transaction)
+    {
+        $this->transaction = $transaction;
+    }
 
     public function login_user(Request $request)
     {
@@ -86,6 +93,21 @@ class UserController extends Controller
     {
         $data['code'] = $code;
         return view('publisher.pages.sign-up', $data);
+    }
+
+    public function indexReferral(Request $request)
+    {
+        $request = $request->all();
+        $params = [
+          'user_id' => Auth::user()->id,
+          'from' => $request['from'] ?? null,
+          'to' => $request['to'] ?? null,
+        ];
+
+        $data = [
+            'items' => $this->transaction->listReferPublisherByDate($params)
+        ];
+        return view('publisher.referrals.index', $data);
     }
 
 }

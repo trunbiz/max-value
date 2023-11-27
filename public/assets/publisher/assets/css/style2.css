@@ -10,3 +10,6 @@
 .select2 {
     width: 100% !important;
 }
+.dropdown-profile .dropdown-link {
+    margin-top: 5px;
+}

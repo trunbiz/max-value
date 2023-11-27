@@ -51,9 +51,6 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
     <!-- Flag icon-->
     <link rel="stylesheet" type="text/css" href="../administrator/css/vendors/flag-icon.css">
-    <link rel="icon" type="image/x-icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
-    <link rel="icon" href="{{env('APP_URL') . \App\Models\Helper::logoImagePath() }}">
-
     <link rel="stylesheet" type="text/css" href="{{asset('/assets/user/css/sweetalert2.css')}}">
 
 
@@ -171,6 +168,11 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
                         <span>Wallet</span></a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{route('user.referral.index')}}"
+                       class="nav-link {{ (request()->is('referral')) ? 'active' : '' }}"><i class="ri-gift-fill"></i>
+                        <span>Referral program</span></a>
+                </li>
+                <li class="nav-item">
                     <a href="{{route('user.faqs')}}"
                        class="nav-link {{ (request()->is('faqs')) ? 'active' : '' }}"><i class="ri-questionnaire-fill"></i>
                         <span>FAQ</span></a>
@@ -235,9 +237,12 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
             </div><!-- dropdown-menu-header -->
         </div><!-- dropdown-menu -->
     </div><!-- dropdown -->
-    <div class="dropdown dropdown-profile ms-3 ms-xl-4">
+    <div class="ms-3 ms-xl-4 mt-1" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+        <span class="profile-name">Hello, {{auth()->user()->name ?? ''}}</span>
+    </div>
+    <div class="dropdown dropdown-profile">
         <a href="" class="dropdown-link" data-bs-toggle="dropdown" data-bs-auto-close="outside">
-            <div class="avatar online"><img src="assets/img/user.png" alt=""></div>
+            <i class="ri-account-circle-line"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-end mt-10-f">
             <div class="dropdown-menu-body">
@@ -256,20 +261,20 @@ $skype = !empty($userAssign) ? \App\Models\User::find($userAssign->user_id)->sky
 
 <div class="main main-app p-3 p-lg-4">
     @yield('content')
-    <div class="row mt-3">
-        <div class="col-sm-12">
-            <div id="widget-referral">
-                <button type="button" class="btn ringing" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content-id="popover-content">
-                    <img src="assets/img/referal-bonus-maxvalue.gif" style="width: 100px">
-                </button>
-                <div id="popover-content" class="d-none">
-                    <span>Code: </span><strong class="text-copy">{{\Illuminate\Support\Facades\Auth::user()->code}} </strong><br>
-                    <span>Link referral: </span><br><strong class="text-copy">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}} </strong>
-                    <a target="_blank" href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--    <div class="row mt-3">--}}
+{{--        <div class="col-sm-12">--}}
+{{--            <div id="widget-referral">--}}
+{{--                <button type="button" class="btn ringing" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-html="true" data-bs-content-id="popover-content">--}}
+{{--                    <img src="assets/img/referal-bonus-maxvalue.gif" style="width: 100px">--}}
+{{--                </button>--}}
+{{--                <div id="popover-content" class="d-none">--}}
+{{--                    <span>Code: </span><strong class="text-copy">{{\Illuminate\Support\Facades\Auth::user()->code}} </strong><br>--}}
+{{--                    <span>Link referral: </span><br><strong class="text-copy">{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}} </strong>--}}
+{{--                    <a target="_blank" href="{{config('app.url', '') .'/'.\Illuminate\Support\Facades\Auth::user()->code}}"><i class="ri-external-link-line"></i></a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 </div><!-- main -->
 <!-- Modal -->
 <div class="modal fade" id="loading" tabindex="-1" aria-labelledby="loading" aria-hidden="true">
