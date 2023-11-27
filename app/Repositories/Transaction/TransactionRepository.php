@@ -30,7 +30,7 @@ class TransactionRepository extends BaseRepository implements TransactionInterfa
 
     public function listReferPublisherByDate($params)
     {
-        $query = $this->model->where('type', TransactionModel::TYPE_REFERRAL)
+        $query = $this->model->whereIn('type', [TransactionModel::TYPE_REFERRAL, TransactionModel::TYPE_REFUND_REFERRAL])
             ->where('status', TransactionModel::STATUS_SUCCESS)
             ->where('user_id', $params['user_id']);
         if (!empty($from))
